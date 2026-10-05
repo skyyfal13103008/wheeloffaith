@@ -16,7 +16,7 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
 
 ## AI portraits (optional)
 
-Open "AI portraits (OpenAI)" at the bottom, paste your own OpenAI API key, then press "AI portrait" on the card. The key stays in your browser and is sent only to api.openai.com. Each image is billed to your OpenAI account. This only works when the page is opened from GitHub Pages or from `index.html` on your computer. The claude.ai preview blocks outside services.
+Open "AI portraits (OpenAI)" at the bottom, paste your own OpenAI API key. Each character then gets one AI portrait, painted automatically when the ending lands. The key stays in your browser and is sent only to api.openai.com. Each image is billed to your OpenAI account. This only works when the page is opened from GitHub Pages or from `index.html` on your computer. The claude.ai preview blocks outside services.
 
 ## Run it
 

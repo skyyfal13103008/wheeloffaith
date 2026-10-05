@@ -231,7 +231,7 @@
       </article>
       <div class="card-tools">
         <button id="rename" class="link">New name</button>
-        <button id="aiGen" class="secondary small">AI portrait</button>
+        <button id="aiGen" class="secondary small" hidden>Final portrait</button>
         <button id="artToggle" class="link" hidden>Show drawn portrait</button>
         <button id="copy" class="link">Copy character</button>
       </div>
@@ -1529,6 +1529,10 @@
       setNarr(seg.t, `${rec} ${legacy}`);
       if (seg.good) chime([523, 659, 784, 1046, 1318]);
       addHistory();
+      persist(); render();
+      if (!inClaude && state.ai.key) genAI();
+      else $("aiMsg").textContent = inClaude ? "The final AI portrait works in the GitHub Pages or downloaded version. This claude.ai page can't reach OpenAI." : "Add your OpenAI key under \"AI portraits\" below, then press Final portrait.";
+      return;
     }
     persist(); render();
   }
@@ -1568,7 +1572,7 @@
   }
 
   function addHistory() {
-    state.history.unshift({ name: run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null });
+    state.history.unshift({ seed: run.seed, name: run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null });
     state.history = state.history.slice(0, 12);
   }
 
@@ -1582,6 +1586,7 @@
     state.abandonArmed = false;
     run = newRun();
     state.winner = -1;
+    $("aiMsg").textContent = "";
     persist(); render();
   }
 
@@ -1598,7 +1603,10 @@
     });
     Object.entries(run.hidden).forEach(([k, v]) => { if (!/hair|eyes|dream|flaw|nemesis|base|binding/i.test(k)) parts.push(`${k}: ${v}`); });
     if (run.evolution) parts.push(`Power evolution: ${run.evolution}`);
-    return `Character portrait for a collectible trading card, head and shoulders, facing the viewer. ${th.style}. ` +
+    const P = path();
+    const ending = run.ending ? `This is the final portrait at the end of their story. Their ending: ${run.ending}. Record: ${run.w} wins, ${run.l} losses. ` +
+      `Show it in the mood and setting of that ending${P.tag ? " (they walked the villain or alternate path)" : ""}. ` : "";
+    return `Character portrait for a collectible trading card, head and shoulders, facing the viewer. ${th.style}. ${ending}` +
       `Hair: ${tv("Hair") || "any"}. Eyes: ${tv("Eyes") || "any"}. Expression that shows this personality: ${tv("Personality") || "confident"}. ` +
       `${parts.join(". ")}. ` +
       (run.awakened ? `Awakened form (${run.awakened}) with an intense glowing aura. ` : "") +
@@ -1624,9 +1632,9 @@
     const msg = $("aiMsg");
     if (inClaude) { msg.textContent = "AI portraits only work from GitHub Pages or a copy on your computer. This claude.ai page can't reach OpenAI."; return; }
     if (!state.ai.key) { $("aiSettings").open = true; $("aiKey").focus(); msg.textContent = "Add your OpenAI API key below first."; return; }
-    if (state.aiBusy) return;
+    if (state.aiBusy || run.ai || run.phase !== "done") return;
     state.aiBusy = true; render();
-    msg.textContent = "Painting your portrait. This takes 10 to 40 seconds.";
+    msg.textContent = "Painting the final portrait. This takes 10 to 40 seconds.";
     const model = (state.ai.model || "gpt-image-1").trim();
     const body = { model, prompt: aiPrompt(), n: 1, size: "1024x1024" };
     if (/^gpt-image/.test(model)) { body.quality = state.ai.quality; body.output_format = "jpeg"; body.output_compression = 85; }
@@ -1650,7 +1658,9 @@
       const full = await downscale(src, 640, 0.86);
       const thumb = await downscale(src, 160, 0.8);
       run.ai = { src: full, thumb }; run.showAI = true;
-      msg.textContent = "Portrait ready.";
+      const h = state.history.find((x) => x.seed === run.seed);
+      if (h) h.thumb = thumb;
+      msg.textContent = "Final portrait ready.";
       persist();
     } catch (e) {
       msg.textContent = e instanceof TypeError ? "Couldn't reach OpenAI. Check your connection, or open the page from GitHub Pages or your computer." : "OpenAI error: " + e.message;
@@ -1664,7 +1674,7 @@
     const busy = state.spinning || state.auto;
     if (!busy && state.winner === -1) state.wheel = upcomingWheel();
     renderPrompt(); renderButtons(busy); renderNarr(); renderCard(); renderUpgrades(); renderTraits(busy); renderStory(); renderEditor(); renderHistory();
-    $("aiWhere").textContent = inClaude ? "You're viewing this inside claude.ai, which blocks outside services. AI portraits work when the page is opened from GitHub Pages or from index.html on your computer." : "Paste your own OpenAI API key to generate a portrait from your character's traits.";
+    $("aiWhere").textContent = inClaude ? "You're viewing this inside claude.ai, which blocks outside services. AI portraits work when the page is opened from GitHub Pages or from index.html on your computer." : "Paste your own OpenAI API key. Each character gets one AI portrait, painted automatically when their story ends.";
     $("aiSaved").textContent = state.ai.key ? "Key saved in this browser." : "No key saved.";
     cv.setAttribute("aria-label", `${state.wheel.title} wheel: ${state.wheel.opts.join(", ")}`);
     drawWheel();
@@ -1715,8 +1725,9 @@
     $("rerollRow").hidden = run.phase !== "create";
     $("rerollLimit").value = String(state.rerollLimit); $("rerollLimit").disabled = busy;
     $("rerollInfo").textContent = state.rerollLimit === 0 ? "No rerolls" : state.rerollLimit >= 99 ? "Unlimited rerolls" : `Rerolls left: ${rerollsLeft()} of ${state.rerollLimit}`;
+    $("aiGen").hidden = run.phase !== "done" || !!run.ai;
     $("aiGen").disabled = state.aiBusy || busy;
-    $("aiGen").textContent = state.aiBusy ? "Painting…" : (run.ai ? "New AI portrait" : "AI portrait");
+    $("aiGen").textContent = state.aiBusy ? "Painting…" : "Final portrait";
     $("artToggle").hidden = !run.ai;
     $("artToggle").textContent = run.showAI ? "Show drawn portrait" : "Show AI portrait";
   }
