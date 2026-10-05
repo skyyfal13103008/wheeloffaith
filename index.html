@@ -2381,7 +2381,7 @@
   // ================= events =================
   Object.entries(THEMES).forEach(([k, t]) => { const o = document.createElement("option"); o.value = k; o.textContent = t.label; $("theme").append(o); });
   $("theme").value = state.theme;
-  $("theme").addEventListener("change", () => { state.theme = $("theme").value; state.editIdx = 0; run = newRun(); state.winner = -1; persist(); fillEditForm(); render(); });
+  $("theme").addEventListener("change", () => { state.theme = $("theme").value; state.editIdx = 0; run = newRun(); state.winner = -1; $("aiMsg").textContent = ""; persist(); fillEditForm(); render(); });
 
   const setMute = () => { $("mute").textContent = state.muted ? "Sound off" : "Sound on"; $("mute").setAttribute("aria-pressed", String(state.muted)); };
   $("mute").addEventListener("click", () => { state.muted = !state.muted; setMute(); persist(); });

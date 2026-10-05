@@ -15,6 +15,13 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
 5. **The journey**: 14 chapters, each one a spin. Opponents, battles weighted by your power, training, a new ally, treasure, a twist, a power evolution, two fights against your rival, and an ending. Wins put more good endings on the final wheel.
 6. **Upgrades**: earn points from fights and training, then spend them on stats, rank-ups, or an awakening spin (Domain Expansion, Devil Union, Gear-style transformation...).
 
+## Cards
+
+- Every character gets a gender (first wheel), a name to match and an epithet like "the Crimson Blade".
+- Card art sits on a scene drawn for each series. Each series also has its own colors and fonts.
+- Past characters keep their full card and story. Click one to open it in a popup.
+- "Save card as image" exports a PNG of the card.
+
 ## AI portraits (optional)
 
 Open "AI portraits (OpenAI)" at the bottom, paste your own OpenAI API key. Each character then gets one AI portrait, painted automatically when the ending lands. The key stays in your browser and is sent only to api.openai.com. Each image is billed to your OpenAI account. This only works when the page is opened from GitHub Pages or from `index.html` on your computer. The claude.ai preview blocks outside services.
