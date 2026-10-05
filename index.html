@@ -531,14 +531,14 @@
       "Lab subject": { n: "Experiment survivor", d: "The Dark Triad's experiments left them stronger. +6 power.", power: 6 },
       "Dante Zogratis (Body Magic)": { n: "Dante's soldier", d: "+3 power.", power: 3 },
       "Grew up with two orphans who became legends": { n: "Hage rivalry", d: "Growing up next to future legends. +3 power after each defeat.", adapt: 3 },
-      "Royal": { n: "Royal mana", d: "Royal blood carries enormous mana. +12 Mana.", stat: [0, 12], extra: ["Royal mana", 88] },
+      "Royal": { n: "Royal mana", d: "Talent wheels start at tier 4. Royal blood carries enormous mana. +12 Mana.", stat: [0, 12], extra: ["Royal mana", 88], minTier: 3 },
       "Peasant": { n: "Peasant grit", d: "Nobody expected anything from them. Each defeat makes them stronger: +3 power.", adapt: 3 },
       "House Kira (the royal family)": { n: "Crown's favor", d: "The royal family. +2 upgrade points.", pts: 2 },
       "House Vermillion": { n: "Vermillion flame", d: "The royal house of fire. +4 power.", power: 4 },
       "House Silva": { n: "Silva pride", d: "The royal house of water and mercury. +4 power.", power: 4 },
-      "Elf reincarnation": { n: "Elf mana sense", d: "Elves feel mana like air. +10 Mana.", stat: [0, 10] },
+      "Elf reincarnation": { n: "Elf mana sense", d: "Talent wheels start at tier 4. Elves feel mana like air. +10 Mana.", stat: [0, 10], minTier: 3 },
       "Shared body": { n: "Two souls", d: "When one falls, the other takes over.", save: { chance: 0.35, uses: 1, text: "{first} collapses, and the elf inside opens their eyes. {foe} is now fighting someone else." } },
-      "The Witch Queen's daughter": { n: "Witch Queen's blood", d: "Blood magic runs in the family. +4 power.", power: 4, extra: ["Witch Queen's blood", 90] },
+      "The Witch Queen's daughter": { n: "Witch Queen's blood", d: "Talent wheels start at tier 4. Blood magic runs in the family. +4 power.", power: 4, extra: ["Witch Queen's blood", 90], minTier: 3 },
       "Half-dwarf": { n: "Dwarf giant form", d: "Half-dwarves can grow huge. +12 Strength.", stat: [3, 12], extra: ["Giant form", 85] },
       "Full control of giant form": { n: "Giant form mastery", d: "+4 power.", power: 4 },
       "Salamander chose you": { n: "Salamander", d: "The fire spirit's contractor. +6 power.", power: 6, extra: ["Spirit: Salamander", 90] },
@@ -554,9 +554,9 @@
       "Liebe, the anti-magic devil": { n: "Liebe", d: "The devil with no mana. Union with him is Black Form. +6 power in the biggest fights.", boss: 6, extra: ["Devil: Liebe", 90] },
       "Zagred": { n: "Zagred", d: "Word Soul Magic: what he says becomes real. +5 power.", power: 5, extra: ["Devil: Zagred", 92] },
       "Megicula": { n: "Megicula", d: "Curse-Warding Magic, the root of every curse. +5 power.", power: 5, extra: ["Devil: Megicula", 92] },
-      "Lucifero": { n: "Lucifero", d: "A ruler of the underworld. Gravity Magic that flattens mountains. +8 power.", power: 8, extra: ["Devil: Lucifero", 99] },
-      "Beelzebub": { n: "Beelzebub", d: "A ruler of the underworld. Spatial Magic. +7 power.", power: 7, extra: ["Devil: Beelzebub", 98] },
-      "Astaroth": { n: "Astaroth", d: "The strongest ruler of the underworld. Time Magic undoes one defeat.", save: { chance: 0.5, uses: 1, text: "Time folds backwards. The blow that beat {first} never happened. Astaroth has rewound the fight, and this time {foe} loses." }, extra: ["Devil: Astaroth", 99] },
+      "Lucifero": { n: "Lucifero", d: "Talent wheels start at tier 5. A ruler of the underworld. Gravity Magic that flattens mountains. +8 power.", power: 8, extra: ["Devil: Lucifero", 99], minTier: 4 },
+      "Beelzebub": { n: "Beelzebub", d: "Talent wheels start at tier 5. A ruler of the underworld. Spatial Magic. +7 power.", power: 7, extra: ["Devil: Beelzebub", 98], minTier: 4 },
+      "Astaroth": { n: "Astaroth", d: "Talent wheels start at tier 5. The strongest ruler of the underworld. Time Magic undoes one defeat.", save: { chance: 0.5, uses: 1, text: "Time folds backwards. The blow that beat {first} never happened. Astaroth has rewound the fight, and this time {foe} loses." }, extra: ["Devil: Astaroth", 99], minTier: 4 },
       "Walgner": { n: "Lower devil", d: "+2 power.", power: 2 }, "Gimodelo": { n: "Lower devil", d: "+2 power.", power: 2 }, "Plumede": { n: "Lower devil", d: "+2 power.", power: 2 }, "Slothtar": { n: "Lower devil", d: "+2 power.", power: 2 },
       "Full Devil Union": { n: "Full Devil Union", d: "Body and devil as one. +8 power.", power: 8 },
       "The devil owns your heart": { n: "Owned heart", d: "Enormous power, borrowed. +10 power.", power: 10 },
@@ -773,12 +773,12 @@
       "the Chain of a Thousand Miles": { n: "Chain of a Thousand Miles", d: "A chain with no end. +6 Weapon skill.", stat: [2, 6] },
       "1 finger": { n: "Sukuna's finger", d: "One finger of the King of Curses. +2 power.", power: 2 },
       "5 fingers": { n: "Five fingers", d: "Sukuna stirs. +4 power.", power: 4 },
-      "15 fingers": { n: "Fifteen fingers", d: "The King of Curses is nearly whole inside them. +7 power.", power: 7, extra: ["Sukuna's fingers", 88] },
-      "All 20 fingers": { n: "King of Curses", d: "All twenty fingers. Once per journey, Sukuna takes over and ends a lost fight.", save: { chance: 0.55, uses: 1, text: "{first}'s eyes split open and black lines crawl across their face. Sukuna takes control for one minute, and {foe} learns what the King of Curses is." }, extra: ["Sukuna's fingers", 99] },
-      "Incarnated sorcerer": { n: "Incarnated", d: "A sorcerer from another era wearing a modern body. +8 Technique mastery.", stat: [1, 8] },
-      "One of the nine brothers": { n: "Death Painting brother", d: "Half curse, half human, with blood that fights for them. +4 power.", power: 4, stat: [0, 6] },
+      "15 fingers": { n: "Fifteen fingers", d: "Talent wheels start at tier 4. The King of Curses is nearly whole inside them. +7 power.", power: 7, extra: ["Sukuna's fingers", 88], minTier: 3 },
+      "All 20 fingers": { n: "King of Curses", d: "Talent wheels start at tier 6. All twenty fingers. Once per journey, Sukuna takes over and ends a lost fight.", save: { chance: 0.55, uses: 1, text: "{first}'s eyes split open and black lines crawl across their face. Sukuna takes control for one minute, and {foe} learns what the King of Curses is." }, extra: ["Sukuna's fingers", 99], minTier: 5 },
+      "Incarnated sorcerer": { n: "Incarnated", d: "Talent wheels start at tier 4. A sorcerer from another era wearing a modern body. +8 Technique mastery.", stat: [1, 8], minTier: 3 },
+      "One of the nine brothers": { n: "Death Painting brother", d: "Talent wheels start at tier 3. Half curse, half human, with blood that fights for them. +4 power.", power: 4, stat: [0, 6], minTier: 2 },
       "Three cores, like Panda": { n: "Three cores", d: "An Abrupt Mutated Cursed Corpse with spare cores.", save: { chance: 0.45, uses: 1, text: "{foe} destroys a core. {first} switches to the next one and stands back up." } },
-      "Born with the Six Eyes": { n: "Six Eyes", d: "Sees cursed energy down to the atom and wastes almost none of it. +12 Cursed energy.", stat: [0, 12], power: 4, extra: ["Six Eyes", 96] },
+      "Born with the Six Eyes": { n: "Six Eyes", d: "Talent wheels start at tier 5. Sees cursed energy down to the atom and wastes almost none of it. +12 Cursed energy.", stat: [0, 12], power: 4, extra: ["Six Eyes", 96], minTier: 4 },
       "Clan heir": { n: "Zenin heir", d: "The clan's resources are theirs. +2 upgrade points.", pts: 2 },
       "Keeper of the cursed tool vault": { n: "Cursed tool vault", d: "Access to the Zenin armory. +8 Weapon skill.", stat: [2, 8] },
       "Heir of the Kamo bloodline": { n: "Kamo heir", d: "Raised on Blood Manipulation. +6 Technique mastery.", stat: [1, 6] },
@@ -802,7 +802,7 @@
       "Garden of Endless Night": { n: "Garden of Endless Night", d: "Their own domain. +5 power.", power: 5 },
       "Hollow Wicker Basket": { n: "Hollow Wicker Basket", d: "An old anti-domain technique. +3 power in the biggest fights.", boss: 3 },
       "Falling Blossom Emotion": { n: "Falling Blossom Emotion", d: "A secret anti-domain art of the big families. +4 power in the biggest fights.", boss: 4 },
-      "No cursed energy, monster body": { n: "Heavenly Restriction", d: "Zero cursed energy, a body beyond human. Invisible to cursed-energy senses. +10 Speed, +6 power.", stat: [4, 10], power: 6, extra: ["Physical gifts", 96] },
+      "No cursed energy, monster body": { n: "Heavenly Restriction", d: "Talent wheels start at tier 5. Zero cursed energy, a body beyond human. Invisible to cursed-energy senses. +10 Speed, +6 power.", stat: [4, 10], power: 6, extra: ["Physical gifts", 96], minTier: 4 },
       "Black Flash on command": { n: "Black Flash on command", d: "Distortion within a millionth of a second, every time. +7 power.", power: 7 },
       "4 in a row": { n: "Black Flash streak", d: "Four Black Flashes in a row, the record. +4 power.", power: 4 },
       "Special Grade": { n: "Special Grade", d: "One of a handful alive. +5 power.", power: 5 },
@@ -983,10 +983,11 @@
       "Marksman": 2, "Puppet master": 1, "Nen beast tamer": 0, "Swordsman": 2, "Gyo-reading tactician": 5, "Rhythm Echo speedster": 4
     },
     perks: {
-      "Royal Guard": { n: "Royal Guard", d: "One of the King's three. +6 power.", power: 6, extra: ["Royal Guard aura", 93] },
-      "Born a King": { n: "King of the Ants", d: "Born to rule every species. +10 power.", power: 10, extra: ["King's aura", 99] },
+      "Chimera Ant": { n: "Chimera Ant body", d: "An exoskeleton and inhuman strength. Talent wheels start at tier 4. +6 Strength.", stat: [3, 6], minTier: 3 },
+      "Royal Guard": { n: "Royal Guard", d: "Talent wheels start at tier 6. One of the King's three. +6 power.", power: 6, extra: ["Royal Guard aura", 93], minTier: 5 },
+      "Born a King": { n: "King of the Ants", d: "Talent wheels start at tier 8. Born to rule every species. +10 power.", power: 10, extra: ["King's aura", 99], minTier: 7 },
       "Squadron leader": { n: "Squadron leader", d: "+3 power.", power: 3 },
-      "Reborn Chimera Ant": { n: "Ant body, human heart", d: "+8 Strength.", stat: [3, 8] },
+      "Reborn Chimera Ant": { n: "Ant body, human heart", d: "Talent wheels start at tier 3. +8 Strength.", stat: [3, 8], minTier: 2 },
       "Zobae, the immortality disease": { n: "Zobae", d: "Can't die. Can't stop being alive, either.", save: { chance: 0.6, uses: 2, text: "{foe} lands a killing blow. {first} keeps breathing anyway. Zobae doesn't let its hosts die." } },
       "Hellbell, the sickness": { n: "Hellbell", d: "Everyone near them gets weaker. +6 power.", power: 6 },
       "Brion, the living weapon": { n: "Brion", d: "A weapon that guards the Dark Continent. +8 power in the biggest fights.", boss: 8 },
@@ -1089,9 +1090,10 @@
     cats: [
       ["Gender", ["Male", "Female"]],
       ["Race", ["Human", "Human", "Human", "Fish-Man", "Merfolk", "Mink", "Giant", "Long-Arm Tribe", "Long-Leg Tribe", "Three-Eye Tribe", "Skypiean", "Lunarian", "Buccaneer", "Tontatta Dwarf"]],
+      ["Birthplace", ["Foosha Village, East Blue", "Shimotsuki Village, East Blue", "Cocoyasi Village, East Blue", "Syrup Village, East Blue", "Loguetown, East Blue", "Ohara, West Blue", "Flevance, North Blue", "Germa Kingdom, North Blue", "Baterilla, South Blue", "Sorbet Kingdom, South Blue", "Alabasta", "Drum Island", "Water 7", "Dressrosa", "Wano Country", "God Valley", "Mary Geoise, the Holy Land"]],
       ["Devil fruit", ["No fruit", "No fruit", "Paramecia", "Paramecia", "Logia", "Zoan"]],
       ["Haki type", ["None yet", "Observation", "Armament", "Observation and Armament", "Conqueror's", "All three"]],
-      ["Affiliation", ["Pirate crew", "Pirate crew", "Marines", "Revolutionary Army", "Cross Guild", "Bounty hunter", "World Government agent", "Celestial Dragon", "Celestial Dragon runaway"]],
+      ["Affiliation", ["Pirate crew", "Pirate crew", "Marines", "Revolutionary Army", "Cross Guild", "Bounty hunter", "World Government agent", "Celestial Dragon runaway"]],
       ["Fighting style", ["Black Leg Style", "Santoryu (Three Sword Style)", "Ittoryu (One Sword Style)", "Nitoryu (Two Sword Style)", "Fish-Man Karate", "Fish-Man Jujutsu", "Rokushiki (Six Powers)", "Okama Kenpo", "Hasshoken", "Ryusoken (Dragon Claw Fist)", "Electro brawling", "Sniper", "Weather science", "Cyborg weaponry", "Life Return", "Haki-only brawler"]],
       ["Weapon", ["three swords", "one cursed blade", "a slingshot", "kicks", "fists", "a Clima-Tact", "a giant hammer", "flintlock pistols"]],
       ["Personality", PERS],
@@ -1099,13 +1101,15 @@
       ["Bounty", ["0 berries", "30 million", "300 million", "1 billion", "3 billion", "5 billion, Emperor level"]]
     ],
     hidden: [
-      ["Sea", ["East Blue", "West Blue", "North Blue", "South Blue", "the Grand Line", "Wano"]],
       ["Role", ["captain", "swordsman", "navigator", "sniper", "cook", "doctor", "shipwright", "musician"]],
       ["Dream", ["find the One Piece", "draw a map of the whole world", "find the All Blue", "become the world's greatest swordsman", "free every slave", "topple the World Government"]],
       ["Hair", HAIR], ["Eyes", EYES]
     ],
     say: { Race: "Race: {v}.", "Devil fruit": "Devil Fruit: {v}.", "Haki type": "Haki: {v|lower}.", Affiliation: "They sail with: {v}.", Personality: "Personality: {v|lower}.", Bounty: "Bounty: {v}.", "Marine rank": "Marine rank: {v}." },
     lines: {
+      "Mary Geoise, the Holy Land": "Born in Mary Geoise, on top of the Red Line. A Celestial Dragon, most likely.",
+      "God Valley": "God Valley. The island that was erased from the map.",
+      "Ohara, West Blue": "Ohara. The island the World Government burned for reading history.",
       "Fish-Man": "A Fish-Man from the bottom of the sea. Born ten times stronger than any human.",
       "Merfolk": "Merfolk. Faster than any ship, and worth a fortune at a Sabaody slave auction, which is exactly why they're careful.",
       "Mink": "A Mink from Zou, the island on the back of a thousand-year-old elephant.",
@@ -1233,11 +1237,22 @@
       }
     },
     adapt: [
+      { when: ["Race", "Fish-Man"], cat: "Birthplace", opts: ["Fish-Man Island", "Fish-Man Island", "Fish-Man District, Fish-Man Island", "Ryugu Kingdom", "Sabaody slave market"] },
+      { when: ["Race", "Merfolk"], cat: "Birthplace", opts: ["Fish-Man Island", "Mermaid Cove, Fish-Man Island", "Ryugu Kingdom", "Sabaody slave market"] },
+      { when: ["Race", "Mink"], cat: "Birthplace", opts: ["Zou", "Zou", "Mokomo Dukedom, Zou"] },
+      { when: ["Race", "Giant"], cat: "Birthplace", opts: ["Elbaf", "Elbaf", "Little Garden"] },
+      { when: ["Race", "Skypiean"], cat: "Birthplace", opts: ["Skypiea", "Birka", "Weatheria"] },
+      { when: ["Race", "Lunarian"], cat: "Birthplace", opts: ["The Red Line", "An island with no name"] },
+      { when: ["Race", "Tontatta Dwarf"], cat: "Birthplace", opts: ["Green Bit", "Tontatta Kingdom, Green Bit"] },
+      { when: ["Race", "Three-Eye Tribe"], cat: "Birthplace", opts: ["Totto Land", "Whole Cake Island", "A hidden village in the Grand Line"] },
+      { when: ["Race", "Buccaneer"], cat: "Birthplace", opts: ["Sorbet Kingdom, South Blue", "Mary Geoise (as a slave)", "God Valley"] },
       { when: ["Affiliation", "Marines"], cat: "Bounty", name: "Marine rank", opts: ["Seaman recruit", "Lieutenant", "Captain", "Vice admiral", "Admiral", "Fleet admiral"] },
       { when: ["Affiliation", "World Government agent"], cat: "Bounty", name: "Clearance", opts: ["Field agent", "Senior agent", "CP0 elite", "Agent of the Five Elders"] },
       { when: ["Affiliation", "Celestial Dragon"], cat: "Bounty", name: "Standing in Mary Geoise", opts: ["Minor noble", "Respected noble", "Elite of the Holy Land", "Holy Land legend"] },
       { when: ["Affiliation", "Revolutionary Army"], cat: "Bounty", opts: ["100 million", "600 million", "2 billion"] },
       { when: ["Affiliation", "Celestial Dragon runaway"], cat: "Bounty", opts: ["0 berries, identity hidden", "500 million, wanted alive"] },
+      { when: ["Birthplace", "Mary Geoise, the Holy Land"], cat: "Affiliation", opts: ["Celestial Dragon", "Celestial Dragon", "Celestial Dragon runaway", "World Government agent"] },
+      { when: ["Birthplace", "Mary Geoise (as a slave)"], cat: "Affiliation", opts: ["Celestial Dragon runaway", "Revolutionary Army", "Pirate crew"] },
       { when: ["Race", "Fish-Man"], cat: "Devil fruit", opts: ["No fruit", "No fruit", "No fruit", "Paramecia"] },
       { when: ["Race", "Merfolk"], cat: "Devil fruit", opts: ["No fruit", "No fruit", "No fruit", "Paramecia"] },
       { when: ["Race", "Lunarian"], cat: "Devil fruit", opts: ["No fruit", "Zoan", "Logia"] },
@@ -1258,24 +1273,24 @@
       "Carries the Will of D.": { n: "Will of D.", d: "Once per journey a lost fight turns around. They grin and refuse to fall.", save: { chance: 0.4, uses: 1, text: "{first} should be finished. Instead they grin, the way only a D. can, and {foe} hesitates. That hesitation is the whole fight." }, extra: ["Will of D.", 88] },
       "Amazon Lily blood": { n: "Kuja warrior blood", d: "Raised on Haki from childhood. +8 Haki.", stat: [0, 8] },
       "Wano samurai blood": { n: "Samurai of Wano", d: "Blades come naturally. +8 Weapon skill.", stat: [2, 8] },
-      "Fish-Man": { n: "Ten times human strength", d: "Fish-Men are born ten times stronger than humans, and breathe underwater. +8 Strength.", stat: [3, 8] },
+      "Fish-Man": { n: "Ten times human strength", d: "Talent wheels start at tier 3. Fish-Men are born ten times stronger than humans, and breathe underwater. +8 Strength.", stat: [3, 8], minTier: 2 },
       "Octopus": { n: "Six arms", d: "Six arms means six swords. +6 Weapon skill.", stat: [2, 6] },
       "Whale shark": { n: "Whale shark build", d: "Built like a sea fortress. +4 to every stat.", all: 4 },
       "Merfolk": { n: "Fastest in the sea", d: "No ship can outswim them. +10 Speed.", stat: [4, 10] },
       "Ryugu Kingdom royalty": { n: "Ryugu royal blood", d: "The Ryugu Kingdom stands behind them. +2 upgrade points.", pts: 2 },
-      "Born with the power of Poseidon": { n: "Poseidon", d: "An Ancient Weapon in a living body: the Sea Kings answer their call.", save: { chance: 0.55, uses: 1, text: "The sea rises. Sea Kings the size of islands surface behind {first}, and {foe} is swept away. Poseidon has spoken." }, extra: ["Sea King command", 97], power: 4 },
-      "Mink": { n: "Electro", d: "Every Mink can charge their body with electricity. +3 power.", power: 3 },
+      "Born with the power of Poseidon": { n: "Poseidon", d: "Talent wheels start at tier 4. An Ancient Weapon in a living body: the Sea Kings answer their call.", save: { chance: 0.55, uses: 1, text: "The sea rises. Sea Kings the size of islands surface behind {first}, and {foe} is swept away. Poseidon has spoken." }, extra: ["Sea King command", 97], power: 4, minTier: 3 },
+      "Mink": { n: "Electro", d: "Talent wheels start at tier 3. Every Mink can charge their body with electricity. +3 power.", power: 3, minTier: 2 },
       "Can enter Sulong form": { n: "Sulong form", d: "Under the full moon they become a white-furred monster. +6 power.", power: 6, extra: ["Sulong", 82] },
       "Mastered Sulong (keeps control)": { n: "Mastered Sulong", d: "Full Sulong power without losing their mind. +10 power.", power: 10, extra: ["Sulong", 95] },
-      "Giant": { n: "Colossal", d: "Giant-sized. +15 Strength, -6 Speed.", stat: [3, 15] },
+      "Giant": { n: "Colossal", d: "Talent wheels start at tier 4. Giant-sized. +15 Strength, -6 Speed.", stat: [3, 15], minTier: 3 },
       "Elbaf warrior": { n: "Warrior of Elbaf", d: "Raised on honor and battle in the land of giants. +3 to every stat.", all: 3 },
       "Long-Arm Tribe": { n: "Extra arm joint", d: "Reach nobody expects. +6 Weapon skill.", stat: [2, 6] },
       "Long-Leg Tribe": { n: "Long legs", d: "Kicks from twice as far. +8 Speed.", stat: [4, 8] },
       "Awakened third eye": { n: "Voice of All Things", d: "Their third eye reads Poneglyphs and hears what others can't. +12 IQ.", stat: [5, 12], extra: ["Voice of All Things", 92] },
       "Skypiean": { n: "Mantra", d: "Skypieans call Observation Haki 'Mantra'. +6 Speed.", stat: [4, 6] },
-      "Lunarian": { n: "Lunarian flame", d: "While their flame burns, almost nothing hurts them. +4 to every stat.", all: 4, extra: ["Flame body", 90] },
-      "Buccaneer": { n: "Buccaneer blood", d: "Kin to a race the World Government tried to erase. +12 Strength.", stat: [3, 12] },
-      "Tontatta Dwarf": { n: "Tontatta speed", d: "Tiny, absurdly strong and fast. +10 Speed.", stat: [4, 10] },
+      "Lunarian": { n: "Lunarian flame", d: "Talent wheels start at tier 5. While their flame burns, almost nothing hurts them. +4 to every stat.", all: 4, extra: ["Flame body", 90], minTier: 4 },
+      "Buccaneer": { n: "Buccaneer blood", d: "Talent wheels start at tier 4. Kin to a race the World Government tried to erase. +12 Strength.", stat: [3, 12], minTier: 3 },
+      "Tontatta Dwarf": { n: "Tontatta speed", d: "Talent wheels start at tier 3. Tiny, absurdly strong and fast. +10 Speed.", stat: [4, 10], minTier: 2 },
       "Gura Gura no Mi": { n: "Tremor power", d: "The strongest Paramecia, said to destroy the world. +7 power.", power: 7, extra: ["Quake power", 96] },
       "Yami Yami no Mi": { n: "Darkness", d: "Pulls enemies in and cancels their Devil Fruits. +6 power in the biggest fights.", boss: 6 },
       "Hito Hito no Mi, Model: Nika": { n: "Sun God Nika", d: "The Drums of Liberation. Once per journey, a lost fight becomes a cartoon they win.", save: { chance: 0.55, uses: 1, text: "Drums of Liberation. {first} laughs, stands up made of rubber and pure joy, and turns the battle into a cartoon. {foe} never stood a chance." }, extra: ["Sun God", 99] },
@@ -1304,6 +1319,10 @@
       "Fleet Admiral Akainu": { n: "Akainu's favorite", d: "Absolute Justice, backed by the Fleet Admiral. +5 power.", power: 5 },
       "Supreme Grade": { n: "Supreme Grade blade", d: "One of the twelve greatest swords in the world. +10 Weapon skill.", stat: [2, 10], extra: ["Meito: Supreme Grade", 96] },
       "Great Grade": { n: "Great Grade blade", d: "One of the 21 Great Grade swords. +6 Weapon skill.", stat: [2, 6] },
+      "God Valley": { n: "Born in God Valley", d: "An island erased from every map. +2 upgrade points.", pts: 2 },
+      "Germa Kingdom, North Blue": { n: "Germa modification", d: "Genetic enhancement from Vinsmoke science. +8 Strength.", stat: [3, 8] },
+      "Flevance, North Blue": { n: "White Town survivor", d: "Survived the Amber Lead tragedy. +6 IQ.", stat: [5, 6] },
+      "Mary Geoise, the Holy Land": { n: "Born above the world", d: "Life on the Red Line. +2 upgrade points.", pts: 2 },
       "Absolute Justice": { n: "Absolute Justice", d: "No mercy for evil. +4 power.", power: 4 },
       "Lazy Justice": { n: "Lazy Justice", d: "Does the job their own way. +2 upgrade points.", pts: 2 },
       "An Emperor's crew": { n: "Emperor's backing", d: "Picking a fight with them means picking a fight with an Emperor. +6 power in the biggest fights.", boss: 6 },
@@ -1325,10 +1344,45 @@
       "Sulong Electro": { n: "Sulong Electro", d: "Moonlit lightning. +4 power.", power: 4 }
     },
     move: "{Fruit/Devil fruit}",
-    prologue: "{name} set out from {Sea}: {Race|a|lower}. Haki: {Haki type|lower}. Devil Fruit: {Fruit/Devil fruit}. They joined up with the {Affiliation} as their {Role}, fighting with {Weapon}. Fighting style: {Fighting style}. {first} is {Personality|lower}, and swore to {Dream}. On the board: {Bounty}.",
+    prologue: "{name} was born in {Birthplace}: {Race|a|lower}. Haki: {Haki type|lower}. Devil Fruit: {Fruit/Devil fruit}. They joined up with the {Affiliation} as their {Role}, fighting with {Weapon}. Fighting style: {Fighting style}. {first} is {Personality|lower}, and swore to {Dream}. On the board: {Bounty}.",
     titleTpl: "{Race} of the {Affiliation}",
     chips: ["Fruit", "Haki type", "Fighting style"],
     pathCat: "Affiliation",
+    birthScenes: {
+      "Foosha Village, East Blue": "Foosha Village, a quiet windmill town in the East Blue. {first} has watched pirate ships sail past the harbor since they were small, and today they finally leave on one.",
+      "Shimotsuki Village, East Blue": "Shimotsuki Village. The dojo where {first} trained still has cuts in its wooden posts. They bow once at the gate and walk to the harbor.",
+      "Cocoyasi Village, East Blue": "Cocoyasi Village and its tangerine groves. For years the Arlong Pirates collected tribute here. {first} remembers every payment.",
+      "Syrup Village, East Blue": "Syrup Village, where everyone knows {first}'s name. They leave before sunrise so nobody can talk them out of it.",
+      "Loguetown, East Blue": "Loguetown, the town of the beginning and the end. {first} grew up in the shadow of Roger's execution platform.",
+      "Ohara, West Blue": "Ohara is ash now. The World Government burned it for studying the Void Century. {first} carries what's left of it.",
+      "Flevance, North Blue": "Flevance, the White Town. Amber Lead poisoned its people, and the world sealed the border and let them die. {first} got out.",
+      "Germa Kingdom, North Blue": "The Germa Kingdom has no land, only ships. {first} grew up on a floating nation that sells war.",
+      "Baterilla, South Blue": "Baterilla, the island where the Marines once hunted down every child related to Roger. {first} was born there anyway.",
+      "Sorbet Kingdom, South Blue": "The Sorbet Kingdom, in the South Blue. Its people still talk about a tyrant king who became a saint.",
+      "Alabasta": "Alabasta, a desert kingdom that nearly died of a drought somebody caused on purpose. {first} learned to fight in the sand.",
+      "Drum Island": "Drum Island, all snow and drum-shaped mountains. Doctors on the summit, Lapahn in the valleys.",
+      "Water 7": "Water 7, the city of water and shipwrights. {first} grew up on Aqua Laguna flood days.",
+      "Dressrosa": "Dressrosa, the land of love, passion and toys. {first} learned young that the toys used to be people.",
+      "Wano Country": "Wano Country, closed off from the world for centuries. Samurai, Kaido's flag, and a mountain prison called Udon.",
+      "God Valley": "God Valley. It isn't on any map anymore. The World Government made sure of that. {first} is one of the very few born there.",
+      "Mary Geoise, the Holy Land": "Mary Geoise, on top of the Red Line. {first} has never had to look up at anyone. Today they go down to the lower world for the first time.",
+      "Mary Geoise (as a slave)": "Mary Geoise, the Holy Land. {first} was born with a hoof brand meant to last forever. They're leaving anyway.",
+      "Fish-Man Island": "Fish-Man Island, ten thousand meters under the sea, lit by sunlight from the Tree of Eve. {first} swims up to the surface for the first time.",
+      "Fish-Man District, Fish-Man Island": "The Fish-Man District, the rough edge of Fish-Man Island. {first} grew up hearing that humans were the enemy.",
+      "Ryugu Kingdom": "The Ryugu Kingdom, under its bubble at the bottom of the sea. {first} leaves the palace's shadow for the surface.",
+      "Mermaid Cove, Fish-Man Island": "Mermaid Cove, Fish-Man Island. Everyone warned {first} about the surface. They're going anyway.",
+      "Sabaody slave market": "Grove 1, Sabaody Archipelago. {first} was sold there once. They came back with a weapon.",
+      "Zou": "Zou, an island on the back of an elephant that has walked the sea for a thousand years.",
+      "Mokomo Dukedom, Zou": "The Mokomo Dukedom, on the back of Zunesha. Daytime belongs to the Dog King, night to the Cat Viper.",
+      "Elbaf": "Elbaf, the land of giants and their warrior code. {first} grew up on stories of the world's strongest warriors.",
+      "Little Garden": "Little Garden, a prehistoric island where two giants once dueled for a hundred years.",
+      "Skypiea": "Skypiea, ten thousand meters above the sea on clouds of sea-cloud.",
+      "Birka": "Birka, the sky island the Thunder God left in ruins.",
+      "Weatheria": "Weatheria, a floating sky island of weather scientists.",
+      "The Red Line": "The Red Line. Lunarians lived above the world once. {first} remembers flames on their back before they remember anything else.",
+      "Green Bit": "Green Bit, a small island next to Dressrosa, home of the Tontatta dwarves.",
+      "Tontatta Kingdom, Green Bit": "The Tontatta Kingdom, where tiny dwarves have farmed Green Bit's forest for eight hundred years."
+    },
     scenes: {
       early: ["Loguetown, the town where Gol D. Roger was born and executed. {first} looks up at the execution platform and swears this is only the start.", "The East Blue is called the weakest sea. Somebody forgot to tell the Fish-Men running Cocoyasi Village.", "Shells Town's Marine base looms over the docks. A man is tied to a stake in the yard, and {first} can't look away."],
       train: ["{first} needs to get stronger before the Grand Line eats them alive."],
@@ -1517,6 +1571,9 @@
       "Unarmed martial arts": 3, "Mounted combat": 2, "Beastmaster": 5, "Gunslinger": 2, "Holy knight charge": 3, "Whip and trickery": 4
     },
     perks: {
+      "Demigod": { n: "Divine blood", d: "Half god. Talent wheels start at tier 4.", minTier: 3, all: 2 },
+      "Fallen god": { n: "Fallen divinity", d: "Even fallen, a god. Talent wheels start at tier 5.", minTier: 4, all: 3 },
+      "Dragonborn": { n: "Dragon blood", d: "Talent wheels start at tier 3. +4 Strength.", stat: [3, 4], minTier: 2 },
       "Chosen by prophecy": { n: "Chosen One", d: "Fate refuses to let them die early.", save: { chance: 0.4, uses: 1, text: "{foe}'s killing blow should land. It doesn't. The prophecy isn't finished with {first} yet." } },
       "Noble-born": { n: "Noble purse", d: "+2 upgrade points.", pts: 2 },
       "High elf": { n: "High elf arcana", d: "+8 Arcana.", stat: [0, 8] },
@@ -1532,9 +1589,9 @@
       "Fae": { n: "Fey step", d: "+6 Agility.", stat: [4, 6] },
       "Gnome": { n: "Gnome cunning", d: "+8 IQ.", stat: [5, 8] },
       "Halfling": { n: "Halfling luck", d: "Somehow it always works out.", save: { chance: 0.3, uses: 1, text: "{foe} trips on a loose stone at the worst possible moment. Halfling luck." } },
-      "Vampire": { n: "Undying thirst", d: "Drinks deep and the wounds close.", save: { chance: 0.35, uses: 1, text: "{first} sinks their fangs into {foe} and every wound closes." } },
+      "Vampire": { n: "Undying thirst", d: "Talent wheels start at tier 4. Drinks deep and the wounds close.", save: { chance: 0.35, uses: 1, text: "{first} sinks their fangs into {foe} and every wound closes." }, minTier: 3 },
       "Ancient bloodline": { n: "Ancient vampire", d: "+6 power.", power: 6, extra: ["Blood age", 90] },
-      "Lich in training": { n: "Phylactery", d: "Kill them, and they reform.", save: { chance: 0.45, uses: 1, text: "{first} crumbles to dust. Somewhere far away a phylactery glows, and they reform behind {foe}." } },
+      "Lich in training": { n: "Phylactery", d: "Talent wheels start at tier 4. Kill them, and they reform.", save: { chance: 0.45, uses: 1, text: "{first} crumbles to dust. Somewhere far away a phylactery glows, and they reform behind {foe}." }, minTier: 3 },
       "Death knight": { n: "Death knight", d: "+8 Strength.", stat: [3, 8] },
       "The god speaks through you": { n: "Divine voice", d: "Their parent steps in once.", save: { chance: 0.45, uses: 1, text: "The sky opens and a god looks down at {foe}. That's the end of the fight." }, extra: ["Divinity", 92] },
       "A whole city still prays": { n: "Faith of a city", d: "Prayers hold them up.", save: { chance: 0.5, uses: 1, text: "A whole city is praying. The power answers, and {foe} is thrown back." }, extra: ["Divinity", 95] },
@@ -1698,10 +1755,27 @@
       "Street brawler": 3, "Martial arts master": 3, "Power puncher": 0, "Aerial striker": 4, "Ranged blaster": 0, "Gadget fighter": 2,
       "Hit-and-run speedster": 4, "Telekinetic controller": 1, "Stealth infiltrator": 4, "Tank": 3, "Tactician": 5, "Acrobat": 4
     },
+    codenames: {
+      prefix: [
+        [/strength|mountain/i, ["Titan", "Colossus", "Iron", "Atlas"]], [/flight|orbit/i, ["Sky", "Falcon", "Jet", "Stratos"]], [/telekinesis/i, ["Psi", "Kinetic", "Mind", "Telos"]],
+        [/super speed|light|mach/i, ["Blur", "Velocity", "Quicksilver", "Streak"]], [/invisib/i, ["Phantom", "Ghost", "Specter", "Veil"]], [/shapeshift|liquid|face/i, ["Mimic", "Chameleon", "Shift", "Proteus"]],
+        [/mind control/i, ["Hypno", "Mindbender", "Puppeteer", "Whisper"]], [/energy|solar|cosmic|radioactive|sonic/i, ["Nova", "Photon", "Pulse", "Quasar"]], [/healing|regrow/i, ["Phoenix", "Revive", "Undying", "Renew"]],
+        [/tech|armor|drone|nano|ai sidekick/i, ["Circuit", "Gadget", "Cyber", "Volt"]], [/size/i, ["Giant", "Atom", "Micro", "Goliath"]], [/duplic/i, ["Legion", "Echo", "Multiple", "Swarm"]],
+        [/time|loop|rewind/i, ["Chrono", "Clockwork", "Paradox", "Tick"]], [/gravity/i, ["Gravity", "Singularity", "Graviton", "Event Horizon"]], [/elemental/i, ["Tempest", "Elemental", "Storm", "Cinder"]], [/portal/i, ["Portal", "Rift", "Gate", "Warp"]]
+      ],
+      colors: [[/black and red/i, ["Crimson", "Black"]], [/blue and gold/i, ["Golden", "Azure"]], [/all white/i, ["White", "Silver"]], [/green and purple/i, ["Emerald", "Violet"]], [/silver armor/i, ["Steel", "Silver"]], [/street/i, ["Hooded", "Night"]], [/neon/i, ["Neon", "Electric"]]],
+      suffixM: ["Man", "Knight", "Guardian", "Prime", "Boy"],
+      suffixF: ["Woman", "Girl", "Lady", "Valkyrie", "Queen"],
+      heroForms: ["{P}-{S}", "{P} {S}", "Captain {P}", "The {C} {P}", "{C} {P}", "{T} {P}"],
+      villainForms: ["Doctor {P}", "The {P}", "{P} {S}", "Lord {P}", "{C} {P}", "Baron {P}"]
+    },
     perks: {
+      "Alien": { n: "Alien physiology", d: "Built tougher than any human. Talent wheels start at tier 3.", minTier: 2, all: 2 },
+      "Demigod": { n: "Divine blood", d: "Talent wheels start at tier 4.", minTier: 3, all: 3 },
+      "Android": { n: "Machine body", d: "Talent wheels start at tier 3.", minTier: 2 },
       "Peak human training": { n: "Peak human", d: "+4 to every stat.", all: 4 },
       "Unstable mutation": { n: "Unstable mutation", d: "Wild power spikes. +6 power.", power: 6 },
-      "Solar-powered": { n: "Solar charge", d: "Sunlight makes them stronger. +6 power.", power: 6, extra: ["Solar charge", 92] },
+      "Solar-powered": { n: "Solar charge", d: "Sunlight makes them stronger. Talent wheels start at tier 4. +6 power.", power: 6, minTier: 3, extra: ["Solar charge", 92] },
       "Energy being": { n: "Energy being", d: "Hard to hurt what has no body.", save: { chance: 0.35, uses: 1, text: "{foe}'s strike passes straight through {first}'s energy form." } },
       "Achieved free will": { n: "Free will", d: "+6 IQ.", stat: [5, 6] },
       "Yourself from another timeline": { n: "Timeline echo", d: "They've seen how this fight ends.", save: { chance: 0.35, uses: 1, text: "{first} has watched this exact fight happen in another timeline. This time they dodge." } },
@@ -1813,7 +1887,7 @@
     "Sun god Nika": 0.25, "Phoenix": 0.6, "Celestial Dragon runaway": 0.5, "Captain of their own crew": 0.6,
     "Fallen god": 0.35, "Demigod": 0.5, "Undead": 0.7, "A dead god": 0.5, "A broken oath": 0.6, "Bone dragon": 0.6,
     "Duplication": 0.7, "Mind control": 0.6, "Struck by lightning": 0.8, "Planets, painfully": 0.4, "Cosmic": 0.5,
-    "Celestial Dragon": 0.5, "Born with the power of Poseidon": 0.3, "Carries the Will of D.": 0.6, "Favored by Imu": 0.5, "The Nerona family": 0.3, "Hito Hito no Mi, Model: Nika": 0.25,
+    "Celestial Dragon": 0.5, "Mary Geoise, the Holy Land": 0.5, "God Valley": 0.5, "Born with the power of Poseidon": 0.3, "Carries the Will of D.": 0.6, "Favored by Imu": 0.5, "The Nerona family": 0.3, "Hito Hito no Mi, Model: Nika": 0.25,
     "Gura Gura no Mi": 0.4, "Yami Yami no Mi": 0.5, "Ope Ope no Mi": 0.5, "Lunarian": 0.3, "Buccaneer": 0.5, "Awakened third eye": 0.6,
     "All 20 fingers": 0.4, "Unlimited Void": 0.3, "Malevolent Shrine": 0.3, "Idle Death Gamble": 0.6, "Vessel": 0.7,
     "Astaroth": 0.6, "Lucifero": 0.8, "Liebe, the anti-magic devil": 0.6, "Royal": 0.6, "Elf reincarnation": 0.7,
@@ -1944,7 +2018,10 @@
       const e = effCat(s.i), isTier = e.base.toLowerCase() === String(T().vis.tier).toLowerCase();
       return { title: e.name, opts: e.opts, weights: e.opts.map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
     }
-    if (s.k === "tal") { const tl = tiersFor(s.i); return { title: statNames()[s.i], opts: tl.slice(), colors: TAL_COL.slice(), weights: TAL_WEIGHT.slice(), tierIdx: tl.map((x, j) => j) }; }
+    if (s.k === "tal") {
+      const tl = tiersFor(s.i), m = minTier();
+      return { title: statNames()[s.i], opts: tl.slice(m), colors: TAL_COL.slice(m), weights: TAL_WEIGHT.slice(m), tierIdx: tl.map((x, j) => j).slice(m) };
+    }
     const sub = run.subs[s.i][s.j], u = uniqWeighted(sub.opts);
     return { title: sub.name, opts: u.opts, weights: u.opts.map((o, j) => u.weights[j] * (RARE[o] || 1) * (sub.tiered ? tierWeight(j, u.opts.length) : 1)) };
   }
@@ -1991,6 +2068,8 @@
     const mv = fill(T().move);
     return /^(no |none|\?\?\?)/i.test(mv) ? ((tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "")) : mv;
   }
+  // strong blood raises the floor: the talent wheels start at this tier
+  const minTier = () => Math.min(7, perks().reduce((a, p) => Math.max(a, p.minTier || 0), 0));
   function perkPower(boss) { return perks().reduce((a, p) => a + (p.power || 0) + (boss ? (p.boss || 0) : 0), 0); }
   function statAdapt(k) {
     for (const r of (T().statAdapt || [])) if (r.stat === k && run && tv(r.when[0]) === r.when[1]) return r;
@@ -2586,6 +2665,7 @@
     }
     if (run.phase === "journey") {
       const st = STEPS[run.step], P = path();
+      if (needsCodename()) return listWheel("Hero name", codenameOptions());
       if (st.k === "battle") return run.foe ? battleWheel() : listWheel("Opponent", foePool(st.pool).map((f) => f[0]));
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
       if (st.k === "train") return listWheel("Training", P.training.map((t) => t[0]));
@@ -2726,7 +2806,37 @@
     persist(); render();
   }
 
+  const needsCodename = () => !!T().codenames && run.phase === "journey" && !run.codename && run.step >= 1;
+  // hero / villain names, built from the power, costume colour, gender and archetype
+  function codenameOptions() {
+    const C = T().codenames, r = rng(run.seed + 21);
+    const powerText = [tv("Power"), ...allSubs().map((x) => x.value)].join(" ");
+    let pre = ["Nova", "Apex", "Vector", "Zenith"];
+    for (const [re, list] of C.prefix) if (re.test(powerText)) { pre = list; break; }
+    const col = (C.colors.find(([re]) => re.test(tv("Costume") || "")) || [null, []])[1];
+    const villain = /villain/i.test(tv("Archetype") || ""), fem = isFemale();
+    const forms = villain ? C.villainForms : C.heroForms;
+    const suffix = fem ? C.suffixF : C.suffixM;
+    const out = new Set();
+    let guard = 0;
+    while (out.size < 6 && guard++ < 60) {
+      const P1 = pickR(pre, r), S1 = pickR(suffix, r), K = pickR(col.length ? col : pre, r);
+      out.add(pickR(forms, r).replace("{P}", P1).replace("{S}", S1).replace("{C}", K).replace("{T}", fem ? "Miss" : "Mister"));
+    }
+    return [...out];
+  }
+  async function codenameStep() {
+    const opts = codenameOptions();
+    const k = await spin(listWheel("Hero name", opts));
+    run.codename = opts[k];
+    const villain = /villain/i.test(tv("Archetype") || "");
+    const t = fill(villain ? "By morning, the police scanners have a name for {first}: {c}. Parents use it to scare their kids." : "The footage is on every channel by morning. By noon the internet has decided: {first} is {c}.", { c: run.codename });
+    logAdd(villain ? "A name to fear" : "A hero is named", t);
+    setNarr(run.codename, t);
+    sfx.fanfare(); fxFlash("#fff6d0");
+  }
   async function journeyStep() {
+    if (needsCodename()) { await codenameStep(); persist(); render(); return; }
     const P = path(), st = STEPS[run.step];
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
     const vars = () => ({ foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: fill(T().move), clutch: T().clutch, sig: signature(),
@@ -2736,7 +2846,9 @@
     if (!run.log.length || run.log[run.log.length - 1].h !== head) {
       const key = st.k === "rival" ? "rival" + st.n : st.k === "battle" ? st.pool : st.k === "train" && run.step > 2 ? "train2" : st.k;
       const pool = (P.scenes && P.scenes[key]) || (T().scenes && T().scenes[key]);
-      if (pool && pool.length) logAdd(head, fill(pick(pool), vars()));
+      const home = run.step === 0 && T().birthScenes ? T().birthScenes[tv("Birthplace")] || null : null;
+      if (home) logAdd(head, fill(home, vars()));
+      else if (pool && pool.length) logAdd(head, fill(pick(pool), vars()));
     }
     if (st.k === "battle" || st.k === "rival") {
       if (!run.foe) {
@@ -2893,7 +3005,7 @@
   function addHistory() {
     const d = cardData();
     d.mystery = false; d.note = ""; d.ai = run.ai ? (run.ai.card || run.ai.src) : null;
-    state.history.unshift({ seed: run.seed, name: run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null, card: d, log: run.log, prompt: aiPrompt() });
+    state.history.unshift({ seed: run.seed, name: run.codename || run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null, card: d, log: run.log, prompt: aiPrompt() });
     state.history = state.history.slice(0, 20);
   }
 
@@ -2925,6 +3037,7 @@
     Object.entries(run.hidden).forEach(([k, v]) => { if (!/hair|eyes|dream|flaw|nemesis|base|binding/i.test(k)) parts.push(`${k}: ${v}`); });
     if (run.evolution) parts.push(`Power evolution: ${run.evolution}`);
     perks().filter((p) => !p.quiet).forEach((p) => parts.push(`Special trait: ${p.n}`));
+    if (run.codename) parts.push(`Superhero name: ${run.codename} (show a matching emblem on the costume)`);
     if (run.talent.every((x) => x != null)) { const bw = bestWorst(); parts.push(`Greatest strength: ${bw.bestName} (${bw.bestTier})`); }
     const P = path();
     const ending = run.ending ? `This is the final portrait at the end of their story. Their ending: ${run.ending}. Record: ${run.w} wins, ${run.l} losses. ` +
@@ -3053,12 +3166,13 @@
       const s = nextSlot();
       const all = slots(), done = all.filter((x) => slotVal(x) != null).length;
       eb = "Create your character";
-      if (s) { const w = slotWheel(s); title = s.k === "sub" ? `${s.j ? "Deeper: " : "Bonus wheel: "}${w.title}` : s.k === "tal" ? `Talent: ${statNames()[s.i]}` : w.title; sub = s.k === "tal" ? `Talent wheel, 10 tiers from useless to legendary · ${done} of ${all.length} spun` : `${done} of ${all.length} spun`; }
+      if (s) { const w = slotWheel(s); title = s.k === "sub" ? `${s.j ? "Deeper: " : "Bonus wheel: "}${w.title}` : s.k === "tal" ? `Talent: ${statNames()[s.i]}` : w.title; sub = s.k === "tal" ? (minTier() ? `Their blood starts them at tier ${minTier() + 1} of 10 · ${done} of ${all.length} spun` : `Talent wheel, 10 tiers from useless to legendary · ${done} of ${all.length} spun`) : `${done} of ${all.length} spun`; }
       else { title = "Ready for the journey"; sub = `${STEPS.length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = STEPS[run.step];
       eb = `Chapter ${run.step + 1} of ${STEPS.length} · ${chapterName(run.step)}`;
-      if (st.k === "battle" || st.k === "rival") {
+      if (needsCodename()) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
+      else if (st.k === "battle" || st.k === "rival") {
         if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : "Spin for your opponent";
         else { title = `${run.foe[0]} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
       } else if (st.k === "train") title = "Spin your training";
@@ -3079,7 +3193,7 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
     else if (run.phase === "journey") {
       const st = STEPS[run.step];
-      label = st.k === "battle" ? (run.foe ? "Fight!" : "Find opponent") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = needsCodename() ? "Get your name" : st.k === "battle" ? (run.foe ? "Fight!" : "Find opponent") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { train: "Train", twist: "Spin fate", recruit: "Recruit", loot: "Search", evolve: "Evolve", ending: "Reveal ending" }[st.k];
     } else label = "New character";
     p.textContent = label; p.disabled = busy;
@@ -3130,7 +3244,7 @@
     rec.push(cap(rarity()));
     const mystery = showMystery();
     return {
-      seed: run.seed, theme: state.theme, themeLabel: th.label, name: run.name, epithet: run.epithet || "",
+      seed: run.seed, theme: state.theme, themeLabel: th.label, name: run.codename || run.name, epithet: run.codename ? `${run.name}${run.epithet ? ", " + run.epithet : ""}` : (run.epithet || ""),
       tier: tierInfo().label, rarity: complete ? rarity() : "common", aura: tv(th.vis.aura) || "Unknown power", awakened: run.awakened || "",
       title: complete ? fill(th.titleTpl) : "A character still taking shape…", chips: chipVals.slice(0, 9), evolution: run.evolution || "",
       stats: statNames().map((n, k) => [n, vals ? vals[k] : null, talentLabel(k) || ""]), overall: complete ? overall() : null,
@@ -3151,7 +3265,7 @@
       '<div class="tc-foot"><div><span class="tc-ovl"></span><span class="tc-ovl-l">Overall</span></div><div class="tc-rec"></div></div><div class="tc-series"><span></span><span></span></div></div>';
     const q = (sel) => a.querySelector(sel);
     q("h2").textContent = d.name;
-    q(".tc-epi").textContent = d.epithet ? `“${cap(d.epithet)}”` : "";
+    q(".tc-epi").textContent = !d.epithet ? "" : /^the /i.test(d.epithet) ? `“${cap(d.epithet)}”` : d.epithet.replace(/, (the .*)$/, (m, e) => ` · “${cap(e)}”`);
     q(".tc-epi").hidden = !d.epithet;
     q(".tc-tier").textContent = d.tier || "";
     q(".tc-badge").textContent = d.aura || "";
@@ -3371,7 +3485,7 @@
   }
 
   function characterText() {
-    const lines = [run.name + (run.epithet ? `, ${run.epithet}` : "")];
+    const lines = [(run.codename ? `${run.codename} (${run.name})` : run.name) + (run.epithet ? `, ${run.epithet}` : "")];
     if (isComplete()) lines.push(fill(T().titleTpl));
     lines.push("");
     slots().forEach((s) => { const v = slotVal(s); lines.push(`${slotWheel(s).title}: ${v == null ? "?" : v}`); });
