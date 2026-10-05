@@ -15,6 +15,13 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
 5. **The journey**: 14 chapters, each one a spin. Opponents, battles weighted by your power, training, a new ally, treasure, a twist, a power evolution, two fights against your rival, and an ending. Wins put more good endings on the final wheel.
 6. **Upgrades**: earn points from fights and training, then spend them on stats, rank-ups, or an awakening spin (Domain Expansion, Devil Union, Gear-style transformation...).
 
+## Lore depth
+
+- Every series has a race / being / species wheel and a fighting-style wheel with canon styles.
+- Answers branch several levels deep. Example: Celestial Dragon → bloodline → which Five Elder → does Imu know you exist.
+- Special answers grant **perks**: stat boosts, new card stats (Divine Authority, Six Eyes, Sulong, Spirit: Salamander...) and once-per-journey interventions that undo a lost fight (Imu, Sukuna, Astaroth, Hakari's jackpot, the Revive-Revive Fruit...).
+- Sound effects: explosions, a heavenly choir for rare pulls, a sad trombone for bad ones, fanfares and a boss gong.
+
 ## Cards
 
 - Every character gets a gender (first wheel), a name to match and an epithet like "the Crimson Blade".
