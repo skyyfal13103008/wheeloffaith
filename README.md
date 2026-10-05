@@ -11,7 +11,7 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
    - some switch the whole story route (curse user cult, Spade Kingdom, Zoldyck, Marines, evil alignment, Villain)
    - hair, eyes, weapon, dream and other details are rolled in the background, so each run is a different person
 3. **Talent wheels**: one spin per stat (power, ability mastery, weapon skill, strength, speed, IQ). Each stat has its own 10-tier ladder, like IQ from "Can't count to ten" to "Ten moves ahead". Slices are sized by rarity, so the top and bottom tiers are slivers.
-4. **The card**: a silhouette in your power's color during play; the face is revealed at the ending, rarity frame from your rank, and five series-specific stats.
+4. **The card**: a silhouette in your power's color during play; the face is revealed at the ending, rarity frame from your rank, and six series-specific stats.
 5. **The journey**: 14 chapters, each one a spin. Opponents, battles weighted by your power, training, a new ally, treasure, a twist, a power evolution, two fights against your rival, and an ending. Wins put more good endings on the final wheel.
 6. **Upgrades**: earn points from fights and training, then spend them on stats, rank-ups, or an awakening spin (Domain Expansion, Devil Union, Gear-style transformation...).
 
