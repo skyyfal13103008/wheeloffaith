@@ -1,7 +1,7 @@
 <title>Wheel of Faith</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Figtree:wght@400;600;700&family=Barlow+Condensed:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Figtree:wght@400;600;700&family=Barlow+Condensed:wght@500;600&family=Shippori+Mincho+B1:wght@800&family=Bangers&family=Pirata+One&family=Uncial+Antiqua&family=Kanit:wght@700&display=swap">
 <style>
   /* Layout: wheel + narration on the left, the living character card on the right, the story log below. Single committed dark "tarot night" look. */
   :root {
@@ -18,23 +18,36 @@
     --display: "Cinzel", "Trajan Pro", Georgia, serif;
     --body: "Figtree", "Segoe UI", system-ui, sans-serif;
     --label: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --glow1: #2b2160;
+    --glow2: #3a1840;
+    --on-accent: #2a1a00;
+    --display-track: 0.02em;
     color-scheme: dark;
   }
+  /* each series gets its own palette and display face */
+  [data-series="jjk"] { --ink: #0a0c16; --panel: #121628; --panel-2: #1a2038; --line: #2b3456; --fg: #e8ecff; --muted: #8e9ac8; --gold: #6c8cff; --gold-soft: rgba(108,140,255,.16); --glow1: #1d2a6b; --glow2: #5a1028; --on-accent: #080b1c; --display: "Shippori Mincho B1", "Hiragino Mincho ProN", Georgia, serif; }
+  [data-series="blackclover"] { --ink: #110b0d; --panel: #1c1316; --panel-2: #26191d; --line: #43292f; --fg: #f5ece6; --muted: #b89f9f; --gold: #e2b858; --gold-soft: rgba(226,184,88,.16); --glow1: #4a0f16; --glow2: #1f3315; --on-accent: #2a1a00; --display: "Cinzel", "Trajan Pro", Georgia, serif; }
+  [data-series="hxh"] { --ink: #0b120f; --panel: #121c17; --panel-2: #18261f; --line: #2a4236; --fg: #eaf7ef; --muted: #94b8a3; --gold: #44d483; --gold-soft: rgba(68,212,131,.15); --glow1: #0f3a26; --glow2: #3a2a0a; --on-accent: #04170c; --display: "Kanit", "Arial Black", sans-serif; }
+  [data-series="onepiece"] { --ink: #08141f; --panel: #0f2030; --panel-2: #142a3e; --line: #24435e; --fg: #f2f6fb; --muted: #9db4c9; --gold: #ffd23f; --gold-soft: rgba(255,210,63,.15); --glow1: #0d3f66; --glow2: #6a1a12; --on-accent: #2a1a00; --display: "Pirata One", "Georgia", serif; --display-track: 0.04em; }
+  [data-series="fantasy"] { --ink: #15100a; --panel: #201810; --panel-2: #2a2015; --line: #4a3a26; --fg: #f6eedd; --muted: #c4b08a; --gold: #e0a854; --gold-soft: rgba(224,168,84,.16); --glow1: #3a2a10; --glow2: #1a2a3a; --on-accent: #241500; --display: "Uncial Antiqua", "Georgia", serif; }
+  [data-series="hero"] { --ink: #0c0e1e; --panel: #151935; --panel-2: #1c2146; --line: #2f3870; --fg: #f3f5ff; --muted: #a2aad6; --gold: #ff4646; --gold-soft: rgba(255,70,70,.15); --glow1: #0f2a7a; --glow2: #7a0f1f; --on-accent: #1a0000; --display: "Bangers", "Impact", sans-serif; --display-track: 0.06em; }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html, body { background: var(--ink); color: var(--fg); margin: 0; }
+  [data-series="hero"] body { background-image: radial-gradient(rgba(255,255,255,.05) 1.2px, transparent 1.4px), radial-gradient(1200px 600px at 20% -10%, var(--glow1) 0%, transparent 60%), radial-gradient(900px 500px at 110% 10%, var(--glow2) 0%, transparent 55%); background-size: 14px 14px, auto, auto; }
   body {
     font-family: var(--body); font-size: 15px; line-height: 1.5; min-height: 100%;
     background:
-      radial-gradient(1200px 600px at 20% -10%, #2b2160 0%, transparent 60%),
-      radial-gradient(900px 500px at 110% 10%, #3a1840 0%, transparent 55%),
+      radial-gradient(1200px 600px at 20% -10%, var(--glow1) 0%, transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, var(--glow2) 0%, transparent 55%),
       var(--ink);
+    transition: background-color .3s ease;
   }
   .app { max-width: 1120px; margin: 0 auto; padding: 24px 16px 56px; display: flex; flex-direction: column; gap: 28px; }
 
   .top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; }
   .eyebrow { margin: 0; font-family: var(--label); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-size: 13px; }
-  h1 { margin: 2px 0 0; font-family: var(--display); font-weight: 800; font-size: clamp(32px, 6vw, 52px); line-height: 1; letter-spacing: 0.02em; text-wrap: balance; }
+  h1 { margin: 2px 0 0; font-family: var(--display); font-weight: 800; font-size: clamp(32px, 6vw, 52px); line-height: 1; letter-spacing: var(--display-track); text-wrap: balance; }
   h2, h3 { text-wrap: balance; }
   .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   label { font-family: var(--label); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; font-size: 13px; color: var(--muted); }
@@ -46,8 +59,8 @@
   button { font: inherit; cursor: pointer; border-radius: 999px; border: 1px solid transparent; padding: 10px 20px; font-weight: 700; transition: transform .12s ease, background .15s ease, opacity .15s; }
   button:active:not(:disabled) { transform: translateY(1px); }
   button:disabled { opacity: .4; cursor: not-allowed; }
-  .primary { background: var(--gold); color: #2a1a00; font-family: var(--display); font-weight: 800; letter-spacing: .06em; font-size: 18px; padding: 12px 32px; box-shadow: 0 6px 24px rgba(234,181,77,.3); }
-  .primary:hover:not(:disabled) { background: #f4c66a; }
+  .primary { background: var(--gold); color: var(--on-accent); font-family: var(--display); font-weight: 800; letter-spacing: .06em; font-size: 18px; padding: 12px 32px; box-shadow: 0 6px 24px var(--gold-soft); }
+  .primary:hover:not(:disabled) { filter: brightness(1.1); }
   .secondary { background: var(--panel-2); color: var(--fg); border-color: var(--line); }
   .secondary:hover:not(:disabled) { border-color: var(--gold); }
   .ghost { background: transparent; color: var(--muted); border-color: var(--line); }
@@ -87,14 +100,18 @@
   .tcard.mythic { --f1: #ff7aa8; --f2: #5b6bff; }
   .tcard.legendary::after, .tcard.mythic::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.22) 48%, transparent 60%); background-size: 260% 100%; animation: shimmer 4.5s linear infinite; mix-blend-mode: overlay; }
   @keyframes shimmer { from { background-position: 130% 0; } to { background-position: -130% 0; } }
-  .tc-inner { background: linear-gradient(180deg, #221c42, #17132e); border-radius: 11px; overflow: hidden; display: flex; flex-direction: column; }
+  .tc-inner { background: linear-gradient(180deg, var(--panel-2), var(--ink)); border-radius: 11px; overflow: hidden; display: flex; flex-direction: column; }
   .tc-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px 8px; }
-  .tc-head h2 { margin: 0; font-family: var(--display); font-size: 20px; font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; min-width: 0; }
+  .tc-head h2 { margin: 0; font-family: var(--display); font-size: 20px; font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; letter-spacing: var(--display-track); }
+  .tc-names { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .tc-epi { margin: 0; font-size: 13px; font-style: italic; color: var(--gold); overflow-wrap: anywhere; }
+  .tc-end { margin: 6px 12px 0; padding: 6px 10px; border-radius: 8px; background: var(--gold-soft); border: 1px solid var(--gold); font-size: 13px; font-weight: 700; text-align: center; }
+  .tc-series { padding: 0 12px 10px; font-family: var(--label); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
   .tc-tier { flex: none; font-family: var(--label); font-weight: 600; letter-spacing: .06em; font-size: 13px; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); max-width: 48%; text-align: center; }
   .tc-art { position: relative; aspect-ratio: 1; max-width: 100%; margin: 0 10px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,.18); background: #0d0a1c; }
   .tc-art canvas, .tc-art img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
   .tc-badge { position: absolute; left: 8px; top: 8px; z-index: 2; font-family: var(--label); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; padding: 2px 8px; border-radius: 6px; background: rgba(10,8,20,.7); color: #fff; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .tc-awake { position: absolute; right: 8px; bottom: 8px; z-index: 2; font-family: var(--display); font-weight: 800; font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--gold); color: #2a1a00; max-width: 80%; text-align: right; }
+  .tc-awake { position: absolute; right: 8px; bottom: 8px; z-index: 2; font-family: var(--display); font-weight: 800; font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--gold); color: var(--on-accent); max-width: 80%; text-align: right; }
   .tc-note { position: absolute; left: 0; right: 0; bottom: 8px; z-index: 2; text-align: center; font-family: var(--label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; color: rgba(255,255,255,.75); }
   .tc-title { margin: 8px 12px 0; font-size: 13px; color: var(--muted); font-style: italic; text-wrap: balance; }
   .tc-chips { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 12px 0; }
@@ -152,6 +169,17 @@
   .ai-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
   @media (max-width: 640px) { .ai-grid { grid-template-columns: minmax(0, 1fr); } }
 
+  .history li { cursor: pointer; transition: border-color .15s, transform .15s; }
+  .history li:hover, .history li:focus-visible { border-color: var(--gold); transform: translateY(-1px); }
+  .modal { position: fixed; inset: 0; z-index: 50; background: rgba(4,3,10,.78); display: grid; place-items: center; padding: 24px 16px; overflow-y: auto; }
+  .modal-box { width: 100%; max-width: 900px; background: var(--ink); color: var(--fg); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 22px; align-items: start;
+    background-image: radial-gradient(600px 300px at 0% 0%, var(--glow1), transparent 70%), radial-gradient(500px 300px at 100% 0%, var(--glow2), transparent 70%); }
+  @media (max-width: 760px) { .modal-box { grid-template-columns: minmax(0, 1fr); } }
+  .modal-side { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .modal-side h2 { margin: 0; font-family: var(--display); letter-spacing: var(--display-track); font-size: 26px; }
+  .modal-story { max-height: 46vh; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .modal-story h3 { margin: 0; font-family: var(--display); font-size: 14px; color: var(--gold); }
+  .modal-story p { margin: 0; font-size: 14px; }
   .history h3 { margin: 0 0 10px; font-family: var(--display); font-size: 18px; }
   .history ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 10px; }
   .history li { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px; min-width: 0; display: flex; gap: 10px; align-items: center; }
@@ -169,7 +197,7 @@
 <div class="app">
   <header class="top">
     <div>
-      <p class="eyebrow">Spin the wheels, accept your fate</p>
+      <p class="eyebrow" id="tagline">Spin the wheels, accept your fate</p>
       <h1>Wheel of Faith</h1>
     </div>
     <div class="top-controls">
@@ -213,30 +241,13 @@
     </section>
 
     <section class="side" aria-label="Character">
-      <article class="tcard" id="card">
-        <div class="tc-inner">
-          <header class="tc-head"><h2 id="cName"></h2><span class="tc-tier" id="cTier"></span></header>
-          <div class="tc-art">
-            <canvas id="portrait"></canvas>
-            <img id="aiImg" alt="AI portrait of the character" hidden>
-            <span class="tc-badge" id="cAura"></span>
-            <span class="tc-awake" id="cAwake" hidden></span>
-            <span class="tc-note" id="artNote"></span>
-          </div>
-          <p class="tc-title" id="cTitle"></p>
-          <div class="tc-chips" id="cChips"></div>
-          <div class="tc-stats" id="cStats"></div>
-          <div class="tc-foot">
-            <div><span class="tc-ovl" id="cOverall">??</span><span class="tc-ovl-l">Overall</span></div>
-            <div class="tc-rec" id="cRecord"></div>
-          </div>
-        </div>
-      </article>
+      <div id="cardSlot"></div>
       <div class="card-tools">
         <button id="rename" class="link">New name</button>
         <button id="aiGen" class="secondary small" hidden>Final portrait</button>
         <button id="artToggle" class="link" hidden>Show drawn portrait</button>
         <button id="copy" class="link">Copy character</button>
+        <button id="saveCard" class="secondary small" hidden>Save card as image</button>
       </div>
       <p class="note" id="aiMsg" aria-live="polite" style="text-align:center;margin:0"></p>
       <textarea id="copyFallback" readonly hidden aria-label="Character text"></textarea>
@@ -321,11 +332,29 @@
   </details>
 
   <section class="history" id="historySec" hidden>
-    <h3>Past characters</h3>
+    <h3>Past characters <span class="note" style="font-family: var(--body); font-size: 13px; font-weight: 400">Click a card to open it</span></h3>
     <ul id="history"></ul>
   </section>
 </div>
 
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box" id="modalBox">
+    <div id="modalCard"></div>
+    <div class="modal-side">
+      <p class="eyebrow" id="modalSeries"></p>
+      <h2 id="modalTitle"></h2>
+      <p class="note" id="modalMeta" style="margin:0"></p>
+      <div class="row">
+        <button id="modalSave" class="primary small">Save card as image</button>
+        <button id="modalClose" class="ghost small">Close</button>
+      </div>
+      <p class="note" id="modalMsg" aria-live="polite" style="margin:0"></p>
+      <div class="modal-story" id="modalStory"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 (() => {
   // ================= shared lists =================
@@ -342,10 +371,15 @@
   THEMES.blackclover = {
     label: "Black Clover",
     style: "shonen anime key art in the style of Black Clover, magic knight robe, a grimoire floating beside them",
-    first: ["Riven", "Talia", "Fenn", "Corvina", "Oswin", "Elda", "Brann", "Seline", "Wilhelm", "Noa", "Gideon", "Ysolde", "Kai", "Lir"],
+    firstM: ["Riven", "Fenn", "Oswin", "Brann", "Wilhelm", "Gideon", "Kai", "Lir", "Caspian", "Dorian"],
+    firstF: ["Talia", "Corvina", "Elda", "Seline", "Noa", "Ysolde", "Mirabel", "Lucia", "Ingrid", "Freya"],
+    tagline: "Surpass your limits",
+    sceneText: "a medieval castle town at dusk under a sky with a giant four-leaf clover in the clouds",
+    palette: ["#7a1f24", "#2f5a2a", "#3a2a3a", "#8a6a1f", "#5a1a2a", "#2a4a3a", "#6a3a1a", "#3a3a5a"],
     last: ["Ashgrove", "Silvaris", "Thornecrest", "Kirsch", "Valcourt", "Grimmel", "Eckhart", "Rosenwald", "Faust", "Lindqvist"],
     stats: ["Mana", "Spell mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
+      ["Gender", ["Male", "Female"]],
       ["Origin", ["Hage village", "a noble house", "the royal capital", "the Forsaken Realm", "the Witches' Forest", "the Spade Kingdom", "the Heart Kingdom", "the Diamond Kingdom"]],
       ["Magic", ["Fire", "Water", "Wind", "Lightning", "Shadow", "Light", "Spatial", "Blood", "Thorn", "Sealing", "Star", "Ice", "Earth", "Mirror", "Copy", "Anti Magic"]],
       ["Grimoire", ["Three-leaf", "Three-leaf", "Four-leaf", "Three-leaf", "Three-leaf", "Five-leaf"]],
@@ -446,10 +480,15 @@
   THEMES.jjk = {
     label: "Jujutsu Kaisen",
     style: "modern dark shonen anime key art in the style of Jujutsu Kaisen, school uniform, swirling cursed energy",
-    first: ["Yuto", "Mahiro", "Kenji", "Saki", "Riko", "Daichi", "Hotaru", "Jun", "Sena", "Ryuji", "Kanna", "Tetsu", "Mio", "Haru"],
+    firstM: ["Yuto", "Kenji", "Daichi", "Ryuji", "Tetsu", "Haru", "Sosuke", "Itsuki", "Ren", "Kaito"],
+    firstF: ["Mahiro", "Saki", "Riko", "Hotaru", "Kanna", "Mio", "Sena", "Ayame", "Yui", "Akane"],
+    tagline: "Accept your cursed fate",
+    sceneText: "a neon-lit Tokyo street at night with cursed energy swirling",
+    palette: ["#2a3a8a", "#7a1f3d", "#3b2a6e", "#1f5a7a", "#5a2a7a", "#8a2a2a", "#24407a", "#4a1a5a"],
     last: ["Kurosawa", "Ichinose", "Amagi", "Morita", "Hanazawa", "Shiba", "Kirishima", "Tachibana", "Onodera", "Kagami"],
     stats: ["Cursed energy", "Technique mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
+      ["Gender", ["Male", "Female"]],
       ["Origin", ["Tokyo Jujutsu High", "Kyoto Jujutsu High", "the Gojo clan", "the Zenin clan", "the Kamo clan", "a curse user cult", "an ordinary family", "the Culling Game"]],
       ["Cursed technique", ["Ten Shadows", "Cursed Speech", "Blood Manipulation", "Straw Doll", "Boogie Woogie", "Idle Transfiguration", "Ratio", "Projection Sorcery", "Construction", "Disaster Flames", "Comedian", "Shrine", "Star Rage", "Puppet Manipulation", "Heavenly Restriction"]],
       ["Domain", ["No domain yet", "Simple Domain only", "Incomplete domain", "Full domain", "Barrierless domain"]],
@@ -548,10 +587,15 @@
   THEMES.hxh = {
     label: "Hunter x Hunter",
     style: "anime key art in the style of Hunter x Hunter (2011), visible nen aura outline",
-    first: ["Pell", "Zane", "Kira", "Oto", "Lucca", "Nara", "Gen", "Sirka", "Tovi", "Elle", "Rook", "Ina", "Yasha", "Milo"],
+    firstM: ["Pell", "Zane", "Oto", "Lucca", "Gen", "Rook", "Milo", "Tovi", "Bastian", "Kurt"],
+    firstF: ["Kira", "Nara", "Sirka", "Elle", "Ina", "Yasha", "Mira", "Lys", "Vela", "Rin"],
+    tagline: "Pass the Hunter Exam of fate",
+    sceneText: "a wild forest with the tall Heavens Arena tower in the distance",
+    palette: ["#1f7a4a", "#c26a1f", "#2a5a7a", "#7a2a3a", "#3a7a2a", "#5a3a7a", "#a8822a", "#2a6a6a"],
     last: ["Vanholt", "Drey", "Kessel", "Morrow", "Halvard", "Quill", "Sarrow", "Ibarra", "Okon", "Vey"],
     stats: ["Aura", "Nen mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
+      ["Gender", ["Male", "Female"]],
       ["Origin", ["Whale Island", "Meteor City", "the Zoldyck estate", "the Kurta clan", "Yorknew City", "the NGL jungle", "the Kakin royal family", "Heavens Arena", "Greed Island", "the Hunter Association"]],
       ["Nen type", ["Enhancer", "Transmuter", "Emitter", "Conjurer", "Manipulator", "Specialist"]],
       ["Hatsu", ["Rock-paper-scissors fist", "Electric aura", "Aura bullets", "Chains with conditions", "Puppet strings", "Copy an enemy's ability"]],
@@ -644,10 +688,15 @@
   THEMES.onepiece = {
     label: "One Piece",
     style: "anime key art in the style of One Piece, pirate adventure, ocean wind and sunlight",
-    first: ["Kiro", "Sable", "Dex", "Marlo", "Tess", "Grit", "Ozzie", "Rhea", "Juno", "Brick", "Lua", "Cass", "Rocco", "Vera"],
+    firstM: ["Kiro", "Dex", "Marlo", "Grit", "Ozzie", "Brick", "Rocco", "Tobi", "Gus", "Wade"],
+    firstF: ["Sable", "Tess", "Rhea", "Juno", "Lua", "Cass", "Vera", "Pearl", "Isla", "Coral"],
+    tagline: "Set sail on the wheel of fate",
+    sceneText: "the open ocean at sunset with a pirate ship on the horizon",
+    palette: ["#c2302a", "#1f5a9a", "#d89a1f", "#2a7a6a", "#7a2a5a", "#2a3a7a", "#b0502f", "#3a8a4a"],
     last: ["D. Raye", "Blackwater", "Saltmane", "Corsa", "Ironhook", "Tidewell", "Marrow", "Gale", "Fang", "Sunder"],
     stats: ["Haki", "Fruit mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
+      ["Gender", ["Male", "Female"]],
       ["Race", ["Human", "Human", "Fish-man", "Mink", "Giant", "Long-arm tribe", "Skypiean", "Lunarian"]],
       ["Devil fruit", ["No fruit", "Paramecia: Rubber", "Paramecia: String", "Paramecia: Barrier", "Logia: Flame", "Logia: Ice", "Logia: Lightning", "Logia: Magma", "Zoan: Wolf", "Paramecia: Op-Op", "Paramecia: Gravity", "Logia: Smoke", "Logia: Light", "Mythical Zoan", "Ancient Zoan"]],
       ["Haki type", ["None yet", "Observation", "Armament", "Observation and Armament", "Conqueror's", "All three"]],
@@ -749,10 +798,15 @@
   THEMES.fantasy = {
     label: "Fantasy RPG",
     style: "high fantasy anime illustration, adventurer gear, magical light",
-    first: ["Aldric", "Seraphine", "Thorne", "Isolde", "Corvin", "Lyra", "Bram", "Elowen", "Kael", "Maren", "Orrin", "Vesper", "Wren", "Darian"],
+    firstM: ["Aldric", "Thorne", "Corvin", "Bram", "Kael", "Orrin", "Darian", "Cedric", "Rowan", "Wren"],
+    firstF: ["Seraphine", "Isolde", "Lyra", "Elowen", "Maren", "Vesper", "Brynn", "Aria", "Rowena", "Sylvi"],
+    tagline: "Roll for destiny",
+    sceneText: "misty mountains with a castle on a cliff under a huge moon",
+    palette: ["#6a4a1f", "#2a4a3a", "#5a1f2a", "#3a3a6a", "#7a5a2a", "#2a5a5a", "#5a2a5a", "#4a5a2a"],
     last: ["Ashveil", "Stormborn", "of the Hollow Oak", "Blackthorn", "Dawnbringer", "Grimward", "Silverbrook", "Ironhand", "the Unbound", "Nightbloom"],
     stats: ["Arcana", "Spell mastery", "Weapon skill", "Strength", "Agility", "IQ"],
     cats: [
+      ["Gender", ["Male", "Female"]],
       ["Race", ["Human", "Elf", "Dwarf", "Orc", "Tiefling", "Dragonborn", "Fae", "Gnome", "Halfling", "Vampire", "Undead", "Demigod", "Fallen god"]],
       ["Class", ["Warrior", "Mage", "Rogue", "Cleric", "Ranger", "Paladin", "Necromancer", "Bard", "Druid", "Warlock", "Monk", "Artificer", "Blood hunter"]],
       ["Magic", ["Pyromancy", "Frost", "Healing", "Illusion", "Summoning", "Blood magic", "Runes", "Storm calling"]],
@@ -849,10 +903,15 @@
   THEMES.hero = {
     label: "Superhero",
     style: "comic book meets anime superhero illustration, dynamic pose, city skyline behind",
-    first: ["Nova", "Jett", "Max", "Riley", "Dana", "Theo", "Sasha", "Leo", "Iris", "Cole", "Zara", "Miles"],
+    firstM: ["Jett", "Max", "Theo", "Leo", "Cole", "Miles", "Ezra", "Ty", "Marcus", "Kai"],
+    firstF: ["Nova", "Riley", "Dana", "Sasha", "Iris", "Zara", "Kat", "Jade", "Maya", "Skye"],
+    tagline: "Every hero needs an origin",
+    sceneText: "a city skyline at night with a searchlight cutting the sky",
+    palette: ["#c2202a", "#1f4ab0", "#d8a81f", "#2a2a3a", "#7a1fa0", "#1f8a6a", "#e05a1f", "#2a5ad0"],
     last: ["Vance", "Storm", "Cross", "Blake", "Rivera", "Okafor", "Chen", "Hale", "Moreau", "Kade"],
     stats: ["Raw power", "Power control", "Gadgets & weapons", "Strength", "Speed", "IQ"],
     cats: [
+      ["Gender", ["Male", "Female"]],
       ["Archetype", ["Hero", "Hero", "Villain", "Anti-hero", "Vigilante", "Sidekick", "Mercenary"]],
       ["Power", ["Super strength", "Flight", "Telekinesis", "Super speed", "Invisibility", "Shapeshifting", "Mind control", "Energy blasts", "Healing factor", "Tech genius", "Size shifting", "Duplication", "Time control", "Gravity", "Elemental control", "Portals"]],
       ["Origin", ["Lab accident", "Alien", "Born with it", "Cursed artifact", "Trained for years", "Escaped experiment", "Rich and bored", "Struck by lightning"]],
@@ -1061,7 +1120,7 @@
     (T().hidden || []).forEach(([n, opts]) => { hidden[n] = pickR(opts, r); });
     const th = T();
     return {
-      v: 3, theme: state.theme, seed, name: pickR(th.first, r) + " " + pickR(th.last, r), results: new Array(baseCats().length).fill(null), subs: {}, hidden,
+      v: 4, theme: state.theme, seed, name: "???", results: new Array(baseCats().length).fill(null), subs: {}, hidden,
       rerollsUsed: 0, phase: "create", step: 0, foe: null, bonus: th.stats.map(() => 0), talent: th.stats.map(() => null), tierUp: 0, awakened: null, evolution: null, awarded: false,
       points: 0, w: 0, l: 0, d: 0, injured: false, ally: false, bossWin: false, log: [], narr: { big: "", text: "Press Spin to roll your first trait. Every pick can unlock bonus wheels and change the wheels after it." }, ending: null, ai: null, showAI: true
     };
@@ -1171,6 +1230,49 @@
     g.forEach((x, k) => { if (x > g[hi]) hi = k; if (x < g[lo]) lo = k; });
     return { best: `${st[hi]}, ${talentLabel(hi).toLowerCase()}`, worst: `${st[lo]}, ${talentLabel(lo).toLowerCase()}`, bestName: st[hi], bestTier: talentLabel(hi) };
   }
+  function isFemale() {
+    const g = tv("Gender");
+    if (g) return /female|girl|woman/i.test(g);
+    return run.seed % 2 === 1;
+  }
+  function makeName(random) {
+    const th = T(), r = random ? Math.random : rng(run.seed + 3);
+    return pickR(isFemale() ? th.firstF : th.firstM, r) + " " + pickR(th.last, r);
+  }
+  // epithets: an adjective from the character's power and a noun from their weapon or personality
+  const EPI_ADJ = [
+    [/fire|flame|magma|pyro|blazing|ember|solar/i, ["Crimson", "Blazing", "Burning", "Ember"]], [/water|sea|bubble|tide/i, ["Tidal", "Deep-Sea", "Rain"]],
+    [/lightning|electric|thunder|storm/i, ["Thunder", "Lightning", "Storm"]], [/wind|gale/i, ["Gale", "Whirlwind"]], [/ice|frost|winter/i, ["Frozen", "Winter", "Frost"]],
+    [/light|holy|sun|smite|oath/i, ["Radiant", "Golden", "Dawn"]], [/shadow|dark|void|curse|ten shadows|bone|soul|plague/i, ["Shadow", "Midnight", "Black", "Hollow"]],
+    [/blood/i, ["Blood", "Scarlet"]], [/anti/i, ["Null", "Anti-Magic"]], [/limitless|six eyes/i, ["Limitless", "Infinite"]], [/gravity/i, ["Heavy", "Gravity"]],
+    [/rubber/i, ["Rubber", "Laughing"]], [/heavenly/i, ["Ironbody", "Restricted"]], [/speed|projection/i, ["Blur", "Flash"]], [/mind|telekinesis|psychic/i, ["Psychic", "Mind"]],
+    [/thorn|vine|earth/i, ["Thorn", "Stone"]], [/star|spatial|portal|time/i, ["Starlit", "Rift"]], [/enhancer/i, ["Iron", "Unbreakable"]], [/transmuter/i, ["Shifting", "Electric"]],
+    [/emitter/i, ["Cannon", "Far-Reaching"]], [/conjurer/i, ["Chained", "Conjured"]], [/manipulator/i, ["Puppeteer's", "Commanding"]], [/specialist/i, ["Strange", "One-of-a-Kind"]]
+  ];
+  const EPI_WEAPON = [
+    [/sword|katana|blade|swords/i, ["Blade", "Swordsaint", "Edge"]], [/fist|hands|gauntlet|kick/i, ["Fist", "Brawler"]], [/bow|rifle|slingshot|pistol/i, ["Marksman", "Sniper"]],
+    [/staff|tome|book|grimoire/i, ["Sage", "Scholar"]], [/chain/i, ["Chain", "Warden"]], [/scythe/i, ["Reaper"]], [/spear|halberd|lance/i, ["Lancer"]], [/hammer/i, ["Hammer", "Breaker"]],
+    [/card/i, ["Joker", "Gambler"]], [/needle|nail/i, ["Needle"]], [/yo-yo/i, ["Yo-Yo Master"]], [/fishing/i, ["Angler"]], [/umbrella/i, ["Umbrella"]], [/lute/i, ["Bard"]],
+    [/whip/i, ["Whip"]], [/dagger/i, ["Twin Fang", "Viper"]], [/cloud/i, ["Staff"]], [/rope/i, ["Binder"]], [/clima/i, ["Weathercaller"]], [/dragon-bone/i, ["Dragonbone"]],
+    [/armor|suit/i, ["Knight"]], [/mask|street/i, ["Vigilante"]], [/neon/i, ["Glowstick"]]
+  ];
+  const EPI_PERS = [
+    [/battle/i, ["Berserker"]], [/lazy/i, ["Sleeper"]], [/cheerful/i, ["Fool"]], [/cold/i, ["Executioner"]], [/leader/i, ["Commander"]], [/evil/i, ["Snake"]],
+    [/chaos/i, ["Gremlin"]], [/tsundere/i, ["Thorn"]], [/silent/i, ["Ghost"]], [/hot/i, ["Wildfire"]], [/arrogant/i, ["King", "Queen"]], [/kind/i, ["Saint"]],
+    [/gloomy/i, ["Raven"]], [/hyper/i, ["Comet"]], [/smug/i, ["Fox"]], [/honest/i, ["Hammer"]]
+  ];
+  function makeEpithet() {
+    const r = rng(run.seed + 11), th = T();
+    const from = (rules, text) => { for (const [re, list] of rules) if (re.test(text || "")) return list; return null; };
+    const adj = pickR(from(EPI_ADJ, [tv(th.vis.aura), tv(th.evolve.cat)].join(" ")) || ["Silent", "Wandering", "Unbreakable", "Iron", "Golden", "Smiling", "Last", "Nameless", "Wild"], r);
+    const weaponText = tv("Weapon") || tv("Cursed tool") || tv("Costume") || "";
+    let noun = from(EPI_WEAPON, weaponText);
+    const pers = from(EPI_PERS, tv("Personality"));
+    if (!noun || (pers && r() < 0.4)) noun = pers || ["Wanderer"];
+    let n = pickR(noun, r);
+    if (n === "King" || n === "Queen") n = isFemale() ? "Queen" : "King";
+    return `the ${adj} ${n}`;
+  }
   const overall = () => { const s = stats(); return Math.round(s.reduce((a, b) => a + b, 0) / s.length); };
   function rarity() { const f = tierInfo().f; return f >= 1 ? "mythic" : f >= 0.75 ? "legendary" : f >= 0.5 ? "epic" : f >= 0.25 ? "rare" : "common"; }
   const playerPower = () => overall() + (run.ally ? 6 : 0) - (run.injured ? 8 : 0);
@@ -1194,7 +1296,8 @@
     return {
       seed: run.seed, hair, tips, eyes,
       patch: eyesT.includes("patch"), hollow: eyesT.includes("hollow"),
-      style: hairT.includes("spiky") ? 0 : (run.seed % 3),
+      style: hairT.includes("spiky") ? 0 : isFemale() ? (run.seed % 4 === 0 ? 2 : 1) : (run.seed % 3),
+      female: isFemale(), scene: state.theme,
       aura: colorFrom(auraT, AURA_MAP) || (auraT ? hashColor(auraT, 60) : "#6a5acd"),
       costume: colorFrom(tv(th.vis.costume), COSTUME_MAP) || hashColor(run.seed, 30),
       skin: colorFrom(raceT, SKIN_MAP) || SKINS[run.seed % SKINS.length],
@@ -1205,6 +1308,81 @@
   }
 
   // ================= portrait =================
+  // a backdrop for each series, drawn behind the character on a 300x300 grid
+  function drawScene(c, L) {
+    const W = 300, H = 300, R = rng(L.seed + 99);
+    const sky = (a, b) => { const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, a); g.addColorStop(1, b); c.fillStyle = g; c.fillRect(0, 0, W, H); };
+    const skyline = (col, win, lo, hi) => {
+      let x = -10;
+      while (x < W) {
+        const w = 18 + R() * 30, h = lo + R() * (hi - lo);
+        c.fillStyle = col; c.fillRect(x, H - h, w, h);
+        if (R() < 0.4) c.fillRect(x + w / 2 - 1, H - h - 14, 2, 14);
+        c.fillStyle = win;
+        for (let yy = H - h + 8; yy < H - 6; yy += 10) for (let xx = x + 4; xx < x + w - 5; xx += 7) if (R() < 0.35) c.fillRect(xx, yy, 3, 4);
+        x += w + 2;
+      }
+    };
+    const k = L.scene;
+    if (k === "jjk") {
+      sky("#070a24", "#3a1240");
+      c.fillStyle = "#f4e6d6"; c.beginPath(); c.arc(232, 58, 22, 0, TAU); c.fill();
+      c.fillStyle = "#070a24"; c.beginPath(); c.arc(242, 52, 20, 0, TAU); c.fill();
+      skyline("#090b1c", "rgba(255,90,120,.55)", 60, 190);
+    } else if (k === "blackclover") {
+      sky("#2a0f1a", "#6a3a1a");
+      c.save(); c.globalAlpha = 0.18; c.fillStyle = "#e2b858";
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([dx, dy]) => { c.beginPath(); c.arc(230 + dx * 14, 70 + dy * 14, 17, 0, TAU); c.fill(); });
+      c.fillRect(229, 84, 3, 40); c.restore();
+      c.fillStyle = "#170b10";
+      c.fillRect(0, 225, W, 75);
+      [[18, 150, 26], [62, 175, 20], [215, 140, 30], [262, 170, 22], [120, 195, 60]].forEach(([x, y, w]) => {
+        c.fillRect(x, y, w, H - y);
+        c.beginPath(); c.moveTo(x - 4, y); c.lineTo(x + w / 2, y - 34); c.lineTo(x + w + 4, y); c.closePath(); c.fill();
+      });
+      c.fillStyle = "rgba(255,200,120,.5)"; for (let i = 0; i < 14; i++) c.fillRect(R() * W, 200 + R() * 80, 3, 5);
+    } else if (k === "hxh") {
+      sky("#0c2a22", "#6a8a3a");
+      c.fillStyle = "#0d1f18"; c.fillRect(44, 40, 30, H - 40);
+      c.beginPath(); c.moveTo(44, 40); c.lineTo(59, 6); c.lineTo(74, 40); c.closePath(); c.fill();
+      c.fillStyle = "rgba(255,230,140,.6)"; for (let y = 54; y < H - 20; y += 16) c.fillRect(52, y, 3, 5), c.fillRect(63, y + 6, 3, 5);
+      for (let layer = 0; layer < 2; layer++) {
+        c.fillStyle = layer ? "#06120c" : "#0f2a1c";
+        for (let x = -10; x < W + 20; x += 18 + R() * 10) {
+          const h = (layer ? 70 : 110) + R() * 50, y = H - (layer ? 0 : 20);
+          c.beginPath(); c.moveTo(x - 16, y); c.lineTo(x, y - h); c.lineTo(x + 16, y); c.closePath(); c.fill();
+        }
+      }
+    } else if (k === "onepiece") {
+      sky("#2f78c4", "#f6b46a");
+      c.fillStyle = "#ffe08a"; c.beginPath(); c.arc(222, 168, 34, 0, TAU); c.fill();
+      const sea = c.createLinearGradient(0, 180, 0, H); sea.addColorStop(0, "#0f4a80"); sea.addColorStop(1, "#06223e");
+      c.fillStyle = sea; c.fillRect(0, 180, W, H - 180);
+      c.strokeStyle = "rgba(255,255,255,.35)"; c.lineWidth = 2;
+      for (let i = 0; i < 9; i++) { const y = 192 + i * 12, x = R() * W; c.beginPath(); c.moveTo(x, y); c.quadraticCurveTo(x + 12, y - 5, x + 24, y); c.stroke(); }
+      c.fillStyle = "#2a1a12";
+      c.beginPath(); c.moveTo(30, 178); c.lineTo(96, 178); c.lineTo(86, 190); c.lineTo(40, 190); c.closePath(); c.fill();
+      c.fillRect(62, 128, 3, 50);
+      c.fillStyle = "#f4ead6"; c.beginPath(); c.moveTo(48, 136); c.quadraticCurveTo(64, 150, 48, 172); c.lineTo(80, 172); c.quadraticCurveTo(92, 150, 80, 136); c.closePath(); c.fill();
+      c.fillStyle = "#1a1a1a"; c.beginPath(); c.arc(64, 152, 5, 0, TAU); c.fill();
+      c.fillStyle = "#c2302a"; c.fillRect(64, 124, 12, 6);
+    } else if (k === "fantasy") {
+      sky("#0f1838", "#5a3a5a");
+      c.fillStyle = "rgba(255,255,255,.8)"; for (let i = 0; i < 40; i++) c.fillRect(R() * W, R() * 150, 1.5, 1.5);
+      c.fillStyle = "#f2ead0"; c.beginPath(); c.arc(70, 72, 34, 0, TAU); c.fill();
+      c.fillStyle = "#2a2440"; c.beginPath(); c.moveTo(-10, H); c.lineTo(60, 150); c.lineTo(120, 220); c.lineTo(190, 130); c.lineTo(310, H); c.closePath(); c.fill();
+      c.fillStyle = "#16122a"; c.beginPath(); c.moveTo(-10, H); c.lineTo(40, 220); c.lineTo(110, 260); c.lineTo(200, 200); c.lineTo(260, 170); c.lineTo(310, 210); c.lineTo(310, H); c.closePath(); c.fill();
+      c.fillRect(244, 120, 14, 52); c.fillRect(262, 136, 12, 36); c.fillRect(232, 140, 50, 34);
+      c.beginPath(); c.moveTo(240, 120); c.lineTo(251, 96); c.lineTo(262, 120); c.closePath(); c.fill();
+      c.fillStyle = "rgba(255,200,120,.7)"; c.fillRect(249, 132, 3, 5); c.fillRect(266, 148, 3, 5);
+    } else {
+      sky("#060a24", "#2a1a4a");
+      c.save(); c.globalAlpha = 0.22; c.fillStyle = "#cfe0ff";
+      c.beginPath(); c.moveTo(190, H); c.lineTo(205, H); c.lineTo(110, 0); c.lineTo(60, 0); c.closePath(); c.fill(); c.restore();
+      c.save(); c.globalAlpha = 0.25; c.strokeStyle = "#cfe0ff"; c.lineWidth = 3; c.beginPath(); c.arc(84, 34, 22, 0, TAU); c.stroke(); c.restore();
+      skyline("#080a18", "rgba(120,220,255,.55)", 70, 200);
+    }
+  }
   // during play the card shows a silhouette in the power's color; the face is revealed at the end
   function drawMystery(canvas, L) {
     const W = 300, H = 300, d = window.devicePixelRatio || 1;
@@ -1214,10 +1392,9 @@
     c.setTransform(px / W, 0, 0, px / H, 0, 0);
     c.clearRect(0, 0, W, H);
     const R = rng(L.seed);
-    let g = c.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, shade(L.aura, -0.8)); g.addColorStop(1, shade(L.aura, -0.45));
-    c.fillStyle = g; c.fillRect(0, 0, W, H);
-    c.save(); c.globalAlpha = 0.14; c.strokeStyle = "#fff";
+    drawScene(c, L);
+    let g;
+    c.save(); c.globalAlpha = 0.08; c.strokeStyle = "#fff";
     for (let i = 0; i < 40; i++) { const a = R() * TAU, r1 = 80 + R() * 40; c.lineWidth = 0.5 + R() * 1.4; c.beginPath(); c.moveTo(150 + Math.cos(a) * r1, 150 + Math.sin(a) * r1); c.lineTo(150 + Math.cos(a) * 320, 150 + Math.sin(a) * 320); c.stroke(); }
     c.restore();
     g = c.createRadialGradient(150, 160, 20, 150, 160, 170);
@@ -1233,7 +1410,6 @@
     c.fillText("?", 150, 160);
   }
   const showMystery = () => run.phase !== "done" || state.aiBusy;
-  function drawCardArt() { const L = look(); if (showMystery()) drawMystery($("portrait"), L); else drawPortrait($("portrait"), L); }
   function drawPortrait(canvas, L, cssSize) {
     const W = 300, H = 300;
     const d = window.devicePixelRatio || 1;
@@ -1246,10 +1422,9 @@
     const ol = "#1a1022";
     c.lineJoin = "round"; c.lineCap = "round";
 
-    let g = c.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, shade(L.aura, -0.78)); g.addColorStop(1, shade(L.aura, -0.4));
-    c.fillStyle = g; c.fillRect(0, 0, W, H);
-    c.save(); c.globalAlpha = 0.16; c.strokeStyle = "#ffffff";
+    drawScene(c, L);
+    let g;
+    c.save(); c.globalAlpha = 0.08; c.strokeStyle = "#ffffff";
     for (let i = 0; i < 44; i++) {
       const a = R() * TAU, r1 = 70 + R() * 50;
       c.lineWidth = 0.5 + R() * 1.6;
@@ -1257,9 +1432,9 @@
     }
     c.restore();
     g = c.createRadialGradient(150, 150, 10, 150, 150, 170);
-    g.addColorStop(0, rgba(L.aura, L.awakened ? 0.75 : 0.4)); g.addColorStop(1, rgba(L.aura, 0));
+    g.addColorStop(0, rgba(L.aura, L.awakened ? 0.6 : 0.3)); g.addColorStop(1, rgba(L.aura, 0));
     c.fillStyle = g; c.fillRect(0, 0, W, H);
-    c.save(); c.globalAlpha = L.awakened ? 0.8 : 0.5; c.fillStyle = L.aura;
+    c.save(); c.globalAlpha = L.awakened ? 0.7 : 0.32; c.fillStyle = L.aura;
     for (let k = 0; k < 11; k++) {
       const x = 10 + k * 28 + (R() - 0.5) * 10, h = 90 + R() * (L.awakened ? 170 : 110), sway = (R() - 0.5) * 30;
       c.beginPath(); c.moveTo(x - 20, H); c.quadraticCurveTo(x - 14, H - h * 0.55, x + sway, H - h); c.quadraticCurveTo(x + 12, H - h * 0.5, x + 20, H); c.closePath(); c.fill();
@@ -1269,6 +1444,10 @@
     const hairStroke = shade(L.hair, -0.55);
     const hairFill = (y0, y1) => { if (!L.tips) return L.hair; const gg = c.createLinearGradient(0, y0, 0, y1); gg.addColorStop(0, L.hair); gg.addColorStop(0.55, L.hair); gg.addColorStop(1, L.tips); return gg; };
 
+    if (L.female && L.style === 2) {
+      c.beginPath(); c.moveTo(80, 130); c.bezierCurveTo(66, 190, 70, 228, 84, 236); c.lineTo(216, 236); c.bezierCurveTo(230, 228, 234, 190, 220, 130); c.closePath();
+      c.fillStyle = hairFill(120, 240); c.fill(); c.strokeStyle = hairStroke; c.lineWidth = 2.5; c.stroke();
+    }
     if (L.style === 1) {
       c.beginPath(); c.moveTo(82, 130); c.bezierCurveTo(60, 200, 58, 260, 66, 292); c.lineTo(234, 292); c.bezierCurveTo(242, 260, 240, 200, 218, 130); c.closePath();
       c.fillStyle = hairFill(120, 300); c.fill(); c.strokeStyle = hairStroke; c.lineWidth = 2.5; c.stroke();
@@ -1328,6 +1507,12 @@
       c.strokeStyle = ol; c.lineWidth = 4; c.beginPath(); c.ellipse(cx, cy, 16, 12, 0, Math.PI * 1.08, Math.PI * 1.92); c.stroke();
       c.lineWidth = 3; c.beginPath(); c.moveTo(cx + side * 15, cy - 4); c.lineTo(cx + side * 21, cy - 8); c.stroke();
       c.lineWidth = 1.2; c.beginPath(); c.ellipse(cx, cy, 14, 11, 0, Math.PI * 0.25, Math.PI * 0.75); c.stroke();
+      if (L.female) {
+        c.lineWidth = 2.4; c.beginPath();
+        c.moveTo(cx + side * 13, cy - 7); c.lineTo(cx + side * 19, cy - 14);
+        c.moveTo(cx + side * 8, cy - 10); c.lineTo(cx + side * 11, cy - 17);
+        c.stroke();
+      }
     };
     eye(122, 165, L.eyes[0], -1);
     eye(178, 165, L.eyes[1], 1);
@@ -1336,7 +1521,7 @@
       c.fillStyle = "#16121e"; c.beginPath(); c.ellipse(122, 166, 19, 15, 0, 0, TAU); c.fill();
     }
     c.strokeStyle = shade(L.skin, -0.4); c.lineWidth = 1.8; c.beginPath(); c.moveTo(151, 180); c.lineTo(147, 191); c.lineTo(152, 192); c.stroke();
-    c.strokeStyle = ol; c.lineWidth = 2.2; c.beginPath();
+    c.strokeStyle = L.female ? "#a8384f" : ol; c.lineWidth = L.female ? 2.6 : 2.2; c.beginPath();
     if (L.mouth === "smile") c.arc(150, 200, 9, Math.PI * 0.2, Math.PI * 0.8);
     else if (L.mouth === "smirk") { c.moveTo(141, 210); c.quadraticCurveTo(152, 213, 161, 204); }
     else if (L.mouth === "open") { c.moveTo(141, 206); c.quadraticCurveTo(150, 220, 159, 206); c.closePath(); c.fillStyle = "#6a1a2a"; c.fill(); }
@@ -1408,6 +1593,8 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, size, size);
     const opts = state.wheel.opts, n = opts.length, G = geom(state.wheel);
+    const css = getComputedStyle(document.documentElement), ACC = css.getPropertyValue("--gold").trim() || "#eab54d", INK = css.getPropertyValue("--ink").trim() || "#130f26";
+    const DISPLAY = css.getPropertyValue("--display").trim() || "Cinzel, Georgia, serif";
     const c = size / 2, R = c - 8;
     for (let i = 0; i < n; i++) {
       const a = G.sizes[i], s = state.rotation + G.starts[i];
@@ -1415,24 +1602,24 @@
       ctx.beginPath(); ctx.moveTo(c, c); ctx.arc(c, c, R, s, s + a); ctx.closePath();
       let col = i % SEG_COLORS.length;
       if (i === n - 1 && col === 0 && n > 1) col = 3;
-      ctx.fillStyle = state.wheel.colors ? state.wheel.colors[i] : SEG_COLORS[col];
+      ctx.fillStyle = state.wheel.colors ? state.wheel.colors[i] : (T().palette || SEG_COLORS)[col];
       ctx.fill();
       if (i === state.winner) { ctx.fillStyle = "rgba(255,240,200,0.3)"; ctx.fill(); }
-      ctx.strokeStyle = "#130f26"; ctx.lineWidth = 2; ctx.stroke();
+      ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.stroke();
       ctx.save(); ctx.translate(c, c); ctx.rotate(s + a / 2);
       ctx.fillStyle = "#fff8ec"; ctx.font = `700 ${fs}px Figtree, "Segoe UI", sans-serif`;
       ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 3;
       ctx.fillText(fitText(cap(String(opts[i])), R * 0.66), R - 16, 0);
       ctx.restore();
     }
-    ctx.beginPath(); ctx.arc(c, c, R, 0, TAU); ctx.strokeStyle = "#eab54d"; ctx.lineWidth = 5; ctx.stroke();
+    ctx.beginPath(); ctx.arc(c, c, R, 0, TAU); ctx.strokeStyle = ACC; ctx.lineWidth = 5; ctx.stroke();
     for (let i = 0; i < n; i++) {
       const ang = state.rotation + G.starts[i];
       ctx.beginPath(); ctx.arc(c + Math.cos(ang) * (R - 1), c + Math.sin(ang) * (R - 1), Math.max(2.5, R * 0.018), 0, TAU); ctx.fillStyle = "#fff1cf"; ctx.fill();
     }
     const hr = R * 0.15;
-    ctx.beginPath(); ctx.arc(c, c, hr, 0, TAU); ctx.fillStyle = "#130f26"; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = "#eab54d"; ctx.stroke();
-    ctx.fillStyle = "#eab54d"; ctx.font = `800 ${Math.max(10, hr * 0.42)}px Cinzel, Georgia, serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.beginPath(); ctx.arc(c, c, hr, 0, TAU); ctx.fillStyle = INK; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = ACC; ctx.stroke();
+    ctx.fillStyle = ACC; ctx.font = `800 ${Math.max(10, hr * 0.42)}px ${DISPLAY}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.fillText("FAITH", c, c + 1);
   }
   function segUnderPointer() {
@@ -1553,6 +1740,7 @@
   function landCat(i, v) {
     run.results[i] = v;
     const e = effCat(i), th = T();
+    if (/^gender$/i.test(e.base)) run.name = makeName();
     const f = th.follow && th.follow[e.base] && th.follow[e.base][v];
     if (f) run.subs[i] = { name: f[0], opts: f[1], value: null }; else delete run.subs[i];
     const say = th.lines[v] ? th.lines[v] : fill((th.say && (th.say[e.name] || th.say[e.base])) || (e.name + ": {v}."), { v });
@@ -1576,7 +1764,9 @@
     if (isComplete() && !run.awarded) {
       run.awarded = true;
       run.points += 2;
-      setNarr(run.name, `Character complete: ${fill(T().titleTpl)}. Your card is ready and you have 2 upgrade points. Begin the journey when you're ready.`);
+      if (run.name === "???") run.name = makeName();
+      run.epithet = makeEpithet();
+      setNarr(`${run.name}, ${run.epithet}`, `Character complete: ${fill(T().titleTpl)}. Your card is ready and you have 2 upgrade points. Begin the journey when you're ready.`);
       chime();
     }
   }
@@ -1627,7 +1817,7 @@
     const P = path();
     const bw = bestWorst();
     const talentLine = `Best talent: ${bw.best}. Weakest: ${bw.worst}.`;
-    logAdd("Prologue", fill(T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (P.tag ? " " + P.tag : ""));
+    logAdd("Prologue", fill(T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (run.epithet ? ` One day they'll be called ${run.epithet}.` : "") + (P.tag ? " " + P.tag : ""));
     setNarr("The journey begins", fill(T().prologue));
     persist(); render();
   }
@@ -1707,7 +1897,8 @@
       const seg = ew.segs[k];
       run.ending = seg.t; run.phase = "done";
       const rec = `Final record: ${run.w} win${run.w === 1 ? "" : "s"}, ${run.l} loss${run.l === 1 ? "" : "es"}${run.d ? `, ${run.d} draw${run.d > 1 ? "s" : ""}` : ""}.`;
-      const legacy = seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end.");
+      const legacy = (seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end."))
+        + (run.epithet ? ` History remembers them as ${run.name}, ${run.epithet}.` : "");
       logAdd(head, `${seg.t}.`, `${rec} ${legacy}`, !seg.good);
       setNarr(seg.t, `${rec} ${legacy}`);
       if (seg.good) chime([523, 659, 784, 1046, 1318]);
@@ -1756,8 +1947,10 @@
   }
 
   function addHistory() {
-    state.history.unshift({ seed: run.seed, name: run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null });
-    state.history = state.history.slice(0, 12);
+    const d = cardData();
+    d.mystery = false; d.note = ""; d.ai = run.ai ? (run.ai.card || run.ai.src) : null;
+    state.history.unshift({ seed: run.seed, name: run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null, card: d, log: run.log });
+    state.history = state.history.slice(0, 20);
   }
 
   function newCharacter(force) {
@@ -1781,7 +1974,7 @@
     baseCats().forEach((c, i) => {
       const v = run.results[i]; if (v == null) return;
       const e = effCat(i);
-      if (/personality/i.test(e.base)) return;
+      if (/personality|gender/i.test(e.base)) return;
       parts.push(`${e.name}: ${v}`);
       const s = run.subs[i]; if (s && s.value) parts.push(`${s.name}: ${s.value}`);
     });
@@ -1791,7 +1984,10 @@
     const P = path();
     const ending = run.ending ? `This is the final portrait at the end of their story. Their ending: ${run.ending}. Record: ${run.w} wins, ${run.l} losses. ` +
       `Show it in the mood and setting of that ending${P.tag ? " (they walked the villain or alternate path)" : ""}. ` : "";
-    return `Character portrait for a collectible trading card, head and shoulders, facing the viewer. ${th.style}. ${ending}` +
+    const who = isFemale()
+      ? "The character is FEMALE: a girl / young woman with a clearly feminine face and figure. Do not draw a man."
+      : "The character is MALE: a boy / young man with a clearly masculine face. Do not draw a woman.";
+    return `Character portrait for a collectible trading card, head and shoulders, facing the viewer. ${who} ${th.style}. ${th.sceneText ? "Background scene: " + th.sceneText + ". " : ""}${ending}` +
       `Hair: ${tv("Hair") || "any"}. Eyes: ${tv("Eyes") || "any"}. Expression that shows this personality: ${tv("Personality") || "confident"}. ` +
       `${parts.join(". ")}. ` +
       (run.awakened ? `Awakened form (${run.awakened}) with an intense glowing aura. ` : "") +
@@ -1841,10 +2037,11 @@
       const d = json.data[0];
       const src = d.b64_json ? `data:image/${/^gpt-image/.test(model) ? "jpeg" : "png"};base64,${d.b64_json}` : d.url;
       const full = await downscale(src, 640, 0.86);
+      const card = await downscale(src, 400, 0.82);
       const thumb = await downscale(src, 160, 0.8);
-      run.ai = { src: full, thumb }; run.showAI = true;
+      run.ai = { src: full, card, thumb }; run.showAI = true;
       const h = state.history.find((x) => x.seed === run.seed);
-      if (h) h.thumb = thumb;
+      if (h) { h.thumb = thumb; if (h.card) h.card.ai = card; }
       msg.textContent = "Final portrait ready.";
       persist();
     } catch (e) {
@@ -1855,8 +2052,10 @@
 
   // ================= render =================
   function render() {
-    if (run.results.length !== baseCats().length || run.talent.length !== T().stats.length || run.v !== 3) run = newRun();
+    if (run.results.length !== baseCats().length || run.talent.length !== T().stats.length || run.v !== 4) run = newRun();
     const busy = state.spinning || state.auto;
+    if (document.documentElement.dataset.series !== state.theme) document.documentElement.dataset.series = state.theme;
+    $("tagline").textContent = T().tagline || "Spin the wheels, accept your fate";
     if (!busy && state.winner === -1) state.wheel = upcomingWheel();
     renderPrompt(); renderButtons(busy); renderNarr(); renderCard(); renderUpgrades(); renderTraits(busy); renderStory(); renderEditor(); renderHistory();
     $("aiWhere").textContent = inClaude ? "You're viewing this inside claude.ai, which blocks outside services. AI portraits work when the page is opened from GitHub Pages or from index.html on your computer." : "Paste your own OpenAI API key. Each character gets one AI portrait, painted automatically when their story ends.";
@@ -1927,48 +2126,74 @@
     if (run.narrPop) { b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop"); run.narrPop = false; }
   }
 
-  function renderCard() {
+  function cardData() {
     const th = T(), complete = isComplete();
-    $("card").className = "tcard " + (complete ? rarity() : "common");
-    $("cName").textContent = run.name;
-    $("cTier").textContent = tierInfo().label;
-    const L = look();
-    drawCardArt();
-    const img = $("aiImg");
-    if (run.ai && run.showAI) { if (img.getAttribute("src") !== run.ai.src) img.src = run.ai.src; img.hidden = false; } else img.hidden = true;
-    $("cAura").textContent = tv(th.vis.aura) || "Unknown power";
-    $("artNote").textContent = run.phase !== "done" ? "Face revealed at the end of the journey" : state.aiBusy ? "Painting the final portrait…" : "";
-    $("artNote").hidden = !$("artNote").textContent;
-    const aw = $("cAwake"); aw.hidden = !run.awakened; aw.textContent = run.awakened || "";
-    $("cTitle").textContent = complete ? fill(th.titleTpl) : "A character still taking shape…";
-    const chips = $("cChips"); chips.innerHTML = "";
     const chipVals = [];
     th.chips.forEach((n) => { const v = tv(n); if (v) chipVals.push(cap(v)); });
-    Object.values(run.subs).forEach((s) => { if (s.value) chipVals.push(s.value); });
+    Object.values(run.subs).forEach((x) => { if (x.value) chipVals.push(x.value); });
     if (run.evolution) chipVals.push(run.evolution);
     if (run.companion) chipVals.push("Ally: " + run.companion);
     (run.items || []).forEach((x) => chipVals.push(x));
-    chipVals.slice(0, 9).forEach((v) => { const s = document.createElement("span"); s.className = "chip" + (v === run.evolution ? " new" : ""); s.textContent = v; chips.append(s); });
-    const st = $("cStats"); st.innerHTML = "";
     const vals = complete ? stats() : null;
-    statNames().forEach((name, k) => {
-      const l = document.createElement("span"); l.className = "sl"; l.textContent = name;
-      const bar = document.createElement("span"); bar.className = "bar";
-      const fillEl = document.createElement("i");
-      fillEl.style.width = vals ? vals[k] + "%" : "0%";
-      fillEl.style.background = `linear-gradient(90deg, ${shade(L.aura, -0.2)}, ${L.aura})`;
-      bar.append(fillEl);
-      const v = document.createElement("span"); v.className = "sv"; v.textContent = vals ? vals[k] : "?";
-      if (talentLabel(k)) { l.title = talentLabel(k); bar.title = talentLabel(k); }
-      st.append(l, bar, v);
-    });
-    $("cOverall").textContent = complete ? overall() : "??";
     const rec = [];
     if (run.phase !== "create") rec.push(`${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`);
-    if (run.injured) rec.push("Injured");
-    if (run.ally) rec.push("Ally ready");
+    if (run.phase === "journey" && run.injured) rec.push("Injured");
+    if (run.phase === "journey" && run.ally) rec.push("Ally ready");
     rec.push(cap(rarity()));
-    $("cRecord").textContent = complete ? rec.join(" · ") : `${slots().filter((x) => slotVal(x) != null).length} / ${slots().length} traits`;
+    const mystery = showMystery();
+    return {
+      seed: run.seed, theme: state.theme, themeLabel: th.label, name: run.name, epithet: run.epithet || "",
+      tier: tierInfo().label, rarity: complete ? rarity() : "common", aura: tv(th.vis.aura) || "Unknown power", awakened: run.awakened || "",
+      title: complete ? fill(th.titleTpl) : "A character still taking shape…", chips: chipVals.slice(0, 9), evolution: run.evolution || "",
+      stats: statNames().map((n, k) => [n, vals ? vals[k] : null, talentLabel(k) || ""]), overall: complete ? overall() : null,
+      record: complete ? rec.join(" · ") : `${slots().filter((x) => slotVal(x) != null).length} / ${slots().length} traits`,
+      look: look(), ai: run.ai && run.showAI && !mystery ? (run.ai.card || run.ai.src) : null, mystery,
+      note: run.phase !== "done" ? "Face revealed at the end of the journey" : state.aiBusy ? "Painting the final portrait…" : "",
+      ending: run.ending || ""
+    };
+  }
+  function mountCard(slot, d) {
+    slot.innerHTML = "";
+    const a = document.createElement("article");
+    a.className = "tcard " + (d.rarity || "common");
+    a.innerHTML = '<div class="tc-inner"><header class="tc-head"><div class="tc-names"><h2></h2><p class="tc-epi"></p></div><span class="tc-tier"></span></header>' +
+      '<div class="tc-art"><canvas></canvas><img alt="" hidden><span class="tc-badge"></span><span class="tc-awake" hidden></span><span class="tc-note" hidden></span></div>' +
+      '<p class="tc-title"></p><div class="tc-chips"></div><div class="tc-stats"></div><p class="tc-end" hidden></p>' +
+      '<div class="tc-foot"><div><span class="tc-ovl"></span><span class="tc-ovl-l">Overall</span></div><div class="tc-rec"></div></div><div class="tc-series"><span></span><span></span></div></div>';
+    const q = (sel) => a.querySelector(sel);
+    q("h2").textContent = d.name;
+    q(".tc-epi").textContent = d.epithet ? `“${cap(d.epithet)}”` : "";
+    q(".tc-epi").hidden = !d.epithet;
+    q(".tc-tier").textContent = d.tier || "";
+    q(".tc-badge").textContent = d.aura || "";
+    if (d.awakened) { q(".tc-awake").hidden = false; q(".tc-awake").textContent = d.awakened; }
+    if (d.note) { q(".tc-note").hidden = false; q(".tc-note").textContent = d.note; }
+    q(".tc-title").textContent = d.title || "";
+    (d.chips || []).forEach((v) => { const sp = document.createElement("span"); sp.className = "chip" + (v === d.evolution ? " new" : ""); sp.textContent = v; q(".tc-chips").append(sp); });
+    const aura = d.look ? d.look.aura : "#6a5acd";
+    (d.stats || []).forEach(([name, val, tierLabel]) => {
+      const l = document.createElement("span"); l.className = "sl"; l.textContent = name;
+      const bar = document.createElement("span"); bar.className = "bar";
+      const f = document.createElement("i"); f.style.width = val != null ? val + "%" : "0%"; f.style.background = `linear-gradient(90deg, ${shade(aura, -0.2)}, ${aura})`;
+      bar.append(f);
+      const v = document.createElement("span"); v.className = "sv"; v.textContent = val != null ? val : "?";
+      if (tierLabel) { l.title = tierLabel; bar.title = tierLabel; }
+      q(".tc-stats").append(l, bar, v);
+    });
+    if (d.ending) { q(".tc-end").hidden = false; q(".tc-end").textContent = "Ending: " + d.ending; }
+    q(".tc-ovl").textContent = d.overall != null ? d.overall : "??";
+    q(".tc-rec").textContent = d.record || "";
+    const ser = q(".tc-series").children;
+    ser[0].textContent = d.themeLabel || ""; ser[1].textContent = "No. " + String((d.seed || 0) % 10000).padStart(4, "0");
+    slot.append(a);
+    const cvs = q("canvas");
+    if (d.look) { if (d.mystery) drawMystery(cvs, d.look); else drawPortrait(cvs, d.look); }
+    if (d.ai) { const im = q("img"); im.src = d.ai; im.alt = "Portrait of " + d.name; im.hidden = false; }
+    return a;
+  }
+  function renderCard() {
+    mountCard($("cardSlot"), cardData());
+    $("saveCard").hidden = run.phase !== "done";
   }
 
   function renderUpgrades() {
@@ -2059,21 +2284,75 @@
   function renderHistory() {
     $("historySec").hidden = state.history.length === 0;
     const ul = $("history"); ul.innerHTML = "";
-    state.history.forEach((h) => {
+    state.history.forEach((h, idx) => {
       const li = document.createElement("li");
+      li.tabIndex = 0; li.setAttribute("role", "button"); li.setAttribute("aria-label", "Open card for " + h.name);
+      li.addEventListener("click", () => openCard(idx));
+      li.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCard(idx); } });
       const th = document.createElement("div"); th.className = "thumb";
       if (h.thumb) { const im = document.createElement("img"); im.src = h.thumb; im.alt = ""; th.append(im); }
       else if (h.look) { const c = document.createElement("canvas"); th.append(c); drawPortrait(c, h.look, 64); }
       const txt = document.createElement("div"); txt.style.minWidth = "0";
-      const s = document.createElement("strong"); s.textContent = h.name;
+      const s = document.createElement("strong"); s.textContent = h.name + (h.card && h.card.epithet ? `, ${h.card.epithet}` : "");
       const a = document.createElement("span"); a.textContent = `${h.theme} · ${h.tier} · Overall ${h.overall}`;
       const b = document.createElement("span"); b.textContent = h.ending || "";
       txt.append(s, a, b); li.append(th, txt); ul.append(li);
     });
   }
 
+  // ---------- popup for a past card ----------
+  let lastFocus = null;
+  function openCard(idx) {
+    const h = state.history[idx]; if (!h) return;
+    const key = Object.keys(THEMES).find((k) => THEMES[k].label === h.theme) || state.theme;
+    const d = h.card || { seed: h.seed, theme: key, themeLabel: h.theme, name: h.name, tier: h.tier, rarity: "common", aura: "", title: "", chips: [], stats: [], overall: h.overall, record: "", look: h.look, ai: null, mystery: false, ending: h.ending };
+    if (d.look && !d.look.scene) d.look.scene = key;
+    $("modalBox").dataset.series = key;
+    $("modalSeries").textContent = h.theme;
+    $("modalTitle").textContent = h.name + (d.epithet ? `, ${d.epithet}` : "");
+    $("modalMeta").textContent = `${d.tier || ""} · Overall ${h.overall} · ${d.record || ""}`.replace(/ · $/, "");
+    $("modalMsg").textContent = "";
+    const story = $("modalStory"); story.innerHTML = "";
+    (h.log || []).forEach((ch) => {
+      const hh = document.createElement("h3"); hh.textContent = ch.h; story.append(hh);
+      ch.p.forEach((p) => { const e = document.createElement("p"); e.textContent = p.t + (p.fx ? " " + p.fx : ""); story.append(e); });
+    });
+    if (!h.log) { const e = document.createElement("p"); e.className = "note"; e.textContent = "This card was saved before stories were kept."; story.append(e); }
+    lastFocus = document.activeElement;
+    $("modal").hidden = false;
+    mountCard($("modalCard"), d);
+    $("modalSave").onclick = () => saveCardImage($("modalCard").querySelector(".tcard"), h.name, $("modalMsg"));
+    $("modalClose").focus();
+  }
+  function closeModal() { $("modal").hidden = true; $("modalCard").innerHTML = ""; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+
+  // ---------- save a card as a PNG ----------
+  async function saveCardImage(el, name, msgEl) {
+    if (!el) return;
+    if (!window.html2canvas) { msgEl.textContent = "The image tool didn't load. Check your connection and reload."; return; }
+    msgEl.textContent = "Rendering the card…";
+    try {
+      const canvas = await window.html2canvas(el, { backgroundColor: null, scale: 2, useCORS: true, logging: false });
+      const blob = await new Promise((r) => canvas.toBlob(r, "image/png"));
+      const filename = (name || "card").replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase() + "-card.png";
+      const dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+      if (dl) {
+        try { await dl.save({ filename, data: blob }); msgEl.textContent = "Saved."; }
+        catch (e) { msgEl.textContent = e && e.code === "declined" ? "Save cancelled." : e && e.code === "rate_limited" ? "A save prompt is already open." : "Saving isn't available here."; }
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a"); link.href = url; link.download = filename;
+      document.body.append(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      msgEl.textContent = "Saved to your downloads.";
+    } catch (e) {
+      msgEl.textContent = "Couldn't render the card image.";
+    }
+  }
+
   function characterText() {
-    const lines = [run.name];
+    const lines = [run.name + (run.epithet ? `, ${run.epithet}` : "")];
     if (isComplete()) lines.push(fill(T().titleTpl));
     lines.push("");
     slots().forEach((s) => { const v = slotVal(s); lines.push(`${slotWheel(s).title}: ${v == null ? "?" : v}`); });
@@ -2104,9 +2383,13 @@
   $("primary").addEventListener("click", primary);
   $("spinAll").addEventListener("click", () => { ensureAudio(); state.winner = -1; spinAll(); });
   $("newChar").addEventListener("click", () => newCharacter(false));
-  $("rename").addEventListener("click", () => { const th = T(); run.name = pick(th.first) + " " + pick(th.last); persist(); render(); });
+  $("rename").addEventListener("click", () => { run.name = makeName(true); persist(); render(); });
   $("rerollLimit").addEventListener("change", () => { state.rerollLimit = Number($("rerollLimit").value); persist(); render(); });
   $("aiGen").addEventListener("click", genAI);
+  $("saveCard").addEventListener("click", () => saveCardImage($("cardSlot").querySelector(".tcard"), run.name, $("aiMsg")));
+  $("modalClose").addEventListener("click", closeModal);
+  $("modal").addEventListener("click", (e) => { if (e.target === $("modal")) closeModal(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("modal").hidden) closeModal(); });
   $("artToggle").addEventListener("click", () => { run.showAI = !run.showAI; persist(); render(); });
 
   $("aiKey").value = state.ai.key; $("aiModel").value = state.ai.model; $("aiQuality").value = state.ai.quality;
@@ -2166,12 +2449,13 @@
   // ================= boot =================
   try {
     const r = JSON.parse(localStorage.getItem(RUNSTORE));
-    if (r && r.theme === state.theme && Array.isArray(r.results) && r.results.length === baseCats().length && r.subs && r.hidden && r.narr && Array.isArray(r.talent) && r.talent.length === T().stats.length && r.bonus.length === T().stats.length && r.v === 3) run = r;
+    if (r && r.theme === state.theme && Array.isArray(r.results) && r.results.length === baseCats().length && r.subs && r.hidden && r.narr && Array.isArray(r.talent) && r.talent.length === T().stats.length && r.bonus.length === T().stats.length && r.v === 4) run = r;
   } catch (e) { /* no saved run */ }
   if (!run) run = newRun();
 
-  if (window.ResizeObserver) { new ResizeObserver(() => drawWheel()).observe(cv); new ResizeObserver(() => drawCardArt()).observe($("portrait")); }
-  else window.addEventListener("resize", () => { drawWheel(); drawCardArt(); });
+  if (window.ResizeObserver) new ResizeObserver(() => drawWheel()).observe(cv);
+  let resizeT = 0;
+  window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(() => { if (!state.spinning) renderCard(); drawWheel(); }, 150); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWheel);
 
   fillEditForm();
