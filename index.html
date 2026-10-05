@@ -106,7 +106,7 @@
   .tc-chips { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 12px 0; }
   .chip { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); color: var(--fg); }
   .chip.new { border-color: var(--good); }
-  .tc-stats { display: grid; grid-template-columns: auto minmax(0, 1fr) 2.2em; gap: 5px 10px; align-items: center; padding: 10px 12px 4px; font-variant-numeric: tabular-nums; }
+  .tc-stats { display: grid; grid-template-columns: auto minmax(0, 1fr) 2.4em; gap: 5px 10px; align-items: center; padding: 10px 12px 4px; font-variant-numeric: tabular-nums; }
   .tc-stats .sl { font-family: var(--label); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: 12px; color: var(--muted); white-space: nowrap; }
   .tc-stats .bar { height: 7px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
   .tc-stats .bar i { display: block; height: 100%; border-radius: 99px; transition: width .5s ease; }
@@ -126,6 +126,7 @@
   .trait:first-child { border-top: none; }
   .trait.sub .k { padding-left: 12px; color: var(--good); }
   .trait.hid .k { opacity: .75; }
+  .trait.tal .v { color: var(--gold); }
   .trait.current { background: var(--gold-soft); }
   .trait .k { font-family: var(--label); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
   .trait .v { font-weight: 700; overflow-wrap: anywhere; }
@@ -348,7 +349,7 @@
     style: "shonen anime key art in the style of Black Clover, magic knight robe, a grimoire floating beside them",
     first: ["Riven", "Talia", "Fenn", "Corvina", "Oswin", "Elda", "Brann", "Seline", "Wilhelm", "Noa", "Gideon", "Ysolde", "Kai", "Lir"],
     last: ["Ashgrove", "Silvaris", "Thornecrest", "Kirsch", "Valcourt", "Grimmel", "Eckhart", "Rosenwald", "Faust", "Lindqvist"],
-    stats: ["Mana", "Magic", "Physique", "Speed", "Grit"],
+    stats: ["Mana", "Spell mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
       ["Origin", ["Hage village", "a noble house", "the royal capital", "the Forsaken Realm", "the Witches' Forest", "the Spade Kingdom", "the Heart Kingdom", "the Diamond Kingdom"]],
       ["Magic", ["Fire", "Water", "Wind", "Lightning", "Shadow", "Light", "Spatial", "Blood", "Thorn", "Sealing", "Star", "Anti Magic"]],
@@ -413,8 +414,8 @@
         late: [["Dark Triad general", 66], ["Spade Kingdom Dark Disciple", 62], ["Possessed captain", 70], ["Reincarnated elf legend", 64], ["Rampaging mid-rank devil", 68]],
         boss: [["Dante of the Dark Triad", 86], ["Megicula", 90], ["Lucifero", 97], ["Your own grimoire's devil", 80], ["The elf king Patry", 84]]
       },
-      training: [["Mana Zone training with a captain", { s: 0, v: 8 }], ["Ki reading in the Heart Kingdom", { s: 3, v: 8 }], ["Muscle training with the Black Bulls", { s: 2, v: 10 }], ["Studied forbidden spell pages", { s: 1, v: 9 }], ["Survived a month in the Forsaken Realm", { s: 4, v: 10 }], ["Learned a brand-new spell", { all: 3 }], ["Slacked off and ate a lot", { pts: 2 }]],
-      twists: [["Your captain vouches for you in front of the Wizard King", { ally: true }], ["The Wizard King notices you", { pts: 2 }], ["Your grimoire grows a new page", { s: 1, v: 10 }], ["Your best friend betrays the kingdom", { s: 4, v: 8 }], ["A devil whispers an offer, and you take it", { all: 6, inj: true }], ["Kidnapped by the Eye of the Midnight Sun", { inj: true, pts: 1 }], ["A witch lifts a curse on you", { heal: true, all: 2 }]],
+      training: [["Mana Zone training with a captain", { s: 0, v: 8 }], ["Ki reading in the Heart Kingdom", { s: 4, v: 8 }], ["Muscle training with the Black Bulls", { s: 3, v: 10 }], ["Studied forbidden spell pages", { s: 1, v: 9 }], ["Sword drills with the Black Bulls", { s: 2, v: 10 }], ["Survived a month in the Forsaken Realm", { s: 5, v: 10 }], ["Learned a brand-new spell", { all: 3 }], ["Slacked off and ate a lot", { pts: 2 }]],
+      twists: [["Your captain vouches for you in front of the Wizard King", { ally: true }], ["The Wizard King notices you", { pts: 2 }], ["Your grimoire grows a new page", { s: 1, v: 10 }], ["Your best friend betrays the kingdom", { s: 5, v: 8 }], ["A devil whispers an offer, and you take it", { all: 6, inj: true }], ["Kidnapped by the Eye of the Midnight Sun", { inj: true, pts: 1 }], ["A witch lifts a curse on you", { heal: true, all: 2 }]],
       endings: { good: ["Becomes the Wizard King", "Captain of their own squad", "Saves the kingdom and goes home a hero", "Seals the devil for good"], bad: ["Swallowed by their devil", "Exiled to the Forsaken Realm", "Falls in the final war", "Defects to the Spade Kingdom"] }
     },
     paths: {
@@ -448,7 +449,7 @@
     style: "modern dark shonen anime key art in the style of Jujutsu Kaisen, school uniform, swirling cursed energy",
     first: ["Yuto", "Mahiro", "Kenji", "Saki", "Riko", "Daichi", "Hotaru", "Jun", "Sena", "Ryuji", "Kanna", "Tetsu", "Mio", "Haru"],
     last: ["Kurosawa", "Ichinose", "Amagi", "Morita", "Hanazawa", "Shiba", "Kirishima", "Tachibana", "Onodera", "Kagami"],
-    stats: ["Cursed energy", "Technique", "Strength", "Speed", "Durability"],
+    stats: ["Cursed energy", "Technique mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
       ["Origin", ["Tokyo Jujutsu High", "Kyoto Jujutsu High", "the Gojo clan", "the Zenin clan", "the Kamo clan", "a curse user cult", "an ordinary family", "the Culling Game"]],
       ["Cursed technique", ["Ten Shadows", "Cursed Speech", "Blood Manipulation", "Straw Doll", "Boogie Woogie", "Idle Transfiguration", "Ratio", "Projection Sorcery", "Construction", "Disaster Flames", "Comedian", "Heavenly Restriction"]],
@@ -511,8 +512,8 @@
         late: [["Special Grade cursed spirit", 68], ["Army of transfigured humans", 58], ["Death Painting womb", 62], ["Curse user with a domain", 66], ["Culling Game player", 64]],
         boss: [["Sukuna, all twenty fingers", 98], ["Kenjaku", 90], ["Mahoraga", 88], ["A Special Grade curse born from fear", 82]]
       },
-      training: [["Movie marathon while keeping cursed energy steady", { s: 0, v: 9 }], ["Sparring with Panda", { s: 2, v: 9 }], ["Learned Reverse Cursed Technique", { heal: true, s: 4, v: 8 }], ["Studied barrier techniques", { s: 1, v: 10 }], ["Speed drills against shikigami", { s: 3, v: 10 }], ["Made a new binding vow", { all: 4 }], ["Got dragged onto a mission instead", { pts: 2 }]],
-      twists: [["A Special Grade teacher takes an interest in you", { ally: true }], ["Your binding vow pays off", { all: 5 }], ["You lose an arm", { inj: true, s: 2, v: -6 }], ["You swallow a cursed finger", { all: 8, inj: true }], ["The higher-ups sentence you to death", { pts: 2 }], ["Your friend is transfigured in front of you", { s: 4, v: 10 }], ["You awaken an innate domain", { s: 1, v: 12 }]],
+      training: [["Movie marathon while keeping cursed energy steady", { s: 0, v: 9 }], ["Sparring with Panda", { s: 3, v: 9 }], ["Learned Reverse Cursed Technique", { heal: true, s: 4, v: 8 }], ["Studied barrier techniques", { s: 1, v: 10 }], ["Cursed tool drills with Maki", { s: 2, v: 10 }], ["Speed drills against shikigami", { s: 4, v: 10 }], ["Made a new binding vow", { all: 4 }], ["Got dragged onto a mission instead", { pts: 2 }]],
+      twists: [["A Special Grade teacher takes an interest in you", { ally: true }], ["Your binding vow pays off", { all: 5 }], ["You lose an arm", { inj: true, s: 2, v: -6 }], ["You swallow a cursed finger", { all: 8, inj: true }], ["The higher-ups sentence you to death", { pts: 2 }], ["Your friend is transfigured in front of you", { s: 1, v: 10 }], ["You awaken an innate domain", { s: 1, v: 12 }]],
       endings: { good: ["Becomes the strongest sorcerer alive", "Teaches the next generation at Jujutsu High", "Exorcises the King of Curses", "Retires and lives quietly in Sendai"], bad: ["Becomes a vessel", "Executed by the higher-ups", "Dies in Shibuya", "Turns curse user"] }
     },
     paths: {
@@ -547,7 +548,7 @@
     style: "anime key art in the style of Hunter x Hunter (2011), visible nen aura outline",
     first: ["Pell", "Zane", "Kira", "Oto", "Lucca", "Nara", "Gen", "Sirka", "Tovi", "Elle", "Rook", "Ina", "Yasha", "Milo"],
     last: ["Vanholt", "Drey", "Kessel", "Morrow", "Halvard", "Quill", "Sarrow", "Ibarra", "Okon", "Vey"],
-    stats: ["Aura", "Hatsu", "Strength", "Speed", "Wits"],
+    stats: ["Aura", "Nen mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
       ["Origin", ["Whale Island", "Meteor City", "the Zoldyck estate", "the Kurta clan", "Yorknew City", "the NGL jungle", "the Kakin royal family", "Heavens Arena"]],
       ["Nen type", ["Enhancer", "Transmuter", "Emitter", "Conjurer", "Manipulator", "Specialist"]],
@@ -606,8 +607,8 @@
         late: [["Phantom Troupe member", 66], ["Chimera Ant squadron leader", 62], ["Zoldyck assassin", 68], ["Rogue Zodiac", 70], ["Kakin prince's guardian spirit", 64]],
         boss: [["Meruem", 99], ["Chrollo", 86], ["Hisoka", 82], ["Neferpitou", 84], ["Netero at his peak", 92]]
       },
-      training: [["Ten, Zetsu, Ren, Hatsu drills", { s: 0, v: 9 }], ["Climbed Heavens Arena floors", { s: 2, v: 9 }], ["Rock-splitting focus training", { s: 1, v: 10 }], ["Speed training on Greed Island", { s: 3, v: 10 }], ["Studied every opponent's tells", { s: 4, v: 10 }], ["Mastered Gyo and In", { all: 4 }], ["Gambled away every Jenny", { pts: 2 }]],
-      twists: [["A Double-star Hunter becomes your mentor", { ally: true }], ["Your restriction tightens: more power, more risk", { s: 1, v: 12, inj: true }], ["The Phantom Troupe hunts you", { inj: true, pts: 2 }], ["A Greed Island card heals you", { heal: true, all: 2 }], ["Your rival saves your life", { ally: true, pts: 1 }], ["The Zoldycks take you in", { s: 3, v: 10 }], ["Your Hatsu evolves on its own", { s: 1, v: 10 }]],
+      training: [["Ten, Zetsu, Ren, Hatsu drills", { s: 0, v: 9 }], ["Climbed Heavens Arena floors", { s: 3, v: 9 }], ["Rock-splitting focus training", { s: 1, v: 10 }], ["Speed training on Greed Island", { s: 4, v: 10 }], ["Studied every opponent's tells", { s: 5, v: 10 }], ["Weapon drills in the Zoldyck training room", { s: 2, v: 10 }], ["Mastered Gyo and In", { all: 4 }], ["Gambled away every Jenny", { pts: 2 }]],
+      twists: [["A Double-star Hunter becomes your mentor", { ally: true }], ["Your restriction tightens: more power, more risk", { s: 1, v: 12, inj: true }], ["The Phantom Troupe hunts you", { inj: true, pts: 2 }], ["A Greed Island card heals you", { heal: true, all: 2 }], ["Your rival saves your life", { ally: true, pts: 1 }], ["The Zoldycks take you in", { s: 4, v: 10 }], ["Your Hatsu evolves on its own", { s: 1, v: 10 }]],
       endings: { good: ["Becomes a Triple-star Hunter", "Finds the person they were searching for", "Joins the Zodiacs", "Leads an expedition to the Dark Continent"], bad: ["Burned out by their own restriction", "Recruited by the Phantom Troupe", "Lost on the Dark Continent", "Reborn as a Chimera Ant"] }
     },
     paths: {
@@ -640,11 +641,11 @@
     style: "anime key art in the style of One Piece, pirate adventure, ocean wind and sunlight",
     first: ["Kiro", "Sable", "Dex", "Marlo", "Tess", "Grit", "Ozzie", "Rhea", "Juno", "Brick", "Lua", "Cass", "Rocco", "Vera"],
     last: ["D. Raye", "Blackwater", "Saltmane", "Corsa", "Ironhook", "Tidewell", "Marrow", "Gale", "Fang", "Sunder"],
-    stats: ["Strength", "Haki", "Fruit mastery", "Speed", "Willpower"],
+    stats: ["Haki", "Fruit mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
       ["Race", ["Human", "Human", "Fish-man", "Mink", "Giant", "Long-arm tribe", "Skypiean", "Lunarian"]],
       ["Devil fruit", ["No fruit", "Paramecia: Rubber", "Paramecia: String", "Paramecia: Barrier", "Logia: Flame", "Logia: Ice", "Logia: Lightning", "Logia: Magma", "Zoan: Wolf", "Mythical Zoan", "Ancient Zoan"]],
-      ["Haki", ["None yet", "Observation", "Armament", "Observation and Armament", "Conqueror's", "All three"]],
+      ["Haki type", ["None yet", "Observation", "Armament", "Observation and Armament", "Conqueror's", "All three"]],
       ["Affiliation", ["Pirate crew", "Pirate crew", "Marines", "Revolutionary Army", "Cross Guild", "Bounty hunter", "Celestial Dragon runaway"]],
       ["Personality", PERS],
       ["Bounty", ["0 berries", "30 million", "300 million", "1 billion", "3 billion", "5 billion, Emperor level"]]
@@ -656,7 +657,7 @@
       ["Dream", ["find the One Piece", "draw a map of the whole world", "find the All Blue", "become the world's greatest swordsman", "free every slave", "topple the World Government"]],
       ["Hair", HAIR], ["Eyes", EYES]
     ],
-    say: { Race: "Race: {v}.", "Devil fruit": "Devil Fruit: {v}.", Haki: "Haki: {v|lower}.", Affiliation: "They sail with: {v}.", Personality: "Personality: {v|lower}.", Bounty: "Bounty: {v}.", "Marine rank": "Marine rank: {v}." },
+    say: { Race: "Race: {v}.", "Devil fruit": "Devil Fruit: {v}.", "Haki type": "Haki: {v|lower}.", Affiliation: "They sail with: {v}.", Personality: "Personality: {v|lower}.", Bounty: "Bounty: {v}.", "Marine rank": "Marine rank: {v}." },
     lines: {
       "Lunarian": "A Lunarian. Supposedly extinct.",
       "All three": "All three kinds of Haki. The sea itself notices.",
@@ -678,7 +679,7 @@
         "Ancient Zoan": ["Dinosaur", ["T-Rex", "Spinosaurus", "Triceratops", "Pteranodon"]],
         "Zoan: Wolf": ["Wolf model", ["Gray wolf", "Dire wolf", "Hellhound"]]
       },
-      Haki: { "Conqueror's": ["First Conqueror's moment", ["Knocked out a crowd at age five", "Stopped a Sea King cold", "Cracked the sky in a clash"]] },
+      "Haki type": { "Conqueror's": ["First Conqueror's moment", ["Knocked out a crowd at age five", "Stopped a Sea King cold", "Cracked the sky in a clash"]] },
       Affiliation: {
         "Marines": ["Marine post", ["G-5 rough unit", "SWORD covert unit", "Navy HQ", "An admiral's aide"]],
         "Pirate crew": ["Crew status", ["Captain of their own crew", "First mate", "New recruit", "Stowaway"]],
@@ -693,10 +694,11 @@
       { when: ["Race", "Lunarian"], cat: "Devil fruit", opts: ["No fruit", "Ancient Zoan", "Logia: Flame"] }
     ],
     vis: { tier: "Bounty", aura: "Devil fruit", costume: "Affiliation", race: "Race" },
+    statAdapt: [{ when: ["Devil fruit", "No fruit"], stat: 1, name: "Six Powers", tiers: ["Never trained", "Basic Soru", "Soru and Geppo", "Tekkai", "Shigan", "Rankyaku", "All six", "Rokuogan", "Doriki 4000+", "Beyond Doriki"] }],
     move: "{Devil fruit}",
-    prologue: "{name} set out from {Sea}: {Race|a|lower} with {Haki|lower} for Haki and {Devil fruit} for a Devil Fruit. They joined up with the {Affiliation} as their {Role}, fighting with {Weapon}. {first} is {Personality|lower}, and swore to {Dream}. On the board: {Bounty}.",
+    prologue: "{name} set out from {Sea}: {Race|a|lower} with {Haki type|lower} for Haki and {Devil fruit} for a Devil Fruit. They joined up with the {Affiliation} as their {Role}, fighting with {Weapon}. {first} is {Personality|lower}, and swore to {Dream}. On the board: {Bounty}.",
     titleTpl: "{Race} of the {Affiliation}",
-    chips: ["Devil fruit", "Haki"],
+    chips: ["Devil fruit", "Haki type"],
     pathCat: "Affiliation",
     journey: {
       chapters: ["First bounty", "Training arc", "Entering the Grand Line", "Power evolution", "Twist of fate", "The Paramount War", "Final battle", "Epilogue"],
@@ -706,8 +708,8 @@
         late: [["Admiral", 78], ["Emperor's commander", 70], ["Warlord", 66], ["Seraphim", 72], ["CP0 agent", 64]],
         boss: [["Kaido", 95], ["Blackbeard", 94], ["Akainu", 90], ["Big Mom", 92], ["Imu", 99]]
       },
-      training: [["Two years on a deserted island", { s: 0, v: 10 }], ["Haki training with Rayleigh", { s: 1, v: 10 }], ["Pushed their Devil Fruit to its limit", { s: 2, v: 10 }], ["Geppo and Soru drills", { s: 3, v: 10 }], ["Survived Impel Down", { s: 4, v: 10 }], ["Feasted with the crew", { heal: true, all: 2 }], ["Got lost at sea for a month", { pts: 2 }]],
-      twists: [["An Emperor's crew takes you under their wing", { ally: true }], ["Your bounty jumps overnight", { pts: 2 }], ["Captured and thrown in Impel Down", { inj: true, s: 4, v: 6 }], ["You find a mythical Devil Fruit", { all: 6 }], ["A crewmate sells you out to the Marines", { inj: true, pts: 1 }], ["You awaken Conqueror's Haki", { s: 1, v: 12 }], ["Sabaody: the crew is scattered", { s: 2, v: 6 }]],
+      training: [["Two years on a deserted island", { s: 3, v: 10 }], ["Haki training with Rayleigh", { s: 0, v: 10 }], ["Pushed their Devil Fruit to its limit", { s: 1, v: 10 }], ["Geppo and Soru drills", { s: 4, v: 10 }], ["Sword training on a haunted island", { s: 2, v: 10 }], ["Survived Impel Down", { s: 0, v: 10 }], ["Feasted with the crew", { heal: true, all: 2 }], ["Got lost at sea for a month", { pts: 2 }]],
+      twists: [["An Emperor's crew takes you under their wing", { ally: true }], ["Your bounty jumps overnight", { pts: 2 }], ["Captured and thrown in Impel Down", { inj: true, s: 4, v: 6 }], ["You find a mythical Devil Fruit", { all: 6 }], ["A crewmate sells you out to the Marines", { inj: true, pts: 1 }], ["You awaken Conqueror's Haki", { s: 0, v: 12 }], ["Sabaody: the crew is scattered", { s: 1, v: 6 }]],
       endings: { good: ["Becomes King of the Pirates", "A new Emperor of the Sea", "Achieves their dream", "Retires to a quiet island with a legendary bounty"], bad: ["Executed in public", "Locked in Impel Down Level 6", "Sunk at sea", "Captured and made a Marine dog"] }
     },
     paths: {
@@ -741,7 +743,7 @@
     style: "high fantasy anime illustration, adventurer gear, magical light",
     first: ["Aldric", "Seraphine", "Thorne", "Isolde", "Corvin", "Lyra", "Bram", "Elowen", "Kael", "Maren", "Orrin", "Vesper", "Wren", "Darian"],
     last: ["Ashveil", "Stormborn", "of the Hollow Oak", "Blackthorn", "Dawnbringer", "Grimward", "Silverbrook", "Ironhand", "the Unbound", "Nightbloom"],
-    stats: ["Strength", "Agility", "Arcana", "Vitality", "Charisma"],
+    stats: ["Arcana", "Spell mastery", "Weapon skill", "Strength", "Agility", "IQ"],
     cats: [
       ["Race", ["Human", "Elf", "Dwarf", "Orc", "Tiefling", "Dragonborn", "Fae", "Undead", "Demigod", "Fallen god"]],
       ["Class", ["Warrior", "Mage", "Rogue", "Cleric", "Ranger", "Paladin", "Necromancer", "Bard", "Druid", "Warlock"]],
@@ -804,8 +806,8 @@
         late: [["Vampire lord", 68], ["Elder dragon's herald", 64], ["Demon general", 70], ["Archmage gone rogue", 66]],
         boss: [["The Dark Lord", 92], ["Ancient red dragon", 95], ["The Lich King", 90], ["A god of chaos", 98], ["Your corrupted twin", 80]]
       },
-      training: [["Trained under an old swordmaster", { s: 0, v: 10 }], ["Thieves' guild drills", { s: 1, v: 10 }], ["A season in the arcane library", { s: 2, v: 10 }], ["Hardened in the northern wastes", { s: 3, v: 10 }], ["Played taverns for coin", { s: 4, v: 10 }], ["Found a magic item", { all: 4 }], ["Spent the month drinking", { pts: 2 }]],
-      twists: [["A legendary knight joins your party", { ally: true }], ["Your companion is captured", { inj: true, pts: 2 }], ["Cursed by a witch", { inj: true, s: 2, v: 8 }], ["You find a legendary weapon", { s: 0, v: 12 }], ["The party bard betrays you", { s: 4, v: -5, pts: 2 }], ["A temple heals and blesses you", { heal: true, all: 3 }], ["You stumble into a dragon's hoard", { pts: 3 }]],
+      training: [["Trained under an old swordmaster", { s: 2, v: 10 }], ["Thieves' guild drills", { s: 4, v: 10 }], ["A season in the arcane library", { s: 0, v: 10 }], ["Hardened in the northern wastes", { s: 3, v: 10 }], ["Played taverns for coin", { s: 5, v: 10 }], ["Found a magic item", { all: 4 }], ["Spent the month drinking", { pts: 2 }]],
+      twists: [["A legendary knight joins your party", { ally: true }], ["Your companion is captured", { inj: true, pts: 2 }], ["Cursed by a witch", { inj: true, s: 2, v: 8 }], ["You find a legendary weapon", { s: 2, v: 12 }], ["The party bard betrays you", { s: 5, v: -5, pts: 2 }], ["A temple heals and blesses you", { heal: true, all: 3 }], ["You stumble into a dragon's hoard", { pts: 3 }]],
       endings: { good: ["Slays the dragon and is sung about forever", "Crowned ruler of the realm", "Founds a legendary guild", "Ascends to the heavens"], bad: ["Becomes the next Dark Lord", "Lost to the void", "Dies in a tavern brawl", "Turned to stone by a basilisk"] }
     },
     paths: {},
@@ -838,7 +840,7 @@
     style: "comic book meets anime superhero illustration, dynamic pose, city skyline behind",
     first: ["Nova", "Jett", "Max", "Riley", "Dana", "Theo", "Sasha", "Leo", "Iris", "Cole", "Zara", "Miles"],
     last: ["Vance", "Storm", "Cross", "Blake", "Rivera", "Okafor", "Chen", "Hale", "Moreau", "Kade"],
-    stats: ["Power", "Speed", "Intellect", "Durability", "Willpower"],
+    stats: ["Raw power", "Power control", "Gadgets & weapons", "Strength", "Speed", "IQ"],
     cats: [
       ["Archetype", ["Hero", "Hero", "Villain", "Anti-hero", "Vigilante", "Sidekick", "Mercenary"]],
       ["Power", ["Super strength", "Flight", "Telekinesis", "Super speed", "Invisibility", "Shapeshifting", "Mind control", "Energy blasts", "Healing factor", "Tech genius", "Size shifting", "Duplication"]],
@@ -893,8 +895,8 @@
         late: [["Alien warlord's general", 66], ["Shadow government super-soldier", 64], ["Villain league boss", 70], ["Your evil clone", 62]],
         boss: [["The Alien Warlord", 94], ["The mad scientist in a mech", 86], ["Your nemesis, fully powered", 90], ["A cosmic entity", 99]]
       },
-      training: [["Danger room simulations", { s: 0, v: 10 }], ["Speed trials on the highway", { s: 1, v: 10 }], ["Night classes in engineering", { s: 2, v: 10 }], ["Took hits from a tank", { s: 3, v: 10 }], ["Therapy", { s: 4, v: 12 }], ["New suit upgrade", { all: 4 }], ["Spent the week on social media", { pts: 2 }]],
-      twists: [["A legendary hero mentors you", { ally: true }], ["Your secret identity leaks", { inj: true, pts: 2 }], ["Power overload: stronger, but unstable", { all: 6, inj: true }], ["Your sidekick saves the day", { ally: true }], ["The government drafts you", { s: 2, v: 8 }], ["A mysterious stranger heals you", { heal: true, all: 2 }], ["Your nemesis kidnaps someone you love", { s: 4, v: 10 }]],
+      training: [["Danger room simulations", { s: 0, v: 10 }], ["Gadget lab all-nighter", { s: 2, v: 10 }], ["Speed trials on the highway", { s: 4, v: 10 }], ["Night classes in engineering", { s: 5, v: 10 }], ["Took hits from a tank", { s: 3, v: 10 }], ["Therapy", { s: 1, v: 12 }], ["New suit upgrade", { all: 4 }], ["Spent the week on social media", { pts: 2 }]],
+      twists: [["A legendary hero mentors you", { ally: true }], ["Your secret identity leaks", { inj: true, pts: 2 }], ["Power overload: stronger, but unstable", { all: 6, inj: true }], ["Your sidekick saves the day", { ally: true }], ["The government drafts you", { s: 3, v: 8 }], ["A mysterious stranger heals you", { heal: true, all: 2 }], ["Your nemesis kidnaps someone you love", { s: 1, v: 10 }]],
       endings: { good: ["Saves the world and gets a statue", "Leads the greatest hero team ever", "Hangs up the cape as a legend", "Becomes Earth's guardian among the stars"], bad: ["Becomes the villain", "Unmasked on live TV and disgraced", "Lost in another dimension", "Dies, and stays dead"] }
     },
     paths: {
@@ -923,6 +925,52 @@
   };
 
   // ================= constants =================
+  // talent ladders: 10 tiers per stat, weakest first. Keyed by the series' stat name.
+  const TIERS = {
+    "IQ": ["Can't count to ten", "Easily fooled", "Street smart", "Average", "Quick learner", "Honor student", "Battle tactician", "Strategic genius", "Mastermind", "Ten moves ahead"],
+    "Strength": ["Weaker than a child", "Noodle arms", "Average", "Gym regular", "Lifts cars", "Shatters boulders", "Levels buildings", "Splits mountains", "Shakes the earth", "Planet-cracker"],
+    "Speed": ["Slow walker", "Average jogger", "Track star", "Faster than the eye", "Outruns cars", "Breaks the sound barrier", "Leaves afterimages", "Teleport-fast", "Faster than light", "Outpaces time"],
+    "Agility": ["Trips over air", "Clumsy", "Average", "Nimble", "Acrobat", "Shadow-quick", "Untouchable", "Blink-fast", "Wind-step", "Faster than thought"],
+    "Weapon skill": ["Drops their weapon", "Beginner", "Trained", "Skilled", "Veteran", "Expert", "Master", "Grandmaster", "Living legend", "Weapon saint"],
+    "Mana": ["Barely a spark", "Weak mana", "Average mana", "Above average", "Noble-level reserves", "Royal-level reserves", "Captain-level", "Overflowing", "Elf-level mana", "Wizard King-level"],
+    "Spell mastery": ["Can't cast yet", "One basic spell", "Simple spells", "Combat spells", "Advanced spells", "Mana Zone user", "Mana Method", "Spirit-level spells", "Spell creation", "Forbidden magic"],
+    "Cursed energy": ["Can't see curses", "Sees curses only", "Grade 4 output", "Grade 3 output", "Grade 2 output", "Grade 1 output", "Huge reserves", "Special Grade output", "Bottomless", "Rivals the strongest"],
+    "Technique mastery": ["Doesn't know it yet", "Basic use", "Reliable", "Extension techniques", "Maximum Technique", "Simple Domain", "Reverse Cursed Technique", "Domain Amplification", "Domain Expansion", "Barrierless domain"],
+    "Aura": ["Nen not unlocked", "Leaking aura", "Ten mastered", "Ren user", "Strong aura", "Massive aura", "Ominous aura", "Royal Guard-level", "Off the charts", "King-level aura"],
+    "Nen mastery": ["Just learned Ten", "Knows the four basics", "Gyo and In", "Ko and Ken", "Ryu mastery", "Hatsu developed", "Hatsu perfected", "Vows and limits", "Post-mortem Nen", "Zodiac-level"],
+    "Haki": ["No Haki", "Senses danger", "Basic Observation", "Basic Armament", "Coats a fist", "Advanced Observation", "Future sight", "Emission Haki", "Conqueror's", "Conqueror's coating"],
+    "Fruit mastery": ["Can barely use it", "Accidental use", "Basic control", "Combat ready", "Creative tricks", "Supernova-level", "Warlord-level", "Commander-level", "Awakening glimpses", "Fully awakened"],
+    "Arcana": ["No magic at all", "Flicker of power", "Hedge magic", "Apprentice", "Journeyman", "Adept", "Court mage", "Archmage", "Ley line conduit", "Godlike"],
+    "Raw power": ["Barely powered", "Party trick", "Street level", "Above street level", "City level", "Multi-city", "Country level", "Continental", "Planetary", "Cosmic"],
+    "Power control": ["Can't control it", "Random bursts", "On/off only", "Basic control", "Precise", "Creative uses", "Expert control", "Masterful", "Total mastery", "Rewrites the rules"],
+    "Gadgets & weapons": ["Can't work a phone", "Basic tools", "Utility belt", "Custom gear", "Tech suit", "Advanced arsenal", "Prototype tech", "Military-grade", "Alien tech", "Reality-bending tech"]
+  };
+  // talent slice sizes, weakest to strongest: the extremes are slivers
+  const TAL_WEIGHT = [3, 5, 8, 11, 13, 13, 11, 8, 5, 3];
+  // rarity: slice-size multiplier for special picks (1 = normal). Repeated options in a list also widen a slice.
+  const RARE = {
+    "Anti Magic": 0.35, "Five-leaf": 0.5, "Four-leaf": 0.8, "Star": 0.6, "Spatial": 0.7, "A supreme-rank devil": 0.4, "Demon-Dweller and Slayer": 0.4,
+    "Limitless": 0.35, "Heavenly Restriction": 0.5, "Ten Shadows": 0.6, "Comedian": 0.5, "Six Eyes, no technique": 0.6, "Born with the Six Eyes": 0.35, "Hollow Purple": 0.4,
+    "No domain yet": 2.5, "Simple Domain only": 2, "Incomplete domain": 1.2, "Full domain": 0.5, "Barrierless domain": 0.25, "Sorcerer reincarnated from 1000 years ago": 0.6,
+    "Specialist": 0.4, "the Zoldyck estate": 0.7, "the Kurta clan": 0.6, "the Kakin royal family": 0.6, "Absolute rule": 0.5, "See the future": 0.6,
+    "Lunarian": 0.3, "Giant": 0.6, "Skypiean": 0.8, "Conqueror's": 0.4, "All three": 0.2, "None yet": 1.5, "Mythical Zoan": 0.4, "Ancient Zoan": 0.6,
+    "Sun god Nika": 0.25, "Phoenix": 0.6, "Celestial Dragon runaway": 0.5, "Captain of their own crew": 0.6,
+    "Fallen god": 0.35, "Demigod": 0.5, "Undead": 0.7, "A dead god": 0.5, "A broken oath": 0.6, "Bone dragon": 0.6,
+    "Duplication": 0.7, "Mind control": 0.6, "Struck by lightning": 0.8, "Planets, painfully": 0.4, "Cosmic": 0.5
+  };
+  const tierWeight = (i, n) => n > 1 ? 1 - 0.75 * i / (n - 1) : 1;
+  // collapse repeated options into one slice whose size counts the repeats
+  function uniqWeighted(opts) {
+    const out = [], w = [];
+    opts.forEach((o) => { const j = out.indexOf(o); if (j >= 0) w[j] += 1; else { out.push(o); w.push(1); } });
+    return { opts: out, weights: w };
+  }
+  const TAL_COL = ["#4a4560", "#55597a", "#2f5cb0", "#2b7d9c", "#2f7a6a", "#3c8a58", "#8b3fa1", "#b0502f", "#c2416b", "#c9902a"];
+  const tierVal = (i) => 10 + i * 85 / 9;
+  function bandLine(i) {
+    return i <= 1 ? "Rock bottom. Everyone else is better at this." : i <= 3 ? "Below average, with room to grow." : i <= 5 ? "Solid. Nothing special yet."
+      : i <= 7 ? "Gifted. People are starting to notice." : i === 8 ? "Prodigy level." : "Once in a generation. Monsters live up here.";
+  }
   const STEPS = ["battle:early", "train", "battle:mid", "evolve", "twist", "battle:late", "battle:boss", "ending"];
   const SEG_COLORS = ["#5b3fa8", "#c2416b", "#2b7d9c", "#c9822a", "#3c8a58", "#8b3fa1", "#b0502f", "#2f5cb0"];
   const STORE = "wheel-of-faith.v2", RUNSTORE = "wheel-of-faith.run.v2";
@@ -995,7 +1043,7 @@
     const th = T();
     return {
       theme: state.theme, seed, name: pickR(th.first, r) + " " + pickR(th.last, r), results: new Array(baseCats().length).fill(null), subs: {}, hidden,
-      rerollsUsed: 0, phase: "create", step: 0, foe: null, bonus: [0, 0, 0, 0, 0], tierUp: 0, awakened: null, evolution: null, awarded: false,
+      rerollsUsed: 0, phase: "create", step: 0, foe: null, bonus: th.stats.map(() => 0), talent: th.stats.map(() => null), tierUp: 0, awakened: null, evolution: null, awarded: false,
       points: 0, w: 0, l: 0, d: 0, injured: false, ally: false, bossWin: false, log: [], narr: { big: "", text: "Press Spin to roll your first trait. Every pick can unlock bonus wheels and change the wheels after it." }, ending: null, ai: null, showAI: true
     };
   }
@@ -1009,17 +1057,27 @@
       const wi = idxOf(r.when[0]);
       if (wi >= 0 && wi < i && run.results[wi] === r.when[1]) { opts = r.opts; if (r.name) name = r.name; }
     }
-    return { base: b.name, name, opts };
+    const u = uniqWeighted(opts);
+    return { base: b.name, name, opts: u.opts, weights: u.weights };
   }
   function slots() {
     const out = [];
     baseCats().forEach((c, i) => { out.push({ k: "cat", i }); if (run.subs[i]) out.push({ k: "sub", i }); });
+    T().stats.forEach((n, i) => out.push({ k: "tal", i }));
     return out;
   }
-  const slotVal = (s) => s.k === "cat" ? run.results[s.i] : (run.subs[s.i] ? run.subs[s.i].value : null);
+  const slotVal = (s) => s.k === "cat" ? run.results[s.i] : s.k === "tal" ? run.talent[s.i] : (run.subs[s.i] ? run.subs[s.i].value : null);
   const nextSlot = () => slots().find((s) => slotVal(s) == null) || null;
   const isComplete = () => !nextSlot();
-  const slotWheel = (s) => s.k === "cat" ? { title: effCat(s.i).name, opts: effCat(s.i).opts } : { title: run.subs[s.i].name, opts: run.subs[s.i].opts };
+  function slotWheel(s) {
+    if (s.k === "cat") {
+      const e = effCat(s.i), isTier = e.base.toLowerCase() === String(T().vis.tier).toLowerCase();
+      return { title: e.name, opts: e.opts, weights: e.opts.map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
+    }
+    if (s.k === "tal") { const tl = tiersFor(s.i); return { title: statNames()[s.i], opts: tl.slice(), colors: TAL_COL.slice(), weights: TAL_WEIGHT.slice(), tierIdx: tl.map((x, j) => j) }; }
+    const u = uniqWeighted(run.subs[s.i].opts);
+    return { title: run.subs[s.i].name, opts: u.opts, weights: u.opts.map((o, j) => u.weights[j] * (RARE[o] || 1)) };
+  }
   const rerollsLeft = () => Math.max(0, state.rerollLimit - run.rerollsUsed);
 
   function traitMap() {
@@ -1037,6 +1095,13 @@
     if (run.awakened) m.awakening = run.awakened;
     return m;
   }
+  function statAdapt(k) {
+    for (const r of (T().statAdapt || [])) if (r.stat === k && run && tv(r.when[0]) === r.when[1]) return r;
+    return null;
+  }
+  const statNames = () => T().stats.map((n, k) => { const a = statAdapt(k); return a ? a.name : n; });
+  const tiersFor = (k) => { const a = statAdapt(k); return a ? a.tiers : (TIERS[T().stats[k]] || TIERS["Strength"]); };
+  const talentLabel = (k) => run.talent[k] == null ? null : tiersFor(k)[run.talent[k]];
   const tv = (name) => name ? (traitMap()[String(name).toLowerCase()] ?? null) : null;
 
   function fill(tpl, extra) {
@@ -1073,9 +1138,19 @@
   }
   function stats() {
     const t = tierInfo();
-    const base = 22 + t.f * 48;
+    const rankBonus = t.f * 16 - 8;
     const key = run.seed + "|" + run.results.join("|");
-    return T().stats.map((_, k) => clamp(Math.round(base + (hash(key + "|" + k) % 23) - 11 + run.bonus[k] + (run.awakened ? 12 : 0)), 1, 99));
+    return T().stats.map((_, k) => {
+      const g = run.talent[k];
+      const base = g != null ? tierVal(g) : 44;
+      return clamp(Math.round(base + rankBonus + (hash(key + "|" + k) % 7) - 3 + run.bonus[k] + (run.awakened ? 12 : 0)), 1, 99);
+    });
+  }
+  function bestWorst() {
+    const st = statNames(), g = run.talent;
+    let hi = 0, lo = 0;
+    g.forEach((x, k) => { if (x > g[hi]) hi = k; if (x < g[lo]) lo = k; });
+    return { best: `${st[hi]}, ${talentLabel(hi).toLowerCase()}`, worst: `${st[lo]}, ${talentLabel(lo).toLowerCase()}`, bestName: st[hi], bestTier: talentLabel(hi) };
   }
   const overall = () => { const s = stats(); return Math.round(s.reduce((a, b) => a + b, 0) / s.length); };
   function rarity() { const f = tierInfo().f; return f >= 1 ? "mythic" : f >= 0.75 ? "legendary" : f >= 0.5 ? "epic" : f >= 0.25 ? "rare" : "common"; }
@@ -1267,6 +1342,16 @@
     while (t.length > 1 && ctx.measureText(t + "…").width > maxW) t = t.slice(0, -1);
     return t + "…";
   }
+  function geom(w) {
+    if (w._g && w._g.n === w.opts.length) return w._g;
+    const n = w.opts.length, ws = w.weights && w.weights.length === n ? w.weights : w.opts.map(() => 1);
+    const tot = ws.reduce((a, b) => a + b, 0);
+    const sizes = ws.map((x) => x / tot * TAU), starts = [];
+    let acc = 0;
+    sizes.forEach((x) => { starts.push(acc); acc += x; });
+    w._g = { n, sizes, starts };
+    return w._g;
+  }
   function drawWheel() {
     const size = cv.clientWidth;
     if (!size) return;
@@ -1274,11 +1359,11 @@
     if (cv.width !== Math.round(size * dpr)) { cv.width = Math.round(size * dpr); cv.height = Math.round(size * dpr); }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, size, size);
-    const opts = state.wheel.opts, n = opts.length;
-    const c = size / 2, R = c - 8, a = TAU / n;
-    const fs = Math.max(10, Math.min(R * 0.072, R * 0.62 * a * 0.6));
+    const opts = state.wheel.opts, n = opts.length, G = geom(state.wheel);
+    const c = size / 2, R = c - 8;
     for (let i = 0; i < n; i++) {
-      const s = state.rotation + i * a;
+      const a = G.sizes[i], s = state.rotation + G.starts[i];
+      const fs = Math.max(8, Math.min(R * 0.072, R * 0.62 * a * 0.6));
       ctx.beginPath(); ctx.moveTo(c, c); ctx.arc(c, c, R, s, s + a); ctx.closePath();
       let col = i % SEG_COLORS.length;
       if (i === n - 1 && col === 0 && n > 1) col = 3;
@@ -1294,7 +1379,7 @@
     }
     ctx.beginPath(); ctx.arc(c, c, R, 0, TAU); ctx.strokeStyle = "#eab54d"; ctx.lineWidth = 5; ctx.stroke();
     for (let i = 0; i < n; i++) {
-      const ang = state.rotation + i * a;
+      const ang = state.rotation + G.starts[i];
       ctx.beginPath(); ctx.arc(c + Math.cos(ang) * (R - 1), c + Math.sin(ang) * (R - 1), Math.max(2.5, R * 0.018), 0, TAU); ctx.fillStyle = "#fff1cf"; ctx.fill();
     }
     const hr = R * 0.15;
@@ -1302,28 +1387,36 @@
     ctx.fillStyle = "#eab54d"; ctx.font = `800 ${Math.max(10, hr * 0.42)}px Cinzel, Georgia, serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.fillText("FAITH", c, c + 1);
   }
-  function segUnderPointer(n) { const a = TAU / n; const rel = (((POINTER - state.rotation) % TAU) + TAU) % TAU; return Math.floor(rel / a) % n; }
+  function segUnderPointer() {
+    const G = geom(state.wheel);
+    const rel = (((POINTER - state.rotation) % TAU) + TAU) % TAU;
+    for (let i = G.n - 1; i >= 0; i--) if (rel >= G.starts[i]) return i;
+    return 0;
+  }
 
   function spin(wheel) {
     return new Promise((resolve) => {
       state.wheel = wheel; state.winner = -1; state.spinning = true;
       render();
-      const n = wheel.opts.length, a = TAU / n;
-      const choice = Math.floor(Math.random() * n);
-      const target = POINTER - (choice + 0.5) * a + (Math.random() - 0.5) * a * 0.7;
+      // land anywhere on the ring: a slice's odds equal its size
+      const G = geom(wheel);
+      let pickAt = Math.random() * TAU, choice = G.n - 1;
+      for (let i = 0; i < G.n; i++) if (pickAt < G.starts[i] + G.sizes[i]) { choice = i; break; }
+      const inSlice = G.starts[choice] + G.sizes[choice] * (0.12 + Math.random() * 0.76);
+      const target = POINTER - inSlice;
       const delta = (((target - state.rotation) % TAU) + TAU) % TAU;
       const start = state.rotation, end = start + (reduceMotion ? 1 : 5 + Math.floor(Math.random() * 3)) * TAU + delta;
       const dur = reduceMotion ? 700 : 3600 + Math.random() * 900;
       const t0 = performance.now();
-      let last = segUnderPointer(n);
+      let last = segUnderPointer();
       const frame = (now) => {
         const t = Math.min(1, (now - t0) / dur);
         state.rotation = start + (end - start) * (1 - Math.pow(1 - t, 4));
-        const seg = segUnderPointer(n);
+        const seg = segUnderPointer();
         if (seg !== last) { last = seg; tickSound(); const p = $("pointer"); p.classList.remove("tick"); void p.offsetWidth; p.classList.add("tick"); }
         drawWheel();
         if (t < 1) { requestAnimationFrame(frame); return; }
-        state.rotation = end % TAU; state.winner = segUnderPointer(n); state.spinning = false;
+        state.rotation = end % TAU; state.winner = segUnderPointer(); state.spinning = false;
         drawWheel();
         resolve(state.winner);
       };
@@ -1334,14 +1427,11 @@
   const listWheel = (title, opts) => ({ title, opts });
   function spread(count, total) { const out = []; for (let i = 0; i < total; i++) out.push(Math.floor((i + 1) * count / total) > Math.floor(i * count / total)); return out; }
   function battleWheel() {
-    const w = clamp(Math.round(winChance() * 10), 1, 9);
-    const segs = spread(w, 10).map((isW) => ({ k: isW ? "win" : "loss" }));
-    const wins = segs.filter((s) => s.k === "win"), losses = segs.filter((s) => s.k === "loss");
-    if (wins.length >= 3) wins[Math.floor(wins.length / 2)].k = "clutch";
-    if (losses.length >= 3) losses[Math.floor(losses.length / 2)].k = "draw";
+    const p = winChance();
+    const segs = [{ k: "win", w: p * 0.85 }, { k: "clutch", w: p * 0.15 }, { k: "loss", w: (1 - p) * 0.8 }, { k: "draw", w: (1 - p) * 0.2 }];
     const label = { win: "Victory", clutch: T().clutch, draw: "Draw", loss: "Defeat" };
-    const col = { win: ["#3c8a58", "#2f7a4c"], clutch: ["#c9902a", "#c9902a"], draw: ["#55598a", "#55598a"], loss: ["#a8323f", "#8c2834"] };
-    return { title: "Battle", segs, opts: segs.map((s) => label[s.k]), colors: segs.map((s, i) => col[s.k][i % 2]) };
+    const col = { win: "#3c8a58", clutch: "#c9902a", draw: "#55598a", loss: "#a8323f" };
+    return { title: "Battle", segs, opts: segs.map((s) => label[s.k]), colors: segs.map((s) => col[s.k]), weights: segs.map((s) => s.w) };
   }
   function endingWheel() {
     const P = path();
@@ -1380,7 +1470,7 @@
     last.p.push({ t: text, fx: fx || "", bad: !!bad });
   }
   function describe(e) {
-    const st = T().stats, out = [];
+    const st = statNames(), out = [];
     if (e.s != null) out.push(`${e.v > 0 ? "+" : ""}${e.v} ${st[e.s]}`);
     if (e.all) out.push(`+${e.all} to every stat`);
     if (e.pts) out.push(`+${e.pts} upgrade point${e.pts > 1 ? "s" : ""}`);
@@ -1412,6 +1502,10 @@
     if (e.base === th.pathCat && th.paths && th.paths[v]) extra.push(th.paths[v].tag);
     setNarr(v, say + (extra.length ? " " + extra.join(" ") : ""));
   }
+  function landTal(i, t) {
+    run.talent[i] = t;
+    setNarr(tiersFor(i)[t], `${statNames()[i]}: tier ${t + 1} of 10. ${bandLine(t)}`);
+  }
   function landSub(i, v) {
     run.subs[i].value = v;
     setNarr(v, `${run.subs[i].name}: ${v}.`);
@@ -1428,7 +1522,7 @@
   async function spinSlot(s) {
     const wh = slotWheel(s);
     const k = await spin(wh);
-    if (s.k === "cat") landCat(s.i, wh.opts[k]); else landSub(s.i, wh.opts[k]);
+    if (s.k === "cat") landCat(s.i, wh.opts[k]); else if (s.k === "tal") landTal(s.i, wh.tierIdx[k]); else landSub(s.i, wh.opts[k]);
   }
   async function spinNext() {
     const s = nextSlot();
@@ -1469,7 +1563,9 @@
     run.phase = "journey"; run.step = 0;
     const subsLine = Object.values(run.subs).filter((x) => x.value).map((x) => `${x.name}: ${x.value}.`).join(" ");
     const P = path();
-    logAdd("Prologue", fill(T().prologue) + (subsLine ? " " + subsLine : "") + (P.tag ? " " + P.tag : ""));
+    const bw = bestWorst();
+    const talentLine = `Best talent: ${bw.best}. Weakest: ${bw.worst}.`;
+    logAdd("Prologue", fill(T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (P.tag ? " " + P.tag : ""));
     setNarr("The journey begins", fill(T().prologue));
     persist(); render();
   }
@@ -1520,7 +1616,7 @@
       run.evolution = opts[k];
       apply({ s: 1, v: 8, all: 2 });
       const t = fill("{first}'s {move} evolves: {evo}.", { move: fill(T().move), evo: run.evolution });
-      const fx = `+8 ${T().stats[1]}, +2 to every stat.`;
+      const fx = `+8 ${statNames()[1]}, +2 to every stat.`;
       logAdd(head, t, fx);
       setNarr(run.evolution, t + " " + fx);
       chime([523, 659, 784, 1046]);
@@ -1554,7 +1650,7 @@
   }
 
   function canUpgrade() { return !state.spinning && !state.auto && run.phase !== "done" && isComplete(); }
-  function buyStat(k) { if (!canUpgrade() || run.points < 1) return; run.points -= 1; run.bonus[k] += 6; setNarr(`+6 ${T().stats[k]}`, `Upgrade spent. ${run.points} point${run.points === 1 ? "" : "s"} left.`); persist(); render(); }
+  function buyStat(k) { if (!canUpgrade() || run.points < 1) return; run.points -= 1; run.bonus[k] += 6; setNarr(`+6 ${statNames()[k]}`, `Upgrade spent. ${run.points} point${run.points === 1 ? "" : "s"} left.`); persist(); render(); }
   function buyRank() {
     const t = tierInfo();
     if (!canUpgrade() || run.points < 3 || t.idx >= t.n - 1) return;
@@ -1610,6 +1706,7 @@
     });
     Object.entries(run.hidden).forEach(([k, v]) => { if (!/hair|eyes|dream|flaw|nemesis|base|binding/i.test(k)) parts.push(`${k}: ${v}`); });
     if (run.evolution) parts.push(`Power evolution: ${run.evolution}`);
+    if (run.talent.every((x) => x != null)) { const bw = bestWorst(); parts.push(`Greatest strength: ${bw.bestName} (${bw.bestTier})`); }
     const P = path();
     const ending = run.ending ? `This is the final portrait at the end of their story. Their ending: ${run.ending}. Record: ${run.w} wins, ${run.l} losses. ` +
       `Show it in the mood and setting of that ending${P.tag ? " (they walked the villain or alternate path)" : ""}. ` : "";
@@ -1677,7 +1774,7 @@
 
   // ================= render =================
   function render() {
-    if (run.results.length !== baseCats().length) run = newRun();
+    if (run.results.length !== baseCats().length || run.talent.length !== T().stats.length) run = newRun();
     const busy = state.spinning || state.auto;
     if (!busy && state.winner === -1) state.wheel = upcomingWheel();
     renderPrompt(); renderButtons(busy); renderNarr(); renderCard(); renderUpgrades(); renderTraits(busy); renderStory(); renderEditor(); renderHistory();
@@ -1694,7 +1791,7 @@
       const s = nextSlot();
       const all = slots(), done = all.filter((x) => slotVal(x) != null).length;
       eb = "Create your character";
-      if (s) { const w = slotWheel(s); title = s.k === "sub" ? `Bonus wheel: ${w.title}` : w.title; sub = `${done} of ${all.length} spun`; }
+      if (s) { const w = slotWheel(s); title = s.k === "sub" ? `Bonus wheel: ${w.title}` : s.k === "tal" ? `Talent: ${statNames()[s.i]}` : w.title; sub = s.k === "tal" ? `Talent wheel, 10 tiers from useless to legendary · ${done} of ${all.length} spun` : `${done} of ${all.length} spun`; }
       else { title = "Ready for the journey"; sub = `${P.chapters.length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = STEPS[run.step];
@@ -1766,7 +1863,7 @@
     chipVals.slice(0, 7).forEach((v) => { const s = document.createElement("span"); s.className = "chip" + (v === run.evolution ? " new" : ""); s.textContent = v; chips.append(s); });
     const st = $("cStats"); st.innerHTML = "";
     const vals = complete ? stats() : null;
-    th.stats.forEach((name, k) => {
+    statNames().forEach((name, k) => {
       const l = document.createElement("span"); l.className = "sl"; l.textContent = name;
       const bar = document.createElement("span"); bar.className = "bar";
       const fillEl = document.createElement("i");
@@ -1774,6 +1871,7 @@
       fillEl.style.background = `linear-gradient(90deg, ${shade(L.aura, -0.2)}, ${L.aura})`;
       bar.append(fillEl);
       const v = document.createElement("span"); v.className = "sv"; v.textContent = vals ? vals[k] : "?";
+      if (talentLabel(k)) { l.title = talentLabel(k); bar.title = talentLabel(k); }
       st.append(l, bar, v);
     });
     $("cOverall").textContent = complete ? overall() : "??";
@@ -1793,7 +1891,7 @@
     $("pts").textContent = `${run.points} point${run.points === 1 ? "" : "s"}`;
     grid.innerHTML = "";
     const ok = canUpgrade();
-    th.stats.forEach((n, k) => {
+    statNames().forEach((n, k) => {
       const b = document.createElement("button"); b.className = "secondary small"; b.textContent = `+6 ${n} · 1`;
       b.disabled = !ok || run.points < 1; b.addEventListener("click", () => buyStat(k)); grid.append(b);
     });
@@ -1823,7 +1921,8 @@
       const w = slotWheel(s), v = slotVal(s);
       const cur = run.phase === "create" && next && next.k === s.k && next.i === s.i;
       const canR = run.phase === "create" && v != null && state.rerollLimit > 0;
-      row((s.k === "sub" ? "sub" : "") + (cur ? " current" : ""), w.title, v, canR ? () => reroll(s) : null);
+      const shown = s.k === "tal" ? (v == null ? null : `${tiersFor(s.i)[v]} (${v + 1}/10)`) : v;
+      row((s.k === "sub" ? "sub" : s.k === "tal" ? "tal" : "") + (cur ? " current" : ""), s.k === "tal" ? statNames()[s.i] : w.title, shown, canR ? () => reroll(s) : null);
     });
     if (isComplete()) {
       Object.entries(run.hidden).forEach(([k, v]) => row("hid", k, v, null));
@@ -1889,7 +1988,7 @@
     lines.push("");
     slots().forEach((s) => { const v = slotVal(s); lines.push(`${slotWheel(s).title}: ${v == null ? "?" : v}`); });
     Object.entries(run.hidden).forEach(([k, v]) => lines.push(`${k}: ${v}`));
-    if (isComplete()) { const st = stats(); T().stats.forEach((n, k) => lines.push(`${n}: ${st[k]}`)); lines.push(`Overall: ${overall()}`); }
+    if (isComplete()) { const st = stats(); statNames().forEach((n, k) => lines.push(`${n}: ${st[k]}${talentLabel(k) ? ` (${talentLabel(k)})` : ""}`)); lines.push(`Overall: ${overall()}`); }
     if (run.evolution) lines.push(`Evolution: ${run.evolution}`);
     if (run.awakened) lines.push(`Awakening: ${run.awakened}`);
     if (run.ending) lines.push(`Ending: ${run.ending} (${run.w}W ${run.l}L)`);
@@ -1977,7 +2076,7 @@
   // ================= boot =================
   try {
     const r = JSON.parse(localStorage.getItem(RUNSTORE));
-    if (r && r.theme === state.theme && Array.isArray(r.results) && r.results.length === baseCats().length && r.subs && r.hidden && r.narr) run = r;
+    if (r && r.theme === state.theme && Array.isArray(r.results) && r.results.length === baseCats().length && r.subs && r.hidden && r.narr && Array.isArray(r.talent) && r.talent.length === T().stats.length && r.bonus.length === T().stats.length) run = r;
   } catch (e) { /* no saved run */ }
   if (!run) run = newRun();
 
