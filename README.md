@@ -20,6 +20,10 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
 - Every series has a race / being / species wheel and a fighting-style wheel with canon styles.
 - Answers branch several levels deep. Example: Celestial Dragon → bloodline → which Five Elder → does Imu know you exist.
 - Special answers grant **perks**: stat boosts, new card stats (Divine Authority, Six Eyes, Sulong, Spirit: Salamander...) and once-per-journey interventions that undo a lost fight (Imu, Sukuna, Astaroth, Hakari's jackpot, the Revive-Revive Fruit...).
+- **Where you're from decides the story.** Birthplace, origin, race, family and bloodline each add a story layer: their own chapters, scenes, opponents, training, twists, allies, treasure and endings. A Heart Kingdom mage fights through Megicula's curse on Princess Loropechika; a Wano pirate ends on Onigashima against Kaido; a Kurta survivor hunts the Spiders; a Zenin fights the clan itself.
+- Every bonus wheel has its own name drawn from the series and your earlier picks ("What does Captain Yami mutter about you?", "Which Ancient Zoan did Tobi eat?"), including the talent and journey wheels.
+- **Losing isn't a dead end.** Every defeat opens a second-chance wheel tied to where you're from: a healer, a mentor, a hidden perk, a stat jump.
+- **Underdogs get a real arc.** Weak characters get the Underdog perk (doubled training, +3 power after every loss), and beating a stronger opponent pays out an Upset bonus.
 - Sound effects: explosions, a heavenly choir for rare pulls, a sad trombone for bad ones, fanfares and a boss gong.
 
 ## Cards

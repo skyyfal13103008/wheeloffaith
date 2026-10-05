@@ -1532,7 +1532,7 @@
     paths: {
       "Celestial Dragon": {
         tag: "Your story now runs through Mary Geoise. The world below is beneath you, and it hates you for it.",
-        prologue: "{name} was born in Mary Geoise, the Holy Land, into {Bloodline|lc}. Like every World Noble, they descend from the twenty kings who founded the World Government eight hundred years ago. {Bubble helmet}. They own {Slaves owned}, and when it comes to slaves, {Treatment of slaves/=they have never wanted any}. Their favorite pastime is {Favorite pastime}, and in the Holy Land they serve as {Role in the Holy Land}. As a child they witnessed {Childhood memory}. As for the one on the Empty Throne: {Imu's attention|lc}. Devil Fruit: {Fruit/Devil fruit}. Haki: {Haki type|lower}.",
+        prologue: "{name} was born in Mary Geoise, the Holy Land, into {Bloodline|lc}. Like every World Noble, they descend from the twenty kings who founded the World Government eight hundred years ago. {Bubble helmet}. They own {Slaves owned}, and when it comes to slaves, {Treatment of slaves/=they have never wanted any}. Their favorite pastime is {Favorite pastime}, and in the Holy Land they serve as {Role in the Holy Land}. As a child they witnessed {Childhood memory}. As for the one on the Empty Throne: {Imu's attention}. Devil Fruit: {Fruit/Devil fruit}. Haki: {Haki type|lower}.",
         scenes: {
           early: ["Sabaody Archipelago, Grove 1. {first} steps down from a slave's back in a bubble helmet, and every commoner on the street drops to their knees.", "A golden ship descends from the Red Line on the Bondola. The lower world smells exactly as bad as {first} was told."],
           train: ["A private training hall in Pangaea Castle. No one has ever told {first} no, including their instructor."],
@@ -2004,6 +2004,1450 @@
     clutch: "A power surge", awaken: "Power evolution"
   };
 
+  // ---------- Black Clover: wheel names, chances, story arcs ----------
+  Object.assign(THEMES.blackclover, {
+    titles: {
+      Gender: "Who climbs the grimoire tower at fifteen?",
+      Race: "What blood runs under the clover?",
+      Origin: "Which corner of the world raised you?",
+      Magic: "What does the grimoire answer with?",
+      Grimoire: "How many leaves on the grimoire?",
+      Squad: "Which captain raises a hand at the entrance exam?",
+      "Fighting style": "How does {first} fight when the spell runs out?",
+      Weapon: "What's in their hand when the mana runs dry?",
+      Personality: "What kind of person is {first}?",
+      Rival: "Who does {first} measure themselves against?",
+      Rank: "Where do the Magic Knights rank {first}?",
+      "Social class": "Peasant, commoner, noble or royal?",
+      "Royal house": "Which royal house carries your name?",
+      House: "Which noble crest hangs over your bed?",
+      "How you treat commoners": { "*": "How does {first} look at the people below them?" },
+      "How nobles treat you": { Peasant: "How do the nobles look at a peasant?", Commoner: "How do the nobles look at a commoner?" },
+      "Original elf": "Who were you five hundred years ago?",
+      "Reincarnation control": "Who is really in control of this body?",
+      "Witch rank": "Where does the Witch Queen rank you?",
+      "The Witch Queen's hold on you": "How tight is the Witch Queen's grip on your blood?",
+      "Dwarf form": "What happens when the giant form wakes up?",
+      "Coven role": "What do the witches of the forest call you?",
+      "Spirit Guardian path": "Do the Spirit Guardians know your name?",
+      "Street past": "What did the streets make you?",
+      "Under the Dark Triad": "What were you under the Dark Triad?",
+      "Your master": "Which Zogratis sibling owns you?",
+      "Why you serve": "Why do you still serve them?",
+      "Hage upbringing": "What was childhood like in Hage?",
+      "Diamond upbringing": "What did the Diamond Kingdom make of you?",
+      "Elemental spirit": { Fire: "Does Salamander come for {first}?", Wind: "Does Sylph choose {first}?", Water: "Does Undine answer {first}?", Earth: "Does Gnome stir for {first}?" },
+      "Dark Magic depth": "How deep into the dark can {first} cut?",
+      "Anti Magic sword": "Which demon sword comes out of the grimoire?",
+      "Spatial style": "How does {first} bend space?",
+      "Light Magic": "What does the light become in {first}'s hands?",
+      "Lightning Magic": "What shape does the lightning take?",
+      "Star Magic": "What do the stars give {first}?",
+      "Curse style": "How does {first}'s curse work?",
+      "Devil rank": "What rank of devil lives in the fifth leaf?",
+      "Clover blessing": "Which leaf of the clover blessed you?",
+      Devil: { "Lower-rank devil": "Which lower devil crawled into your grimoire?", "Mid-rank devil": "Which mid-rank devil found you?", "High-rank devil": "Which high-rank devil climbed through?", "Supreme devil": "Which ruler of the underworld chose {first}?" },
+      Contract: "How much of {first} belongs to {Devil}?",
+      "What your devil wants": "What does {Devil} really want?",
+      "Do you trust it?": "Does {first} trust {Devil}?",
+      "Black Bulls life": "What's a normal day in the Black Bulls hideout?",
+      "Golden Dawn rank": "Where do you stand in the Golden Dawn?",
+      "Lion King rank": "Where do you stand among the Crimson Lion Kings?",
+      "Your captain thinks you're": { "Black Bulls life": "What does Captain Yami mutter about you?", "Golden Dawn rank": "William Vangeance's private assessment of you", "Lion King rank": "What does Fuegoleon write in your file?", "Silver Eagles": "Nozel Silva's cold verdict on you", "Blue Rose Knights": "Charlotte Roselei's thorny judgment", "Green Praying Mantis": "Does Jack the Ripper want to cut you?", "Coral Peacocks": "What does Dorothy say about you in her sleep?", "Purple Orcas": "What does the Purple Orcas' captain make of you?", "Aqua Deer": "What does Rill paint when he thinks of you?", "*": "What does your captain think of you?" },
+      "Mana Zone level": "How far does {first}'s Mana Zone reach?",
+      "Ki mastery": "How much Ki can {first} read?",
+      Creation: "What can {first} create?"
+    },
+    talTitles: [
+      ["How deep does {first}'s mana run?", "The grimoire tower weighs your mana", "Could {first} power a whole dungeon with their mana?"],
+      ["How many pages of {Magic} magic can {first} cast?", "How fast does the grimoire write new spells?"],
+      ["Can {first} fight with a {Weapon|lower}?", "How long does {first} last once the magic is gone?"],
+      ["How hard does {first} hit without magic?", "How many push-ups before collapse?"],
+      ["Can {first} keep up with a Magic Knight on a broom?", "How fast is {first} without magic?"],
+      ["Can {first} out-think a Golden Dawn tactician?", "Battle sense: how fast does {first} read a spell?"]
+    ],
+    jt: {
+      foe: ["{chapter}: who stands in the way?", "Which enemy does the mission send?", "Who's waiting at the end of the road?"],
+      train: ["Who drags {first} through training?", "How does {first} surpass their limits?", "Where does the training happen?"],
+      twist: ["What news reaches the squad?", "Twist of fate"],
+      recruit: ["Who joins {first}'s missions?", "Who has {first}'s back?"],
+      loot: ["What's in the dungeon vault?", "What does {first} bring home?"],
+      evolve: ["What's on the grimoire's new page?", "How does {Magic} magic evolve?"],
+      chance: ["What comes after the defeat?", "Who finds {first} in the rubble?", "Surpass your limits: how?"],
+      battle: ["{first} vs {foe}", "Can {first} surpass their limits against {foe}?"]
+    },
+    arcs: {
+      "the Heart Kingdom": {
+        pri: 2, tag: "Your story runs through the Heart Kingdom: Spirit Guardians, a princess under a devil's curse, and the Spade Kingdom at the border.",
+        home: "The Heart Kingdom. Spirits drift through the forest like fireflies and everyone loves the princess, Loropechika. {first} has heard the rumors from the border: the Spade Kingdom is coming.",
+        chapters: ["Border patrol", "Natural mana training", "Spirit Guardian trial", "Spirit awakening", "The princess's curse", "Defense of the Heart Kingdom", "Against the Dark Triad", "Epilogue"],
+        scenes: {
+          early: ["Spade Kingdom scouts are testing the Heart Kingdom's border. {first} is the closest mage on patrol."],
+          train: ["Gadjah, the lightning Spirit Guardian, teaches {first} to borrow natural mana instead of burning their own."],
+          train2: ["Loropechika's lake glitters. The princess watches {first} train one last time before the war."],
+          recruit: ["The Heart Kingdom doesn't fight alone anymore. Someone new arrives at the palace gates."],
+          side: ["A spirit is crying in the forest. Something has been hunting them."],
+          rival1: ["{Rival} is waiting at the Spirit Guardian trial grounds."],
+          mid: ["The Spirit Guardian trial. Gadjah, Sarado, Potrof, Floga and Smurik watch from the stone steps."],
+          loot: ["Deep in the spirit forest, something old is glowing."],
+          evolve: ["The forest's natural mana floods into {first}'s grimoire."],
+          twist: ["Loropechika comes back from the forest pale and shaking. Megicula has cursed her."],
+          late: ["Vanica Zogratis walks across the border, laughing. The Spade Kingdom's army follows."],
+          rival2: ["{Rival} comes back through the burning forest, stronger."],
+          boss: ["Megicula opens its eyes behind Vanica. The curse that's killing the princess has a face."],
+          ending: ["The spirits come back to the Heart Kingdom's forest, one by one."]
+        },
+        foes: {
+          early: [["Spade Kingdom scout squad", 20], ["A cursed spirit beast", 24], ["Smugglers selling stolen spirits", 18], ["A Spade mage disguised as a refugee", 26]],
+          mid: [["A Spade Kingdom Mage Army captain", 46], ["Vanica's cursed soldiers", 48], ["A Heart mage who sold out to the Spade Kingdom", 44], ["A Dark Triad elite scout", 50]],
+          late: [["Vanica Zogratis", 72], ["Megicula's cursed army", 66], ["A Spade general bound by Megicula's curse", 68], ["Dante Zogratis", 74]],
+          boss: [["Megicula, the devil that cursed the princess", 92], ["Vanica Zogratis in Devil Union", 88]]
+        },
+        training: [["Borrowed natural mana with Gadjah", { s: 0, v: 10 }], ["Learned spirit magic from the forest spirits", { s: 1, v: 10 }], ["Trained on Loropechika's lake", { s: 1, v: 8 }], ["Sparred against Floga's fire", { s: 3, v: 8 }], ["Ran the border with Smurik's wind at their back", { s: 4, v: 10 }], ["Read the Heart Kingdom's records on curses", { s: 5, v: 8 }]],
+        twists: [["Megicula curses Princess Loropechika", { s: 0, v: 8 }], ["The Heart Kingdom allies with the Clover Kingdom", { ally: true }], ["Noelle Silva arrives to train under Loropechika", { all: 3 }], ["A Spirit Guardian falls at the border", { s: 5, v: 6, inj: true }], ["The forest spirits refuse to leave your side", { gain: { n: "Spirit-loved", d: "The Heart Kingdom's spirits follow them. +4 power.", power: 4 } }]],
+        allies: [["Gadjah, the lightning Spirit Guardian", { s: 4, v: 6 }], ["Princess Loropechika", { heal: true, all: 2 }], ["Sarado, the earth Spirit Guardian", { s: 3, v: 6 }], ["Potrof, the plant Spirit Guardian", { s: 5, v: 6 }], ["Floga, the fire Spirit Guardian", { s: 0, v: 6 }]],
+        loot: [["A vial of Loropechika's lake water", { heal: true, all: 2 }], ["A Spirit Guardian's crest", { pts: 2 }], ["A page of old Heart Kingdom spirit lore", { s: 1, v: 8 }]],
+        chances: [["Princess Loropechika heals {first} herself, coughing through her own curse", { heal: true, all: 3 }], ["A tiny forest spirit curls up on {first}'s chest and won't leave", { gain: { n: "Little spirit", d: "A small Heart Kingdom spirit fights beside them. +3 power.", power: 3 } }], ["Gadjah pulls {first} aside: stop using your own mana, borrow the world's", { s: 0, v: 10 }]],
+        endings: { good: ["Becomes a Spirit Guardian of the Heart Kingdom", "Breaks Megicula's curse on Loropechika", "The Heart Kingdom's champion, at the princess's side"], bad: ["Cursed by Megicula, like the princess", "Falls defending the Heart Kingdom's border", "Lost to the curse before the war ends"] }
+      },
+      "the Diamond Kingdom": {
+        pri: 2, tag: "Your story runs through the Diamond Kingdom: mage stones under the skin, the Eight Shining Generals, and a war on every border.",
+        home: "The Diamond Kingdom's laboratories. Children here are numbered, not named. The Mage Scholars have been embedding stones in {first} for years, and today is their first real fight.",
+        chapters: ["The experiment yard", "Mage stone surgery", "Shining General trial", "Crystal evolution", "Orders to kill", "War on three borders", "Final battle", "Epilogue"],
+        scenes: {
+          early: ["A dungeon has risen on the Clover border. Lotus Whomalt's team goes in first, and {first} is in it."],
+          train: ["The Mage Scholars wheel {first} into surgery. One more stone."],
+          train2: ["Another stone, another surgery. {first} stops counting."],
+          mid: ["The Eight Shining Generals watch from the balcony. One seat is about to open."],
+          twist: ["New orders: kill a childhood friend who failed the program, the way Mars once had to."],
+          late: ["The Diamond Kingdom marches into the Witches' Forest. {first} is at the front."],
+          boss: ["Moris Libardirt smiles behind the glass. His greatest experiment is ready."],
+          ending: ["Somewhere in the Diamond Kingdom, a child without a name hears about {first}."]
+        },
+        foes: {
+          early: [["Another numbered experiment child", 22], ["A failed mage stone subject", 20], ["Clover Magic Knights at the border dungeon", 28], ["Lab guards", 18]],
+          mid: [["Mars", 50], ["Ladros", 48], ["Fana and Salamander", 46], ["A Clover captain at the border", 52]],
+          late: [["Ladros, rebuilt with more stones", 66], ["Feremena, host of the earth spirit", 70], ["A Shining General", 66], ["The Eye of the Midnight Sun", 64]],
+          boss: [["Moris Libardirt", 88], ["Mars, after he turns on the kingdom", 86]]
+        },
+        training: [["Another mage stone embedded", { s: 0, v: 10 }], ["Crystal combat drills", { s: 2, v: 8 }], ["Reconstructive surgery by the Mage Scholars", { s: 3, v: 12, inj: true }], ["Studied captured Clover spell records", { s: 5, v: 8 }], ["Survived the yearly cull of weak experiments", { all: 3 }]],
+        twists: [["You're ordered to kill your childhood friend", { s: 0, v: 8, inj: true }], ["Mars turns on Ladros in the Witches' Forest", { ally: true }], ["A Shining General's seat opens", { pts: 3 }], ["Your mage stones start rejecting your body", { all: 5, inj: true }], ["You remember your real name", { gain: { n: "Real name", d: "They remember who they were before the lab. Good karma.", karma: 1 } }]],
+        allies: [["Mars", { s: 0, v: 6 }], ["Fana and Salamander", { s: 1, v: 6 }], ["Lotus Whomalt", { s: 5, v: 6 }], ["A fellow numbered child", { all: 2 }]],
+        loot: [["A Shining General's mage stone", { s: 0, v: 10 }], ["Moris Libardirt's research notes", { s: 5, v: 10 }]],
+        chances: [["The Mage Scholars rebuild {first} with stones from a dead General", { all: 5, inj: true }], ["A lab healer sneaks {first} out for one quiet night", { heal: true, all: 2 }], ["A Mage Scholar decides {first} is worth another stone", { gain: { n: "Extra mage stone", d: "+4 power.", power: 4 } }]],
+        endings: { good: ["Becomes one of the Eight Shining Generals", "Burns down the labs and frees the other children", "Defects and finds a home in Clover"], bad: ["Dies on the operating table", "Becomes exactly the weapon the Mage Scholars wanted", "Killed by the friend they couldn't kill"] }
+      },
+      "the Witches' Forest": {
+        pri: 2, tag: "Your story runs through the Witches' Forest, where the Witch Queen's blood magic decides who stays and who leaves.",
+        home: "The Witches' Forest. Every witch here answers to the Witch Queen, and every witch knows what happened to Vanessa when she tried to leave.",
+        chapters: ["Forest initiation", "Blood magic lessons", "The Queen's trial", "Witch awakening", "Under the Queen's blood", "Siege of the forest", "Final battle", "Epilogue"],
+        scenes: {
+          early: ["Something is moving at the forest's edge. The Witch Queen sends {first} to deal with it."],
+          train: ["The Witch Queen tests {first}'s blood with a single drop on a leaf."],
+          mid: ["Vanessa's old cage in the Queen's castle is still there. The Queen shows it to {first} on purpose."],
+          twist: ["The Witch Queen raises her hand, and {first}'s blood starts moving on its own."],
+          late: ["Diamond Kingdom soldiers pour into the forest, with the Eye of the Midnight Sun right behind them."],
+          boss: ["The Witch Queen herself blocks the road out of the forest."],
+          ending: ["The forest is quiet again. Some witches stay. Some finally leave."]
+        },
+        foes: {
+          early: [["A witch who wants your rank", 22], ["A lost Diamond Kingdom soldier", 20], ["A forest beast", 24]],
+          mid: [["Fana and Salamander", 46], ["Ladros", 48], ["A Diamond Kingdom invasion squad", 44], ["A witch under the Queen's blood control", 42]],
+          late: [["Vetto, the Despair", 60], ["Rades the Spirit", 58], ["The Witch Queen's blood puppets", 64]],
+          boss: [["The Witch Queen", 92], ["Vanica Zogratis", 88]]
+        },
+        training: [["Blood magic lessons at the Queen's castle", { s: 1, v: 10 }], ["Healing magic at the forest spring", { heal: true, s: 0, v: 6 }], ["Learned to resist blood control", { s: 5, v: 10 }], ["Thread magic with Vanessa's old teacher", { s: 1, v: 8 }]],
+        twists: [["The Queen takes control of your blood", { inj: true, all: 3 }], ["Vanessa Enoteca comes home to free the witches", { ally: true }], ["Asta's sword cuts the Queen's control", { heal: true, all: 2 }], ["The Queen offers you Vanessa's empty cage", { pts: 3 }]],
+        allies: [["Vanessa Enoteca", { s: 1, v: 6 }], ["Dorothy Unsworth", { s: 5, v: 6 }], ["A runaway witch", { s: 4, v: 6 }]],
+        chances: [["The Witch Queen heals {first}, for a price", { heal: true, all: 4, gain: { n: "Debt to the Queen", d: "She healed them once. She'll want it back. Bad karma.", karma: -1 } }], ["A red thread of fate ties itself to {first}'s finger", { gain: { n: "Red thread of fate", d: "Fate rewrites one defeat.", save: { chance: 0.5, uses: 1, text: "A red thread pulls tight. Fate rewrites the moment, and {foe}'s spell misses by an inch." } } }]],
+        endings: { good: ["Becomes the next Witch Queen", "Leaves the forest a free witch", "Breaks the Queen's blood control over every witch"], bad: ["A blood puppet for the rest of their life", "Caged in the Queen's castle", "Falls in the siege of the forest"] }
+      },
+      "Hage village": {
+        pri: 2, tag: "Your story starts in Hage, at the edge of the kingdom. Nobody from here is supposed to make it.",
+        home: "Hage village. {first} grew up on church soup, Father Orsi's sermons and Sister Lily's lectures. Today is the grimoire ceremony at the tower.",
+        chapters: ["Grimoire ceremony", "Training behind the church", "Magic Knights entrance exam", "Grimoire awakening", "A letter from Hage", "Kingdom war", "Final battle", "Epilogue"],
+        scenes: {
+          early: ["The night after the ceremony, a thief in a dark coat comes for the new grimoires."],
+          train: ["Behind the Hage church, {first} trains until Sister Lily yells at them to come in for dinner."],
+          twist: ["A letter from Hage, in Sister Lily's handwriting. Something has happened at home."],
+          ending: ["Back in Hage, the church kids play pretend. Today, one of them is {first}."]
+        },
+        foes: { early: [["Revchi Salik, the grimoire thief", 24], ["Bandits on the road out of Hage", 18], ["A noble kid who laughs at Hage", 20]] },
+        training: [["Swung a sword a thousand times behind the church", { s: 2, v: 10 }], ["Ran laps around Hage until they dropped", { s: 4, v: 10 }], ["Push-ups until Sister Lily made them stop", { s: 3, v: 10 }]],
+        twists: [["The church roof caves in. {first} sends home their whole salary", { gain: { n: "Hage's pride", d: "The whole village is cheering. Good karma, +2 power.", karma: 1, power: 2 } }], ["The other Hage orphan gets a four-leaf grimoire", { s: 5, v: 8 }]],
+        allies: [["Sister Lily of the Hage church", { heal: true, all: 2 }], ["Asta, the boy with no magic", { s: 3, v: 6 }], ["Yuno, the Golden Dawn's star", { s: 0, v: 6 }]],
+        chances: [["A letter from the Hage church kids: they drew {first} as the Wizard King", { all: 3 }], ["{first} remembers Asta's rule: never give up", { gain: { n: "Hage stubbornness", d: "Hage kids don't stay down. Rewrites one defeat.", save: { chance: 0.4, uses: 1, text: "{first} should be finished. They stand up anyway, like every kid from Hage. {foe} doesn't see it coming." } } }]],
+        endings: { good: ["The first Wizard King from Hage", "Rebuilds the Hage church with a captain's salary", "Proves a Hage orphan can lead a squad"], bad: ["Goes home to Hage with nothing", "Forgotten by everyone but Sister Lily"] }
+      },
+      "the Forsaken Realm": {
+        pri: 2, tag: "Your story starts in the Forsaken Realm, the slums the royal capital pretends don't exist.",
+        home: "The Forsaken Realm. Nobles talk about it like a disease. {first} grew up here, and every noble who looks away is someone they're going to beat.",
+        chapters: ["Slum survival", "Street training", "Entrance exam", "Grimoire awakening", "The capital's contempt", "Kingdom war", "Final battle", "Epilogue"],
+        scenes: {
+          early: ["A gang is squeezing the market for protection money. {first} has had enough."],
+          mid: ["The Magic Knights entrance exam. Every noble in the stands sniggers when {first}'s home is announced."],
+          twist: ["The slums flood, and the royal capital doesn't send a single knight."],
+          ending: ["In the Forsaken Realm, kids start practicing magic in the street. They want to be {first}."]
+        },
+        foes: { early: [["A slum gang boss", 18], ["A noble who hunts commoners for sport", 26], ["A crooked Magic Knight shaking down the market", 24]] },
+        training: [["Fought every day just to eat", { s: 3, v: 10 }], ["Picked pockets in the capital without getting caught", { s: 4, v: 10 }], ["Taught themselves to read with stolen books", { s: 5, v: 10 }]],
+        twists: [["The capital refuses to help when the slums flood", { s: 5, v: 6 }], ["A noble steals the credit for your mission", { pts: 2 }], ["The Eye of the Midnight Sun recruits in the slums, and offers you a seat", { gain: { n: "Turned down the Eye", d: "They offered power. The answer was no. Good karma.", karma: 1 } }]],
+        allies: [["A slum kid who looks up to you", { all: 2 }], ["Zora Ideale, who hates fake knights", { s: 5, v: 6 }]],
+        chances: [["The slum kids pool their coins for {first}'s medicine", { heal: true, gain: { n: "The slums' champion", d: "Fights for the people who raised them. +3 power.", power: 3 } }]],
+        endings: { good: ["Becomes a captain and rebuilds the Forsaken Realm", "The first Wizard King from the slums", "Tears down the caste system"], bad: ["Back in the slums, wanted by the knights", "Bought by a noble house", "Dies nameless in the war"] }
+      },
+      "a noble house": {
+        pri: 2, tag: "A noble house means a family name to protect, and a family that will cut you off the moment you shame it.",
+        home: "A noble banquet in the royal capital. Every cousin at the table is waiting for {first} to embarrass the house.",
+        chapters: ["Noble debut", "Family training", "Magic Knight exam", "Heir's evolution", "Family scandal", "Kingdom war", "Final battle", "Epilogue"],
+        scenes: { twist: ["A letter with the family seal: come home, or be disowned."], ending: ["The family portrait gets repainted. {first} is in the middle this time, or not at all."] },
+        foes: { early: [["A rival noble heir", 26], ["Your own cousin, in a friendly duel", 24], ["The family's disgraced black sheep", 22]] },
+        training: [["Private lessons with the house's tutors", { s: 1, v: 10 }], ["Etiquette, fencing, and more fencing", { s: 2, v: 10 }]],
+        twists: [["The family arranges a marriage", { pts: 2 }], ["Disowned for defending a peasant", { gain: { n: "Disowned", d: "Lost the name, kept the soul. Good karma, +3 power.", karma: 1, power: 3 } }], ["An ancestor's diary: they made a deal with a devil", { all: 4 }]],
+        allies: [["Your sibling, the family's favorite", { s: 0, v: 6 }], ["The house's old butler", { heal: true, pts: 1 }]],
+        endings: { good: ["Becomes head of the house", "Raises the house to royal standing", "Leaves the name behind and becomes a hero anyway"], bad: ["Disgraced and stripped of the family name", "A puppet of the family elders"] }
+      },
+      "the royal capital": {
+        pri: 2, tag: "Born in the royal capital: palace politics, the Wizard King's tower, and Magic Knights headquarters around the corner.",
+        home: "The royal capital, where the Magic Knights parade every spring and every noble is watching who stands next to whom.",
+        scenes: { twist: ["King Augustus has announced something stupid again, and the capital has to live with it."], late: ["The capital is burning. The elves have come back in the Magic Knights' own bodies."] },
+        foes: { early: [["Eye of the Midnight Sun saboteurs in the capital", 26], ["A royal guard with an attitude", 22]] },
+        twists: [["King Augustus takes the credit for your mission", { pts: 2 }], ["The Eye of the Midnight Sun attacks the capital", { s: 2, v: 8, inj: true }], ["The Wizard King invites you to talk about magic for three hours", { s: 5, v: 8 }]],
+        allies: [["Julius Novachrono, the Wizard King", { all: 3 }], ["Marx Francois, the Wizard King's aide", { s: 5, v: 6 }]],
+        endings: { good: ["Becomes the Wizard King's right hand", "Saves the capital from the elves"], bad: ["Lost in palace politics"] }
+      },
+      "Elf reincarnation": {
+        pri: 1, tag: "An elf soul means a massacre five hundred years old is part of your story now.",
+        scenes: { twist: ["{first} dreams of a wedding that ended in blood, five hundred years ago."] },
+        twists: [["You remember the day your people were massacred", { all: 5 }], ["You learn the truth: the devil Zagred framed the humans", { gain: { n: "The truth of the massacre", d: "Rage with the right target. +4 power in the biggest fights.", boss: 4 } }], ["Patolli's stone calls every elf home", { s: 0, v: 10, inj: true }]],
+        chances: [["A memory from five hundred years ago hands {first} a forgotten spell", { s: 1, v: 10 }]],
+        endings: { good: ["Lets the elf rest and lives on as themselves"], bad: ["The elf takes over for good"] }
+      },
+      "Witch": { pri: 1, twists: [["The Witch Queen summons every witch home", { pts: 2 }]], chances: [["Witch healing kicks in: blood knits itself back together", { heal: true, all: 2 }]] },
+      "Half-dwarf": {
+        pri: 1, twists: [["The giant form triggers in the middle of a fight", { s: 3, v: 12, inj: true }]],
+        allies: [["Charmy Pappitson, also half-dwarf", { heal: true, all: 2 }]],
+        chances: [["{first} eats an entire banquet and grows twice as big", { s: 3, v: 10 }]]
+      },
+      "Peasant": { pri: 1.5, chances: [["A captain spots {first} hauling people out of the rubble", { gain: { n: "Seen by a captain", d: "Someone important is watching now. +3 power.", power: 3 } }]], twists: [["Nobles try to buy your squad seat", { s: 5, v: 6 }]] },
+      "House Vermillion": {
+        pri: 3, scenes: { train: ["Mereoleona drags {first} into a volcano. Family tradition."] },
+        twists: [["Fuegoleon wakes from his coma with Salamander on his arm", { all: 3 }]],
+        allies: [["Fuegoleon Vermillion", { s: 0, v: 6 }], ["Mereoleona Vermillion", { s: 3, v: 6 }], ["Leopold Vermillion", { s: 1, v: 6 }]],
+        endings: { good: ["Leads the Crimson Lion Kings"] }
+      },
+      "House Silva": {
+        pri: 3, scenes: { mid: ["The Silva siblings watch {first}'s exam. Nobody in the family claps."] },
+        twists: [["The family calls you a royal disgrace in front of the whole court", { s: 5, v: 6 }], ["You learn Vanica and Megicula killed Acier Silva", { gain: { n: "Avenging Acier", d: "+5 power against the biggest enemies.", boss: 5 } }]],
+        allies: [["Noelle Silva", { s: 1, v: 6 }], ["Nozel Silva", { s: 0, v: 6 }]],
+        endings: { good: ["Becomes captain of the Silver Eagles"] }
+      },
+      "House Kira (the royal family)": { pri: 3, twists: [["King Augustus is family, and he wants you as a trophy", { pts: 2 }]], endings: { good: ["Takes the throne of the Clover Kingdom"] } },
+      "Black Bulls": {
+        pri: 1.2, scenes: { side: ["The Black Bulls hideout is on fire again. Magna blames Luck. Then the mission orders arrive."] },
+        allies: [["Magna Swing", { s: 3, v: 6 }], ["Luck Voltia", { s: 4, v: 6 }], ["Vanessa Enoteca", { s: 1, v: 6 }], ["Finral Roulacase", { s: 4, v: 6 }], ["Gordon Agrippa", { s: 5, v: 6 }], ["Secre Swallowtail", { s: 1, v: 6 }]],
+        chances: [["Captain Yami says: surpass your limits, right here, right now", { all: 3 }], ["The Black Bulls throw a party, and {first} wakes up stronger somehow", { heal: true, pts: 1 }]]
+      },
+      "Golden Dawn": {
+        pri: 1.2, allies: [["Yuno", { s: 0, v: 6 }], ["Mimosa Vermillion", { heal: true, all: 2 }], ["Klaus Lunettes", { s: 5, v: 6 }], ["Langris Vaude", { s: 1, v: 6 }]],
+        twists: [["William Vangeance is revealed as Patri's host", { s: 5, v: 8 }]]
+      },
+      "Crimson Lion Kings": { pri: 1.2, allies: [["Leopold Vermillion", { s: 1, v: 6 }], ["Randall Luftgang", { s: 4, v: 6 }]] },
+      "Supreme devil": {
+        pri: 4, scenes: { boss: ["The other rulers of the underworld have noticed {first}. They don't share."] },
+        twists: [["Your devil tries to take your body mid-fight", { all: 6, inj: true }], ["The Qliphoth tree starts to grow", { s: 0, v: 10 }]]
+      }
+    }
+  });
+  THEMES.blackclover.journey.chances = [
+    ["Captain's orders: get up and surpass your limits", { all: 3 }], ["A dungeon opens near where {first} fell. Nobody else is close enough to claim it", { pts: 2 }],
+    ["Owen the healer patches {first} up, with a lecture", { heal: true, all: 2 }], ["The grimoire writes a new page while {first} sleeps", { s: 1, v: 8 }],
+    ["{first} studies the spell that beat them, all night", { s: 5, v: 8 }], ["Shame does the training. {first} swings until their hands bleed", { s: 3, v: 8 }],
+    ["A wandering mage saw the fight and offers one lesson", { gain: { n: "Wanderer's lesson", d: "+3 power.", power: 3 } }]
+  ];
+  // ---------- Jujutsu Kaisen ----------
+  Object.assign(THEMES.jjk, {
+    titles: {
+      Gender: "Who can see the curses?",
+      Being: "What are you, under the skin?",
+      Origin: "Who raised you in the jujutsu world?",
+      "Cursed technique": "What technique is carved into {first}'s brain?",
+      Domain: "How far has {first} gotten toward a domain?",
+      "Fighting style": "How does {first} fight up close?",
+      "Cursed tool": "Which cursed tool does {first} carry?",
+      Personality: "What kind of sorcerer is {first}?",
+      Rival: "Who does {first} keep running into?",
+      Grade: "What grade do the higher-ups give {first}?",
+      "Why you fight": "Why does {first} keep exorcising curses?",
+      "How you want to die": "How does {first} want to die?",
+      "Cult role": "What does the cult use {first} for?",
+      "What you believe": "What does {first} believe about non-sorcerers?",
+      "Bodies left behind": "How many bodies has {first} left behind?",
+      "Zenin standing": "Where do you stand in the Zenin household?",
+      "How the clan treats you": "How does the Zenin clan treat {first}?",
+      "Six Eyes": "Were you born with the Six Eyes?",
+      "Kamo standing": "Where do you stand in the Kamo bloodline?",
+      "Whose vessel": "Who is living inside {first}?",
+      "Fingers consumed": "How many of Sukuna's fingers has {first} eaten?",
+      "Sukuna's opinion of you": "What does the King of Curses think of his vessel?",
+      "Who you were": "Who were you, a thousand years ago?",
+      "Death Painting": "Which Death Painting are you?",
+      Cores: "How many cores did Yaga give you?",
+      "Player type": "What kind of Culling Game player are you?",
+      Colony: "Which colony did Kenjaku drop you in?",
+      "Culling Game points": "How many points has {first} scored?",
+      "How you found jujutsu": "How did an ordinary kid end up in jujutsu?",
+      Year: { "Tokyo Jujutsu High": "What year are you at Tokyo Jujutsu High?", "Kyoto Jujutsu High": "What year are you at Kyoto Jujutsu High?" },
+      Teacher: "Who's teaching {first}?",
+      "First shikigami": "Which shikigami answers first?",
+      Mahoraga: "Has {first} dared to summon Mahoraga?",
+      "Limitless skill": "How far into Limitless can {first} go?",
+      "Blood technique": "What's {first}'s best Blood Manipulation move?",
+      "Strongest word": "What's the strongest word {first} can say?",
+      "Flame mastery": "How hot does {first}'s Disaster Flames burn?",
+      "Soul touch": "What can {first} do with a soul?",
+      "Projection level": "How fast can {first} project?",
+      "Shrine technique": "Which Shrine slash does {first} master?",
+      "Swap trick": "What's {first}'s Boogie Woogie trick?",
+      "Comedy style": "What kind of comedian is {first}?",
+      "Strongest curse owned": "What's the strongest curse {first} has swallowed?",
+      "Star Rage": "What does Star Rage give {first}?",
+      Body: "What body is {first} fighting in?",
+      "Anti-domain": "How does {first} survive a domain?",
+      "Domain flaw": "What's wrong with {first}'s domain?",
+      "Domain name": { "Full domain": "What does {first}'s domain look like?", "Barrierless domain": "What does {first}'s barrierless domain look like?" },
+      "Black Flash streak": "How many Black Flashes has {first} landed?",
+      "Sword school": "Who taught {first} the sword?",
+      "Shikigami count": "How many shikigami does {first} command?",
+      Reinforcement: "How far does {first}'s cursed energy reinforce the body?"
+    },
+    talTitles: [
+      ["How much cursed energy does {first} carry?", "Would {first} show up on a Six Eyes reading?", "How much cursed energy leaks out when {first} is angry?"],
+      ["How well does {first} understand {Cursed technique}?", "Has {first} found an extension technique yet?"],
+      ["Can {first} handle {Cursed tool}?", "How dangerous is {first} with a cursed tool?"],
+      ["How hard does {first} hit without technique?", "Could {first} survive Toji's training?"],
+      ["Can {first} keep up with Projection Sorcery?", "How fast is {first} in a straight line?"],
+      ["Can {first} read a technique's rules mid-fight?", "Would {first} survive a battle of wits with Kenjaku?"]
+    ],
+    jt: {
+      foe: ["{chapter}: what's waiting?", "Which curse is the mission for?", "Who shows up at the scene?"],
+      train: ["Who's training {first} now?", "How does {first} get stronger?"],
+      twist: ["What do the higher-ups decide?", "What goes wrong?", "Twist of fate"],
+      recruit: ["Who's on {first}'s side?", "Who answers the call?"],
+      loot: ["What's in the cursed tool vault?", "What does {first} take home?"],
+      evolve: ["How does {Cursed technique} evolve?", "What does {first} finally understand?"],
+      chance: ["What comes after the beating?", "Who drags {first} out?", "How does {first} come back?"],
+      battle: ["{first} vs {foe}", "Can {first} land a Black Flash on {foe}?"]
+    },
+    arcs: {
+      "the Zenin clan": {
+        pri: 2, tag: "Your story runs through the Zenin clan: if you don't have a technique, you're not a Zenin.",
+        home: "The Zenin estate in Kyoto. The Hei and the Kukuru Unit train in the courtyard, the elders watch from the veranda, and everyone already knows {first}'s technique, or lack of one.",
+        chapters: ["Zenin courtyard trial", "Kukuru Unit drills", "Kyoto Goodwill Event", "The clan's verdict", "Naobito's will", "Shibuya Incident", "The fall of the Zenin", "Epilogue"],
+        scenes: {
+          early: ["The Kukuru Unit is sent to test {first}. Nobody holds back. That's the Zenin way."],
+          train: ["Naoya Zenin leans on a pillar and watches {first} train. He's smiling, which is worse."],
+          mid: ["The Goodwill Event. A Zenin who loses in front of Kyoto doesn't come home the same."],
+          twist: ["Naobito Zenin is dead. His will names Megumi Fushiguro head of the clan, and orders anyone in the way killed."],
+          late: ["Maki comes home to the Zenin estate. She's alone, and her sister is dead."],
+          boss: ["The elders lock the cursed tool vault. Whoever comes out alive is the clan."],
+          ending: ["The Zenin estate is quiet now. Whatever the clan was, {first} decided what it is."]
+        },
+        foes: {
+          early: [["The Kukuru Unit", 26], ["A Hei unit sorcerer", 30], ["A cousin with a better technique", 24], ["A curse loose in the estate", 20]],
+          mid: [["Naoya Zenin", 54], ["Ogi Zenin", 48], ["Jinichi Zenin", 46], ["The Hei", 50]],
+          late: [["Naoya Zenin, reborn as a cursed spirit", 72], ["Ogi Zenin with his flame sword", 64], ["The whole Hei unit at once", 66]],
+          boss: [["Naoya Zenin, Projection Sorcery cursed spirit", 86], ["The Zenin clan elders", 82]]
+        },
+        training: [["Kukuru Unit drills until somebody breaks", { s: 3, v: 10 }], ["Studied the clan's records on Ten Shadows", { s: 5, v: 8 }], ["Trained in the cursed tool vault", { s: 2, v: 12 }], ["Snuck out to train with Maki", { s: 4, v: 10 }]],
+        twists: [["Naobito's will names Megumi Fushiguro head of the clan", { pts: 2 }], ["The elders order {first} killed", { inj: true, all: 4 }], ["Mai dies and leaves Maki a sword", { s: 2, v: 10 }], ["Maki burns the clan down", { gain: { n: "Survived the Zenin purge", d: "Walked out of the estate alive. +4 power.", power: 4 } }]],
+        allies: [["Maki Zenin", { s: 3, v: 6 }], ["Mai Zenin", { s: 2, v: 6 }], ["Megumi Fushiguro", { s: 1, v: 6 }]],
+        loot: [["A blade from the Zenin cursed tool vault", { s: 2, v: 10 }], ["Toji's old Playful Cloud", { s: 3, v: 10 }]],
+        chances: [["Maki finds {first} in the courtyard and says: get up, or they win", { all: 3 }], ["The cursed tool vault's door is unlocked for one night", { gain: { n: "Vault blade", d: "A Zenin heirloom weapon. +4 power.", power: 4 } }]],
+        endings: { good: ["Becomes head of the Zenin clan", "Tears down the clan's rules from the inside", "Walks away from the Zenin name and is happier for it"], bad: ["Killed by the clan elders", "Dies in the fall of the Zenin", "Becomes exactly what the clan wanted"] }
+      },
+      "the Gojo clan": {
+        pri: 2, tag: "Your story runs through the Gojo clan: the Six Eyes, Limitless, and a bounty on your head from the day you're born.",
+        home: "The Gojo estate. When a Gojo child with the Six Eyes is born, the balance of the jujutsu world shifts, and the bounties start the same week. {first} grew up with bodyguards.",
+        chapters: ["The bounty", "Limitless training", "Kyoto Goodwill Event", "Six Eyes awakening", "The Star Plasma Vessel", "Shibuya Incident", "The strongest", "Epilogue"],
+        scenes: {
+          early: ["Curse users with a bounty list come for {first} before breakfast."],
+          twist: ["A mission: protect the Star Plasma Vessel. Someone with no cursed energy at all is hunting her."],
+          late: ["Satoru Gojo is sealed in the Prison Realm at Shibuya Station. Every Gojo in the world is suddenly a target."],
+          boss: ["The King of Curses stands in the street, fully restored, and he wants a fight with a Gojo."],
+          ending: ["The Gojo name means something different now. {first} decided what."]
+        },
+        foes: {
+          early: [["Bounty-hunting curse users", 24], ["Assassins from the Star Religious Group", 26], ["Q's hit squad", 28]],
+          mid: [["Toji Fushiguro, the Sorcerer Killer", 60], ["Hanami", 50], ["Jogo", 56]],
+          late: [["Kenjaku in Suguru Geto's body", 76], ["Uraume", 70]],
+          boss: [["Sukuna, fully restored", 98]]
+        },
+        training: [["Trained Infinity until it never turned off", { s: 1, v: 12 }], ["Learned to read the world with the Six Eyes", { s: 5, v: 12 }], ["Practiced Reverse Cursed Technique on their own wounds", { heal: true, s: 0, v: 8 }]],
+        twists: [["Toji Fushiguro takes the job to kill {first}", { inj: true, all: 4 }], ["Satoru Gojo is sealed in Shibuya", { s: 0, v: 8 }], ["The clan elders ask {first} to replace Satoru", { pts: 3 }]],
+        allies: [["Satoru Gojo", { all: 3 }], ["Suguru Geto, before everything", { s: 1, v: 6 }], ["Shoko Ieiri", { heal: true, all: 2 }]],
+        chances: [["Near death, {first} finally gets Reverse Cursed Technique", { heal: true, gain: { n: "Reverse Cursed Technique", d: "Heals itself mid-fight. Rewrites one defeat.", save: { chance: 0.45, uses: 1, text: "{first} should be dead. Instead they laugh, and the wound closes. {foe} realizes too late." } } }]],
+        endings: { good: ["The new strongest", "Heads the Gojo clan and ends the bounties", "Lives to be old, which Gojos rarely do"], bad: ["Killed by the Sorcerer Killer", "Sealed away like Satoru", "Cut in half by the King of Curses"] }
+      },
+      "the Kamo clan": {
+        pri: 2, tag: "Your story runs through the Kamo clan, whose name the worst sorcerer in history once wore.",
+        home: "The Kamo estate. The family is proud of Blood Manipulation and ashamed of one ancestor: Noritoshi Kamo, the Meiji-era sorcerer who made the Death Paintings. {first} has heard the name whispered all their life.",
+        chapters: ["Kamo heir trial", "Blood training", "Kyoto Goodwill Event", "Blood awakening", "The Death Paintings", "Shibuya Incident", "The worst sorcerer", "Epilogue"],
+        scenes: {
+          early: ["The clan wants proof that {first}'s blood is worth the Kamo name."],
+          twist: ["Three Death Paintings walk into Shibuya, and the eldest calls himself {first}'s family."],
+          boss: ["Kenjaku smiles with someone else's face. He was Noritoshi Kamo once."]
+        },
+        foes: {
+          early: [["A Kamo cousin with sharper blood", 26], ["A curse feeding on the estate", 20]],
+          mid: [["Eso and Kechizu", 44], ["Choso", 54]],
+          late: [["Kenjaku", 76]],
+          boss: [["Kenjaku, wearing his old Kamo name", 90]]
+        },
+        training: [["Learned to compress blood like Convergence", { s: 1, v: 10 }], ["Carried blood packs into every fight", { s: 0, v: 8 }]],
+        twists: [["Noritoshi Kamo was Kenjaku all along", { s: 5, v: 10 }], ["Your mother was sent away for having you", { gain: { n: "Concubine's child", d: "Fighting for someone the clan threw out. +3 power after each defeat.", adapt: 3 } }]],
+        allies: [["Noritoshi Kamo of Kyoto High", { s: 1, v: 6 }], ["Choso, the eldest Death Painting", { s: 0, v: 6 }]],
+        endings: { good: ["Becomes head of the Kamo clan and burns Kenjaku's name off the records"], bad: ["Used as a blood bag by the clan elders"] }
+      },
+      "Tokyo Jujutsu High": {
+        pri: 2, tag: "Your story runs through Tokyo Jujutsu High: Gojo's students, Yaga's cursed corpses, and missions nobody else wants.",
+        home: "Tokyo Jujutsu High, hidden in the hills behind a barrier. Principal Yaga's cursed dolls watch the gate. {first}'s first mission is already on the board.",
+        scenes: {
+          early: ["A school is haunted by a Grade 2 curse. The window says Grade 4. It's always wrong."],
+          mid: ["The Kyoto Goodwill Event. Kyoto's principal has quietly told his students to kill someone on Tokyo's team."],
+          twist: ["The higher-ups have scheduled an execution. The name on the list is someone {first} trusts."],
+          late: ["October 31st. A veil drops over Shibuya Station, and Satoru Gojo walks in alone."]
+        },
+        allies: [["Yuji Itadori", { s: 3, v: 6 }], ["Megumi Fushiguro", { s: 1, v: 6 }], ["Nobara Kugisaki", { s: 2, v: 6 }], ["Panda", { s: 3, v: 6 }], ["Toge Inumaki", { s: 1, v: 6 }], ["Yuta Okkotsu", { all: 3 }]],
+        twists: [["Principal Yaga is executed for the cursed corpse secret", { s: 5, v: 8 }], ["Gojo signs {first} up for a mission three grades too high", { all: 4, inj: true }]],
+        chances: [["Gojo shows up, says something infuriating, and fixes {first}'s cursed energy flow in thirty seconds", { s: 0, v: 10 }], ["Shoko Ieiri patches {first} up and steals their snacks", { heal: true, all: 2 }]]
+      },
+      "Kyoto Jujutsu High": {
+        pri: 2, tag: "Your story runs through Kyoto Jujutsu High, where the principal answers to the higher-ups, not the students.",
+        home: "Kyoto Jujutsu High. Principal Gakuganji plays electric guitar and hates Satoru Gojo. Aoi Todo is asking everyone what type of person they like.",
+        scenes: {
+          mid: ["The Goodwill Event. Gakuganji's orders: Yuji Itadori doesn't leave the forest alive."],
+          twist: ["Mechamaru is the spy. Kokichi Muta sold the school's location to the curses."]
+        },
+        allies: [["Aoi Todo", { s: 3, v: 6 }], ["Mai Zenin", { s: 2, v: 6 }], ["Momo Nishimiya", { s: 4, v: 6 }], ["Kasumi Miwa", { s: 2, v: 6 }], ["Noritoshi Kamo", { s: 1, v: 6 }], ["Utahime Iori", { all: 2 }]],
+        twists: [["Gakuganji orders {first} to kill a Tokyo student", { gain: { n: "Refused the order", d: "Said no to the principal. Good karma.", karma: 1 } }], ["Mechamaru is the spy", { s: 5, v: 8 }]],
+        chances: [["Todo decides {first} is his best friend and drags them into training", { s: 3, v: 10 }]]
+      },
+      "an ordinary family": {
+        pri: 2, tag: "Your family can't see curses. Every fight you have, you're hiding from them too.",
+        home: "A normal apartment, a normal family, a normal school. Then {first} saw the thing on the ceiling, and nobody else did.",
+        chapters: ["The first curse", "Learning to see", "Kyoto Goodwill Event", "Technique awakening", "Home isn't safe", "Shibuya Incident", "Final battle", "Epilogue"],
+        scenes: {
+          early: ["Something has been sitting on {first}'s family's roof for a week. Tonight it comes inside."],
+          twist: ["Mahito found {first}'s home. The front door is open."],
+          ending: ["{first}'s family still can't see curses. They'll never know how many times they were saved."]
+        },
+        foes: { early: [["The curse on the family roof", 20], ["A curse at their old school", 22], ["Junpei's tormentors' curse", 18]] },
+        twists: [["Mahito targets {first}'s family", { inj: true, all: 5 }], ["The Culling Game drags ordinary people in", { pts: 2 }], ["A sorcerer offers to erase your family's memories to keep them safe", { gain: { n: "Protector", d: "Fighting for people who'll never know. Good karma, +2 power.", karma: 1, power: 2 } }]],
+        chances: [["{first} calls home just to hear a voice. It's enough", { heal: true, all: 3 }], ["A Window spots {first}'s potential and reports it to the school", { gain: { n: "Late bloomer", d: "Nobody expected them to make it. +4 power.", power: 4 } }]],
+        endings: { good: ["Goes home every weekend, and nobody ever finds out", "Becomes a Grade 1 sorcerer from nowhere"], bad: ["Their family pays for it"] }
+      },
+      "the Culling Game": {
+        pri: 2, tag: "Your story runs through Kenjaku's Culling Game: ten colonies, points for every kill, and rules anyone with 100 points can rewrite.",
+        home: "A barrier drops over the city. A shikigami called Kogane pops up next to {first}: score points or lose your technique. {first} has nineteen days.",
+        chapters: ["Entering the colony", "Points and rules", "Colony fight", "Rule change", "Kenjaku's plan", "Sendai and Sakurajima", "The final game", "Epilogue"],
+        scenes: {
+          early: ["The first night in the colony. Everyone is hunting everyone."],
+          mid: ["A player with 100 points is about to add a rule. {first} needs to get there first."],
+          twist: ["Someone added a rule. Nobody likes it."],
+          late: ["The Sendai colony is a four-way standoff between monsters."],
+          boss: ["Kenjaku stands on the edge of the merger. The whole country is the next game."]
+        },
+        foes: {
+          early: [["A modern player scared out of their mind", 18], ["A reincarnated sorcerer from the Heian era", 34], ["A gang of players hunting newbies", 24]],
+          mid: [["Hiromi Higuruma", 54], ["Charles Bernard", 44], ["Reggie Star", 46], ["Hajime Kashimo", 60]],
+          late: [["Ryu Ishigori", 70], ["Takako Uro", 66], ["Kurourushi", 62], ["Kinji Hakari in a jackpot", 74]],
+          boss: [["Kenjaku", 92], ["Yorozu", 84]]
+        },
+        training: [["Learned the colony's rules better than anyone", { s: 5, v: 10 }], ["Hunted points night after night", { s: 0, v: 10 }]],
+        twists: [["You hit 100 points and add a rule", { pts: 3 }], ["A rule kills everyone who doesn't score in 19 days", { inj: true, all: 4 }], ["Kogane announces your bounty", { s: 4, v: 8 }]],
+        allies: [["Kinji Hakari", { s: 0, v: 6 }], ["Hiromi Higuruma", { s: 5, v: 6 }], ["Yuta Okkotsu", { all: 3 }], ["Kirara Hoshi", { s: 4, v: 6 }]],
+        chances: [["Kogane offers a deal: 5 points for information", { pts: 2 }], ["A dead player's points transfer to {first}", { gain: { n: "Stolen points", d: "+3 power.", power: 3 } }]],
+        endings: { good: ["Survives the Culling Game with 100 points", "Adds the rule that ends the game"], bad: ["Loses their technique to the rules", "Dies in the colony"] }
+      },
+      "Vessel": {
+        pri: 1, tag: "Something lives inside you, and it's listening.",
+        scenes: { twist: ["The higher-ups vote. Execution of the vessel: approved, postponed."] },
+        twists: [["The higher-ups sentence {first} to death", { pts: 2 }], ["The thing inside takes over for a minute", { all: 6, inj: true }]]
+      },
+      "Sukuna, the King of Curses": {
+        pri: 3, scenes: { boss: ["Sukuna stops talking inside {first}'s head. He's waiting."] },
+        twists: [["Sukuna takes over, and a city block disappears", { all: 6, gain: { n: "Shibuya's guilt", d: "They remember what Sukuna did with their hands. Bad karma, +3 power.", karma: -1, power: 3 } }]],
+        foes: { boss: [["Sukuna, inside your own innate domain", 96]] }
+      },
+      "Cursed womb: Death Painting": {
+        pri: 1, twists: [["Choso says he's your big brother. He means it", { ally: true, all: 3 }]],
+        chances: [["{first}'s brothers feel it when they fall. One of them comes", { heal: true, all: 3 }]],
+        allies: [["Choso", { s: 0, v: 6 }]]
+      },
+      "Cursed corpse": { pri: 1, twists: [["Yaga is executed for the secret of making you", { s: 5, v: 10 }]], allies: [["Panda", { s: 3, v: 6 }]] },
+      "Incarnated sorcerer": { pri: 1, twists: [["Your old era's rival is also in this century", { s: 0, v: 10 }]], chances: [["A thousand years of fighting instinct wakes up", { s: 5, v: 10 }]] },
+      "Heavenly Restriction": {
+        pri: 1.5, tag: "No cursed energy, all body. The jujutsu world will call you trash right up until you break them.",
+        chances: [["{first} realizes they can't be seen by barriers built for cursed energy", { gain: { n: "Invisible to barriers", d: "Like Toji. +5 power in the biggest fights.", boss: 5 } }]],
+        twists: [["The restriction completes itself", { s: 3, v: 14 }]]
+      }
+    }
+  });
+  THEMES.jjk.journey.chances = [
+    ["Pain sharpens everything. {first} lands their first Black Flash", { s: 0, v: 10 }], ["{first} makes a binding vow: more power, at a cost", { all: 4, inj: true }],
+    ["Shoko Ieiri patches {first} up without looking up from her coffee", { heal: true, all: 2 }], ["{first} replays the fight a hundred times in their head", { s: 5, v: 8 }],
+    ["A higher-up promotes {first}, mostly to get them killed faster", { pts: 2 }], ["{first} finally understands their technique's rules", { s: 1, v: 10 }],
+    ["Something clicks on the edge of death", { gain: { n: "Edge of death", d: "Fights better when cornered. +3 power.", power: 3 } }]
+  ];
+  // ---------- Hunter x Hunter ----------
+  Object.assign(THEMES.hxh, {
+    titles: {
+      Gender: "Who walks into the Hunter Exam?",
+      Race: "Human, or something else?",
+      Origin: "Where does {first}'s story start?",
+      "Nen type": "What happens when {first} does water divination?",
+      Hatsu: "What's {first}'s Hatsu?",
+      "Fighting style": "How does {first} fight?",
+      Weapon: "What does {first} carry into a fight?",
+      Personality: "What kind of person is {first}?",
+      Rival: "Who keeps crossing {first}'s path?",
+      Rank: "What does {first}'s Hunter license say?",
+      "Hunter type": "What does {first} hunt?",
+      Restriction: "What's the catch on {first}'s Hatsu?",
+      "Do you eat humans?": "Does {first} eat humans?",
+      "How you feel about the family": "How does {first} feel about the Zoldycks?",
+      "Stolen eyes recovered": "How many pairs of Scarlet Eyes has {first} brought home?",
+      "What you steal": "What does {first} steal for the Troupe?",
+      "Why you want a Hunter license": "Why does {first} want a Hunter license?",
+      "Ant caste": "What did the Queen make {first}?",
+      "Human memories": "What does {first} remember of being human?",
+      "The calamity inside": "What came back from the Dark Continent inside {first}?",
+      "Zoldyck role": "What are you to the Zoldyck family?",
+      "Scarlet Eyes": "What do {first}'s Scarlet Eyes mean?",
+      "Meteor City past": "What did {first} do in Meteor City?",
+      "Prince number": "Which Kakin prince is {first}?",
+      "NGL secret": "What's {first}'s secret from the NGL?",
+      "Whale Island life": "What was life like on Whale Island?",
+      "Highest floor reached": "How high did {first} climb Heavens Arena?",
+      "Greed Island": "What is {first} in Greed Island?",
+      "Association job": "What's {first}'s job at the Hunter Association?",
+      "Yorknew past": "What did {first} do in Yorknew City?",
+      "Phantom Troupe": "Did the Spiders take {first} in?",
+      "Dark Continent": "Is {first} going to the Dark Continent?",
+      "Illumi's needle": "Is there a needle in {first}'s head?",
+      "Guardian Spirit Beast": "What hatched from {first}'s urn?",
+      "Specialist trick": "What can only {first} do?",
+      "Chain set": "Which chain is {first}'s best?",
+      "Guardian form": "What does {first}'s guardian look like?",
+      "The rule": "What's the rule inside {first}'s ability?",
+      "Vow strength": { "Chain set": "How heavy is the vow on {first}'s chains?", "*": "How heavy is the vow behind {first}'s Hatsu?" },
+      "Shingen-ryu rank": "How far into Shingen-ryu has {first} gone?",
+      "Assassin technique": "Which Zoldyck technique does {first} master?",
+      Beast: "What does {first}'s Nen beast look like?"
+    },
+    talTitles: [
+      ["How much aura pours out when {first}'s nodes open?", "How big is {first}'s aura, Ren at full?", "Would Wing stop the lesson after seeing {first}'s aura?"],
+      ["How far has {first} gotten in Nen basics?", "Can {first} do Ko without leaving themselves open?"],
+      ["How good is {first} with {Weapon}?", "Can {first} fight with whatever's on hand?"],
+      ["How hard does {first} hit without Nen?", "Could {first} open the Testing Gate?"],
+      ["How fast is {first}?", "Could {first} keep up with Killua?"],
+      ["Could {first} win a game of gungi?", "How fast does {first} figure out an enemy's Hatsu?"]
+    ],
+    jt: {
+      foe: ["{chapter}: who's waiting?", "Who does {first} run into?", "Who's on the other side?"],
+      train: ["What's {first}'s training?", "Who teaches {first} next?"],
+      twist: ["What happens next?", "Twist of fate"],
+      recruit: ["Who joins {first}?", "Who has {first}'s back?"],
+      loot: ["What does {first} find?", "What's the prize?"],
+      evolve: ["How does {first}'s Hatsu evolve?", "What does {first}'s Nen become?"],
+      chance: ["What happens after the loss?", "Who helps {first} back up?", "What does {first} do with the loss?"],
+      battle: ["{first} vs {foe}", "Can {first} read {foe}'s Hatsu in time?"]
+    },
+    arcs: {
+      "Whale Island": {
+        pri: 2, tag: "Your story starts on Whale Island, where Ging Freecss left one kid behind and took nothing with him.",
+        home: "Whale Island. Mito-san's house, the forest lord in the woods, and the ships that come in once a week. {first} has been waiting for the Hunter Exam since they could walk.",
+        chapters: ["Leaving Whale Island", "The forest lord's test", "Heavens Arena", "Nen awakening", "Ging's trail", "Into the NGL", "Final battle", "Epilogue"],
+        scenes: {
+          early: ["The ship out of Whale Island hits a storm. The captain is quietly testing which passengers are worth taking to the exam."],
+          twist: ["A message box left by Ging, with a tape and a ring inside."],
+          ending: ["Mito-san still keeps {first}'s room ready on Whale Island."]
+        },
+        foes: { early: [["The forest lord", 20], ["A sea storm that wants everyone overboard", 16], ["A rookie crusher on the exam boat", 18]] },
+        training: [["Fishing the swamp lord out with a rod", { s: 2, v: 10 }], ["Running through the island's forest", { s: 4, v: 10 }]],
+        twists: [["You find Ging's message box", { pts: 2, s: 5, v: 6 }], ["Kite says Ging trained him, and he'll train you", { ally: true, s: 0, v: 8 }]],
+        allies: [["Mito-san (from far away)", { heal: true, all: 2 }], ["Kite", { s: 0, v: 6 }], ["Gon Freecss", { s: 3, v: 6 }]],
+        chances: [["A letter from Mito-san arrives exactly when {first} needs it", { heal: true, all: 3 }], ["{first} remembers the forest lord they beat as a kid", { gain: { n: "Island stubbornness", d: "Rewrites one defeat.", save: { chance: 0.4, uses: 1, text: "{first} plays dead like they learned in the forest, waits for {foe} to relax, and strikes." } } }]],
+        endings: { good: ["Finds Ging and gets a real conversation out of him", "Goes home to Whale Island and Mito-san cries"], bad: ["Never finds what they left the island for"] }
+      },
+      "Meteor City": {
+        pri: 2, tag: "Your story starts in Meteor City. We reject nothing, so take nothing from us.",
+        home: "Meteor City, the dumping ground of the world. People here don't officially exist. The Phantom Troupe was born here, and everyone remembers why.",
+        chapters: ["Trash heap survival", "Learning Nen on the street", "The Spiders' test", "Hatsu awakening", "Revenge for Meteor City", "The Yorknew auction", "Final battle", "Epilogue"],
+        scenes: {
+          early: ["Meteor City's elders need someone to make an example of a mafia collector. {first} volunteers."],
+          mid: ["A Spider with a numbered tattoo is watching {first} fight."],
+          twist: ["A Meteor City kid was murdered on video, and the Troupe's founders swore revenge."],
+          late: ["Yorknew's Southernpiece Auction. The Spiders plan to steal everything."]
+        },
+        foes: { early: [["A trash-heap gang", 18], ["A mafia collector", 22], ["A Meteor City suicide bomber", 26]], mid: [["Nobunaga Hazama", 52], ["Phinks Magcub", 54], ["Feitan Portor", 56]], boss: [["Chrollo Lucilfer", 92]] },
+        training: [["Dug through the trash heaps for food and weapons", { s: 3, v: 10 }], ["Learned Nen from a Troupe member, the hard way", { s: 1, v: 10 }]],
+        twists: [["The Troupe offers {first} a numbered tattoo", { pts: 3 }], ["Meteor City's elders send {first} to take revenge on the mafia", { s: 3, v: 8 }]],
+        allies: [["Pakunoda", { s: 5, v: 6 }], ["Uvogin", { s: 3, v: 6 }], ["Shalnark", { s: 5, v: 6 }]],
+        chances: [["Meteor City takes care of its own. A stranger feeds {first} for a week", { heal: true, gain: { n: "Child of Meteor City", d: "Nobody officially exists. +3 power.", power: 3 } }]],
+        endings: { good: ["Becomes Meteor City's protector", "Leaves the Troupe and lives free"], bad: ["Dies a Spider"] }
+      },
+      "the Zoldyck estate": {
+        pri: 2
+      },
+      "the Kurta clan": {
+        pri: 2, tag: "Your story is the Kurta clan's: a massacre, stolen eyes, and a list of Spiders.",
+        home: "The Kurta village is gone. The Phantom Troupe killed everyone and took their eyes. {first} buried who they could and swore to find the rest.",
+        chapters: ["Leaving the ruins", "Chains of resolve", "The Hunter Exam", "Emperor Time", "The Nostrade bodyguard job", "The Yorknew auction", "The Spiders", "Epilogue"],
+        scenes: {
+          early: ["{first} keeps their contacts in. If anyone sees their eyes turn scarlet, they're dead."],
+          mid: ["A pair of Scarlet Eyes is up for auction in Yorknew. The bidding starts at a billion."],
+          twist: ["Light Nostrade's daughter collects human body parts. Her collection has Kurta eyes in it."],
+          late: ["Uvogin of the Phantom Troupe is alone in the wasteland. {first} has chains ready."],
+          boss: ["Chrollo Lucilfer is in the same room. {first}'s eyes are already burning."],
+          ending: ["{first} brings another pair of eyes home and buries them."]
+        },
+        foes: {
+          early: [["A body-part collector's guards", 22], ["A mafia fence selling Scarlet Eyes", 20]],
+          mid: [["Uvogin", 60], ["The Shadow Beasts", 48], ["A Nostrade family rival", 44]],
+          late: [["Uvogin, Phantom Troupe", 68], ["Pakunoda", 64], ["Feitan Portor", 70]],
+          boss: [["Chrollo Lucilfer", 92]]
+        },
+        training: [["Stared at a chain for a week until it became real", { s: 1, v: 12 }], ["Swore a life-or-death vow", { all: 6, inj: true }], ["Studied every Troupe member's file", { s: 5, v: 10 }]],
+        twists: [["You find a pair of eyes at the auction", { pts: 2 }], ["Emperor Time awakens and it costs lifespan", { s: 0, v: 14, inj: true }], ["You take a bodyguard job for the Nostrade family to get closer to the eyes", { s: 5, v: 8 }]],
+        allies: [["Kurapika", { s: 1, v: 6 }], ["Leorio Paradinight", { heal: true, all: 2 }], ["Melody", { s: 5, v: 6 }]],
+        loot: [["A recovered pair of Scarlet Eyes", { all: 4 }]],
+        chances: [["Rage turns {first}'s eyes scarlet, and every stat jumps", { all: 5 }], ["{first} makes a vow on the Kurta dead", { gain: { n: "Vow on the dead", d: "+6 power against the biggest enemies.", boss: 6 } }]],
+        endings: { good: ["Recovers every stolen pair of Scarlet Eyes", "Lets go of revenge and lives"], bad: ["Burns out their life on Emperor Time", "Killed by the Spiders, like the rest of the clan"] }
+      },
+      "Yorknew City": {
+        pri: 2, tag: "Your story runs through Yorknew City: the Southernpiece auction, the Ten Dons, and the night the Spiders came to steal everything.",
+        home: "Yorknew City in September. The underground auction is in town, the mafia is everywhere, and {first} knows which alleys are safe.",
+        chapters: ["Auction season", "Street training", "The bounty board", "Nen awakening", "The Ten Dons' order", "The Yorknew auction", "The Spiders", "Epilogue"],
+        scenes: { mid: ["The Ten Dons post a bounty on the Phantom Troupe. Every bounty hunter in the world is in Yorknew."], late: ["The Spiders hit the auction. The building is full of mafia corpses."] },
+        foes: { early: [["A mafia family's enforcer", 22], ["Auction security", 20]], mid: [["The Shadow Beasts", 50], ["Squala and his dogs", 40]], late: [["Uvogin", 66], ["Nobunaga Hazama", 62]] },
+        twists: [["The Ten Dons put a bounty on the Troupe", { pts: 3 }], ["Neon Nostrade's prophecy has your name in it", { s: 5, v: 8 }]],
+        allies: [["Zepile the appraiser", { s: 5, v: 6 }], ["Leorio Paradinight", { heal: true, all: 2 }]],
+        endings: { good: ["Becomes one of Yorknew's Ten Dons"], bad: ["Disappears in the auction massacre"] }
+      },
+      "the NGL jungle": {
+        pri: 2, tag: "Your story runs through the NGL, a country with no technology, a drug ring hidden in the trees, and the Chimera Ant Queen on the beach.",
+        home: "The NGL, Neo-Green Life. No machines, no cars, no phones. {first} grew up in the jungle, and something huge just washed up on the shore.",
+        chapters: ["The Queen washes ashore", "Jungle training", "Ant extermination", "Nen awakening", "Kite falls", "The palace in East Gorteau", "Against the King", "Epilogue"],
+        scenes: {
+          early: ["A giant insect is in the river village. The villagers are gone."],
+          mid: ["Morel and Knov set up camp. The Ant extermination team needs someone who knows the jungle."],
+          twist: ["Neferpitou's aura spreads over the forest. Kite doesn't come back."],
+          late: ["The Royal Palace in East Gorteau. Five thousand people are being gathered for the King's selection."],
+          boss: ["The King of the Chimera Ants. Netero is waiting for him in the desert."]
+        },
+        foes: {
+          early: [["A Chimera Ant soldier", 26], ["Gyro's drug-ring enforcers", 20], ["A lizard-type ant", 24]],
+          mid: [["Rammot", 46], ["Zazan", 52], ["Leol", 50], ["Cheetu", 44]],
+          late: [["Shaiapouf", 76], ["Menthuthuyoupi", 78], ["Neferpitou", 80]],
+          boss: [["Meruem, King of the Chimera Ants", 99]]
+        },
+        training: [["Survived the jungle with no technology", { s: 4, v: 10 }], ["Nen training with Knuckle and Shoot", { s: 0, v: 10 }], ["Studied Morel's smoke tactics", { s: 5, v: 10 }]],
+        twists: [["Neferpitou kills Kite", { s: 0, v: 10, inj: true }], ["The ants discover Nen", { all: 4 }], ["Netero takes on the King himself", { ally: true }], ["The Miniature Rose bomb goes off", { gain: { n: "Survived the Rose", d: "Saw what humans will do to win. +4 power.", power: 4 } }]],
+        allies: [["Morel Mackernasey", { s: 1, v: 6 }], ["Knov", { s: 5, v: 6 }], ["Knuckle Bine", { s: 3, v: 6 }], ["Meleoron", { s: 4, v: 6 }], ["Ikalgo", { s: 2, v: 6 }]],
+        chances: [["Knuckle refuses to let {first} die. That's his whole thing", { heal: true, all: 2 }], ["A reborn ant remembers being {first}'s neighbor", { ally: true, s: 5, v: 6 }]],
+        endings: { good: ["Survives the Chimera Ant crisis", "Plays gungi with Komugi in the end"], bad: ["Eaten in the selection", "Caught in the Rose's poison"] }
+      },
+      "the Kakin royal family": {
+        pri: 2, tag: "Your story runs through the Kakin royal family: fourteen princes, one throne, and a ship to the Dark Continent where only one can win.",
+        home: "The Black Whale, the ship carrying the Kakin royal family to the Dark Continent. Fourteen princes. One throne. The Succession War has started and nobody said it out loud.",
+        chapters: ["Boarding the Black Whale", "Guardian spirit lessons", "Bodyguard games", "The beast hatches", "A prince falls", "The lower decks war", "Succession War", "Epilogue"],
+        scenes: {
+          early: ["Tier 1 of the Black Whale. A prince's bodyguard just died, and nobody saw anything."],
+          mid: ["Kurapika's Nen classes for the princes' guards. Half the students are spies."],
+          twist: ["Another prince is dead. Their guardian spirit beast didn't do anything to stop it."],
+          late: ["The mafia on the lower decks starts a war of their own. Xi-Yu, Tse-Tun and Shu-Wu."],
+          boss: ["The first prince, Benjamin, makes his move."]
+        },
+        foes: {
+          early: [["A rival prince's bodyguard", 30], ["A Xi-Yu family hitman", 26], ["A guardian spirit beast on the prowl", 34]],
+          mid: [["Benjamin's private soldiers", 52], ["Tserriednich's guards", 50], ["Hisoka, hunting the Troupe on board", 64]],
+          late: [["Tserriednich Hui Guo Rou", 70], ["The Phantom Troupe on the lower decks", 72]],
+          boss: [["Benjamin Hui Guo Rou", 88], ["Tserriednich, with his guardian beast", 90]]
+        },
+        training: [["Nen lessons from Kurapika", { s: 1, v: 10 }], ["Learned to read a guardian spirit beast", { s: 5, v: 10 }]],
+        twists: [["Your guardian spirit beast hatches", { all: 5 }], ["A prince is murdered on your deck", { s: 5, v: 8 }], ["Another prince offers an alliance", { ally: true, pts: 2 }]],
+        allies: [["Kurapika", { s: 1, v: 6 }], ["Oito and Woble", { heal: true, all: 2 }], ["A loyal bodyguard", { s: 3, v: 6 }]],
+        chances: [["Your guardian spirit beast punishes the prince who hurt you", { gain: { n: "Guardian spirit beast", d: "It fights back for them. +5 power.", power: 5 } }]],
+        endings: { good: ["Wins the Kakin Succession War", "Gets off the Black Whale alive"], bad: ["Murdered by a sibling on the Black Whale"] }
+      },
+      "Heavens Arena": {
+        pri: 2, tag: "Your story runs through Heavens Arena, where the real fights start on the 200th floor.",
+        home: "Heavens Arena, 251 floors of fights. Win and climb, lose and fall. {first} learned to fight here before they learned to read.",
+        scenes: { mid: ["Floor 200. The welcome committee is three fighters who use Nen on newcomers."], twist: ["Hisoka, a floor master, watches {first} from the stands."] },
+        foes: { early: [["A floor 50 brawler", 18], ["Zushi", 22]], mid: [["Gido and his spinning tops", 40], ["Riehlvelt", 42], ["Sadaso", 38], ["Kastro", 54]], late: [["Hisoka Morow", 76]] },
+        training: [["Secret Nen lessons from Wing", { s: 1, v: 12 }], ["Fought every day to stay on your floor", { s: 3, v: 10 }]],
+        allies: [["Wing", { s: 1, v: 6 }], ["Zushi", { s: 0, v: 6 }]],
+        chances: [["Wing says: Ten, every morning, for a month", { s: 0, v: 10 }], ["Floor money comes in. {first} buys proper gear", { pts: 2 }]]
+      },
+      "Greed Island": {
+        pri: 2, tag: "Your story runs through Greed Island, a game made of real Nen where dying in the game means dying.",
+        scenes: { mid: ["A player shows {first} a Book and a spell card. The rules are real."], late: ["The Bomber is collecting players' lives. Genthru says 'Release'."] },
+        foes: { mid: [["Bomber Genthru", 58], ["Razor and his 14 devils", 56], ["Tsezguerra's team", 50]] },
+        training: [["Biscuit Krueger's Nen bootcamp", { s: 1, v: 12 }], ["Dug rocks for a month", { s: 3, v: 10 }]],
+        allies: [["Biscuit Krueger", { s: 1, v: 6 }], ["Tsezguerra", { s: 5, v: 6 }]],
+        loot: [["A Greed Island spell card", { pts: 2 }], ["The Great Sage's Elixir card", { heal: true, all: 3 }]]
+      },
+      "the Hunter Association": {
+        pri: 2, tag: "Your story runs through the Hunter Association: the Zodiacs, the chairman election, and the expedition to the Dark Continent.",
+        scenes: { twist: ["Chairman Netero is dead. The Zodiacs call an election, and Pariston smiles."], late: ["Beyond Netero announces the Dark Continent expedition, and the V5 panics."] },
+        twists: [["Netero dies and the election starts", { pts: 2 }], ["Pariston Hill wants {first} on his side", { s: 5, v: 8 }], ["You're picked for the Dark Continent expedition", { all: 4 }]],
+        allies: [["Cheadle Yorkshire", { s: 5, v: 6 }], ["Ging Freecss", { all: 3 }], ["Mizaistom Nana", { s: 5, v: 6 }], ["Botobai Gigante", { s: 3, v: 6 }]],
+        foes: { late: [["Beyond Netero", 80], ["Pariston Hill", 72]] }
+      },
+      "Chimera Ant": {
+        pri: 1, tag: "You're a Chimera Ant. The Queen made you to feed the King, and humans are food.",
+        scenes: { twist: ["The Queen is dying. The colony is falling apart, and every ant has to decide what it is now."] },
+        twists: [["The Queen dies and you're free", { pts: 2 }], ["The King's selection begins", { all: 4 }], ["You realize you can't eat humans anymore", { gain: { n: "Human heart", d: "Something human is left. Good karma.", karma: 1 } }]]
+      },
+      "Reborn Chimera Ant": { pri: 1, tag: "Reborn as an ant with human memories, you have to decide which one you are.", allies: [["Meleoron", { s: 4, v: 6 }], ["Ikalgo", { s: 2, v: 6 }]], chances: [["A human memory comes back: someone who loved you", { heal: true, all: 3 }]] },
+      "Host of a Dark Continent being": { pri: 1, twists: [["The thing inside wants a wish granted", { all: 6, inj: true }]], chances: [["The calamity inside wakes up to protect its host", { gain: { n: "The calamity protects", d: "Rewrites one defeat.", save: { chance: 0.5, uses: 1, text: "Something that isn't {first} opens their eyes. {foe} stops breathing for a second. Then it's over." } } }]] }
+    }
+  });
+  // the Zoldyck estate keeps its full path; add its training and chances to the layer
+  Object.assign(THEMES.hxh.arcs["the Zoldyck estate"], {
+    home: "The Zoldyck estate on Kukuroo Mountain. The Testing Gate's first door weighs two tons. {first} could open it at six.",
+    chances: [["Zeno Zoldyck sits down next to {first} and gives one piece of advice", { s: 5, v: 10 }], ["Gotoh the butler patches {first} up and flips a coin", { heal: true, all: 2 }], ["Alluka asks {first} for a wish. Nanika grants it", { gain: { n: "Nanika's wish", d: "Rewrites one defeat.", save: { chance: 0.6, uses: 1, text: "Alluka whispers. Nanika answers. {foe} simply stops." } } }]]
+  });
+  THEMES.hxh.journey.chances = [
+    ["{first} figures out the opponent's Hatsu after the fact, and swears never again", { s: 5, v: 10 }], ["A vow, made in the hospital bed", { all: 4, inj: true }],
+    ["Leorio, studying medicine, patches {first} up", { heal: true, all: 2 }], ["{first} trains Ten every morning until it feels like breathing", { s: 0, v: 8 }],
+    ["A stranger at the hospital turns out to be a Nen master", { gain: { n: "Hidden master", d: "+3 power.", power: 3 } }], ["{first} sells something for cash and buys better gear", { pts: 2 }]
+  ];
+  // ---------- One Piece ----------
+  Object.assign(THEMES.onepiece, {
+    titles: {
+      Gender: "Who sets sail?",
+      Race: "What were you born as?",
+      Birthplace: "Which island raised {first}?",
+      "Devil fruit": "Did {first} eat a Devil Fruit?",
+      "Haki type": "What Haki sleeps inside {first}?",
+      Affiliation: "Which flag does {first} sail under?",
+      "Fighting style": "How does {first} fight?",
+      Weapon: "What does {first} carry into battle?",
+      Personality: "What kind of person is {first}?",
+      Rival: "Who keeps showing up on {first}'s horizon?",
+      Bounty: "What does {first}'s wanted poster say?",
+      Role: "What's {first}'s job on the ship?",
+      Ship: "What does {first} sail?",
+      "Jolly Roger": "What's on {first}'s Jolly Roger?",
+      "Pirate code": "What's the one rule on {first}'s ship?",
+      "View of the Celestial Dragons": "What does {first} really think of the World Nobles?",
+      "Marine weapon": "What does {first} carry on duty?",
+      "Why you joined": "Why did {first} join the revolution?",
+      "Missions completed": "How much blood is on {first}'s CP file?",
+      "Real loyalty": "Who does {first} really answer to?",
+      "View of humans": "How does {first} feel about humans?",
+      "Mink allegiance": "Who does {first} guard on Zunesha's back?",
+      "Warrior's vow": "What did {first} swear on Elbaf's honor?",
+      "Human heritage": "What runs in {first}'s blood?",
+      "Fish-Man type": "What kind of Fish-Man is {first}?",
+      "Merfolk tail": "What's {first}'s tail like?",
+      "Mink tribe": "Which Mink tribe is {first}?",
+      "Giant home": "What kind of giant is {first}?",
+      "Third eye": "Has {first}'s third eye opened?",
+      "Sky island": "Which sky island?",
+      "Lunarian trait": "What did the Lunarians leave in {first}?",
+      "Buccaneer fate": "What does Buccaneer blood mean for {first}?",
+      "Tontatta home": "Where does {first} live among the Tontatta?",
+      "D. connection": "Which D. does {first} carry?",
+      "Wano ties": "What ties {first} to Wano?",
+      "Which Emperor": "Whose flag flies over {first}'s ship?",
+      "Which admiral": "Which admiral does {first} serve?",
+      "Your justice": { "*": "What justice is on {first}'s coat?" },
+      Army: "Which Revolutionary army does {first} march with?",
+      "Blade grade": { "three swords": "How good are {first}'s three swords?", "one cursed blade": "How good is {first}'s cursed blade?" },
+      "Ryugu bloodline": "Does royal blood run in {first}'s tail?",
+      Sulong: "What happens when {first} looks at the full moon?",
+      Fruit: { Paramecia: "Which Paramecia did {first} eat?", Logia: "Which Logia did {first} eat?", "Regular Zoan": "Which Zoan did {first} eat?", "Ancient Zoan": "Which Ancient Zoan did {first} eat?", "Mythical Zoan": "Which Mythical Zoan chose {first}?" },
+      "Zoan class": "How rare is {first}'s Zoan?",
+      "Fruit awakening": "Has {first}'s fruit awakened?",
+      "Observation level": "How far ahead can {first} see?",
+      "Armament level": { "*": "How hard is {first}'s Armament?" },
+      "Conqueror's level": { "*": "How strong is {first}'s will?" },
+      "Marine post": "Where is {first} posted?",
+      "Crew status": "What's {first}'s place on the crew?",
+      "Revolutionary role": "What does {first} do for Dragon?",
+      "Cross Guild role": "What does {first} do for Cross Guild?",
+      "Hunting style": "How does {first} hunt bounties?",
+      Agency: "Which branch of the World Government owns {first}?",
+      Bloodline: "Which family of the Holy Land?",
+      Escape: "How did {first} get out of Mary Geoise?",
+      "Crew size": "How big is {first}'s crew?",
+      "Whose crew": "Whose crew is {first} on?",
+      "Your elder": "Which of the Five Elders is {first}'s family?",
+      "Place in the family": "What are you to the Figarland family?",
+      Branch: "What does the Donquixote name mean for you?",
+      "Imu's attention": "Does Imu know {first}'s name?",
+      "Slaves owned": "How many slaves does {first} own?",
+      "Treatment of slaves": "How does {first} treat them?",
+      "Bubble helmet": "What about the bubble helmet?",
+      "Favorite pastime": "How does {first} spend their days?",
+      "Role in the Holy Land": "What is {first} in Mary Geoise?",
+      "Childhood memory": "What does {first} remember from childhood?",
+      "What you left behind": "What did {first} leave in Mary Geoise?",
+      "Who hunts you": "Who's hunting {first}?",
+      "Black Leg level": "How hot do {first}'s kicks burn?",
+      "Santoryu level": "How far has {first} taken Three Sword Style?",
+      "Karate rank": "How deep does {first}'s Fish-Man Karate go?",
+      "Six Powers mastered": "How many of the Six Powers does {first} know?",
+      "Electro form": "How does {first} use Electro?",
+      "Okama Kenpo level": "How far into Okama Kenpo did {first} get?"
+    },
+    talTitles: [
+      ["How strong is {first}'s willpower?", "Could {first} survive a wave of Conqueror's Haki?", "How much Haki does {first} have?"],
+      ["How well does {first} know their own power?", "How long before {first} masters their fighting power?"],
+      ["How dangerous is {first} with {Weapon}?", "Could {first} cut steel?"],
+      ["How hard does {first} punch?", "Could {first} lift a Sea King?"],
+      ["How fast is {first}?", "Could {first} dodge a Marine's Soru?"],
+      ["Could {first} navigate the Grand Line?", "How fast does {first} read a fight?"]
+    ],
+    jt: {
+      foe: ["{chapter}: who's in the way?", "Whose flag is on the horizon?", "Who's waiting on the next island?"],
+      train: ["How does {first} get stronger?", "Where does {first} train?"],
+      twist: ["What does the newspaper say?", "What happens at sea?", "Twist of fate"],
+      recruit: ["Who joins the crew?", "Who sails with {first}?"],
+      loot: ["What's in the treasure chest?", "What does {first} find?"],
+      evolve: ["How does {first}'s power evolve?", "What does {first} finally unlock?"],
+      chance: ["What washes up after the defeat?", "Who pulls {first} out of the sea?", "What does {first} do after losing?"],
+      battle: ["{first} vs {foe}", "Can {first}'s will beat {foe}'s?"]
+    },
+    arcs: {
+      "Foosha Village, East Blue": {
+        pri: 2, tag: "Your story starts in Foosha Village, near Mt. Colubo and the Goa Kingdom's Gray Terminal.",
+        chapters: ["Leaving Foosha", "Mountain training with Dadan", "The Grand Line", "Power evolution", "News from Goa", "The New World", "Final battle", "Epilogue"],
+        scenes: { early: ["Mountain bandits have come down to Makino's bar again. {first} is the only one who stands up."], twist: ["The Goa Kingdom burns the Gray Terminal to clean up for a visiting Celestial Dragon."], ending: ["Makino still keeps {first}'s wanted poster behind the bar."] },
+        foes: { early: [["Higuma the mountain bandit", 14], ["A Lord of the Coast sea king", 20], ["Bluejam's pirates in the Gray Terminal", 18]] },
+        training: [["Survived Dadan's mountain with Garp's 'training'", { s: 3, v: 10 }]],
+        twists: [["Garp throws {first} into a ravine for training", { s: 3, v: 8, inj: true }], ["The Gray Terminal is set on fire", { s: 0, v: 8 }], ["Shanks's crew docks at Foosha", { ally: true }]],
+        allies: [["Makino", { heal: true, all: 2 }], ["Curly Dadan", { s: 3, v: 6 }]],
+        chances: [["Garp shows up, punches {first} with a Fist of Love, and leaves", { s: 3, v: 8, inj: true, pts: 1 }], ["{first} remembers a promise made on a hill with sake cups", { gain: { n: "Brotherhood sake", d: "+3 power.", power: 3 } }]],
+        endings: { good: ["Goes back to Foosha a legend"], bad: ["Never sees Foosha again"] }
+      },
+      "Shimotsuki Village, East Blue": {
+        pri: 2, tag: "Your story starts at Koshiro's dojo in Shimotsuki Village, where swordsmen are born.",
+        chapters: ["Leaving the dojo", "A thousand swings", "The Grand Line", "Blade evolution", "A promise to a rival", "The New World", "The world's greatest swordsman", "Epilogue"],
+        scenes: { early: ["A pirate hunter's bounty board, and a sword {first} hasn't earned yet."], train: ["Koshiro's dojo, before dawn. Swing. Swing. Swing."], boss: ["Dracule Mihawk sits on his coffin-shaped boat and waits."] },
+        foes: { early: [["A dojo rival", 16], ["Pirate hunters on the road", 18]], late: [["Dracule Mihawk, testing you", 82]] },
+        training: [["A thousand swings at Koshiro's dojo", { s: 2, v: 12 }], ["Lost to a girl at the dojo two thousand times", { s: 2, v: 10 }]],
+        twists: [["Your dojo rival dies falling down the stairs", { gain: { n: "A promise to a rival", d: "Fighting for two now. +4 power.", power: 4 } }], ["Mihawk cuts {first} down and tells them to get stronger", { inj: true, s: 2, v: 14 }]],
+        allies: [["Koshiro, the dojo master", { s: 2, v: 6 }]],
+        loot: [["A Great Grade blade", { s: 2, v: 12 }]],
+        chances: [["{first} swears never to lose again, sword raised to the sky", { s: 2, v: 10 }]],
+        endings: { good: ["The world's greatest swordsman"], bad: ["Their sword is broken for good"] }
+      },
+      "Cocoyasi Village, East Blue": {
+        pri: 2, tag: "Your story starts in Cocoyasi Village, where everyone over ten paid Arlong 100,000 berries a year to stay alive.",
+        chapters: ["Tribute day", "Training in secret", "Arlong Park", "Power evolution", "The deal with Arlong", "The Grand Line", "Final battle", "Epilogue"],
+        scenes: { early: ["Tribute day. Arlong's men walk through the tangerine groves with a ledger."], mid: ["Arlong Park. The walls are thick and the fish-men are laughing."], twist: ["A Marine named Nezumi confiscates the money you saved to buy back the village."] },
+        foes: { early: [["Arlong's tribute collectors", 18], ["Captain Nezumi's Marines", 14]], mid: [["Kuroobi", 36], ["Chew", 34], ["Hatchan", 38], ["Arlong", 46]] },
+        twists: [["Nezumi steals the village's savings", { s: 5, v: 8 }], ["You find out Bell-mère's story", { gain: { n: "Bell-mère's courage", d: "Good karma, +3 power.", karma: 1, power: 3 } }]],
+        allies: [["Nojiko", { heal: true, all: 2 }], ["Genzo, the village sheriff", { s: 3, v: 6 }], ["Nami", { s: 5, v: 6 }]],
+        chances: [["The village buys {first} a new weapon with their tangerine money", { pts: 2 }]],
+        endings: { good: ["Frees Cocoyasi for good"], bad: ["Pays tribute for the rest of their life"] }
+      },
+      "Syrup Village, East Blue": {
+        pri: 2, scenes: { early: ["Kaya's butler, Klahadore, has a strange way of adjusting his glasses with his palm."] },
+        foes: { early: [["Jango the hypnotist", 18], ["The Black Cat Pirates", 20], ["Kuro of a Hundred Plans", 26]] },
+        allies: [["Kaya", { heal: true, all: 2 }], ["The Usopp Pirates kids", { s: 5, v: 4 }]],
+        twists: [["Klahadore is Kuro, and he's planning to kill Kaya", { s: 5, v: 8 }]],
+        loot: [["The Going Merry", { pts: 3 }]],
+        chances: [["{first} lies to the whole village to keep them safe, and it works", { gain: { n: "Brave liar", d: "Rewrites one defeat.", save: { chance: 0.35, uses: 1, text: "{first} shouts a lie so huge and confident that {foe} hesitates. That's all it takes." } } }]]
+      },
+      "Loguetown, East Blue": {
+        pri: 2, tag: "Your story starts in Loguetown, where Gol D. Roger was born and executed, and where the Grand Line begins.",
+        scenes: { early: ["The execution platform in Loguetown's square. Captain Smoker's men are everywhere."], twist: ["A man in a dark cloak stands in the storm. Smoker's men freeze. Monkey D. Dragon is in town."] },
+        foes: { early: [["Captain Smoker's patrol", 24], ["Tashigi", 22], ["Buggy and Alvida", 20]] },
+        allies: [["Tashigi", { s: 2, v: 6 }]],
+        chances: [["Lightning strikes the executioner's blade. Fate wants {first} alive", { gain: { n: "Lightning luck", d: "Rewrites one defeat.", save: { chance: 0.45, uses: 1, text: "Lightning hits at exactly the wrong moment for {foe}. {first} grins and gets up." } } }]]
+      },
+      "Ohara, West Blue": {
+        pri: 2, tag: "Your story starts in the ashes of Ohara. Reading the Poneglyphs is a crime, and you're a criminal by birth.",
+        chapters: ["Escape from the Buster Call", "Learning to read stone", "The Grand Line", "Power evolution", "The Void Century", "The New World", "The true history", "Epilogue"],
+        scenes: { early: ["Spandine's Buster Call is on the horizon. The scholars throw books into the lake to save them."], twist: ["A Poneglyph in a ruin. {first} can read every word, and that's why they're hunted."], boss: ["The World Government wants Ohara's last scholar erased."] },
+        foes: { early: [["CP agents hunting Ohara survivors", 26], ["Bounty hunters after the child of Ohara", 20]], late: [["Spandam's CP9", 64], ["Admiral Kizaru", 80]] },
+        training: [["Learned to read the Poneglyphs", { s: 5, v: 12 }]],
+        twists: [["The world puts a bounty on a child for reading", { pts: 2 }], ["You learn what Joy Boy left behind", { s: 5, v: 10 }], ["Jaguar D. Saul is alive", { ally: true, all: 3 }]],
+        allies: [["Nico Robin", { s: 5, v: 6 }], ["Jaguar D. Saul", { s: 3, v: 6 }], ["Professor Clover's notes", { s: 5, v: 6 }]],
+        chances: [["Saul's laugh echoes in {first}'s memory: dereshishishi", { heal: true, all: 3 }], ["{first} reads a Poneglyph nobody else can", { gain: { n: "Ohara's last scholar", d: "Knows what the world fears. +4 power in the biggest fights.", boss: 4 } }]],
+        endings: { good: ["Reads the Rio Poneglyph and tells the world the true history"], bad: ["Erased like Ohara"] }
+      },
+      "Flevance, North Blue": {
+        pri: 2, tag: "Your story starts in Flevance, the White Town the world sealed off and let die of Amber Lead.",
+        chapters: ["Escape from the White Town", "A doctor's training", "The Grand Line", "Power evolution", "Doflamingo's shadow", "The New World", "Final battle", "Epilogue"],
+        scenes: { early: ["White spots on {first}'s skin. Three years left to live, says the doctor."], twist: ["A tall man in a pink feather coat wants {first} to join his family."] },
+        foes: { early: [["Neighboring-country soldiers at the border", 22], ["Doctors who won't treat the white-sick", 16]], late: [["Donquixote Doflamingo", 72], ["Vergo", 62], ["Trebol", 60]] },
+        twists: [["Corazon steals the Ope Ope no Mi for you", { heal: true, gain: { n: "Corazon's love", d: "Someone gave everything for them. Good karma, +4 power.", karma: 1, power: 4 } }], ["Amber Lead poisoning gets worse", { inj: true, s: 5, v: 10 }]],
+        allies: [["Trafalgar Law", { s: 1, v: 6 }], ["Donquixote Rosinante (Corazon)", { all: 3 }]],
+        chances: [["{first} survives what should have killed them three years ago", { all: 4 }]],
+        endings: { good: ["Avenges Flevance"], bad: ["The white disease wins"] }
+      },
+      "Germa Kingdom, North Blue": {
+        pri: 2, tag: "Your story starts in the Germa Kingdom, a floating nation of clone soldiers, raid suits, and the Vinsmoke family.",
+        chapters: ["Born on a warship", "Germa experiments", "The Grand Line", "Raid suit evolution", "The Vinsmoke wedding", "The New World", "Final battle", "Epilogue"],
+        scenes: { early: ["Germa clone soldiers march past {first}'s room in perfect rows."], twist: ["Vinsmoke Judge arranges a wedding with Big Mom's family. It's a trap."], boss: ["Germa 66 lights up the sky."] },
+        foes: { early: [["Germa clone soldiers", 22], ["A Vinsmoke sibling having fun", 30]], mid: [["Vinsmoke Niji", 50], ["Vinsmoke Yonji", 48], ["Vinsmoke Ichiji", 52]], late: [["Vinsmoke Judge", 66]] },
+        training: [["Germa lineage factor modification", { s: 3, v: 12 }], ["Trained with a raid suit", { s: 4, v: 10 }]],
+        twists: [["Judge calls you a failure and locks you in an iron mask", { gain: { n: "Germa's failure", d: "They were told they're worthless. +3 power after each defeat.", adapt: 3 } }], ["The Whole Cake wedding is a massacre in waiting", { s: 5, v: 8 }]],
+        allies: [["Vinsmoke Reiju", { heal: true, all: 2 }]],
+        loot: [["A Germa raid suit", { all: 4 }]],
+        endings: { good: ["Walks away from Germa forever"], bad: ["Becomes another Vinsmoke soldier"] }
+      },
+      "Baterilla, South Blue": {
+        pri: 2, tag: "You were born on Baterilla, where the Marines once hunted every child connected to Roger.",
+        scenes: { early: ["Marines are still searching Baterilla's records for children born after Roger's death."], twist: ["Someone finds out who {first}'s father really was."] },
+        foes: { early: [["Marine record-checkers", 18], ["Bounty hunters after Roger's blood", 24]] },
+        twists: [["Your bloodline is exposed in the newspaper", { pts: 2, inj: true }]],
+        chances: [["{first}'s mother's sacrifice gives them strength", { gain: { n: "A mother's sacrifice", d: "+4 power.", power: 4 } }]]
+      },
+      "Sorbet Kingdom, South Blue": {
+        pri: 2, tag: "Your story starts in the Sorbet Kingdom, where a gentle priest once became king and the World Government made him a weapon.",
+        scenes: { twist: ["Bartholomew Kuma has been turned into a Pacifista. The kingdom remembers him as a priest."] },
+        allies: [["Jewelry Bonney", { s: 3, v: 6 }]],
+        twists: [["The old king Bekori comes back with World Government support", { s: 5, v: 8 }], ["You learn what Vegapunk did to Kuma", { s: 0, v: 10 }]],
+        chances: [["A paw-shaped bubble carries {first} somewhere safe", { heal: true, all: 3 }]]
+      },
+      "Alabasta": {
+        pri: 2, tag: "Your story starts in Alabasta, a desert kingdom Crocodile is quietly strangling with Dance Powder.",
+        chapters: ["Sand and drought", "Desert training", "Baroque Works", "Power evolution", "Rebellion", "The Battle of Alubarna", "Against Crocodile", "Epilogue"],
+        scenes: { early: ["Rain hasn't fallen on Yuba in three years. The oasis is buried."], mid: ["A Baroque Works agent offers {first} a codename and a number."], late: ["Kohza's rebels and the royal army meet at Alubarna. Crocodile is smiling."], boss: ["Crocodile turns to sand. His hook drips poison."] },
+        foes: { early: [["A desert sand bandit gang", 16], ["Baroque Works billions", 20], ["A Sandora lizard", 22]], mid: [["Mr. 2 Bon Kurei", 44], ["Miss All Sunday's agents", 40], ["Mr. 1, Daz Bonez", 46]], boss: [["Crocodile", 70]] },
+        twists: [["Dance Powder was stealing your rain all along", { s: 5, v: 8 }], ["The royal guard Pell flies the bomb away", { gain: { n: "Pell's sacrifice", d: "Good karma, +3 power.", karma: 1, power: 3 } }]],
+        allies: [["Nefertari Vivi", { s: 5, v: 6 }], ["Pell", { s: 4, v: 6 }], ["Kohza", { s: 3, v: 6 }]],
+        chances: [["A sandstorm hides {first}'s retreat", { heal: true, all: 2 }]],
+        endings: { good: ["Brings the rain back to Alabasta"], bad: ["Buried in the sand of Alubarna"] }
+      },
+      "Drum Island": {
+        pri: 2, tag: "Your story starts on Drum Island, where a cruel king ran off with the doctors and the people learned to survive without them.",
+        scenes: { early: ["King Wapol's Isshi-20 doctors only treat people he likes."], twist: ["Doctor Hiriluk's cherry blossoms bloom in the snow."] },
+        foes: { early: [["Wapol's royal guard", 20], ["A Lapahn pack", 22], ["Wapol", 26]] },
+        allies: [["Dr. Kureha", { heal: true, all: 3 }], ["Tony Tony Chopper", { heal: true, s: 3, v: 4 }], ["Dalton", { s: 3, v: 6 }]],
+        twists: [["Doctor Hiriluk's cherry blossoms finally bloom", { heal: true, all: 3 }]],
+        chances: [["Dr. Kureha patches {first} up and charges them everything they own", { heal: true, all: 3 }]]
+      },
+      "Water 7": {
+        pri: 2, tag: "Your story starts in Water 7, the city of shipwrights, with Galley-La above, the Franky Family below, and CP9 hiding in plain sight.",
+        chapters: ["Aqua Laguna", "Shipwright training", "Enies Lobby", "Power evolution", "CP9 unmasked", "The Buster Call", "Final battle", "Epilogue"],
+        scenes: { early: ["The Franky Family is shaking down travelers near the shipyards."], mid: ["The Sea Train to Enies Lobby, through Aqua Laguna."], twist: ["The Galley-La foremen who trained {first} were CP9 all along."], late: ["A Buster Call on Enies Lobby. Ten warships."] },
+        foes: { early: [["The Franky Family", 20], ["Galley-La foremen", 24], ["Square Sisters", 16]], mid: [["Blueno", 46], ["Kaku", 52], ["Jabra", 48]], late: [["Rob Lucci", 66]], boss: [["Rob Lucci, awakened Zoan", 84]] },
+        training: [["Shipwright work under Iceburg", { s: 3, v: 10 }], ["Survived Aqua Laguna on the rooftops", { s: 4, v: 10 }]],
+        twists: [["Iceburg's assassins are his own foremen", { s: 5, v: 8 }], ["Tom is sent to Enies Lobby for building Roger's ship", { gain: { n: "Tom's last lesson", d: "A man's creation is his life. +3 power.", power: 3 } }]],
+        allies: [["Franky", { s: 3, v: 6 }], ["Iceburg", { s: 5, v: 6 }], ["Paulie", { s: 2, v: 6 }]],
+        loot: [["A ship of Adam wood", { pts: 3 }]],
+        endings: { good: ["Builds a ship that sails to the end of the world"], bad: ["Dragged to Enies Lobby"] }
+      },
+      "Dressrosa": {
+        pri: 2, tag: "Your story starts in Dressrosa, where the king is Doflamingo, the toys are people, and nobody remembers them.",
+        chapters: ["The land of love", "Colosseum training", "The Corrida Colosseum", "Power evolution", "The toys remember", "The Birdcage", "Against Doflamingo", "Epilogue"],
+        scenes: { early: ["A toy soldier with one leg walks past {first} in the market. Nobody else notices."], mid: ["The Corrida Colosseum. The prize is the Mera Mera no Mi."], twist: ["Sugar faints. Every toy turns back into a person. The whole country remembers."], late: ["Doflamingo's Birdcage closes around Dressrosa. The strings are getting tighter."] },
+        foes: { early: [["Donquixote Family grunts", 22], ["A colosseum gladiator", 26]], mid: [["Diamante", 50], ["Pica", 52], ["Sugar's guards", 40]], late: [["Trebol", 64], ["Diamante, the Colosseum hero", 62]], boss: [["Donquixote Doflamingo", 88]] },
+        training: [["Colosseum fights for prize money", { s: 3, v: 10 }], ["Trained with the Tontatta dwarves", { s: 4, v: 10 }]],
+        twists: [["Sugar faints and the toys remember", { gain: { n: "Remembered", d: "Someone they lost came back. Good karma, +3 power.", karma: 1, power: 3 } }], ["The Birdcage closes", { inj: true, all: 4 }]],
+        allies: [["Kyros, the one-legged soldier", { s: 2, v: 6 }], ["Rebecca", { s: 2, v: 6 }], ["Riku Dold III", { s: 5, v: 6 }], ["Leo of the Tontatta", { s: 4, v: 6 }]],
+        loot: [["The Mera Mera no Mi trophy", { all: 4 }]],
+        endings: { good: ["Frees Dressrosa from the Donquixote family"], bad: ["Turned into a toy and forgotten"] }
+      },
+      "Wano Country": {
+        pri: 2, tag: "Your story starts in Wano, closed to the world, ruled by Orochi and Kaido, and waiting twenty years for the Kozuki to return.",
+        chapters: ["Under Kaido's flag", "Udon prison", "Onigashima raid", "Power evolution", "Oden's prophecy", "The fire festival", "Against Kaido", "Epilogue"],
+        scenes: { early: ["Kaido's Beasts Pirates collect food from Kuri while the capital feasts."], train: ["Udon prison. Old Hyogoro teaches Ryuo between beatings."], mid: ["The fire festival. Onigashima is drunk and the samurai are coming."], twist: ["Kozuki Oden's last words echo again: 'Open the borders.'"], boss: ["Kaido of the Beasts on the roof of Onigashima."] },
+        foes: { early: [["Beasts Pirates Gifters", 22], ["Orochi's Oniwabanshu", 26], ["Kaido's SMILE soldiers", 24]], mid: [["Holdem", 40], ["Kyoshiro (Denjiro)", 52], ["Page One", 46], ["Ulti", 48]], late: [["Jack the Drought", 66], ["Queen the Plague", 72], ["King the Wildfire", 74]], boss: [["Kaido of the Beasts", 95], ["Kurozumi Orochi", 60]] },
+        training: [["Ryuo lessons from Hyogoro in Udon prison", { s: 0, v: 12 }], ["Swordsmanship in the ruins of Oden Castle", { s: 2, v: 10 }]],
+        twists: [["Kaido's SMILE fruits poisoned the river", { s: 5, v: 8 }], ["The Nine Red Scabbards return from twenty years in the future", { ally: true, all: 3 }], ["Oden's journal tells the truth about the Void Century", { s: 5, v: 10 }]],
+        allies: [["Kin'emon", { s: 2, v: 6 }], ["Kozuki Hiyori", { heal: true, all: 2 }], ["Yamato", { s: 0, v: 6 }], ["Kawamatsu", { s: 3, v: 6 }]],
+        loot: [["Enma, Oden's sword", { s: 2, v: 12 }]],
+        chances: [["A bowl of rice from Tama, the girl of Amigasa", { heal: true, all: 3 }], ["{first} survives Udon and comes out with Ryuo", { gain: { n: "Ryuo", d: "Wano-style Armament. +5 power.", power: 5 } }]],
+        endings: { good: ["Opens Wano's borders", "Shogun of Wano's guard"], bad: ["Killed on Onigashima", "Wano stays closed forever"] }
+      },
+      "God Valley": {
+        pri: 2, tag: "You were born on God Valley, an island the World Government erased from every map.",
+        scenes: { early: ["Celestial Dragons used to hold a native-hunting tournament on God Valley. {first} survived one."], twist: ["Thirty-eight years ago, Roger and Garp fought Rocks here. Nobody knows why the island disappeared."] },
+        twists: [["You learn what the World Government did to your island", { s: 5, v: 10, gain: { n: "Child of God Valley", d: "Survivor of an erased island. +4 power in the biggest fights.", boss: 4 } }]],
+        foes: { boss: [["Saint Figarland Garling, champion of the God Valley hunt", 92]] }
+      },
+      "Mary Geoise (as a slave)": {
+        pri: 2, tag: "You were born in Mary Geoise in chains, with a hoof brand meant to last forever.",
+        scenes: { early: ["The hoof brand burns every time {first} sees a bubble helmet."], twist: ["A Fish-Man climbed the Red Line with his bare hands and set the slaves free. His name was Fisher Tiger."] },
+        twists: [["Fisher Tiger frees the slaves of Mary Geoise", { heal: true, all: 4 }], ["You learn other freed slaves joined the Sun Pirates", { ally: true }]],
+        allies: [["Fisher Tiger", { s: 3, v: 6 }], ["Koala", { s: 5, v: 6 }], ["Boa Hancock", { s: 0, v: 6 }]],
+        chances: [["Fisher Tiger's mark covers the hoof brand", { gain: { n: "Sun Pirates' mark", d: "The brand is covered. +4 power.", power: 4 } }]],
+        endings: { good: ["Frees every slave in Mary Geoise"], bad: ["Dragged back to the Holy Land"] }
+      },
+      "Fish-Man Island": {
+        pri: 2, tag: "Your story starts ten thousand meters under the sea, where Queen Otohime's dream of living with humans is still alive, barely.",
+        chapters: ["Under the sea", "Fish-Man Karate", "Up to Sabaody", "Power evolution", "Hody's coup", "The New World", "Final battle", "Epilogue"],
+        scenes: { early: ["The New Fish-Man Pirates are recruiting in the Fish-Man District."], mid: ["Sabaody. Humans stare at {first}. Some look at price tags."], twist: ["Queen Otohime's petition box: a hundred thousand signatures. Hody burns it."], boss: ["Hody Jones has taken Energy Steroids. His eyes are bleeding."] },
+        foes: { early: [["New Fish-Man Pirates", 22], ["Sabaody kidnappers", 20], ["A Sea King", 26]], mid: [["Hody Jones", 50], ["Vander Decken IX", 48], ["Arlong's old crew", 42]], boss: [["Hody Jones on Energy Steroids", 70]] },
+        training: [["Fish-Man Karate with Jinbe", { s: 3, v: 12 }], ["Swam the Fishman Island currents", { s: 4, v: 10 }]],
+        twists: [["Hody Jones takes over Ryugu Palace", { inj: true, all: 4 }], ["Otohime is assassinated", { s: 5, v: 8, gain: { n: "Otohime's dream", d: "Fighting for peace. Good karma.", karma: 1 } }]],
+        allies: [["Jinbe", { s: 3, v: 6 }], ["Fukaboshi", { s: 2, v: 6 }], ["Camie", { heal: true, all: 2 }]],
+        chances: [["A human gives {first} blood when no one else will", { heal: true, gain: { n: "Human blood", d: "A human saved them. Good karma.", karma: 1 } }]],
+        endings: { good: ["Brings Fish-Man Island to the surface world as equals"], bad: ["Becomes the hatred Otohime feared"] }
+      },
+      "Sabaody slave market": {
+        pri: 2, tag: "You were sold at Grove 1 once. Your story is about coming back.",
+        scenes: { early: ["Grove 1. Disco the auctioneer announces the next lot."], twist: ["A Celestial Dragon at the auction house points at someone {first} loves."] },
+        foes: { early: [["Disco the auctioneer's guards", 18], ["The Flying Fish Riders", 22]], mid: [["Saint Charlos's bodyguards", 48]] },
+        allies: [["Silvers Rayleigh", { s: 0, v: 6 }], ["Shakky", { s: 5, v: 6 }]],
+        twists: [["Someone punches a Celestial Dragon at the auction", { all: 4 }]],
+        chances: [["Rayleigh removes {first}'s explosive collar with a joke", { heal: true, gain: { n: "Freed by the Dark King", d: "+3 power.", power: 3 } }]]
+      },
+      "Zou": {
+        pri: 2, tag: "Your story starts on Zou, an island on the back of Zunesha, the elephant that has walked the sea for a thousand years.",
+        scenes: { early: ["Jack the Drought's fleet is attacking Zunesha's legs."], twist: ["Zunesha speaks. It has been punished for a crime from eight hundred years ago."] },
+        foes: { early: [["Beasts Pirates raiders", 22]], mid: [["Jack the Drought", 56], ["Sheepshead", 40]] },
+        allies: [["Inuarashi", { s: 2, v: 6 }], ["Nekomamushi", { s: 3, v: 6 }], ["Carrot", { s: 4, v: 6 }], ["Wanda", { s: 2, v: 6 }]],
+        twists: [["Jack poisons the Mokomo Dukedom", { inj: true, s: 0, v: 8 }], ["You're shown the Road Poneglyph Zou has protected for centuries", { pts: 3 }]],
+        chances: [["Under the full moon, {first} enters Sulong", { s: 3, v: 12 }]]
+      },
+      "Mokomo Dukedom, Zou": { pri: 2, allies: [["Inuarashi", { s: 2, v: 6 }], ["Nekomamushi", { s: 3, v: 6 }], ["Pekoms", { s: 3, v: 6 }]], twists: [["Jack poisons the Dukedom", { inj: true, s: 0, v: 8 }]] },
+      "Elbaf": {
+        pri: 2, tag: "Your story starts in Elbaf, the land of giants, where a warrior's honor is worth more than a warrior's life.",
+        scenes: { early: ["Giant warriors drink and tell stories of Dorry and Brogy's hundred-year duel."], twist: ["Elbaf's prince is in chains, and nobody will say what he did."] },
+        allies: [["Hajrudin", { s: 3, v: 6 }], ["Dorry", { s: 2, v: 6 }], ["Brogy", { s: 2, v: 6 }], ["Oimo and Kashii", { s: 3, v: 6 }]],
+        twists: [["The Giant Warrior Pirates take you in", { ally: true, s: 3, v: 8 }], ["You learn why Elbaf hates the World Government", { s: 5, v: 8 }]],
+        chances: [["{first} swears on Elbaf's honor and stands up", { gain: { n: "Elbaf honor", d: "A warrior's oath. +4 power.", power: 4 } }]]
+      },
+      "Little Garden": { pri: 2, allies: [["Dorry", { s: 2, v: 6 }], ["Brogy", { s: 2, v: 6 }]], foes: { early: [["Mr. 5 and Miss Valentine", 22], ["Mr. 3", 26]] } },
+      "Skypiea": {
+        pri: 2, tag: "Your story starts on Skypiea, where God Enel listens to every word you say.",
+        scenes: { early: ["The White Berets demand a toll at the gates of heaven."], twist: ["Enel's Ark Maxim lifts off. He's going to destroy Skypiea."], boss: ["God Enel crackles with 200 million volts."] },
+        foes: { early: [["The White Berets", 18], ["God's Army", 24]], mid: [["Satori", 34], ["Gedatsu", 36], ["Ohm", 44], ["Shura", 38]], boss: [["God Enel", 70]] },
+        allies: [["Wiper the Berserker", { s: 3, v: 6 }], ["Conis", { heal: true, all: 2 }], ["Gan Fall, the old God", { s: 0, v: 6 }]],
+        twists: [["The Golden Bell rings for the first time in 400 years", { all: 4 }]],
+        chances: [["Mantra: {first} learns to hear the voices of everything", { gain: { n: "Mantra", d: "Skypiea's Observation Haki. +4 power.", power: 4 } }]]
+      },
+      "Birka": { pri: 2, scenes: { early: ["Birka is ruins. Enel did this before he went to Skypiea."] }, foes: { boss: [["God Enel", 70]] } },
+      "Weatheria": { pri: 2, training: [["Weather science with Haredas", { s: 5, v: 12 }]], allies: [["Haredas", { s: 5, v: 6 }]] },
+      "The Red Line": {
+        pri: 2, tag: "You're one of the last Lunarians. The World Government thinks your people are extinct and wants to keep it that way.",
+        twists: [["The World Government learns a Lunarian survived", { pts: 2, inj: true }], ["Black flames ignite on your back for the first time", { all: 5 }]],
+        allies: [["King, Kaido's right hand and a fellow Lunarian", { s: 3, v: 6 }]],
+        chances: [["Fireproof Lunarian skin shrugs off the blow", { gain: { n: "Lunarian flame", d: "+5 power.", power: 5 } }]]
+      },
+      "Green Bit": { pri: 2, allies: [["Leo of the Tontatta", { s: 4, v: 6 }], ["Princess Mansherry", { heal: true, all: 3 }]], twists: [["The Donquixote family enslaves the Tontatta", { s: 3, v: 8 }]] },
+      "Tontatta Kingdom, Green Bit": { pri: 2, allies: [["Leo of the Tontatta", { s: 4, v: 6 }], ["Princess Mansherry", { heal: true, all: 3 }]], chances: [["Princess Mansherry's tears heal {first}", { heal: true, all: 4 }]] },
+      "Totto Land": {
+        pri: 2, tag: "Your story starts in Totto Land, Big Mom's country, where everyone pays in lifespan.",
+        scenes: { early: ["Tea party season. Late tax payers lose years of their life."], twist: ["Big Mom is having a craving. Whole islands are running."] },
+        foes: { early: [["Homies", 18], ["Chess soldiers", 20]], mid: [["Charlotte Cracker", 52], ["Charlotte Smoothie", 54], ["Charlotte Oven", 50]], late: [["Charlotte Katakuri", 76]], boss: [["Charlotte Linlin", 93]] },
+        allies: [["Charlotte Pudding", { s: 5, v: 6 }]],
+        chances: [["Big Mom forgets about {first} in the middle of a craving", { heal: true, pts: 2 }]]
+      },
+      "Whole Cake Island": { pri: 2, foes: { late: [["Charlotte Katakuri", 76]], boss: [["Charlotte Linlin", 93]] }, allies: [["Charlotte Pudding", { s: 5, v: 6 }]] },
+      "Fish-Man": { pri: 1, chances: [["Fish-Men are ten times stronger than humans under the sea. {first} fights underwater", { s: 3, v: 10 }]] },
+      "Mink": { pri: 1, chances: [["Electro sparks off {first}'s fur", { s: 3, v: 8 }]] },
+      "Giant": { pri: 1, chances: [["{first} stands up, and up, and up", { s: 3, v: 10 }]] },
+      "Buccaneer": { pri: 1, tag: "Buccaneer blood is a crime in the eyes of the World Government.", twists: [["The World Government learns you're a Buccaneer", { pts: 2, s: 3, v: 8 }]] },
+      "Carries the Will of D.": { pri: 1.5, tag: "The Will of D. The World Government's natural enemy.", chances: [["{first} laughs at death, like every D. before them", { gain: { n: "Will of D.", d: "Rewrites one defeat.", save: { chance: 0.45, uses: 1, text: "{first} should be dead. Instead they're laughing. {foe} has never seen anything like it." } } }]] },
+      "Survivor of Ohara": { pri: 1.5, twists: [["The world finds out you can read the Poneglyphs", { pts: 2, s: 5, v: 10 }]] },
+      "Wano samurai blood": { pri: 1.5, chances: [["{first} draws their blade with a samurai's resolve", { s: 2, v: 10 }]] }
+    }
+  });
+  THEMES.onepiece.journey.chances = [
+    ["Washed up on a beach. A stranger feeds {first} meat on the bone", { heal: true, all: 2 }], ["{first} trains on a deserted island until they're sick", { s: 3, v: 10 }],
+    ["The news coo drops a paper: {first}'s bounty went up after losing", { pts: 2 }], ["{first}'s willpower sparks for the first time", { s: 0, v: 10 }],
+    ["A retired pirate in a bar teaches {first} one trick", { gain: { n: "Old pirate's trick", d: "+3 power.", power: 3 } }], ["{first} pushes their power until it bends", { s: 1, v: 10 }]
+  ];
+  // ---------- Fantasy RPG ----------
+  Object.assign(THEMES.fantasy, {
+    titles: {
+      Gender: "Who answers the call to adventure?",
+      Race: "What blood runs in {first}'s veins?",
+      Class: "What path does {first} walk?",
+      Magic: "What magic hums in {first}'s hands?",
+      "Fighting style": "How does {first} fight?",
+      Weapon: "What does {first} carry?",
+      Alignment: "Where does {first}'s heart point?",
+      Personality: "What kind of person is {first}?",
+      Rival: "Who's always one step ahead of {first}?",
+      Rank: "What does the guild register {first} as?",
+      Companion: "Who travels at {first}'s side?",
+      "A deed people still talk about": "What do the taverns say {first} did?",
+      "Why you adventure": "Why does {first} keep walking the road?",
+      "Human lineage": "What does {first}'s family tree hide?",
+      "Elf kin": "Which elven people raised {first}?",
+      "Dwarf clan": "Which dwarf hold is {first}'s home?",
+      "Orc blood": "What does orc blood mean for {first}?",
+      "Infernal lineage": "Which archdevil's mark does {first} carry?",
+      "Dragon color": "What color are {first}'s scales?",
+      "Breath weapon": "How strong is {first}'s breath?",
+      Court: "Which fae court claims {first}?",
+      "Gnome kin": "Which gnomes are {first}'s people?",
+      "Halfling kin": "Which halfling folk raised {first}?",
+      "Vampire kind": "What kind of vampire is {first}?",
+      "Undead kind": "What kind of undead is {first}?",
+      "Divine parent": "Which god is {first}'s parent?",
+      "Divine gift": "What did the god give {first}?",
+      "God of": "What was {first} the god of?",
+      "Worshippers left": "Who still prays to {first}?",
+      "Martial archetype": "What kind of warrior is {first}?",
+      "School of magic": "Which school of magic did {first} study?",
+      "Rogue archetype": "What kind of rogue is {first}?",
+      "Divine domain": "Which domain does {first}'s god grant?",
+      "Favored terrain": "Where is {first} most at home?",
+      Oath: "What oath did {first} swear?",
+      "Undead minion": "What does {first} raise from the grave?",
+      "Bard college": "Which bard college trained {first}?",
+      "Druid circle": "Which circle does {first} belong to?",
+      Patron: "Who gave {first} their power?",
+      "Monastic way": "Which monastic way does {first} follow?",
+      "Artificer specialty": "What does {first} build?",
+      "Blood hunter order": "Which blood hunter order took {first} in?",
+      "Great weapon mastery": "How hard does {first} swing?",
+      "Archery mastery": "How good is {first}'s aim?",
+      "Assassin training": "Where did {first} learn to kill?"
+    },
+    talTitles: [
+      ["How much arcane power sleeps in {first}?", "What does the mage tower's crystal show when {first} touches it?"],
+      ["How many spells can {first} cast?", "How well does {first} cast under pressure?"],
+      ["How good is {first} with {Weapon}?", "Could {first} win a squire's duel?"],
+      ["How strong is {first}?", "Could {first} wrestle a troll?"],
+      ["How quick is {first} on their feet?", "Could {first} dodge a goblin's arrow?"],
+      ["How sharp is {first}'s mind?", "Could {first} solve a sphinx's riddle?"]
+    ],
+    jt: {
+      foe: ["{chapter}: what's on the road?", "What does the quest board send?", "What crawls out of the dark?"],
+      train: ["How does {first} level up?", "Who teaches {first}?"],
+      twist: ["What does fate roll?", "Twist of fate"],
+      recruit: ["Who joins the party?", "Who answers {first}'s call?"],
+      loot: ["What's in the chest?", "What does the hoard hold?"],
+      evolve: ["How does {first}'s power evolve?", "What's {first}'s next class feature?"],
+      chance: ["What happens after the defeat?", "Who finds {first} on the battlefield?"],
+      battle: ["{first} vs {foe}", "Roll for initiative: {first} vs {foe}"]
+    },
+    arcs: {
+      "Elf": {
+        pri: 2, tag: "An elf's story is long. Yours runs through the Silverwood, a forest that remembers every war.",
+        home: "The Silverwood. Elves here count time in centuries, and {first} is barely a hundred. Today the Elder Council sends them past the forest border for the first time.",
+        chapters: ["Beyond the Silverwood", "Under the elder trees", "The Moon Festival trial", "Elven awakening", "The forest is burning", "War of the realms", "Final battle", "Epilogue"],
+        scenes: { early: ["Human loggers have crossed into the Silverwood. The Elder Council wants them gone, quietly."], twist: ["The oldest tree in the Silverwood is dying. Something is poisoning its roots."], late: ["The Silverwood burns. The Dark Lord's legions came from the east."] },
+        foes: { early: [["Human loggers with hired swords", 18], ["A corrupted dryad", 26], ["Shadow spiders", 22]], mid: [["A drow raiding party", 46], ["The root-poisoner", 50]], late: [["The Dark Lord's forest-burner", 66]] },
+        training: [["Archery under the elder trees", { s: 2, v: 10 }], ["A decade studying the old songs", { s: 0, v: 12 }]],
+        twists: [["The Elder Council exiles you for helping humans", { gain: { n: "Exiled elf", d: "No home, nothing to lose. +3 power.", power: 3 } }], ["The oldest tree dies", { s: 0, v: 10 }]],
+        allies: [["An elder elf archer", { s: 2, v: 6 }], ["A unicorn of the Silverwood", { heal: true, all: 2 }]],
+        chances: [["The forest itself heals {first}", { heal: true, all: 3 }]],
+        endings: { good: ["Becomes the Silverwood's Elder at five hundred", "Ends the war between elves and men"], bad: ["The Silverwood burns, and {first} burns with it"] }
+      },
+      "Dwarf": {
+        pri: 2, tag: "Your story runs through Khazad Dun, a dwarf hold where every grudge is written in stone.",
+        home: "Khazad Dun, under the mountain. The forges never cool and the Book of Grudges is three stories tall. {first}'s name is about to go in it.",
+        chapters: ["The Book of Grudges", "At the forge", "The clan trial", "Runic awakening", "What the miners woke", "The siege of the hold", "Final battle", "Epilogue"],
+        scenes: { early: ["Goblins in the lower mines again. The clan sends the youngest."], twist: ["The miners dug too deep. Something old is awake."], boss: ["The thing in the deep comes up the great stair."] },
+        foes: { early: [["Mine goblins", 16], ["A cave troll", 26], ["A rival clan's champion", 24]], mid: [["A deep-dwelling horror", 50]], boss: [["The Balrog of the deep", 94]] },
+        training: [["Forged their own weapon", { s: 2, v: 12 }], ["Learned rune-carving", { s: 1, v: 10 }], ["Hauled ore for a year", { s: 3, v: 12 }]],
+        twists: [["The miners wake something in the deep", { inj: true, all: 4 }], ["A grudge is written against you", { gain: { n: "Grudge-bearer", d: "Dwarves don't forget. +3 power after each defeat.", adapt: 3 } }]],
+        allies: [["The clan's old runesmith", { s: 1, v: 6 }], ["A dwarf shieldbearer", { s: 3, v: 6 }]],
+        loot: [["Mithril mail", { all: 4 }]],
+        chances: [["A dwarf ale strong enough to wake the dead", { heal: true, all: 2 }]],
+        endings: { good: ["Strikes the grudge from the Book", "Becomes king under the mountain"], bad: ["Their name is written in the Book of Grudges forever"] }
+      },
+      "Orc": {
+        pri: 2, tag: "Your story runs through the Ashlands warbands, where strength is the only law and the humans call you a monster.",
+        home: "The Ashlands. The warband's drums never stop. {first} has to prove themselves before the war chief, or be left behind.",
+        chapters: ["The blood trial", "Warband training", "The great moot", "Rage awakening", "The humans march", "War of the realms", "Final battle", "Epilogue"],
+        scenes: { early: ["A human border fort is sending patrols into orc land. The war chief wants heads."], twist: ["The war chief was poisoned. The warband needs a new leader."], late: ["The human crusade marches into the Ashlands."] },
+        foes: { early: [["A human border patrol", 18], ["A rival warband's champion", 26], ["A wyvern", 30]], mid: [["The human crusade's paladins", 48], ["The rival war chief", 50]], late: [["The crusade's high templar", 68]] },
+        training: [["Wrestled the warband's best", { s: 3, v: 12 }], ["Hunted mammoths", { s: 4, v: 10 }]],
+        twists: [["The war chief is poisoned", { pts: 3 }], ["Humans burn your village", { s: 3, v: 10, inj: true }], ["A human child saves your life", { gain: { n: "A human's kindness", d: "Not all humans are monsters. Good karma.", karma: 1 } }]],
+        allies: [["The warband's shaman", { heal: true, all: 2 }], ["A half-orc outcast", { s: 4, v: 6 }]],
+        chances: [["{first}'s rage takes over", { s: 3, v: 12, inj: true }]],
+        endings: { good: ["Becomes war chief and makes peace", "Unites the warbands"], bad: ["Hunted by every human kingdom"] }
+      },
+      "Tiefling": {
+        pri: 2, tag: "Your story is shaped by the infernal blood in your veins. People cross the street when they see your horns.",
+        home: "A human city that hates tieflings. {first} learned early to keep their hood up and their tail tucked.",
+        scenes: { early: ["A mob blames {first} for a missing child. They have torches."], twist: ["A devil appears in a mirror and calls {first} by their true name."] },
+        foes: { early: [["An angry mob", 14], ["A witch-hunter", 26]], late: [["A devil collecting a debt", 68]], boss: [["Your infernal ancestor", 92]] },
+        twists: [["A devil calls in your bloodline's debt", { all: 5, inj: true }], ["You find the missing child and save them", { gain: { n: "Horns and a halo", d: "Proved everyone wrong. Good karma, +3 power.", karma: 1, power: 3 } }]],
+        chances: [["Hellfire flares in {first}'s eyes", { s: 0, v: 10 }]],
+        endings: { good: ["Breaks the infernal contract on their bloodline"], bad: ["Claimed by the devil who owns their blood"] }
+      },
+      "Dragonborn": {
+        pri: 2, tag: "Your story runs through the dragon clans, where every dragonborn's honor belongs to their clan.",
+        home: "The Scale Peaks. Dragonborn clans train their children to breathe fire before they can read. {first}'s clan watches.",
+        scenes: { early: ["A rival clan has stolen the clan's sacred egg."], twist: ["A true dragon wakes and demands tribute."], boss: ["The ancient dragon who claims to be the clan's ancestor."] },
+        foes: { early: [["Rival clan warriors", 24], ["Kobold egg-thieves", 16]], boss: [["The ancestral dragon", 96]] },
+        training: [["Breath training on the volcano", { s: 0, v: 12 }]],
+        twists: [["You steal back the clan's egg", { pts: 3 }], ["Your clan disowns you", { gain: { n: "Clanless", d: "Honor of your own. +3 power.", power: 3 } }]],
+        chances: [["{first}'s breath weapon ignites hotter than ever", { s: 0, v: 10 }]],
+        endings: { good: ["Becomes the clan's honored elder"], bad: ["Dies dishonored"] }
+      },
+      "Fae": {
+        pri: 2, tag: "Your story runs through the Feywild, where bargains are binding and names are power.",
+        home: "The Feywild. Seasons last a hundred years and every promise is a chain. {first} has just made their first bargain.",
+        scenes: { early: ["A mortal has wandered into the Feywild and the Queen wants them."], twist: ["Someone has learned {first}'s true name."] },
+        foes: { early: [["A redcap", 20], ["A will-o'-wisp", 16]], late: [["The Winter Queen's knight", 70]], boss: [["The Queen of the opposite court", 92]] },
+        twists: [["Your true name is stolen", { inj: true, all: 4 }], ["You trick a hag out of her power", { s: 5, v: 10 }]],
+        chances: [["{first} makes a bargain to get back up", { gain: { n: "Fae bargain", d: "Rewrites one defeat, for a price.", karma: -1, save: { chance: 0.5, uses: 1, text: "{first} whispers a bargain. Something in the air accepts. {foe} falls instead." } } }]],
+        endings: { good: ["Becomes a fae monarch"], bad: ["Bound forever by a bargain"] }
+      },
+      "Halfling": {
+        pri: 2, tag: "Halflings aren't supposed to go on adventures. Yours starts with someone knocking on a round green door.",
+        home: "The Shire-lands. Second breakfast, then elevenses. Then a wizard knocks on {first}'s door.",
+        scenes: { early: ["Trolls on the road, arguing about how to cook {first}."] },
+        foes: { early: [["Three hungry trolls", 26], ["Wargs", 22]] },
+        twists: [["You find a ring in the dark", { gain: { n: "A ring in the dark", d: "Invisible when it matters. +4 power.", power: 4 } }]],
+        chances: [["{first} is too small for {foe} to notice", { s: 4, v: 10 }]],
+        endings: { good: ["Goes home, plants a garden, writes a book"], bad: ["Never sees the Shire-lands again"] }
+      },
+      "Vampire": {
+        pri: 2, tag: "Your story runs through the night courts, where vampire lords play politics with centuries of patience.",
+        home: "The Night Court of Karsten. {first} woke up in a coffin last week. Their sire is watching from the balcony.",
+        scenes: { early: ["{first} is starving. There's a village down the hill."], twist: ["Your sire is killed by a hunter, and every vampire in the court blames you."] },
+        foes: { early: [["A vampire hunter", 26], ["A rival fledgling", 22]], late: [["The Vampire Lord", 72]], boss: [["The first vampire", 94]] },
+        twists: [["Your sire is staked", { pts: 2, all: 3 }], ["You refuse to drink from humans", { gain: { n: "Starving saint", d: "Good karma, +2 power.", karma: 1, power: 2 } }]],
+        chances: [["{first} drinks and the wounds close", { heal: true, all: 3, gain: { n: "Blood thirst", d: "Bad karma, +3 power.", karma: -1, power: 3 } }]],
+        endings: { good: ["Lives quietly forever, harming no one"], bad: ["Becomes the monster everyone feared"] }
+      },
+      "Undead": { pri: 2, tag: "You died once. Now everyone wants to know why you came back.", chances: [["{first} gets back up. Being dead has advantages", { heal: true, all: 3 }]], twists: [["The necromancer who raised you wants you back", { s: 0, v: 10 }]] },
+      "Demigod": {
+        pri: 2, tag: "Your story runs through Olympus Rest, where gods play games with the lives of their children.",
+        scenes: { twist: ["{Divine parent} speaks to {first} for the first time. It's an order."] },
+        foes: { late: [["A jealous god's monster", 70]], boss: [["The god who hates your parent", 96]] },
+        twists: [["Your divine parent finally visits", { all: 5 }], ["A jealous god curses you", { inj: true, s: 0, v: 10 }]],
+        chances: [["A divine spark keeps {first} breathing", { gain: { n: "Divine spark", d: "+4 power in the biggest fights.", boss: 4 } }]],
+        endings: { good: ["Ascends to godhood"], bad: ["Becomes a pawn of the gods"] }
+      },
+      "Fallen god": {
+        pri: 2, tag: "You were a god once. Your story is about getting it back, or learning to live without it.",
+        twists: [["A worshipper's prayer restores some of your power", { all: 6 }], ["The god who threw you down finds out you're alive", { inj: true, s: 0, v: 12 }]],
+        chances: [["A single prayer reaches {first}", { heal: true, gain: { n: "Last believer", d: "+4 power.", power: 4 } }]],
+        endings: { good: ["Reclaims their throne in the heavens"], bad: ["Fades from memory forever"] }
+      },
+      "Human": {
+        pri: 1, tag: "Humans live short lives. That's why they burn so bright.",
+        chances: [["{first} is just a human. They get up anyway", { gain: { n: "Human stubbornness", d: "+3 power after each defeat.", adapt: 3 } }]]
+      },
+      "a street orphan": { pri: 1.5, chances: [["The street kids hide {first} until they heal", { heal: true, all: 2 }]], allies: [["A street kid who idolizes you", { s: 4, v: 6 }]] },
+      "an exiled noble": { pri: 1.5, twists: [["Your family offers to take you back, for a price", { pts: 3 }]], foes: { boss: [["The sibling who stole your title", 82]] } },
+      "a temple acolyte": { pri: 1.5, chances: [["The temple's old priest heals {first}", { heal: true, all: 3 }]] },
+      "a cult escapee": { pri: 1.5, twists: [["The cult finds you", { inj: true, all: 4 }]], foes: { boss: [["The cult's high priest", 84]] } }
+    }
+  });
+  THEMES.fantasy.journey.chances = [
+    ["A healer at the temple patches {first} up", { heal: true, all: 2 }], ["{first} levels up from the experience", { all: 3 }],
+    ["A wandering sage offers one lesson", { gain: { n: "Sage's lesson", d: "+3 power.", power: 3 } }], ["{first} finds a potion in the enemy's pack", { heal: true, pts: 1 }],
+    ["{first} studies the enemy's tactics all night", { s: 5, v: 8 }], ["A natural 20 on the next roll", { s: 3, v: 10 }]
+  ];
+
+  // ---------- Superhero ----------
+  Object.assign(THEMES.hero, {
+    titles: {
+      Gender: "Who's under the mask?",
+      Species: "What is {first}?",
+      Archetype: "Hero or villain?",
+      Power: "What's {first}'s power?",
+      Origin: "How did {first} get their powers?",
+      "Fighting style": "How does {first} fight?",
+      Costume: "What does {first}'s suit look like?",
+      Personality: "What's {first} like?",
+      Rank: "How powerful is {first}?",
+      Nemesis: "Who is {first}'s nemesis?",
+      "Human edge": "What does {first} have that other humans don't?",
+      Mutation: "How did {first}'s mutation show up?",
+      "Alien physiology": "What kind of alien is {first}?",
+      "Android core": "What's in {first}'s core?",
+      "Cloned from": "Who was {first} cloned from?",
+      "Divine parent": "Which god is {first}'s parent?",
+      "Magic source": "Where does {first}'s magic come from?",
+      Cybernetics: "How much of {first} is machine?",
+      "Signature gadget": "What's {first}'s signature gadget?",
+      "Favorite form": "What does {first} shapeshift into?",
+      "Telekinesis limit": "How much can {first} lift with their mind?",
+      "Energy type": "What kind of energy does {first} blast?",
+      "Strength level": "How strong is {first}?",
+      "Speed tier": "How fast is {first}?",
+      "Time trick": "What can {first} do with time?",
+      "Healing speed": "How fast does {first} heal?",
+      "Flight ceiling": "How high can {first} fly?",
+      "Home planet": "What planet did {first} come from?",
+      Artifact: "What cursed artifact gave {first} power?",
+      "Which lab": "Which lab exploded?",
+      "Hero you assist": "Whose sidekick is {first}?",
+      "Secret identity": "Who knows {first}'s secret?",
+      "Why you fight": "Why does {first} put on the mask?",
+      "Your rule on killing": "What's {first}'s rule on killing?",
+      "Martial art": "Which martial art does {first} use?",
+      "Tank level": "How much can {first} take?"
+    },
+    talTitles: [
+      ["How much raw power does {first} have?", "How bright does {first}'s power read on the scanners?"],
+      ["How well does {first} control their power?", "How often does {first}'s power go off by accident?"],
+      ["How good is {first}'s gear?", "How much tech does {first} carry?"],
+      ["How hard does {first} punch?", "Could {first} catch a falling car?"],
+      ["How fast is {first}?", "Could {first} beat a speeding train?"],
+      ["How smart is {first}?", "Could {first} out-think a supervillain?"]
+    ],
+    jt: {
+      foe: ["{chapter}: who's attacking the city?", "Who's on the police scanner?", "Who's the threat tonight?"],
+      train: ["How does {first} get stronger?", "What's the training montage?"],
+      twist: ["What's the breaking news?", "Twist of fate"],
+      recruit: ["Who joins {first}?", "Who's on {first}'s team?"],
+      loot: ["What does {first} find?", "What's in the villain's lair?"],
+      evolve: ["How does {Power|lower} evolve?", "What's {first}'s next level?"],
+      chance: ["What happens after the defeat?", "Who finds {first} in the rubble?"],
+      battle: ["{first} vs {foe}", "Can {first} stop {foe}?"]
+    },
+    arcs: {
+      "Alien": {
+        pri: 2, tag: "Your story starts with a crash landing. Your home planet is gone, or coming for you.",
+        scenes: { early: ["The government has found {first}'s crashed ship."], twist: ["A signal from {first}'s home planet. They're coming."], boss: ["The fleet from {first}'s homeworld is in orbit."] },
+        foes: { early: [["Government agents at the crash site", 24], ["Alien bounty hunters", 30]], late: [["The homeworld's champion", 70]], boss: [["The emperor of your homeworld", 94]] },
+        twists: [["Your homeworld finds you", { all: 5 }], ["Earth's sun supercharges your cells", { s: 0, v: 12 }]],
+        chances: [["{first} soaks up sunlight and the wounds close", { heal: true, all: 3 }]],
+        endings: { good: ["Becomes Earth's protector from the stars"], bad: ["Taken back to their homeworld in chains"] }
+      },
+      "Mutant": {
+        pri: 2, tag: "Your story runs through a world that fears mutants. Every power you show is evidence against you.",
+        scenes: { early: ["Anti-mutant protesters outside {first}'s school."], twist: ["A mutant registration act passes. {first}'s name is on the list."] },
+        foes: { early: [["Mutant hunters", 22], ["A frightened mutant losing control", 26]], mid: [["Sentinel robots", 50]], late: [["The head of the mutant hunters", 66]] },
+        twists: [["The mutant registration act passes", { pts: 2, inj: true }], ["You save someone who hated mutants", { gain: { n: "Proof", d: "Changed one mind. Good karma, +3 power.", karma: 1, power: 3 } }]],
+        chances: [["Under stress, {first}'s mutation evolves", { s: 0, v: 12 }]],
+        endings: { good: ["Wins equal rights for mutants"], bad: ["Hunted forever"] }
+      },
+      "Android": { pri: 2, tag: "You were built. Your story is about proving you're more than your programming.", twists: [["Your creator tries to shut you down", { inj: true, all: 5 }]], chances: [["{first} reroutes power from non-essential systems", { all: 3 }]], endings: { good: ["Proves they're alive"], bad: ["Reprogrammed into a weapon"] } },
+      "Lab-made clone": { pri: 2, tag: "You're a copy. Your story is about becoming someone original.", twists: [["You meet the original", { s: 5, v: 10 }]], foes: { boss: [["The original you were cloned from", 88]] }, chances: [["{first} realizes they're not a copy", { gain: { n: "Original", d: "+4 power.", power: 4 } }]] },
+      "Demigod": { pri: 2, tag: "Your story is tangled with the gods. Your parent is watching.", twists: [["Your divine parent visits", { all: 5 }]], chances: [["Divine blood heals {first}", { heal: true, all: 3 }]] },
+      "Magic-born": { pri: 2, tag: "Your story runs through the hidden world of magic beneath the city.", scenes: { twist: ["A portal opens in the middle of Times Square."] }, twists: [["A demon dimension leaks into the city", { inj: true, s: 1, v: 12 }]] },
+      "Cyborg": { pri: 2, tag: "Half human, half machine. Your story is about who's in control.", twists: [["Your cybernetics get a firmware update", { all: 4 }]], chances: [["{first}'s systems reboot", { heal: true, all: 2 }]] },
+      "Villain": { pri: 3, chances: [["{first}'s henchmen pull them out of the wreckage", { heal: true, all: 3 }]] },
+      "Lab accident": { pri: 1.5, foes: { boss: [["The scientist who caused the accident", 86]] }, twists: [["You learn the accident wasn't an accident", { s: 5, v: 10 }]] },
+      "Cursed artifact": { pri: 1.5, twists: [["The artifact starts talking", { all: 5, inj: true }]], foes: { boss: [["The demon sealed in your artifact", 92]] } },
+      "Escaped experiment": { pri: 1.5, twists: [["The lab that made you sends a retrieval squad", { inj: true, all: 4 }]], foes: { late: [["The lab's other experiment", 68]] } },
+      "Rich and bored": { pri: 1.5, chances: [["{first} buys a better suit", { pts: 3 }]] },
+      "Struck by lightning": { pri: 1.5, chances: [["Lightning strikes {first} again", { s: 0, v: 12 }]] },
+      "Trained for years": { pri: 1.5, chances: [["Years of training kick in", { gain: { n: "Discipline", d: "+3 power after each defeat.", adapt: 3 } }]] },
+      "Born with it": { pri: 1.5, chances: [["{first}'s power surges", { s: 0, v: 10 }]] }
+    }
+  });
+  THEMES.hero.journey.chances = [
+    ["A paramedic patches {first} up and doesn't ask questions", { heal: true, all: 2 }], ["{first} watches the footage of their loss a hundred times", { s: 5, v: 8 }],
+    ["A retired hero gives {first} advice", { gain: { n: "Old hero's advice", d: "+3 power.", power: 3 } }], ["{first} upgrades their suit", { s: 2, v: 10 }],
+    ["{first}'s power surges in a moment of anger", { s: 0, v: 10 }], ["The internet roasts {first}. They train harder", { pts: 2 }]
+  ];
+
+  // fill every location arc's key scenes so the story never drifts to someone else's island
+  [
+    ["blackclover", "Hage village", { mid: ["The Magic Knights entrance exam. The examiners snicker when they hear 'Hage'."], late: ["The capital is burning. Somewhere behind {first}, Hage is waiting for news."], boss: ["The sky splits open over the kingdom. Back in Hage, the church kids are praying for {first}."] }],
+    ["blackclover", "the Forsaken Realm", { train: ["No teacher, no money. {first} trains in an alley with whatever they can steal."], late: ["The war reaches the Forsaken Realm first. Nobody from the capital comes to help, so {first} does."], boss: ["The final enemy stands over the slums {first} grew up in."] }],
+    ["blackclover", "a noble house", { early: ["A noble banquet. Every cousin at the table is waiting for {first} to embarrass the house."], train: ["The family's private tutor doesn't believe in breaks."], mid: ["The Magic Knights exam. {first}'s whole family is in the royal box, judging."], late: ["The war comes to the capital, and the noble houses hide behind their walls. {first} doesn't."], boss: ["The family is watching. So is the enemy."] }],
+    ["jjk", "the Gojo clan", { train: ["The Gojo elders want the Six Eyes trained, not happy."], mid: ["The Goodwill Event. Kyoto's students have orders about the Gojo kid."] }],
+    ["jjk", "the Kamo clan", { train: ["The Kamo elders drill Blood Manipulation until {first} faints from blood loss."], mid: ["The Goodwill Event. Noritoshi Kamo is watching to see if {first} embarrasses the family."], late: ["Shibuya. Choso is fighting for his little brothers, and the Kamo name is everywhere."] }],
+    ["jjk", "an ordinary family", { train: ["Training at Jujutsu High, then a text from mom: are you eating?"], mid: ["The Goodwill Event. The clan kids already know each other. {first} doesn't know anyone."], late: ["Shibuya, Halloween. {first}'s family lives two stations away."], boss: ["The thing that hunted {first}'s family all this time is finally here."] }],
+    ["jjk", "the Culling Game", { train: ["Between fights, {first} studies every player's technique in the colony."] }],
+    ["hxh", "Whale Island", { train: ["The Hunter Exam is long over. Now the real training starts."], mid: ["Heavens Arena. Floor 200 is where the Nen users wait."], late: ["Following Ging's trail leads somewhere dangerous."], boss: ["At the end of the trail is something Ging was running from, or toward."] }],
+    ["hxh", "Meteor City", { train: ["Nobody teaches Nen in Meteor City. {first} learns it by getting hit with it."], boss: ["Chrollo Lucilfer opens his Bandit's Secret. He's reading {first}'s ability."] }],
+    ["hxh", "the Kurta clan", { train: ["{first} holds a chain until they dream about it."] }],
+    ["hxh", "Yorknew City", { early: ["Auction week in Yorknew. The mafia is jumpy and so is {first}."], train: ["Back alleys, betting rings and street fights: Yorknew's training ground."], twist: ["Neon Nostrade's fortune-telling poem has {first}'s name in it."], boss: ["Chrollo Lucilfer sits on a rooftop and watches the city burn."] }],
+    ["hxh", "the NGL jungle", { train: ["Knuckle and Shoot drag {first} through jungle drills."] }],
+    ["hxh", "the Kakin royal family", { train: ["Nen lessons in a locked cabin on the Black Whale. Half the class are spies."] }],
+    ["onepiece", "Foosha Village, East Blue", { train: ["Mt. Colubo. Dadan's bandits watch {first} fight bears for dinner."], mid: ["The Grand Line. Foosha feels a million miles away."], late: ["The New World. The newspaper Makino reads every morning has {first} on the front page."], boss: ["The strongest enemy yet. Somewhere far away, a man in a straw hat would laugh at the odds."] }],
+    ["onepiece", "Shimotsuki Village, East Blue", { mid: ["A swordsman's road leads into the Grand Line. Every port has someone who wants {first}'s head."], twist: ["A letter from Koshiro's dojo: the old sword {first} left behind is gone."], late: ["The New World. Only the best swords survive here."] }],
+    ["onepiece", "Cocoyasi Village, East Blue", { train: ["Training in secret in the tangerine groves, away from Arlong's men."], late: ["The Grand Line. {first} sends berries home to Cocoyasi every month."], boss: ["The final enemy wants the same thing Arlong did: to own people."] }],
+    ["onepiece", "Ohara, West Blue", { train: ["{first} studies Poneglyph rubbings by lamplight."], mid: ["A ruin in the Grand Line. There's a Poneglyph in it."], late: ["The New World. The Void Century is closer than ever."] }],
+    ["onepiece", "Flevance, North Blue", { train: ["{first} studies medicine to understand the disease that killed their town."], mid: ["The Grand Line. Doflamingo's name is everywhere."], late: ["Dressrosa. Doflamingo's kingdom of toys and lies."], boss: ["Doflamingo smiles and the Birdcage closes."] }],
+    ["onepiece", "Germa Kingdom, North Blue", { train: ["The Germa labs. Lineage factors, scalpels, and a father who never visits."], mid: ["The Grand Line. Germa's ships follow {first} from a distance."], late: ["Whole Cake Island. The Vinsmoke family has been invited to a wedding, and so has {first}."] }],
+    ["onepiece", "Alabasta", { train: ["Desert drills in the sand dunes outside Yuba."], twist: ["Dance Powder. The rain that should have fallen on Alabasta was stolen."] }],
+    ["onepiece", "Water 7", { train: ["Galley-La's docks. Iceburg works {first} until their hands bleed."], boss: ["Rob Lucci takes off his shirt and turns into a leopard."] }],
+    ["onepiece", "Dressrosa", { train: ["The Corrida Colosseum's underground cells, where fighters train between matches."], boss: ["Doflamingo's strings fill the sky."] }],
+    ["onepiece", "Wano Country", { late: ["The fire festival on Onigashima. The raid has begun, and Kaido is drunk."] }],
+    ["onepiece", "Fish-Man Island", { train: ["Jinbe's karate lessons under the sea."], late: ["The New World above Fish-Man Island. The Emperors patrol these waters."] }],
+    ["fantasy", "Elf", { train: ["The elder trees whisper while {first} trains."], mid: ["The Moon Festival trial. The elves watch in silence."], boss: ["The Dark Lord stands in the ashes of the Silverwood."] }],
+    ["fantasy", "Dwarf", { train: ["The forge is hot and the clan is watching."], mid: ["The clan trial in the Hall of Kings."], late: ["The siege of Khazad Dun. Goblins pour out of the deep."] }],
+    ["fantasy", "Orc", { train: ["The warband's pit fights."], mid: ["The great moot. Every war chief in the Ashlands is watching."], boss: ["The crusade's god-blessed champion rides into the Ashlands."] }]
+  ].forEach(([th, v, sc]) => { const a = THEMES[th].arcs[v]; a.scenes = Object.assign(sc, a.scenes || {}); });
+  Object.assign(THEMES.blackclover.titles, { Allegiance: "Who does {first} swear to?" });
+  Object.assign(THEMES.jjk.titles, { "Restriction trade": "What did the heavens take from {first}?", Infamy: "How wanted is {first}?" });
+  Object.assign(THEMES.hxh.titles, { "Assassin rank": "How dangerous is {first} as an assassin?" });
+  Object.assign(THEMES.onepiece.titles, { "Marine rank": "What rank is on {first}'s coat?", Clearance: "How deep does {first}'s clearance go?", "Standing in Mary Geoise": "Where does {first} stand in the Holy Land?" });
+  Object.assign(THEMES.fantasy.titles, { "Fighting spirit": "How fierce is {first}'s fighting spirit?", "Ki technique": "What's {first}'s ki technique?", Trick: "What's {first}'s best trick?", Invention: "What did {first} invent?", Divinity: "How much divine power does {first} have left?" });
+  Object.assign(THEMES.hero.titles, { "Threat level": "What threat level does the government give {first}?" });
+
+  // ---------- alternate paths: scenes, training, twists, allies and second chances ----------
+  Object.assign(THEMES.blackclover.paths["the Spade Kingdom"], {
+    home: "The Spade Kingdom under the Dark Triad. Public executions every week, and the Zogratis siblings watching from the castle. {first} learned early to keep their head down.",
+    scenes: {
+      early: ["A raid on a Clover border village. The Dark Triad wants proof {first} is loyal."], train: ["The Dark Triad's devil-host program. Most candidates don't survive the first week."], mid: ["A trial before the Dark Triad. Dante smiles while {first} fights."],
+      twist: ["The Dark Triad's plan leaks: open the Qliphoth tree and let the devils of the underworld walk through."], late: ["The Spade Kingdom's army marches into the Clover Kingdom."], boss: ["The gate of the underworld opens. Something huge is coming through."], ending: ["The Spade Kingdom wakes up to a world without the Dark Triad, or with a new one."]
+    },
+    training: [["Survived the devil-host program", { s: 0, v: 12, inj: true }], ["Body Magic experiments under Dante", { s: 3, v: 12 }], ["Bone armor drills with Zenon's soldiers", { s: 2, v: 10 }], ["Hid out with the resistance and learned to fight dirty", { s: 5, v: 10 }]],
+    twists: [["The Dark Triad orders {first} to kill a resistance fighter they know", { inj: true, all: 4 }], ["A devil offers {first} a contract", { all: 6, inj: true }], ["The resistance asks {first} to be a spy", { gain: { n: "Double agent", d: "Playing both sides. +3 power.", power: 3 } }], ["Clover's Magic Knights invade the Spade Kingdom", { ally: true }]],
+    allies: [["Nacht Faust, the Black Bulls' shadow", { s: 1, v: 6 }], ["A resistance leader", { s: 5, v: 6 }], ["A Spade deserter", { s: 4, v: 6 }]],
+    chances: [["The resistance smuggles {first} out of the castle infirmary", { heal: true, all: 3 }], ["{first}'s devil whispers: let me in and we'll win", { gain: { n: "Devil's whisper", d: "+5 power, bad karma.", power: 5, karma: -1 } }]]
+  });
+  Object.assign(THEMES.jjk.paths["a curse user cult"], {
+    home: "The cult's sermon hall. Non-sorcerers donate everything they own and call the leader master. {first} grew up behind the curtain, collecting curses.",
+    scenes: {
+      early: ["The cult needs a new donor to scare into paying. {first} is sent to the house with a curse in a jar."], train: ["The cult's curse breeding room. {first} feeds them until they grow."], mid: ["Jujutsu sorcerers have found one of the cult's safe houses."],
+      twist: ["Mahito sits in on the cult meeting, grinning. The curses are partners now."], late: ["Shibuya, October 31st. The cult's job is simple: keep Satoru Gojo busy."], boss: ["A sorcerer with a white blindfold walks in alone. He's smiling."], ending: ["The sermon hall is empty now. The donations stopped coming."]
+    },
+    training: [["Swallowed curses until they could control them", { s: 0, v: 12 }], ["Learned to hide cursed energy from Windows", { s: 5, v: 10 }], ["Practiced on Grade 4 curses in a sealed basement", { s: 1, v: 10 }]],
+    twists: [["The cult plans the Night Parade of a Hundred Demons", { all: 4 }], ["Jujutsu High sends an executioner after {first}", { inj: true, s: 4, v: 10 }], ["{first} meets a non-sorcerer kid who reminds them of themselves", { gain: { n: "Doubt", d: "Something human is left. Good karma.", karma: 1 } }]],
+    allies: [["Mimiko and Nanako", { s: 1, v: 6 }], ["Miguel", { s: 3, v: 6 }], ["Uraume", { s: 0, v: 6 }], ["A cult member who believes in you", { all: 2 }]],
+    chances: [["The cult hides {first} in a safe house", { heal: true, all: 2 }], ["A Special Grade curse agrees to serve {first}", { gain: { n: "Pet curse", d: "+4 power.", power: 4 } }]]
+  });
+  Object.assign(THEMES.hxh.paths["the Zoldyck estate"], {
+    scenes: {
+      early: ["The first contract arrives with a photo and a price. {first} doesn't ask questions."], train: ["Torture training in the basement. Milluki holds the whip and enjoys it."], mid: ["The Hunter Exam. Illumi is there too, disguised as a man with needles in his face."],
+      twist: ["Illumi says something {first} doesn't remember agreeing to."], late: ["Yorknew. The Ten Dons hired the Zoldycks to kill the Phantom Troupe. Zeno and Silva go in, and so does {first}."], boss: ["Illumi blocks the door. You can't leave the family."], ending: ["The Testing Gate still opens for {first}. Mike the guard dog still watches."]
+    },
+    training: [["Poison resistance training", { s: 3, v: 12 }], ["Electric torture until pain stopped mattering", { s: 0, v: 10 }], ["Learned Rhythm Echo from Zeno", { s: 4, v: 12 }], ["Opened another door of the Testing Gate", { s: 3, v: 10 }]],
+    twists: [["Illumi puts a needle in {first}'s head", { inj: true, all: 4 }], ["Zeno takes {first} on a job", { s: 5, v: 10 }], ["Alluka asks for a wish", { gain: { n: "Nanika's favor", d: "+5 power.", power: 5 } }], ["Silva lets {first} leave", { pts: 3 }]],
+    allies: [["Killua Zoldyck", { s: 4, v: 6 }], ["Gotoh, the head butler", { s: 2, v: 6 }], ["Canary", { s: 2, v: 6 }], ["Alluka Zoldyck", { all: 3 }]]
+  });
+  Object.assign(THEMES.onepiece.paths["Marines"], {
+    scenes: {
+      early: ["A Marine outpost in the East Blue. The captain is corrupt and the townspeople are scared of the uniform."], train: ["Garp's training camp. Cannonballs are thrown by hand."], mid: ["G-5, the Marines' roughest base. Nobody follows orders here."],
+      twist: ["Orders from HQ: a Buster Call. The island is full of civilians."], late: ["Marineford. Whitebeard's fleet is in the bay."], boss: ["The strongest pirate in the world is on the other side of the battlefield."], ending: ["The Marine coat with {first}'s justice on the back still hangs in HQ."]
+    },
+    training: [["Garp's training: cannonballs by hand", { s: 3, v: 12 }], ["Rokushiki drills with SWORD", { s: 4, v: 10 }], ["Haki training under Vice Admiral Garp", { s: 0, v: 10 }]],
+    twists: [["A Buster Call is ordered on an island full of civilians", { gain: { n: "Refused the Buster Call", d: "Chose people over orders. Good karma.", karma: 1 } }], ["You're transferred to G-5", { s: 3, v: 10 }], ["The Marines draft you into the war at Marineford", { inj: true, all: 5 }], ["A Celestial Dragon orders you to arrest a child", { s: 5, v: 8 }]],
+    allies: [["Koby", { s: 4, v: 6 }], ["Helmeppo", { s: 2, v: 6 }], ["Smoker", { s: 0, v: 6 }], ["Tashigi", { s: 2, v: 6 }], ["Monkey D. Garp", { all: 3 }]],
+    chances: [["Garp visits {first} in the infirmary with rice crackers", { heal: true, all: 3 }], ["{first} picks a justice of their own", { gain: { n: "Own justice", d: "+4 power.", power: 4 } }]]
+  });
+  Object.assign(THEMES.onepiece.paths["World Government agent"], {
+    scenes: {
+      early: ["A target in a quiet town. The file says 'eliminate'. It doesn't say why."], train: ["Rokushiki training in the dark. CP agents learn to kill before they learn to read."], mid: ["Enies Lobby, the island of judicial power. The sun never sets there."],
+      twist: ["The Five Elders want someone erased. The name on the file is someone {first} trusts."], late: ["Egghead Island. Vegapunk has been marked for death, and {first} has the order."], boss: ["The one person the World Government can't control."], ending: ["The file on {first} is still classified."]
+    },
+    training: [["Rokushiki mastery", { s: 4, v: 12 }], ["Interrogation training in Impel Down", { s: 5, v: 10 }], ["Assassination drills in the dark", { s: 2, v: 10 }]],
+    twists: [["Ordered to kill Vegapunk", { inj: true, all: 4 }], ["You learn the truth about the Void Century", { s: 5, v: 12 }], ["The Revolutionary Army offers you a way out", { gain: { n: "Turncoat", d: "Defected from the World Government. Good karma, +3 power.", karma: 1, power: 3 } }]],
+    allies: [["Rob Lucci", { s: 3, v: 6 }], ["Kaku", { s: 2, v: 6 }], ["Kalifa", { s: 5, v: 6 }], ["Stussy", { s: 5, v: 6 }]],
+    chances: [["The World Government patches {first} up and sends them back out", { heal: true, all: 2 }], ["A CP0 mask hides the bruises", { pts: 2 }]]
+  });
+  [THEMES.fantasy.paths["Lawful evil"]].forEach((d) => Object.assign(d, {
+    scenes: {
+      early: ["A village refuses to pay tribute. {first} has been sent to change their minds."], train: ["The Dark Lord's war college. The weak are fed to the hounds."], mid: ["The Black Tournament. Losers don't leave the arena."],
+      twist: ["The prophecy names the Chosen Hero, and {first}'s master wants them dead."], late: ["The Dark Lord's armies march on the capital of the light."], boss: ["The Chosen Hero stands at the gates with a blade of light."], ending: ["The realm will remember {first}. Some will curse their name."]
+    },
+    training: [["Studied forbidden magic in the Black Library", { s: 0, v: 12 }], ["Trained in the Dark Lord's war college", { s: 2, v: 10 }], ["Made a pact in a blood circle", { all: 5, inj: true }]],
+    twists: [["The Dark Lord names {first} heir", { pts: 3 }], ["The Chosen Hero spares {first}'s life", { gain: { n: "Spared", d: "The hero showed mercy. Good karma.", karma: 1 } }], ["A demon offers {first} more power", { all: 6, inj: true }]],
+    allies: [["A death knight", { s: 3, v: 6 }], ["A lich's apprentice", { s: 0, v: 6 }], ["A goblin spymaster", { s: 5, v: 6 }]],
+    chances: [["The Dark Lord's healers stitch {first} back together", { heal: true, all: 3 }], ["{first} drinks a demon's blood", { gain: { n: "Demon's blood", d: "+5 power, bad karma.", power: 5, karma: -1 } }]]
+  }));
+  Object.assign(THEMES.hero.paths["Villain"], {
+    scenes: {
+      early: ["The bank vault is open. {first}'s first heist starts now."], train: ["A secret lair, a punching bag, and a lot of anger."], recruit: ["A new face shows up at the lair, looking for a boss."], side: ["A side job for the villain league. Nothing personal."],
+      mid: ["The villain league trials. Everyone wants a seat at the table."], twist: ["The hero league announces a manhunt for {first}."], late: ["{first}'s plan goes live. The whole city is the target."], boss: ["The greatest hero in the world lands in front of {first}."], ending: ["The city still talks about {first}, mostly in whispers."]
+    },
+    training: [["Upgraded the lair's arsenal", { s: 2, v: 12 }], ["Stole a hero's training regimen", { s: 3, v: 10 }], ["Studied every hero's weakness", { s: 5, v: 12 }]],
+    twists: [["The hero league puts a bounty on {first}", { pts: 3 }], ["{first}'s henchmen betray them", { inj: true, all: 4 }], ["A hero switches sides and joins {first}", { ally: true }], ["{first} saves a kid from their own explosion", { gain: { n: "Soft spot", d: "Not all bad. Good karma.", karma: 1 } }]],
+    allies: [["A loyal henchman", { s: 3, v: 6 }], ["A tech-genius hacker", { s: 5, v: 6 }], ["A fallen hero", { all: 3 }]],
+    chances: [["{first}'s henchmen drag them out of the wreckage", { heal: true, all: 3 }], ["{first} steals a hero's power booster", { gain: { n: "Stolen booster", d: "+4 power.", power: 4 } }]]
+  });
+
   // ================= constants =================
   // talent ladders: 10 tiers per stat, weakest first. Keyed by the series' stat name.
   const TIERS = {
@@ -2054,7 +3498,7 @@
   const TAL_COL = ["#4a4560", "#55597a", "#2f5cb0", "#2b7d9c", "#2f7a6a", "#3c8a58", "#8b3fa1", "#b0502f", "#c2416b", "#c9902a"];
   const tierVal = (i) => 10 + i * 85 / 9;
   function bandLine(i) {
-    return i <= 1 ? "Rock bottom. Everyone else is better at this." : i <= 3 ? "Below average, with room to grow." : i <= 5 ? "Solid. Nothing special yet."
+    return i <= 1 ? "Rock bottom. Everyone else is better at this, which means nowhere to go but up." : i <= 3 ? "Below average, with room to grow." : i <= 5 ? "Solid. Nothing special yet."
       : i <= 7 ? "Gifted. People are starting to notice." : i === 8 ? "Prodigy level." : "Once in a generation. Monsters live up here.";
   }
   // 14 chapters. ch = index into the series' own chapter names; name = shared name for the newer chapters.
@@ -2166,14 +3610,21 @@
   function slotWheel(s) {
     if (s.k === "cat") {
       const e = effCat(s.i), isTier = e.base.toLowerCase() === String(T().vis.tier).toLowerCase();
-      return { title: e.name, opts: e.opts, weights: e.opts.map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
+      return { title: titleFor(e.name, null, null) === e.name ? titleFor(e.base, null, null) : titleFor(e.name, null, null), label: e.name, opts: e.opts, weights: e.opts.map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
     }
     if (s.k === "tal") {
       const tl = tiersFor(s.i), m = minTier();
-      return { title: statNames()[s.i], opts: tl.slice(m), colors: TAL_COL.slice(m), weights: TAL_WEIGHT.slice(m), tierIdx: tl.map((x, j) => j).slice(m) };
+      return { title: talTitle(s.i), label: statNames()[s.i], opts: tl.slice(m), colors: TAL_COL.slice(m), weights: TAL_WEIGHT.slice(m), tierIdx: tl.map((x, j) => j).slice(m) };
     }
     const sub = run.subs[s.i][s.j], u = uniqWeighted(sub.opts);
-    return { title: sub.name, opts: u.opts, weights: u.opts.map((o, j) => u.weights[j] * (RARE[o] || 1) * (sub.tiered ? tierWeight(j, u.opts.length) : 1)) };
+    return { title: sub.title || sub.name, label: sub.name, opts: u.opts, weights: u.opts.map((o, j) => u.weights[j] * (RARE[o] || 1) * (sub.tiered ? tierWeight(j, u.opts.length) : 1)) };
+  }
+  // talent wheels get a name from the series, picked per character and filled from earlier spins
+  function talTitle(k) {
+    const P = path(), L = (P.tal && P.tal[k]) || (T().talTitles || [])[k];
+    if (!L || !L.length) return statNames()[k];
+    const s = fill(L[hash(run.seed + "|tal" + k) % L.length]);
+    return s.includes("???") ? statNames()[k] : s;
   }
   const rerollsLeft = () => Math.max(0, state.rerollLimit - run.rerollsUsed);
 
@@ -2207,8 +3658,11 @@
   function perks() {
     const seen = new Set(), out = [];
     activeValues().forEach((v) => { const p = perkFor(v); if (p && !seen.has(p.n)) { seen.add(p.n); out.push(p); } });
+    (run.gained || []).forEach((p) => { if (!seen.has(p.n)) { seen.add(p.n); out.push(p); } });
+    if (run.underdog && !seen.has(UNDERDOG.n)) out.push(UNDERDOG);
     return out;
   }
+  const UNDERDOG = { n: "Underdog", d: "Started near the bottom. Training gains are doubled, every defeat adds +3 power, and upsets pay out big.", adapt: 3 };
   function perkLine(v) { const p = perkFor(v); return !p ? "" : p.quiet ? p.d : `New perk: ${p.n}. ${p.d}`; }
   function signature() {
     if (run.evolution) return run.evolution;
@@ -2245,13 +3699,48 @@
       v = String(v);
       filters.split("|").filter(Boolean).forEach((f) => { if (f === "lower") v = v.toLowerCase(); else if (f === "a") v = article(v); else if (f === "cap") v = cap(v); else if (f === "lc") v = v.charAt(0).toLowerCase() + v.slice(1); });
       return v;
-    });
+    }).replace(/(\w)s's\b/g, "$1s'");
   }
 
-  function path() {
-    const th = T(), j = th.journey;
+  // The story is built in layers: the series' base journey, then an arc for every landed pick that has one
+  // (birthplace, race, family, bloodline...), then the alignment path. Higher layers come first in every list.
+  const LIST_KEYS = { training: [5, 9], twists: [5, 9], allies: [5, 9], loot: [5, 9], chances: [5, 9] };
+  function arcLayers() {
+    const th = T(), A = th.arcs || {}, out = [];
+    activeValues().forEach((v, i) => { const a = A[v]; if (a && !out.includes(a)) out.push(Object.assign({ _o: i }, a)); });
+    out.sort((a, b) => (b.pri || 1) - (a.pri || 1) || b._o - a._o);
     const p = th.paths && th.paths[tv(th.pathCat) || ""];
-    return p ? Object.assign({}, j, p) : j;
+    if (p) out.unshift(Object.assign({ pri: 9 }, p));
+    return out;
+  }
+  function path() {
+    const th = T(), j = th.journey, L = arcLayers();
+    const take = (k) => L.find((l) => l[k] != null);
+    const out = Object.assign({}, j);
+    ["chapters", "prologue", "home", "tal", "jt"].forEach((k) => { const l = take(k); if (l) out[k] = l[k]; });
+    out.tag = L.map((l) => l.tag).filter(Boolean).join(" ");
+    const merge = (lists, base, min, max) => {
+      const seen = new Set(), res = [];
+      const add = (x) => { const key = Array.isArray(x) ? x[0] : x; if (!seen.has(key) && res.length < max) { seen.add(key); res.push(x); } };
+      lists.forEach((li) => li.forEach(add));
+      const lim = Math.max(min, res.length);
+      if (res.length < min) (base || []).forEach((x) => { if (res.length < lim) add(x); });
+      return res;
+    };
+    Object.entries(LIST_KEYS).forEach(([k, [mn, mx]]) => { out[k] = merge(L.map((l) => l[k]).filter(Boolean), j[k] || th[k] || [], mn, mx); });
+    out.foes = {};
+    ["early", "mid", "late", "boss"].forEach((pool) => { out.foes[pool] = merge(L.map((l) => l.foes && l.foes[pool]).filter(Boolean), j.foes[pool], 4, 8); });
+    out.endings = { good: merge(L.map((l) => l.endings && l.endings.good).filter(Boolean), j.endings.good, 3, 6), bad: merge(L.map((l) => l.endings && l.endings.bad).filter(Boolean), j.endings.bad, 3, 6) };
+    out.scenes = {};
+    L.slice().reverse().forEach((l) => Object.assign(out.scenes, l.scenes || {}));
+    return out;
+  }
+  // journey wheel names: arc → series → default, picked per character and chapter
+  const J_DEFAULT = { foe: ["Who stands in the way?"], train: ["How do they train?"], twist: ["Twist of fate"], recruit: ["Who joins them?"], loot: ["What do they find?"], evolve: ["How does the power evolve?"], chance: ["A second chance"], battle: ["{first} vs {foe}"] };
+  function jTitle(kind, extra) {
+    const P = path(), L = (P.jt && P.jt[kind]) || ((T().jt || {})[kind]) || J_DEFAULT[kind];
+    const s = fill(L[hash(run.seed + "|" + kind + "|" + run.step) % L.length], Object.assign({ chapter: chapterName(run.step), foe: run.foe ? run.foe[0] : "" }, extra || {}));
+    return s.includes("???") ? fill(J_DEFAULT[kind][0], { foe: run.foe ? run.foe[0] : "" }) : s;
   }
 
   function tierInfo() {
@@ -2756,7 +4245,7 @@
       let pickAt = Math.random() * TAU, choice = G.n - 1;
       for (let i = 0; i < G.n; i++) if (pickAt < G.starts[i] + G.sizes[i]) { choice = i; break; }
       // test hook (only with #turbo): window.__force = { "Wheel title": "Option" }
-      if (turbo && window.__force && window.__force[wheel.title] != null) { const fi = wheel.opts.indexOf(window.__force[wheel.title]); if (fi >= 0) choice = fi; }
+      if (turbo && window.__force) { const fv = window.__force[wheel.title] ?? window.__force[wheel.label]; const fi = fv != null ? wheel.opts.indexOf(fv) : wheel.opts.findIndex((o) => (window.__force.any || []).includes(o)); if (fi >= 0) choice = fi; }
       const inSlice = G.starts[choice] + G.sizes[choice] * (0.12 + Math.random() * 0.76);
       const target = POINTER - inSlice;
       const delta = (((target - state.rotation) % TAU) + TAU) % TAU;
@@ -2780,13 +4269,14 @@
   }
 
   const listWheel = (title, opts) => ({ title, opts });
+  const lbl = (x) => fill(x[0]);
   function spread(count, total) { const out = []; for (let i = 0; i < total; i++) out.push(Math.floor((i + 1) * count / total) > Math.floor(i * count / total)); return out; }
   function battleWheel() {
     const p = winChance();
     const segs = [{ k: "win", w: p * 0.85 }, { k: "clutch", w: p * 0.15 }, { k: "loss", w: (1 - p) * 0.8 }, { k: "draw", w: (1 - p) * 0.2 }];
     const label = { win: "Victory", clutch: T().clutch, draw: "Draw", loss: "Defeat" };
     const col = { win: "#3c8a58", clutch: "#c9902a", draw: "#55598a", loss: "#a8323f" };
-    return { title: "Battle", segs, opts: segs.map((s) => label[s.k]), colors: segs.map((s) => col[s.k]), weights: segs.map((s) => s.w) };
+    return { title: run.foe ? jTitle("battle") : "Battle", label: "Battle", segs, opts: segs.map((s) => label[s.k]), colors: segs.map((s) => col[s.k]), weights: segs.map((s) => s.w) };
   }
   const chapterName = (i) => { const st = STEPS[i]; return st.ch != null ? path().chapters[st.ch] : st.name; };
   function foePool(pool) {
@@ -2797,13 +4287,13 @@
   function rivalFoe(n) {
     const r = tv(T().vis.rival) || "Your rival";
     const p = clamp(overall() + (n === 1 ? (hash(run.seed + "rival") % 9) - 4 : 10), 10, 99);
-    return [cap(r), p, true];
+    return [r.replace(/^(A|An|The) /, (m) => m.toLowerCase()), p, true];
   }
   function endingWheel() {
     const P = path();
     const g = clamp(run.w + (run.bossWin ? 1 : 0) + (run.rivalBeaten ? 1 : 0) + karma(), 1, 7);
     let gi = 0, bi = 0;
-    const segs = spread(g, 8).map((isG) => isG ? { good: true, t: P.endings.good[gi++ % P.endings.good.length] } : { good: false, t: P.endings.bad[bi++ % P.endings.bad.length] });
+    const segs = spread(g, 8).map((isG) => isG ? { good: true, t: fill(P.endings.good[gi++ % P.endings.good.length]) } : { good: false, t: fill(P.endings.bad[bi++ % P.endings.bad.length]) });
     return { title: "Ending", segs, opts: segs.map((s) => s.t), colors: segs.map((s, i) => s.good ? (i % 2 ? "#c9902a" : "#3c8a58") : (i % 2 ? "#5a2a3a" : "#3b2a4a")) };
   }
   function evolveOptions() {
@@ -2819,25 +4309,27 @@
     }
     if (run.phase === "journey") {
       const st = STEPS[run.step], P = path();
+      if (run.chance) return listWheel(jTitle("chance"), chanceList().map(lbl));
       if (needsCodename()) return listWheel("Hero name", codenameOptions());
-      if (st.k === "battle") return run.foe ? battleWheel() : listWheel("Opponent", foePool(st.pool).map((f) => f[0]));
+      if (st.k === "battle") return run.foe ? battleWheel() : listWheel(jTitle("foe"), foePool(st.pool).map((f) => f[0]));
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
-      if (st.k === "train") return listWheel("Training", P.training.map((t) => t[0]));
-      if (st.k === "twist") return listWheel("Twist", P.twists.map((t) => t[0]));
-      if (st.k === "recruit") return listWheel("Ally", (P.allies || T().allies).map((t) => t[0]));
-      if (st.k === "loot") return listWheel("Treasure", (P.loot || T().loot).map((t) => t[0]));
-      if (st.k === "evolve") return listWheel("Evolution", evolveOptions());
+      if (st.k === "train") return listWheel(jTitle("train"), P.training.map(lbl));
+      if (st.k === "twist") return listWheel(jTitle("twist"), P.twists.map(lbl));
+      if (st.k === "recruit") return listWheel(jTitle("recruit"), P.allies.map(lbl));
+      if (st.k === "loot") return listWheel(jTitle("loot"), P.loot.map(lbl));
+      if (st.k === "evolve") return listWheel(jTitle("evolve"), evolveOptions());
       if (st.k === "ending") return endingWheel();
     }
     return state.wheel;
   }
 
   // ================= game actions =================
-  function setNarr(big, text) { run.narr = { big, text }; run.narrPop = true; }
+  function setNarr(big, text) { run.narr = { big: cap(String(big)), text: sentenceCase(text) }; run.narrPop = true; }
+  const sentenceCase = (s) => String(s).replace(/(^|[.!?]["']?\s+)([a-z])/g, (m, a, b) => a + b.toUpperCase());
   function logAdd(h, text, fx, bad) {
     let last = run.log[run.log.length - 1];
     if (!last || last.h !== h) { last = { h, p: [] }; run.log.push(last); }
-    last.p.push({ t: text, fx: fx || "", bad: !!bad });
+    last.p.push({ t: sentenceCase(text), fx: fx || "", bad: !!bad });
   }
   function describe(e) {
     const st = statNames(), out = [];
@@ -2847,6 +4339,7 @@
     if (e.inj) out.push("injured for the next fight");
     if (e.heal) out.push("injuries healed");
     if (e.ally) out.push("an ally joins the next fight");
+    if (e.gain) out.push(`new perk: ${e.gain.n} (${e.gain.d.replace(/\.$/, "")})`);
     return cap(out.join(", "));
   }
   function apply(e) {
@@ -2856,26 +4349,36 @@
     if (e.inj) run.injured = true;
     if (e.heal) run.injured = false;
     if (e.ally) run.ally = true;
+    if (e.gain) run.gained = (run.gained || []).concat(e.gain);
   }
 
   function followFor(wheel, v) {
     const F = (T().follow || {})[wheel];
     return F ? (F[v] || F["*"] || null) : null;
   }
-  const mkSub = (f) => ({ name: f[0], opts: f[1], value: null, tiered: !!f[2] });
+  const mkSub = (f, v, parent) => ({ name: f[0], opts: f[1], value: null, tiered: !!f[2], title: titleFor(f[0], v, parent) });
+  // flavor names for wheels: titles[wheel] is a template, or { triggeringValue | parentWheel | "*": template }
+  function titleFor(name, v, parent) {
+    const t = (T().titles || {})[name];
+    const s = !t ? null : typeof t === "string" ? t : (t[v] || t[parent] || t["*"]);
+    if (!s) return name;
+    const out = fill(s);
+    return out.includes("???") ? name : out;
+  }
   function landCat(i, v) {
     run.results[i] = v;
     const e = effCat(i), th = T();
     if (/^gender$/i.test(e.base)) run.name = makeName();
     const f = followFor(e.base, v);
-    run.subs[i] = f ? [mkSub(f)] : [];
+    run.subs[i] = f ? [mkSub(f, v, e.base)] : [];
     const say = th.lines[v] ? th.lines[v] : fill((th.say && (th.say[e.name] || th.say[e.base])) || (e.name + ": {v}."), { v });
     const extra = [];
-    if (f) extra.push(`Bonus wheel unlocked: ${f[0]}.`);
+    if (f) extra.push(`Bonus wheel unlocked: ${run.subs[i][0].title}.`);
     (th.adapt || []).forEach((r) => {
       if (r.when[0].toLowerCase() === e.base.toLowerCase() && r.when[1] === v && idxOf(r.cat) > i) extra.push(`Your ${r.name || r.cat} wheel just changed.`);
     });
     if (e.base === th.pathCat && th.paths && th.paths[v]) extra.push(th.paths[v].tag);
+    else if ((th.arcs || {})[v] && th.arcs[v].tag) extra.push(th.arcs[v].tag);
     const pk = perkLine(v);
     if (pk) extra.push(pk);
     setNarr(v, say + (extra.length ? " " + extra.join(" ") : ""));
@@ -2891,10 +4394,10 @@
     chain[j].value = v;
     chain.length = j + 1;
     const f = followFor(chain[j].name, v);
-    if (f) chain.push(mkSub(f));
+    if (f) chain.push(mkSub(f, v, chain[j].name));
     const say = (T().lines || {})[v] || `${chain[j].name}: ${v}.`;
-    const pk = perkLine(v);
-    setNarr(v, say + (f ? ` Bonus wheel unlocked: ${f[0]}.` : "") + (pk ? " " + pk : ""));
+    const pk = perkLine(v), arc = (T().arcs || {})[v];
+    setNarr(v, say + (f ? ` Bonus wheel unlocked: ${chain[j + 1].title}.` : "") + (arc && arc.tag ? " " + arc.tag : "") + (pk ? " " + pk : ""));
     landSfx(v, f, pk);
   }
   function afterCreateSpin() {
@@ -2961,7 +4464,10 @@
     const subsLine = allSubs().filter((x) => x.value && !told(x.name)).map((x) => `${x.name}: ${x.value}.`).join(" ");
     const bw = bestWorst();
     const talentLine = `Best talent: ${bw.best}. Weakest: ${bw.worst}.`;
+    const avgTier = run.talent.reduce((a, b) => a + b, 0) / run.talent.length;
+    run.underdog = overall() < 48 || avgTier < 3.6;
     logAdd("Prologue", fill(P.prologue || T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (run.epithet ? ` One day they'll be called ${run.epithet}.` : "") + (P.tag ? " " + P.tag : ""));
+    if (run.underdog) logAdd("Prologue", fill("Nobody expects anything from {first}. That's the one advantage they have."), "Underdog: training gains doubled, +3 power after every defeat, and upsets pay out big.");
     setNarr("The journey begins", fill(P.prologue || T().prologue));
     persist(); render();
   }
@@ -2995,7 +4501,26 @@
     setNarr(run.codename, t);
     sfx.fanfare(); fxFlash("#fff6d0");
   }
+  // second-chance options, minus perks the character already earned
+  function chanceList() {
+    const all = path().chances.filter((x) => !(x[1].gain && (run.gained || []).some((g) => g.n === x[1].gain.n)));
+    const fresh = all.filter((x) => !(run.usedChances || []).includes(x[0]));
+    return fresh.length ? fresh : all;
+  }
+  async function chanceStep() {
+    const list = chanceList(), head = `Chapter ${run.step}: ${chapterName(run.step - 1)}`;
+    const k = await spin(listWheel(jTitle("chance"), list.map(lbl)));
+    const txt = lbl(list[k]), e = list[k][1];
+    run.chance = false;
+    run.usedChances = (run.usedChances || []).concat(list[k][0]);
+    apply(e);
+    const fx = describe(e) + ".";
+    logAdd(head, fill(txt) + ".", fx, !!(e.inj || (e.v && e.v < 0)));
+    setNarr(fill(txt), fx);
+    if (e.gain) { sfx.heavenly(); fxFlash("#fff6d0"); } else sfx.sparkle();
+  }
   async function journeyStep() {
+    if (run.chance) { await chanceStep(); persist(); render(); return; }
     if (needsCodename()) { await codenameStep(); persist(); render(); return; }
     const P = path(), st = STEPS[run.step];
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
@@ -3006,7 +4531,7 @@
     if (!run.log.length || run.log[run.log.length - 1].h !== head) {
       const key = st.k === "rival" ? "rival" + st.n : st.k === "battle" ? st.pool : st.k === "train" && run.step > 2 ? "train2" : st.k;
       const pool = (P.scenes && P.scenes[key]) || (T().scenes && T().scenes[key]);
-      const home = run.step === 0 && T().birthScenes ? T().birthScenes[tv("Birthplace")] || null : null;
+      const home = run.step === 0 ? (P.home || (T().birthScenes ? T().birthScenes[tv("Birthplace")] || null : null)) : null;
       if (home) logAdd(head, fill(home, vars()));
       else if (pool && pool.length) logAdd(head, fill(pick(pool), vars()));
     }
@@ -3022,7 +4547,7 @@
           state.wheel = battleWheel(); state.winner = -1;
         } else {
           const pool = foePool(st.pool);
-          const k = await spin(listWheel("Opponent", pool.map((f) => f[0])));
+          const k = await spin(listWheel(jTitle("foe"), pool.map((f) => f[0])));
           run.foe = pool[k];
           if (st.pool === "boss") { sfx.gong(); fxFlash("#5a0010"); }
           const t = fill(pick(MEET), vars());
@@ -3030,7 +4555,7 @@
           setNarr(run.foe[0], `${t} Your power: ${playerPower()}. Chance to win: ${Math.round(winChance() * 100)}%.`);
         }
       } else {
-        const bw = battleWheel();
+        const bw = battleWheel(), odds = winChance();
         const k = await spin(bw);
         let o = bw.segs[k].k, saved = null;
         if (o === "loss") {
@@ -3050,6 +4575,13 @@
           run.l++; run.points += 1; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured for the next fight, +1 upgrade point."; bad = true;
           const ad = perks().find((p) => p.adapt);
           if (ad) { run.adaptBonus = (run.adaptBonus || 0) + ad.adapt; fx += ` ${ad.n}: +${ad.adapt} power from now on.`; }
+          if (run.step < STEPS.length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
+        }
+        // beating the odds pays: the weaker the starting chance, the bigger the jump
+        if (o !== "loss" && o !== "draw" && odds < 0.42) {
+          const up = odds < 0.25 ? 6 : 4;
+          run.bonus = run.bonus.map((b) => b + up); run.points += 1;
+          fx += ` Upset! Nobody gave them a chance. +${up} to every stat, +1 upgrade point.`;
         }
         if (st.pool === "boss" && (o === "win" || o === "clutch")) run.bossWin = true;
         if (st.k === "rival" && (o === "win" || o === "clutch")) {
@@ -3071,27 +4603,27 @@
         run.foe = null; run.step++;
       }
     } else if (st.k === "train" || st.k === "twist" || st.k === "recruit" || st.k === "loot") {
-      const list = st.k === "train" ? P.training : st.k === "twist" ? P.twists : st.k === "recruit" ? (P.allies || T().allies) : (P.loot || T().loot);
-      const title = { train: "Training", twist: "Twist", recruit: "Ally", loot: "Treasure" }[st.k];
-      const k = await spin(listWheel(title, list.map((x) => x[0])));
-      const [txt, e] = list[k];
+      const list = st.k === "train" ? P.training : st.k === "twist" ? P.twists : st.k === "recruit" ? P.allies : P.loot;
+      const k = await spin(listWheel(jTitle(st.k), list.map(lbl)));
+      const txt = lbl(list[k]), e0 = list[k][1];
+      const e = st.k === "train" && run.underdog ? Object.assign({}, e0, { v: e0.v ? e0.v * 2 : e0.v, all: e0.all ? e0.all * 2 : e0.all }) : e0;
       apply(e);
       if (st.k === "train") run.points += 1;
       let line = txt + ".";
       if (st.k === "recruit" || st.k === "loot") sfx.sparkle();
       if (st.k === "recruit") { run.companion = txt; line = fill("{a} joins {first}'s side.", { a: txt }); }
       if (st.k === "loot") { run.items = (run.items || []).concat(txt); line = fill("{first} finds {a}.", { a: txt.charAt(0).toLowerCase() + txt.slice(1) }); }
-      const fx = describe(e) + (st.k === "train" ? ", +1 upgrade point." : ".");
+      const fx = describe(e) + (st.k === "train" ? ", +1 upgrade point" + (run.underdog ? " (underdog: doubled)." : ".") : ".");
       const bad = !!(e.inj || (e.v && e.v < 0));
       logAdd(head, line, fx, bad);
       setNarr(txt, fx);
       run.step++;
     } else if (st.k === "evolve") {
       const opts = evolveOptions();
-      const k = await spin(listWheel("Evolution", opts));
+      const k = await spin(listWheel(jTitle("evolve"), opts));
       run.evolution = opts[k];
       apply({ s: 1, v: 8, all: 2 });
-      const t = fill("{first}'s {move} evolves: {evo}.", { move: fill(T().move), evo: run.evolution });
+      const mv = fill(T().move), t = fill("{first}'s {move} evolves: {evo}.", { move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "fighting style").replace(/ \(.*\)$/, "") : mv, evo: run.evolution });
       const fx = `+8 ${statNames()[1]}, +2 to every stat.`;
       logAdd(head, t, fx);
       setNarr(run.evolution, t + " " + fx);
@@ -3204,7 +4736,7 @@
     if (run.talent.every((x) => x != null)) { const bw = bestWorst(); parts.push(`Greatest strength: ${bw.bestName} (${bw.bestTier})`); }
     const P = path();
     const ending = run.ending ? `This is the final portrait at the end of their story. Their ending: ${run.ending}. Record: ${run.w} wins, ${run.l} losses. ` +
-      `Show it in the mood and setting of that ending${P.tag ? " (they walked the villain or alternate path)" : ""}. ` : "";
+      `Show it in the mood and setting of that ending${(T().paths || {})[tv(T().pathCat) || ""] ? " (they walked the villain or alternate path)" : ""}. ` : "";
     const who = isFemale()
       ? "The character is FEMALE: a girl / young woman with a clearly feminine face and figure. Do not draw a man."
       : "The character is MALE: a boy / young man with a clearly masculine face. Do not draw a woman.";
@@ -3329,20 +4861,21 @@
       const s = nextSlot();
       const all = slots(), done = all.filter((x) => slotVal(x) != null).length;
       eb = "Create your character";
-      if (s) { const w = slotWheel(s); title = s.k === "sub" ? `${s.j ? "Deeper: " : "Bonus wheel: "}${w.title}` : s.k === "tal" ? `Talent: ${statNames()[s.i]}` : w.title; sub = s.k === "tal" ? (minTier() ? `Their blood starts them at tier ${minTier() + 1} of 10 · ${done} of ${all.length} spun` : `Talent wheel, 10 tiers from useless to legendary · ${done} of ${all.length} spun`) : `${done} of ${all.length} spun`; }
+      if (s) { const w = slotWheel(s); title = s.k === "sub" ? `${s.j ? "Deeper: " : "Bonus wheel: "}${w.title}` : w.title; sub = s.k === "tal" ? (minTier() ? `${statNames()[s.i]} talent · their blood starts them at tier ${minTier() + 1} of 10 · ${done} of ${all.length} spun` : `${statNames()[s.i]} talent · 10 tiers from useless to legendary · ${done} of ${all.length} spun`) : `${done} of ${all.length} spun`; }
       else { title = "Ready for the journey"; sub = `${STEPS.length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = STEPS[run.step];
       eb = `Chapter ${run.step + 1} of ${STEPS.length} · ${chapterName(run.step)}`;
-      if (needsCodename()) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
+      if (run.chance) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
+      else if (needsCodename()) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
       else if (st.k === "battle" || st.k === "rival") {
-        if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : "Spin for your opponent";
-        else { title = `${run.foe[0]} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
-      } else if (st.k === "train") title = "Spin your training";
-      else if (st.k === "twist") title = "Spin the twist of fate";
-      else if (st.k === "recruit") title = "Spin for a new ally";
-      else if (st.k === "loot") title = "Spin for treasure";
-      else if (st.k === "evolve") title = "Spin your power evolution";
+        if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : jTitle("foe");
+        else { title = `${cap(run.foe[0])} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
+      } else if (st.k === "train") { title = jTitle("train"); if (run.underdog) sub = "Underdog: training gains are doubled"; }
+      else if (st.k === "twist") title = jTitle("twist");
+      else if (st.k === "recruit") title = jTitle("recruit");
+      else if (st.k === "loot") title = jTitle("loot");
+      else if (st.k === "evolve") title = jTitle("evolve");
       else if (st.k === "ending") { title = "Spin your ending"; sub = karma() ? `Every win puts more good endings on the wheel · karma ${karma() > 0 ? "+" : ""}${karma()}` : "Every win puts more good endings on the wheel"; }
     } else {
       eb = "The end"; title = run.ending || ""; sub = `${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`;
@@ -3511,7 +5044,7 @@
       const cur = run.phase === "create" && rowSame(next, s);
       const canR = run.phase === "create" && v != null && state.rerollLimit > 0;
       const shown = s.k === "tal" ? (v == null ? null : `${tiersFor(s.i)[v]} (${v + 1}/10)`) : v;
-      row((s.k === "sub" ? "sub" + (s.j >= 2 ? " sub3" : s.j >= 1 ? " sub2" : "") : s.k === "tal" ? "tal" : "") + (cur ? " current" : ""), s.k === "tal" ? statNames()[s.i] : w.title, shown, canR ? () => reroll(s) : null);
+      row((s.k === "sub" ? "sub" + (s.j >= 2 ? " sub3" : s.j >= 1 ? " sub2" : "") : s.k === "tal" ? "tal" : "") + (cur ? " current" : ""), s.k === "tal" ? statNames()[s.i] : (w.label || w.title), shown, canR ? () => reroll(s) : null);
     });
     if (isComplete()) {
       Object.entries(run.hidden).forEach(([k, v]) => row("hid", k, v, null));
@@ -3651,7 +5184,7 @@
     const lines = [(run.codename ? `${run.codename} (${run.name})` : run.name) + (run.epithet ? `, ${run.epithet}` : "")];
     if (isComplete()) lines.push(fill(T().titleTpl));
     lines.push("");
-    slots().forEach((s) => { const v = slotVal(s); lines.push(`${slotWheel(s).title}: ${v == null ? "?" : v}`); });
+    slots().forEach((s) => { const v = slotVal(s); lines.push(`${slotWheel(s).label || slotWheel(s).title}: ${v == null ? "?" : v}`); });
     Object.entries(run.hidden).forEach(([k, v]) => lines.push(`${k}: ${v}`));
     if (isComplete()) { const st = stats(); statNames().forEach((n, k) => lines.push(`${n}: ${st[k]}${talentLabel(k) ? ` (${talentLabel(k)})` : ""}`)); lines.push(`Overall: ${overall()}`); }
     if (run.evolution) lines.push(`Evolution: ${run.evolution}`);
