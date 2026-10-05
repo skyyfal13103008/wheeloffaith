@@ -454,13 +454,21 @@
       "Wizard King candidate": "A candidate for Wizard King, right out of the gate."
     },
     follow: {
+      "Contract": { "*": ["What your devil wants", ["Your body", "A door into the human world", "Revenge on another devil", "Something it won't say"]] },
+      "What your devil wants": { "*": ["Do you trust it?", ["Never", "Sometimes", "Completely"]] },
+      "Witch rank": { "*": ["The Witch Queen's hold on you", ["Loyal to her", "Under her blood control", "Escaped her forest"]] },
+      "Your master": { "*": ["Why you serve", ["Fear", "Belief in the Zogratis siblings", "Your family is a hostage"]] },
+      "Black Bulls life": { "*": ["Your captain thinks you're", ["A liability", "Promising", "The future of the squad"], true] },
+      "Golden Dawn rank": { "*": ["Your captain thinks you're", ["A liability", "Promising", "The future of the squad"], true] },
+      "Lion King rank": { "*": ["Your captain thinks you're", ["A liability", "Promising", "The future of the squad"], true] },
       Race: {
         "Human": ["Social class", ["Peasant", "Peasant", "Commoner", "Noble", "Royal"], true],
         "Elf reincarnation": ["Original elf", ["A warrior of Licht's tribe", "An elf sage", "Patolli's comrade"]],
         "Witch": ["Witch rank", ["Witch apprentice", "Witch of the Forest", "The Witch Queen's daughter"], true],
         "Half-dwarf": ["Dwarf form", ["Can't control the transformation", "Transforms when starving", "Full control of giant form"], true]
       },
-      "Social class": { "Royal": ["Royal house", ["House Kira (the royal family)", "House Vermillion", "House Silva"]] },
+      "Social class": { "Royal": ["Royal house", ["House Kira (the royal family)", "House Vermillion", "House Silva"]], "Noble": ["How you treat commoners", ["With contempt, like most nobles", "Politely, from a distance", "As equals, which scandalizes your family"]], "Peasant": ["How nobles treat you", ["They mock your village", "They pretend you don't exist", "One noble took your side"]], "Commoner": ["How nobles treat you", ["They mock your village", "They pretend you don't exist", "One noble took your side"]] },
+      "Royal house": { "*": ["How you treat commoners", ["With contempt, like most nobles", "Politely, from a distance", "As equals, which scandalizes your family"]] },
       "Original elf": { "*": ["Reincarnation control", ["The elf has full control", "Shared body", "The host fought back"]] },
       Origin: {
         "a noble house": ["House", ["House Vaude", "House Roselei", "House Faust", "A minor house nobody respects"]],
@@ -499,7 +507,8 @@
       Squad: {
         "Black Bulls": ["Black Bulls life", ["Babysat by Captain Yami", "Drinking buddy of Vanessa", "Gets yelled at by Magna", "Trains with Asta every morning"]],
         "Golden Dawn": ["Golden Dawn rank", ["Bench warmer", "Rising star", "William Vangeance's favorite"], true],
-        "Crimson Lion Kings": ["Lion King rank", ["New recruit", "Fuegoleon's right hand", "Leo's sparring partner"]]
+        "Crimson Lion Kings": ["Lion King rank", ["New recruit", "Fuegoleon's right hand", "Leo's sparring partner"]],
+        "*": ["Your captain thinks you're", ["A liability", "Promising", "The future of the squad"], true]
       },
       "Fighting style": {
         "Mana Zone controller": ["Mana Zone level", ["Basic Mana Zone", "Mana Zone plus Mana Skin", "Mana Method"], true],
@@ -528,6 +537,15 @@
       "Sealing and trap tactician": 5, "Creation magic summoner": 1, "Anti-magic swordsman": 2, "Long-range artillery mage": 0, "Mana Skin defender": 3, "Spatial ambusher": 4
     },
     perks: {
+      "With contempt, like most nobles": { n: "Noble arrogance", d: "Bad karma.", karma: -2 },
+      "As equals, which scandalizes your family": { n: "Noble heart", d: "Good karma.", karma: 2 },
+      "One noble took your side": { n: "An unlikely friend", d: "Good karma.", karma: 1 },
+      "Completely": { n: "Trusts the devil", d: "+4 power. Bad karma.", power: 4, karma: -1 },
+      "Escaped her forest": { n: "Free witch", d: "+3 power.", power: 3 },
+      "Under her blood control": { n: "Puppet of the Witch Queen", d: "-3 power.", power: -3 },
+      "Belief in the Zogratis siblings": { n: "True believer", d: "Bad karma. +3 power.", karma: -2, power: 3 },
+      "Your family is a hostage": { n: "Hostage", d: "Good karma.", karma: 1 },
+      "The future of the squad": { n: "Captain's favorite", d: "+3 power.", power: 3 },
       "Lab subject": { n: "Experiment survivor", d: "The Dark Triad's experiments left them stronger. +6 power.", power: 6 },
       "Dante Zogratis (Body Magic)": { n: "Dante's soldier", d: "+3 power.", power: 3 },
       "Grew up with two orphans who became legends": { n: "Hage rivalry", d: "Growing up next to future legends. +3 power after each defeat.", adapt: 3 },
@@ -694,6 +712,12 @@
       "Full domain": "A full Domain Expansion. Very few sorcerers alive can do that."
     },
     follow: {
+      Grade: { "*": ["Why you fight", ["To save as many people as you can", "Because your clan demands it", "Revenge on the curse that took your family", "The pay is good", "Because nobody else can see them"]] },
+      "Why you fight": { "*": ["How you want to die", ["Surrounded by people, like Yuji's grandfather wished", "Fighting the strongest", "Never, if you can help it", "You don't care"]] },
+      "Cult role": { "*": ["What you believe", ["Non-sorcerers are monkeys, like Suguru Geto said", "Curses deserve the world", "It's just money", "You want to watch the world burn"]] },
+      "What you believe": { "*": ["Bodies left behind", ["None yet", "A few", "A whole town"], true] },
+      "Zenin standing": { "*": ["How the clan treats you", ["As a tool", "As the future head", "As a disgrace, like Maki", "As a weapon to aim at the Gojo clan"]] },
+      "Fingers consumed": { "*": ["Sukuna's opinion of you", ["He mocks you constantly", "He finds you interesting", "He's planning to take your body"]] },
       Being: {
         "Vessel": ["Whose vessel", ["Sukuna, the King of Curses", "A Special Grade cursed spirit", "An ancient sorcerer"]],
         "Incarnated sorcerer": ["Who you were", ["A Heian-era sorcerer", "An Edo-period sorcerer", "A forgotten clan head"]],
@@ -763,6 +787,16 @@
       "Cursed energy gunner": 2, "Spear and chain fighter": 2, "Puppet controller": 1, "Ranged cursed energy": 0, "Body enhancement brawler": 4, "Reverse Cursed Technique medic": 0
     },
     perks: {
+      "To save as many people as you can": { n: "Proper death", d: "Good karma.", karma: 2 },
+      "Revenge on the curse that took your family": { n: "Vengeance", d: "+3 power.", power: 3 },
+      "The pay is good": { n: "Mercenary sorcerer", d: "+2 upgrade points.", pts: 2 },
+      "Fighting the strongest": { n: "Battle hunger", d: "+3 power in the biggest fights.", boss: 3 },
+      "Non-sorcerers are monkeys, like Suguru Geto said": { n: "Geto's ideal", d: "Terrible karma. +3 power.", power: 3, karma: -3 },
+      "Curses deserve the world": { n: "Curse worshipper", d: "Bad karma.", karma: -2 },
+      "You want to watch the world burn": { n: "Nihilist", d: "Terrible karma. +4 power.", power: 4, karma: -3 },
+      "A whole town": { n: "Massacre", d: "Every sorcerer wants them dead. Terrible karma.", karma: -3, power: 3 },
+      "As a disgrace, like Maki": { n: "Prove them wrong", d: "Every defeat makes them stronger: +3 power.", adapt: 3 },
+      "He's planning to take your body": { n: "Borrowed time", d: "+4 power, but it's not entirely theirs.", power: 4, karma: -1 },
       "100 points (add a rule)": { n: "Rule maker", d: "Spent 100 points to add a rule to the Culling Game. +2 upgrade points.", pts: 2 },
       "Colony ruler": { n: "Colony ruler", d: "Nobody leaves their colony without their say. +5 power.", power: 5 },
       "Satoru Gojo": { n: "Taught by the strongest", d: "+4 to every stat.", all: 4 },
@@ -929,7 +963,12 @@
       "Meteor City": "Meteor City. Officially, nobody lives there."
     },
     follow: {
+      "Ant caste": { "*": ["Do you eat humans?", ["Yes, like any ant", "Only enemies", "Never"]] },
+      "Illumi's needle": { "*": ["How you feel about the family", ["Loyal to the end", "Want out", "Protect one sibling at all costs"]] },
+      "Scarlet Eyes": { "*": ["Stolen eyes recovered", ["None yet", "A few pairs", "Almost all of them"], true] },
+      "Phantom Troupe": { "Joined the Phantom Troupe": ["What you steal", ["Art", "Other people's abilities", "Scarlet Eyes", "Whatever Chrollo wants"]] },
       Race: {
+        "Human": ["Why you want a Hunter license", ["To find someone, like Gon looking for Ging", "Revenge on the Phantom Troupe, like Kurapika", "Money to become a doctor, like Leorio", "Just because it sounds fun, like Killua", "To hunt one specific beast or treasure"]],
         "Chimera Ant": ["Ant caste", ["Soldier ant", "Soldier ant", "Squadron leader", "Royal Guard", "Born a King"], true],
         "Reborn Chimera Ant": ["Human memories", ["Faint", "Clear", "Remembers dying"]],
         "Host of a Dark Continent being": ["The calamity inside", ["Ai, the gatekeeper of desire (like Nanika)", "Zobae, the immortality disease", "Hellbell, the sickness", "Brion, the living weapon", "Pap, the hybrid beast"]]
@@ -983,6 +1022,13 @@
       "Marksman": 2, "Puppet master": 1, "Nen beast tamer": 0, "Swordsman": 2, "Gyo-reading tactician": 5, "Rhythm Echo speedster": 4
     },
     perks: {
+      "Revenge on the Phantom Troupe, like Kurapika": { n: "Vengeance", d: "+3 power in the biggest fights.", boss: 3 },
+      "Money to become a doctor, like Leorio": { n: "Future doctor", d: "Good karma.", karma: 2 },
+      "Yes, like any ant": { n: "Man-eater", d: "+3 power. Terrible karma.", power: 3, karma: -3 },
+      "Never": { n: "Refuses to eat humans", d: "Good karma.", karma: 2 },
+      "Protect one sibling at all costs": { n: "Big sibling", d: "Good karma.", karma: 2, save: { chance: 0.25, uses: 1, text: "{first} thinks of their sibling and refuses to fall." } },
+      "Almost all of them": { n: "Eyes reclaimed", d: "+4 power.", power: 4 },
+      "Other people's abilities": { n: "Stolen abilities", d: "+4 power. Bad karma.", power: 4, karma: -2 },
       "Chimera Ant": { n: "Chimera Ant body", d: "An exoskeleton and inhuman strength. Talent wheels start at tier 4. +6 Strength.", stat: [3, 6], minTier: 3 },
       "Royal Guard": { n: "Royal Guard", d: "Talent wheels start at tier 6. One of the King's three. +6 power.", power: 6, extra: ["Royal Guard aura", 93], minTier: 5 },
       "Born a King": { n: "King of the Ants", d: "Talent wheels start at tier 8. Born to rule every species. +10 power.", power: 10, extra: ["King's aura", 99], minTier: 7 },
@@ -1107,6 +1153,11 @@
     ],
     say: { Race: "Race: {v}.", "Devil fruit": "Devil Fruit: {v}.", "Haki type": "Haki: {v|lower}.", Affiliation: "They sail with: {v}.", Personality: "Personality: {v|lower}.", Bounty: "Bounty: {v}.", "Marine rank": "Marine rank: {v}." },
     lines: {
+      "they brand every one of them personally": "They brand every slave personally with the Hoof of the Soaring Dragon. Even other Celestial Dragons find it a bit much.",
+      "they secretly set them free": "They secretly free their slaves. If the Holy Land finds out, they're finished.",
+      "secretly studying the Void Century": "They study the Void Century in secret. Ohara was burned for less.",
+      "Queen Otohime's visit, and how it changed a Celestial Dragon": "Queen Otohime's visit. Saint Mjosgard was never the same afterwards, and neither were they.",
+      "Fisher Tiger climbing the Red Line and freeing the slaves of Mary Geoise": "They were a child the night Fisher Tiger climbed the Red Line with his bare hands and set Mary Geoise on fire.",
       "Mary Geoise, the Holy Land": "Born in Mary Geoise, on top of the Red Line. A Celestial Dragon, most likely.",
       "God Valley": "God Valley. The island that was erased from the map.",
       "Ohara, West Blue": "Ohara. The island the World Government burned for reading history.",
@@ -1157,6 +1208,18 @@
       "5 billion, Emperor level": "An Emperor-level bounty on day one. Somebody did something huge."
     },
     follow: {
+      "Crew size": { "*": ["Ship", ["A stolen fishing boat", "A caravel", "A ship built by Water 7 shipwrights", "A ship made of Adam wood", "A captured Marine warship"]] },
+      "Which Emperor": { "*": ["Ship", ["A stolen fishing boat", "A caravel", "A ship built by Water 7 shipwrights", "A ship made of Adam wood", "A captured Marine warship"]] },
+      "Ship": { "*": ["Jolly Roger", ["A straw hat over the skull", "Crossed swords and flames", "A Sea King coiled around a skull", "A skull with a single tear", "Your own grinning face"]] },
+      "Jolly Roger": { "*": ["Pirate code", ["Never attack civilians", "Never leave a crewmate behind", "Plunder everything not nailed down", "Only fight the strong", "Burn every Marine flag you see"]] },
+      "Your justice": { "*": ["View of the Celestial Dragons", ["Absolute loyalty to the World Nobles", "Quiet disgust", "Would arrest one if the law allowed it"]] },
+      "View of the Celestial Dragons": { "*": ["Marine weapon", ["A seastone jitte", "A navy-issue saber", "Rokushiki and bare hands", "A Pacifista escort"]] },
+      "Army": { "*": ["Why you joined", ["The World Government burned your homeland", "A Celestial Dragon took your family", "You read Dragon's call to arms", "Sabo pulled you out of a fire", "You were a slave in Mary Geoise"]] },
+      "Agency": { "*": ["Missions completed", ["Surveillance only", "A few eliminations", "More eliminations than anyone remembers"], true] },
+      "Missions completed": { "*": ["Real loyalty", ["The Five Elders", "CP0 command", "Secretly, the Revolutionary Army"]] },
+      "Fish-Man type": { "*": ["View of humans", ["Hates humans, like Arlong", "Wants peace, like Queen Otohime", "Owes a human their life", "Doesn't care either way"]] },
+      "Sulong": { "*": ["Mink allegiance", ["Inuarashi's day guard", "Nekomamushi's night guard", "A Musketeer of the Mokomo Dukedom", "Carrot's best friend"]] },
+      "Giant home": { "*": ["Warrior's vow", ["Never lie", "Never retreat", "Fight only for honor", "Protect the weak"]] },
       Race: {
         "Human": ["Human heritage", ["Ordinary", "Ordinary", "Ordinary", "Carries the Will of D.", "Amazon Lily blood", "Wano samurai blood", "Survivor of Ohara"]],
         "Fish-Man": ["Fish-Man type", ["Shark", "Octopus", "Swordfish", "Whale shark", "Sawshark", "Blowfish"]],
@@ -1179,7 +1242,7 @@
         "*": ["Your justice", ["Absolute Justice", "Lazy Justice", "Unclear Justice", "Humane Justice", "A justice of your own"]]
       },
       "Which admiral": { "*": ["Your justice", ["Absolute Justice", "Lazy Justice", "Unclear Justice", "Humane Justice", "A justice of your own"]] },
-      "Revolutionary role": { "One of the four Army Commanders": ["Army", ["East Army (Belo Betty)", "West Army (Morley)", "North Army (Karasu)", "South Army (Lindbergh)"]] },
+      "Revolutionary role": { "One of the four Army Commanders": ["Army", ["East Army (Belo Betty)", "West Army (Morley)", "North Army (Karasu)", "South Army (Lindbergh)"]], "*": ["Why you joined", ["The World Government burned your homeland", "A Celestial Dragon took your family", "You read Dragon's call to arms", "Sabo pulled you out of a fire", "You were a slave in Mary Geoise"]] },
       Weapon: {
         "three swords": ["Blade grade", ["Unranked blades", "Skillful Grade", "Great Grade", "Supreme Grade"], true],
         "one cursed blade": ["Blade grade", ["Unranked blade", "Skillful Grade", "Great Grade", "Supreme Grade"], true]
@@ -1224,6 +1287,14 @@
         "The Donquixote family": ["Branch", ["Raised in Mary Geoise", "Dragged down to the lower world", "Hunted by the people your father freed"]],
         "*": ["Imu's attention", ["Imu doesn't know you exist", "Imu doesn't know you exist", "Imu has noticed you", "Favored by Imu"], true]
       },
+      "Imu's attention": { "*": ["Slaves owned", ["a handful of house slaves", "dozens of slaves", "hundreds of slaves, including a giant", "a single Fish-Man bodyguard bought at Sabaody", "no slaves at all"]] },
+      "Slaves owned": { "no slaves at all": ["Bubble helmet", ["They never take off their bubble helmet, so they never breathe the same air as commoners", "They slip the bubble helmet off when nobody's watching", "They refuse to wear a bubble helmet at all"]], "*": ["Treatment of slaves", ["they ride them like horses", "they keep them as pets and trophies", "they brand every one of them personally", "they barely notice them", "they secretly treat them with kindness", "they secretly set them free"]] },
+      "Treatment of slaves": { "*": ["Bubble helmet", ["They never take off their bubble helmet, so they never breathe the same air as commoners", "They slip the bubble helmet off when nobody's watching", "They refuse to wear a bubble helmet at all"]] },
+      "Bubble helmet": { "*": ["Favorite pastime", ["shopping at the Sabaody Human Auctioning House", "hunting 'game' in the lower world", "commissioning portraits of themself", "collecting spouses from across the world", "tending the flower fields of Pangaea Castle", "secretly studying the Void Century"]] },
+      "Favorite pastime": { "*": ["Role in the Holy Land", ["an idle noble", "a patron of the Sabaody auctions", "a Holy Knight of God's Knights", "an aide to the Five Elders", "their family's delegate at the Reverie"]] },
+      "Role in the Holy Land": { "*": ["Childhood memory", ["Fisher Tiger climbing the Red Line and freeing the slaves of Mary Geoise", "kings of the world bowing to them at the Reverie", "Queen Otohime's visit, and how it changed a Celestial Dragon", "nothing at all, because nothing bad ever happens to Celestial Dragons"]] },
+      "Escape": { "*": ["What you left behind", ["your family's slaves, still in chains", "a fiancé chosen for you at birth", "your bubble helmet, your title and your name"]] },
+      "What you left behind": { "*": ["Who hunts you", ["CP0 agents", "God's Knights", "your own family", "nobody yet"]] },
       "Your elder": { "*": ["Imu's attention", ["Imu doesn't know you exist", "Imu doesn't know you exist", "Imu has noticed you", "Favored by Imu"], true] },
       "Place in the family": { "*": ["Imu's attention", ["Imu doesn't know you exist", "Imu has noticed you", "Favored by Imu"], true] },
       "Branch": { "*": ["Imu's attention", ["Imu doesn't know you exist", "Imu doesn't know you exist", "Imu has noticed you", "Favored by Imu"], true] },
@@ -1269,7 +1340,26 @@
       "Rokushiki (Six Powers)": 4, "Okama Kenpo": 4, "Hasshoken": 3, "Ryusoken (Dragon Claw Fist)": 3, "Electro brawling": 4, "Sniper": 2, "Weather science": 5, "Cyborg weaponry": 2,
       "Life Return": 1, "Haki-only brawler": 0, "Flintlock and bodyguards": 5
     },
+    saint: {
+      when: ["Affiliation", "Celestial Dragon"],
+      from: { "The Figarland family": "Figarland", "The Donquixote family": "Donquixote", "The Shepherd family": "Shepherd", "The Nerona family": "Nerona",
+        "Saint Topman Warcury": "Topman", "Saint Ethanbaron V. Nusjuro": "Ethanbaron V.", "Saint Marcus Mars": "Marcus", "Saint Shepherd Ju Peter": "Shepherd", "Saint Figarland Garling": "Figarland", "The late Saint Jaygarcia Saturn": "Jaygarcia" }
+    },
     perks: {
+      "A ship made of Adam wood": { n: "Adam wood hull", d: "The strongest wood in the world. +2 upgrade points.", pts: 2 },
+      "Never attack civilians": { n: "Honorable pirate", d: "Good karma.", karma: 2 },
+      "Never leave a crewmate behind": { n: "Nakama first", d: "Their crew would die for them.", karma: 1, save: { chance: 0.25, uses: 1, text: "{first} is about to fall when the whole crew charges in at once." } },
+      "Plunder everything not nailed down": { n: "Plunderer", d: "Rich and hated. +2 upgrade points. Bad karma.", pts: 2, karma: -2 },
+      "Burn every Marine flag you see": { n: "Marine-burner", d: "+2 power.", power: 2 },
+      "Absolute loyalty to the World Nobles": { n: "The Nobles' dog", d: "Bad karma.", karma: -1 },
+      "Would arrest one if the law allowed it": { n: "Justice for all", d: "Good karma.", karma: 2 },
+      "You were a slave in Mary Geoise": { n: "Burning hatred", d: "They still carry the brand. +3 power.", power: 3, karma: 1 },
+      "Sabo pulled you out of a fire": { n: "Saved by the Flame Emperor", d: "Good karma.", karma: 1 },
+      "More eliminations than anyone remembers": { n: "Licensed killer", d: "+3 power. Bad karma.", power: 3, karma: -2 },
+      "Secretly, the Revolutionary Army": { n: "Double agent", d: "Good karma. +4 IQ.", karma: 2, stat: [5, 4] },
+      "Hates humans, like Arlong": { n: "Human-hater", d: "+2 power. Bad karma.", power: 2, karma: -2 },
+      "Wants peace, like Queen Otohime": { n: "Otohime's dream", d: "Good karma.", karma: 2 },
+      "Protect the weak": { n: "Elbaf's shield", d: "Good karma.", karma: 2 },
       "Carries the Will of D.": { n: "Will of D.", d: "Once per journey a lost fight turns around. They grin and refuse to fall.", save: { chance: 0.4, uses: 1, text: "{first} should be finished. Instead they grin, the way only a D. can, and {foe} hesitates. That hesitation is the whole fight." }, extra: ["Will of D.", 88] },
       "Amazon Lily blood": { n: "Kuja warrior blood", d: "Raised on Haki from childhood. +8 Haki.", stat: [0, 8] },
       "Wano samurai blood": { n: "Samurai of Wano", d: "Blades come naturally. +8 Weapon skill.", stat: [2, 8] },
@@ -1330,6 +1420,28 @@
       "One of the four Army Commanders": { n: "Army Commander", d: "Leads a Revolutionary Army division. +4 power.", power: 4 },
       "Officer under Mihawk": { n: "Trained by the world's greatest swordsman", d: "+10 Weapon skill.", stat: [2, 10] },
       "CP0": { n: "CP0", d: "The World Nobles' own agents. +5 power.", power: 5 },
+      "Celestial Dragon": { n: "Admiral on call", d: "Attack a World Noble and an Admiral comes. Once per journey, a golden Den Den Mushi ends a lost fight.", save: { chance: 0.5, uses: 1, text: "{first} shrieks into a golden Den Den Mushi. An Admiral arrives in a flash of light, and {foe} is simply dealt with." }, extra: ["Divine Authority", 80] },
+      "they ride them like horses": { n: "Cruel master", d: "Their slaves fear them. +2 power. Bad karma.", power: 2, karma: -2, extra: ["Feared by slaves", 92] },
+      "they keep them as pets and trophies": { n: "Collector of people", d: "Bad karma.", karma: -2, extra: ["Feared by slaves", 88] },
+      "they brand every one of them personally": { n: "The brand", d: "The Hoof of the Soaring Dragon, burned on with their own hand. +3 power. Terrible karma.", power: 3, karma: -3, extra: ["Feared by slaves", 98] },
+      "they barely notice them": { n: "Indifferent", d: "Slightly bad karma.", karma: -1 },
+      "they secretly treat them with kindness": { n: "Hidden kindness", d: "Good karma.", karma: 2, extra: ["Loved by slaves", 85] },
+      "they secretly set them free": { n: "Secret liberator", d: "Great karma. Once per journey, someone they freed returns the favor.", karma: 3, save: { chance: 0.45, uses: 1, text: "A stranger steps in front of the blow meant for {first}: a slave they quietly freed years ago, here to pay the debt." }, extra: ["Loved by slaves", 95] },
+      "hundreds of slaves, including a giant": { n: "Giant slave", d: "A giant fights for them. +4 power. Bad karma.", power: 4, karma: -1 },
+      "a single Fish-Man bodyguard bought at Sabaody": { n: "Fish-Man bodyguard", d: "He takes hits for them.", save: { chance: 0.3, uses: 1, text: "{first}'s Fish-Man bodyguard throws himself in front of {foe}'s attack." } },
+      "no slaves at all": { n: "No slaves", d: "A Celestial Dragon without slaves. People notice. Good karma.", karma: 1 },
+      "They refuse to wear a bubble helmet at all": { n: "Breathes the commoners' air", d: "Good karma.", karma: 1 },
+      "shopping at the Sabaody Human Auctioning House": { n: "Auction regular", d: "Old money. +2 upgrade points. Bad karma.", pts: 2, karma: -1 },
+      "hunting 'game' in the lower world": { n: "Hunter of people", d: "Terrible karma. +2 power.", power: 2, karma: -2 },
+      "secretly studying the Void Century": { n: "Forbidden scholar", d: "Reads what even Celestial Dragons aren't allowed to. +8 IQ. Good karma, dangerous hobby.", stat: [5, 8], karma: 1 },
+      "a Holy Knight of God's Knights": { n: "Holy Knight", d: "Enforces the law of the Holy Land. +5 power.", power: 5 },
+      "an aide to the Five Elders": { n: "Elders' aide", d: "Sits in the room where the world is decided. +6 IQ.", stat: [5, 6] },
+      "their family's delegate at the Reverie": { n: "Reverie delegate", d: "+2 upgrade points.", pts: 2 },
+      "Fisher Tiger climbing the Red Line and freeing the slaves of Mary Geoise": { n: "The night of Fisher Tiger", d: "They still remember the fires. +4 Speed.", stat: [4, 4] },
+      "Queen Otohime's visit, and how it changed a Celestial Dragon": { n: "Otohime's lesson", d: "They saw a Celestial Dragon learn to be human. Good karma.", karma: 2 },
+      "kings of the world bowing to them at the Reverie": { n: "Born to be bowed to", d: "Bad karma.", karma: -1 },
+      "your family's slaves, still in chains": { n: "Unfinished business", d: "They mean to go back for them. Good karma.", karma: 1 },
+      "CP0 agents": { n: "Hunted by CP0", d: "Always looking over their shoulder. +4 Speed.", stat: [4, 4] },
       "A Five Elders family": { n: "Buster Call authority", d: "One word from their family and the Navy erases an island. +8 power in the biggest fights.", boss: 8, extra: ["Divine Authority", 92] },
       "The Figarland family": { n: "Holy Knights' backing", d: "The Holy Knights answer to their family. +5 power.", power: 5, extra: ["Divine Authority", 86] },
       "The Donquixote family": { n: "Fallen noble", d: "Born on top, thrown to the bottom. +2 upgrade points.", pts: 2 },
@@ -1420,6 +1532,27 @@
     paths: {
       "Celestial Dragon": {
         tag: "Your story now runs through Mary Geoise. The world below is beneath you, and it hates you for it.",
+        prologue: "{name} was born in Mary Geoise, the Holy Land, into {Bloodline|lc}. Like every World Noble, they descend from the twenty kings who founded the World Government eight hundred years ago. {Bubble helmet}. They own {Slaves owned}, and when it comes to slaves, {Treatment of slaves/=they have never wanted any}. Their favorite pastime is {Favorite pastime}, and in the Holy Land they serve as {Role in the Holy Land}. As a child they witnessed {Childhood memory}. As for the one on the Empty Throne: {Imu's attention|lc}. Devil Fruit: {Fruit/Devil fruit}. Haki: {Haki type|lower}.",
+        scenes: {
+          early: ["Sabaody Archipelago, Grove 1. {first} steps down from a slave's back in a bubble helmet, and every commoner on the street drops to their knees.", "A golden ship descends from the Red Line on the Bondola. The lower world smells exactly as bad as {first} was told."],
+          train: ["A private training hall in Pangaea Castle. No one has ever told {first} no, including their instructor."],
+          train2: ["Before the end, {first} trains with the God's Knights."],
+          recruit: ["A new face joins {first}'s entourage."],
+          side: ["A detour to the Sabaody Human Auctioning House. The bidding is about to start."],
+          rival1: ["{Rival} stands in {first}'s path. Nobody stands in a Celestial Dragon's path."],
+          mid: ["The Reverie. Fifty kings in the Holy Land, all of them smiling at {first} and hating them."],
+          loot: ["The family vault under Pangaea Castle. Eight hundred years of tribute."],
+          evolve: ["{first} finds out what their power can really do."],
+          twist: ["A message from the Five Elders arrives on gold-trimmed paper."],
+          late: ["The Revolutionary Army storms Mary Geoise during the Reverie."],
+          rival2: ["{Rival} is back, and this time they've brought an army."],
+          boss: ["The Empty Throne's chamber. Whatever happens next, history will be rewritten to match."],
+          ending: ["The Holy Land records everything. Most of it is lies."]
+        },
+        training: [["Fencing lessons from the God's Knights", { s: 2, v: 10 }], ["Haki training no Celestial Dragon has bothered with in centuries", { s: 0, v: 10 }], ["Shooting practice with a golden flintlock", { s: 2, v: 8 }], ["Sat in on a Five Elders meeting", { s: 5, v: 10 }], ["Had a slave carry them up and down the Red Line for exercise", { s: 3, v: 4 }], ["Spent the month at a Sabaody auction", { pts: 2 }]],
+        twists: [["A slave they once owned escapes and joins the Revolutionary Army", { inj: true, pts: 1 }], ["The Sun Pirates' flag appears off the coast", { s: 4, v: 8 }], ["The God's Knights put them on trial for breaking the Holy Land's law", { inj: true, pts: 2 }], ["A commoner punches them in public, and an Admiral is dispatched", { ally: true }], ["They're summoned to Pangaea Castle's Room of Authority", { all: 5 }], ["Their family is stripped of status and thrown to the lower world, like the Donquixotes", { inj: true, all: 6 }], ["They read a page of the Void Century they were never meant to see", { s: 5, v: 12 }]],
+        allies: [["A loyal Fish-Man bodyguard", { s: 3, v: 8 }], ["A former slave who chose to stay", { heal: true, all: 3 }], ["A Holy Knight sworn to their family", { s: 2, v: 8 }], ["A CP0 agent assigned to protect them", { s: 4, v: 8 }], ["Saint Mjosgard, the Celestial Dragon who changed", { s: 5, v: 8 }], ["A Marine Admiral's aide", { s: 0, v: 8 }]],
+        loot: [["A golden Den Den Mushi that calls the Admirals", { all: 4 }], ["Treasure from the Holy Land vaults", { pts: 3 }], ["A page of forbidden Void Century history", { s: 5, v: 10 }], ["A Vivre Card of Saint Figarland Garling", { s: 0, v: 8 }], ["A Supreme Grade sword from the family armory", { s: 2, v: 10 }], ["A Devil Fruit bought at auction", { s: 1, v: 10 }]],
         chapters: ["First outing to the lower world", "Training arc", "The Reverie", "Power evolution", "Twist of fate", "Revolution at the Holy Land", "Final battle", "Epilogue"],
         foes: {
           early: [["Escaped slave", 12], ["Fish-Man rebel", 24], ["Revolutionary infiltrator", 30], ["Pirate who punched a noble", 28]],
@@ -1427,7 +1560,7 @@
           late: [["Revolutionary Chief of Staff", 68], ["An Emperor's crew raiding Mary Geoise", 72], ["A Holy Knight turned traitor", 66]],
           boss: [["Monkey D. Dragon", 95], ["A Sun God awakened", 97], ["Your own rebellious child", 80]]
         },
-        endings: { good: ["Takes a seat among the Five Elders", "Abandons the Holy Land and frees every slave", "Sits beside the Empty Throne", "Uncovers the truth of the Void Century"], bad: ["Erased by Imu like Lulusia", "Overthrown at the Reverie", "Stripped of status and hunted in the lower world", "Turned into a Seraphim experiment"] }
+        endings: { good: ["Takes a seat among the Five Elders", "Abandons the Holy Land and frees every slave", "Sits beside the Empty Throne", "Uncovers the truth of the Void Century", "Becomes the Celestial Dragon who tore down Mary Geoise from the inside"], bad: ["Erased by Imu like Lulusia", "Overthrown at the Reverie", "Stripped of status and hunted in the lower world", "Turned into a Seraphim experiment", "Killed by a slave they once owned"] }
       },
       "World Government agent": {
         tag: "Your story now runs through the World Government's shadows. Pirates and Revolutionaries are targets.",
@@ -1511,6 +1644,8 @@
       "Necromancer": "A necromancer. The dead answer when they call."
     },
     follow: {
+      Alignment: { "*": ["A deed people still talk about", ["Saved a village from a dragon", "Burned a village to the ground", "Robbed a temple", "Freed a prison full of innocents", "Betrayed the party for gold"]] },
+      "A deed people still talk about": { "*": ["Why you adventure", ["Gold", "Revenge", "A prophecy", "Redemption", "Fame", "Love"]] },
       Race: {
         "Human": ["Human lineage", ["Commoner", "Commoner", "Noble-born", "Chosen by prophecy"]],
         "Elf": ["Elf kin", ["High elf", "Wood elf", "Dark elf (drow)", "Moon elf"]],
@@ -1571,6 +1706,12 @@
       "Unarmed martial arts": 3, "Mounted combat": 2, "Beastmaster": 5, "Gunslinger": 2, "Holy knight charge": 3, "Whip and trickery": 4
     },
     perks: {
+      "Saved a village from a dragon": { n: "Dragon-slayer's fame", d: "Good karma.", karma: 2 },
+      "Burned a village to the ground": { n: "Village burner", d: "Terrible karma. +3 power.", karma: -3, power: 3 },
+      "Robbed a temple": { n: "Temple thief", d: "Bad karma. +2 upgrade points.", karma: -1, pts: 2 },
+      "Freed a prison full of innocents": { n: "Liberator", d: "Good karma.", karma: 2 },
+      "Betrayed the party for gold": { n: "Traitor", d: "Bad karma. +2 upgrade points.", karma: -2, pts: 2 },
+      "Redemption": { n: "Seeking redemption", d: "Good karma.", karma: 1 },
       "Demigod": { n: "Divine blood", d: "Half god. Talent wheels start at tier 4.", minTier: 3, all: 2 },
       "Fallen god": { n: "Fallen divinity", d: "Even fallen, a god. Talent wheels start at tier 5.", minTier: 4, all: 3 },
       "Dragonborn": { n: "Dragon blood", d: "Talent wheels start at tier 3. +4 Strength.", stat: [3, 4], minTier: 2 },
@@ -1736,7 +1877,10 @@
         "Cursed artifact": ["Artifact", ["An ancient amulet", "A haunted sword", "A cursed ring"]],
         "Lab accident": ["Which lab", ["Particle accelerator", "Gene lab", "Black-site military lab", "High school chemistry class"]]
       },
-      Archetype: { "Sidekick": ["Hero you assist", ["The city's top hero", "A grumpy vigilante", "A washed-up legend"]] },
+      Archetype: { "Sidekick": ["Hero you assist", ["The city's top hero", "A grumpy vigilante", "A washed-up legend"]], "*": ["Secret identity", ["Totally secret", "Only family knows", "Public", "Lost it on live TV"]] },
+      "Hero you assist": { "*": ["Secret identity", ["Totally secret", "Only family knows", "Public", "Lost it on live TV"]] },
+      "Secret identity": { "*": ["Why you fight", ["You lost someone", "Responsibility", "Fame", "Money", "Boredom", "To prove you're the best"]] },
+      "Why you fight": { "*": ["Your rule on killing", ["Never kills", "Only villains who truly deserve it", "No rules"]] },
       "Fighting style": {
         "Martial arts master": ["Martial art", ["Boxing", "Muay Thai", "Kung fu", "Krav Maga", "A style you invented"]],
         "Tank": ["Tank level", ["Shrugs off bullets", "Shrugs off tanks", "Shrugs off planets"], true]
@@ -1770,6 +1914,12 @@
       villainForms: ["Doctor {P}", "The {P}", "{P} {S}", "Lord {P}", "{C} {P}", "Baron {P}"]
     },
     perks: {
+      "You lost someone": { n: "Grief-driven", d: "+3 power.", power: 3 },
+      "Responsibility": { n: "Responsibility", d: "Good karma.", karma: 2 },
+      "Fame": { n: "Famous", d: "+2 upgrade points.", pts: 2 },
+      "Never kills": { n: "One rule", d: "Good karma.", karma: 2 },
+      "No rules": { n: "No rules", d: "+3 power. Bad karma.", power: 3, karma: -2 },
+      "Lost it on live TV": { n: "Unmasked", d: "Everyone knows. Their family is in danger. +2 Speed.", stat: [4, 2] },
       "Alien": { n: "Alien physiology", d: "Built tougher than any human. Talent wheels start at tier 3.", minTier: 2, all: 2 },
       "Demigod": { n: "Divine blood", d: "Talent wheels start at tier 4.", minTier: 3, all: 3 },
       "Android": { n: "Machine body", d: "Talent wheels start at tier 3.", minTier: 2 },
@@ -2070,6 +2220,7 @@
   }
   // strong blood raises the floor: the talent wheels start at this tier
   const minTier = () => Math.min(7, perks().reduce((a, p) => Math.max(a, p.minTier || 0), 0));
+  const karma = () => perks().reduce((a, p) => a + (p.karma || 0), 0);
   function perkPower(boss) { return perks().reduce((a, p) => a + (p.power || 0) + (boss ? (p.boss || 0) : 0), 0); }
   function statAdapt(k) {
     for (const r of (T().statAdapt || [])) if (r.stat === k && run && tv(r.when[0]) === r.when[1]) return r;
@@ -2088,11 +2239,11 @@
       let v;
       if (k in extra) v = extra[k];
       else if (k === "name") v = run.name;
-      else if (k === "first") v = run.name.split(" ")[0];
-      else v = k.split("/").map((x) => tm[x.trim().toLowerCase()]).find((x) => x != null);
+      else if (k === "first") v = run.given || run.name.split(" ")[0];
+      else v = k.split("/").map((x) => x.trim().startsWith("=") ? x.trim().slice(1) : tm[x.trim().toLowerCase()]).find((x) => x != null);
       if (v == null) v = "???";
       v = String(v);
-      filters.split("|").filter(Boolean).forEach((f) => { if (f === "lower") v = v.toLowerCase(); else if (f === "a") v = article(v); else if (f === "cap") v = cap(v); });
+      filters.split("|").filter(Boolean).forEach((f) => { if (f === "lower") v = v.toLowerCase(); else if (f === "a") v = article(v); else if (f === "cap") v = cap(v); else if (f === "lc") v = v.charAt(0).toLowerCase() + v.slice(1); });
       return v;
     });
   }
@@ -2136,7 +2287,8 @@
   }
   function makeName(random) {
     const th = T(), r = random ? Math.random : rng(run.seed + 3);
-    return pickR(isFemale() ? th.firstF : th.firstM, r) + " " + pickR(th.last, r);
+    run.given = pickR(isFemale() ? th.firstF : th.firstM, r);
+    return run.given + " " + pickR(th.last, r);
   }
   // epithets: an adjective from the character's power and a noun from their weapon or personality
   const EPI_ADJ = [
@@ -2603,6 +2755,8 @@
       const G = geom(wheel);
       let pickAt = Math.random() * TAU, choice = G.n - 1;
       for (let i = 0; i < G.n; i++) if (pickAt < G.starts[i] + G.sizes[i]) { choice = i; break; }
+      // test hook (only with #turbo): window.__force = { "Wheel title": "Option" }
+      if (turbo && window.__force && window.__force[wheel.title] != null) { const fi = wheel.opts.indexOf(window.__force[wheel.title]); if (fi >= 0) choice = fi; }
       const inSlice = G.starts[choice] + G.sizes[choice] * (0.12 + Math.random() * 0.76);
       const target = POINTER - inSlice;
       const delta = (((target - state.rotation) % TAU) + TAU) % TAU;
@@ -2647,7 +2801,7 @@
   }
   function endingWheel() {
     const P = path();
-    const g = clamp(run.w + (run.bossWin ? 1 : 0) + (run.rivalBeaten ? 1 : 0), 1, 7);
+    const g = clamp(run.w + (run.bossWin ? 1 : 0) + (run.rivalBeaten ? 1 : 0) + karma(), 1, 7);
     let gi = 0, bi = 0;
     const segs = spread(g, 8).map((isG) => isG ? { good: true, t: P.endings.good[gi++ % P.endings.good.length] } : { good: false, t: P.endings.bad[bi++ % P.endings.bad.length] });
     return { title: "Ending", segs, opts: segs.map((s) => s.t), colors: segs.map((s, i) => s.good ? (i % 2 ? "#c9902a" : "#3c8a58") : (i % 2 ? "#5a2a3a" : "#3b2a4a")) };
@@ -2670,8 +2824,8 @@
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
       if (st.k === "train") return listWheel("Training", P.training.map((t) => t[0]));
       if (st.k === "twist") return listWheel("Twist", P.twists.map((t) => t[0]));
-      if (st.k === "recruit") return listWheel("Ally", T().allies.map((t) => t[0]));
-      if (st.k === "loot") return listWheel("Treasure", T().loot.map((t) => t[0]));
+      if (st.k === "recruit") return listWheel("Ally", (P.allies || T().allies).map((t) => t[0]));
+      if (st.k === "loot") return listWheel("Treasure", (P.loot || T().loot).map((t) => t[0]));
       if (st.k === "evolve") return listWheel("Evolution", evolveOptions());
       if (st.k === "ending") return endingWheel();
     }
@@ -2748,6 +2902,11 @@
       run.awarded = true;
       run.points += 2;
       if (run.name === "???") run.name = makeName();
+      const sn = T().saint;
+      if (sn && tv(sn.when[0]) === sn.when[1] && !/^Saint /.test(run.name)) {
+        const fam = activeValues().map((v) => sn.from[v]).find(Boolean);
+        run.name = `Saint ${fam ? fam + " " : ""}${run.given || run.name.split(" ")[0]}`;
+      }
       run.epithet = makeEpithet();
       run.points += perks().reduce((a, p) => a + (p.pts || 0), 0);
       setNarr(`${run.name}, ${run.epithet}`, `Character complete: ${fill(T().titleTpl)}. Your card is ready and you have 2 upgrade points. Begin the journey when you're ready.`);
@@ -2797,12 +2956,13 @@
 
   function startJourney() {
     run.phase = "journey"; run.step = 0;
-    const subsLine = allSubs().filter((x) => x.value).map((x) => `${x.name}: ${x.value}.`).join(" ");
-    const P = path();
+    const P = path(), tpl = P.prologue || T().prologue;
+    const told = (n) => tpl.toLowerCase().includes("{" + n.toLowerCase());
+    const subsLine = allSubs().filter((x) => x.value && !told(x.name)).map((x) => `${x.name}: ${x.value}.`).join(" ");
     const bw = bestWorst();
     const talentLine = `Best talent: ${bw.best}. Weakest: ${bw.worst}.`;
-    logAdd("Prologue", fill(T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (run.epithet ? ` One day they'll be called ${run.epithet}.` : "") + (P.tag ? " " + P.tag : ""));
-    setNarr("The journey begins", fill(T().prologue));
+    logAdd("Prologue", fill(P.prologue || T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (run.epithet ? ` One day they'll be called ${run.epithet}.` : "") + (P.tag ? " " + P.tag : ""));
+    setNarr("The journey begins", fill(P.prologue || T().prologue));
     persist(); render();
   }
 
@@ -2911,7 +3071,7 @@
         run.foe = null; run.step++;
       }
     } else if (st.k === "train" || st.k === "twist" || st.k === "recruit" || st.k === "loot") {
-      const list = st.k === "train" ? P.training : st.k === "twist" ? P.twists : st.k === "recruit" ? T().allies : T().loot;
+      const list = st.k === "train" ? P.training : st.k === "twist" ? P.twists : st.k === "recruit" ? (P.allies || T().allies) : (P.loot || T().loot);
       const title = { train: "Training", twist: "Twist", recruit: "Ally", loot: "Treasure" }[st.k];
       const k = await spin(listWheel(title, list.map((x) => x[0])));
       const [txt, e] = list[k];
@@ -2951,6 +3111,9 @@
       after.push(run.rivalBeaten ? `${rv} never beat them again, though they never stopped trying.` : `${rv} remained the one opponent they could never quite put away.`);
       if ((run.items || []).length) after.push(`They kept ${run.items[0].charAt(0).toLowerCase() + run.items[0].slice(1)} until their last day.`);
       if (run.evolution) after.push(`Students would one day try to copy ${run.evolution}. None of them managed it.`);
+      const km = karma();
+      if (km <= -3) after.push(fill("The people who served {first} remember them too, and not kindly. Some of them still wake up screaming.", {}));
+      else if (km >= 3) after.push(fill("Years later, the people {first} freed still tell their children about the noble who knelt down and unlocked their chains.", {}));
       const pk = perks().filter((p) => !p.quiet && (p.save || p.extra))[0];
       if (pk) after.push(`And the stories about ${pk.n} never died.`);
       logAdd(head, `${seg.t}.`, `${rec} ${legacy}`, !seg.good);
@@ -3180,7 +3343,7 @@
       else if (st.k === "recruit") title = "Spin for a new ally";
       else if (st.k === "loot") title = "Spin for treasure";
       else if (st.k === "evolve") title = "Spin your power evolution";
-      else if (st.k === "ending") { title = "Spin your ending"; sub = "Every win puts more good endings on the wheel"; }
+      else if (st.k === "ending") { title = "Spin your ending"; sub = karma() ? `Every win puts more good endings on the wheel · karma ${karma() > 0 ? "+" : ""}${karma()}` : "Every win puts more good endings on the wheel"; }
     } else {
       eb = "The end"; title = run.ending || ""; sub = `${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`;
     }
@@ -3250,7 +3413,7 @@
       stats: statNames().map((n, k) => [n, vals ? vals[k] : null, talentLabel(k) || ""]), overall: complete ? overall() : null,
       record: complete ? rec.join(" · ") : `${slots().filter((x) => slotVal(x) != null).length} / ${slots().length} traits`,
       look: look(), ai: run.ai && run.showAI && !mystery ? (run.ai.card || run.ai.src) : null, mystery,
-      perks: perks().filter((p) => !p.quiet).map((p) => [p.n, p.d]), extras: perks().filter((p) => p.extra).map((p) => p.extra),
+      perks: perks().filter((p) => !p.quiet).map((p) => [p.n, p.d]), extras: Object.entries(perks().filter((p) => p.extra).reduce((m, p) => (m[p.extra[0]] = Math.max(m[p.extra[0]] || 0, p.extra[1]), m), {})),
       note: run.phase !== "done" ? "Face revealed at the end of the journey" : isPainting(run.seed) ? "Painting the AI portrait…" : "",
       ending: run.ending || ""
     };
