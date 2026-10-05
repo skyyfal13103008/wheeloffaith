@@ -102,6 +102,7 @@
   .tc-art canvas, .tc-art img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
   .tc-badge { position: absolute; left: 8px; top: 8px; z-index: 2; font-family: var(--label); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; padding: 2px 8px; border-radius: 6px; background: rgba(10,8,20,.7); color: #fff; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tc-awake { position: absolute; right: 8px; bottom: 8px; z-index: 2; font-family: var(--display); font-weight: 800; font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--gold); color: #2a1a00; max-width: 80%; text-align: right; }
+  .tc-note { position: absolute; left: 0; right: 0; bottom: 8px; z-index: 2; text-align: center; font-family: var(--label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; color: rgba(255,255,255,.75); }
   .tc-title { margin: 8px 12px 0; font-size: 13px; color: var(--muted); font-style: italic; text-wrap: balance; }
   .tc-chips { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 12px 0; }
   .chip { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); color: var(--fg); }
@@ -227,6 +228,7 @@
             <img id="aiImg" alt="AI portrait of the character" hidden>
             <span class="tc-badge" id="cAura"></span>
             <span class="tc-awake" id="cAwake" hidden></span>
+            <span class="tc-note" id="artNote"></span>
           </div>
           <p class="tc-title" id="cTitle"></p>
           <div class="tc-chips" id="cChips"></div>
@@ -334,9 +336,9 @@
 <script>
 (() => {
   // ================= shared lists =================
-  const PERS = ["Cold and calculating", "Hot-headed", "A cheerful idiot", "A lazy genius", "A tsundere", "The silent type", "A chaos gremlin", "A born leader", "Secretly evil", "A battle maniac"];
-  const HAIR = ["Jet black", "Silver", "Crimson", "Spiky blond", "Pastel pink", "Deep blue", "White, black tips", "Green", "Purple", "Orange", "Brown", "Spiky black"];
-  const EYES = ["Gold", "Heterochromia", "Blood red", "Ice blue", "Violet", "Hollow black", "Emerald", "Eyepatch", "Brown", "Gold"];
+  const PERS = ["Cold and calculating", "Hot-headed", "A cheerful idiot", "A lazy genius", "A tsundere", "The silent type", "A chaos gremlin", "A born leader", "Secretly evil", "A battle maniac", "Arrogant", "Kind to a fault", "Gloomy", "Hyperactive", "Smug", "Brutally honest"];
+  const HAIR = ["Jet black", "Silver", "Crimson", "Spiky blond", "Pastel pink", "Deep blue", "White, black tips", "Green", "Purple", "Orange", "Brown", "Spiky black", "Ash gray", "Teal", "Black with a red streak"];
+  const EYES = ["Gold", "Heterochromia", "Blood red", "Ice blue", "Violet", "Hollow black", "Emerald", "Eyepatch", "Brown", "Gold", "Amber", "Silver", "Pink"];
 
   // ================= themes =================
   // cats: the wheels you spin. hidden: rolled silently for every character.
@@ -352,10 +354,12 @@
     stats: ["Mana", "Spell mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
       ["Origin", ["Hage village", "a noble house", "the royal capital", "the Forsaken Realm", "the Witches' Forest", "the Spade Kingdom", "the Heart Kingdom", "the Diamond Kingdom"]],
-      ["Magic", ["Fire", "Water", "Wind", "Lightning", "Shadow", "Light", "Spatial", "Blood", "Thorn", "Sealing", "Star", "Anti Magic"]],
+      ["Magic", ["Fire", "Water", "Wind", "Lightning", "Shadow", "Light", "Spatial", "Blood", "Thorn", "Sealing", "Star", "Ice", "Earth", "Mirror", "Copy", "Anti Magic"]],
       ["Grimoire", ["Three-leaf", "Three-leaf", "Four-leaf", "Three-leaf", "Three-leaf", "Five-leaf"]],
       ["Squad", ["Black Bulls", "Golden Dawn", "Silver Eagles", "Crimson Lion Kings", "Blue Rose Knights", "Green Praying Mantis", "Coral Peacocks", "Purple Orcas", "Aqua Deer"]],
+      ["Weapon", ["Sword", "Staff", "Spear", "Twin blades", "Gauntlets", "Bow", "Scythe", "Grimoire only"]],
       ["Personality", PERS],
+      ["Rival", ["A noble prodigy", "Your childhood best friend", "A Golden Dawn elite", "A peasant with no magic", "A Spade Kingdom spy", "A royal with something to prove", "A witch's apprentice", "Your own mirror double"]],
       ["Rank", ["Junior Knight", "Intermediate Knight", "Senior Knight", "Vice Captain", "Captain", "Wizard King candidate"]]
     ],
     hidden: [
@@ -400,7 +404,9 @@
       { when: ["Origin", "a noble house"], cat: "Rank", opts: ["Senior Knight", "Vice Captain", "Captain", "Wizard King candidate"] },
       { when: ["Origin", "the Forsaken Realm"], cat: "Rank", opts: ["Junior Knight", "Junior Knight", "Intermediate Knight", "Senior Knight"] }
     ],
-    vis: { tier: "Rank", aura: "Magic", costume: "Squad" },
+    vis: { tier: "Rank", aura: "Magic", costume: "Squad", rival: "Rival" },
+    allies: [["A Black Bulls brawler", { s: 3, v: 8 }], ["A Heart Kingdom healer", { heal: true, all: 3 }], ["A Golden Dawn strategist", { s: 5, v: 8 }], ["A spirit guardian", { s: 0, v: 8 }], ["A grumpy dwarf blacksmith", { s: 2, v: 8 }], ["A runaway witch", { s: 1, v: 8 }]],
+    loot: [["A demon-slayer blade", { s: 2, v: 10 }], ["A page from the first Wizard King's grimoire", { s: 1, v: 10 }], ["A stash of mana potions", { s: 0, v: 8 }], ["Elf treasure", { all: 3 }], ["A cursed artifact", { all: 6, inj: true }], ["A chest of gold", { pts: 3 }]],
     move: "{Magic} magic",
     prologue: "{name} was born in {Origin}. When a {Grimoire} grimoire floated down to them, it hummed with {Magic} magic. {first} is {Personality|lower}, and the dream is simple: {Dream}. The {Squad} took them in as {Rank|a}.",
     titleTpl: "{Magic} mage of the {Squad}",
@@ -452,13 +458,14 @@
     stats: ["Cursed energy", "Technique mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
       ["Origin", ["Tokyo Jujutsu High", "Kyoto Jujutsu High", "the Gojo clan", "the Zenin clan", "the Kamo clan", "a curse user cult", "an ordinary family", "the Culling Game"]],
-      ["Cursed technique", ["Ten Shadows", "Cursed Speech", "Blood Manipulation", "Straw Doll", "Boogie Woogie", "Idle Transfiguration", "Ratio", "Projection Sorcery", "Construction", "Disaster Flames", "Comedian", "Heavenly Restriction"]],
+      ["Cursed technique", ["Ten Shadows", "Cursed Speech", "Blood Manipulation", "Straw Doll", "Boogie Woogie", "Idle Transfiguration", "Ratio", "Projection Sorcery", "Construction", "Disaster Flames", "Comedian", "Shrine", "Star Rage", "Puppet Manipulation", "Heavenly Restriction"]],
       ["Domain", ["No domain yet", "Simple Domain only", "Incomplete domain", "Full domain", "Barrierless domain"]],
+      ["Cursed tool", ["Playful Cloud", "the Inverted Spear of Heaven", "the Split Soul Katana", "the Chain of a Thousand Miles", "Dragon-Bone", "the Black Rope", "their bare fists", "a hammer and cursed nails"]],
       ["Personality", PERS],
+      ["Rival", ["A Zenin clan prodigy", "Your childhood best friend", "A Kyoto student", "A reincarnated sorcerer", "A curse user with your technique", "Your older sibling", "A Special Grade vessel", "A curse that knows your name"]],
       ["Grade", ["Grade 4", "Grade 3", "Grade 2", "Semi-grade 1", "Grade 1", "Special Grade"]]
     ],
     hidden: [
-      ["Cursed tool", ["Playful Cloud", "the Inverted Spear of Heaven", "the Split Soul Katana", "the Chain of a Thousand Miles", "Dragon-Bone", "the Black Rope", "their bare fists", "a hammer and cursed nails"]],
       ["Binding vow", ["none", "reveal their technique before using it", "never lose their temper", "trade lifespan for power", "only fight curses, never people"]],
       ["Hair", HAIR], ["Eyes", EYES]
     ],
@@ -498,7 +505,9 @@
       { when: ["Origin", "a curse user cult"], cat: "Grade", name: "Infamy", opts: ["Petty curse user", "Wanted curse user", "Special Grade curse user"] },
       { when: ["Origin", "the Gojo clan"], cat: "Grade", opts: ["Semi-grade 1", "Grade 1", "Special Grade"] }
     ],
-    vis: { tier: "Grade", aura: "Cursed technique", costume: "Origin" },
+    vis: { tier: "Grade", aura: "Cursed technique", costume: "Origin", rival: "Rival" },
+    allies: [["Panda", { s: 3, v: 8 }], ["A Kyoto barrier specialist", { s: 1, v: 8 }], ["A teleporting first-year", { s: 4, v: 8 }], ["A cursed corpse bodyguard", { s: 3, v: 6, all: 2 }], ["A shikigami that likes you", { s: 0, v: 8 }], ["A cursed tool smith", { s: 2, v: 8 }]],
+    loot: [["A Special Grade cursed tool", { s: 2, v: 10 }], ["One of Sukuna's fingers", { all: 6, inj: true }], ["A forbidden technique scroll", { s: 1, v: 10 }], ["A Death Painting womb", { s: 0, v: 8 }], ["A box of sealing talismans", { s: 5, v: 6, all: 2 }], ["The higher-ups' hush money", { pts: 3 }]],
     move: "{Cursed technique}",
     prologue: "{name} comes from {Origin}. Their innate technique is {Cursed technique}, and they fight with {Cursed tool}. {first} is {Personality|lower}. Binding vow: {Binding vow}. The higher-ups have them listed as {Grade}.",
     titleTpl: "{Grade}, {Cursed technique} user",
@@ -550,14 +559,15 @@
     last: ["Vanholt", "Drey", "Kessel", "Morrow", "Halvard", "Quill", "Sarrow", "Ibarra", "Okon", "Vey"],
     stats: ["Aura", "Nen mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
-      ["Origin", ["Whale Island", "Meteor City", "the Zoldyck estate", "the Kurta clan", "Yorknew City", "the NGL jungle", "the Kakin royal family", "Heavens Arena"]],
+      ["Origin", ["Whale Island", "Meteor City", "the Zoldyck estate", "the Kurta clan", "Yorknew City", "the NGL jungle", "the Kakin royal family", "Heavens Arena", "Greed Island", "the Hunter Association"]],
       ["Nen type", ["Enhancer", "Transmuter", "Emitter", "Conjurer", "Manipulator", "Specialist"]],
       ["Hatsu", ["Rock-paper-scissors fist", "Electric aura", "Aura bullets", "Chains with conditions", "Puppet strings", "Copy an enemy's ability"]],
+      ["Weapon", ["yo-yos", "a fishing rod", "playing cards", "chains", "bare hands", "an umbrella", "needles", "a sniper rifle", "a katana", "a book"]],
       ["Personality", PERS],
+      ["Rival", ["A Zoldyck heir", "A fellow exam rookie", "A Phantom Troupe member", "A Heavens Arena champion", "Your mentor's other student", "A Kakin prince", "A Chimera Ant who was once human", "A bounty hunter after you"]],
       ["Rank", ["Applicant", "Licensed Hunter", "Single-star Hunter", "Double-star Hunter", "Triple-star Hunter", "Zodiac"]]
     ],
     hidden: [
-      ["Weapon", ["yo-yos", "a fishing rod", "playing cards", "chains", "bare hands", "an umbrella", "needles", "a sniper rifle", "a katana", "a book"]],
       ["Hunter type", ["Blacklist Hunter", "Treasure Hunter", "Beast Hunter", "Gourmet Hunter", "Crime Hunter", "Archaeology Hunter", "Virus Hunter"]],
       ["Restriction", ["no restriction at all", "it only works on one target", "it costs lifespan", "they must touch the target", "it only works in one place", "they must explain the ability first"]],
       ["Hair", HAIR], ["Eyes", EYES]
@@ -593,7 +603,9 @@
       { when: ["Nen type", "Specialist"], cat: "Hatsu", opts: ["Copy an enemy's ability", "Rewind an injury", "See the future", "Absolute rule"] },
       { when: ["Origin", "the Zoldyck estate"], cat: "Rank", name: "Assassin rank", opts: ["Trainee", "Contract killer", "Elite assassin", "Family legend"] }
     ],
-    vis: { tier: "Rank", aura: "Nen type", costume: "Origin" },
+    vis: { tier: "Rank", aura: "Nen type", costume: "Origin", rival: "Rival" },
+    allies: [["A Zoldyck butler", { s: 4, v: 8 }], ["A Hunter Association examiner", { s: 5, v: 8 }], ["A Greed Island card collector", { all: 3 }], ["A Nen teacher", { s: 1, v: 8 }], ["A Chimera Ant defector", { s: 3, v: 8 }], ["A rookie with a fishing rod", { s: 0, v: 6, all: 2 }]],
+    loot: [["Greed Island card: Risky Dice", { all: 5 }], ["A Nen-forged weapon", { s: 2, v: 10 }], ["A Scarlet Eye", { s: 0, v: 8 }], ["A rare Hunter License", { pts: 3 }], ["A cursed Nen object", { all: 6, inj: true }], ["A Dark Continent relic", { s: 1, v: 10 }]],
     move: "{Hatsu|lower}",
     prologue: "{name} grew up in {Origin}. Water divination marked {first} as {Nen type|a}, and their Hatsu became {Hatsu|lower}. The catch: {Restriction}. They fight with {Weapon}, they're {Personality|lower}, and right now they're {Rank|a} who wants to be a {Hunter type}.",
     titleTpl: "{Nen type}, {Rank}",
@@ -644,16 +656,17 @@
     stats: ["Haki", "Fruit mastery", "Weapon skill", "Strength", "Speed", "IQ"],
     cats: [
       ["Race", ["Human", "Human", "Fish-man", "Mink", "Giant", "Long-arm tribe", "Skypiean", "Lunarian"]],
-      ["Devil fruit", ["No fruit", "Paramecia: Rubber", "Paramecia: String", "Paramecia: Barrier", "Logia: Flame", "Logia: Ice", "Logia: Lightning", "Logia: Magma", "Zoan: Wolf", "Mythical Zoan", "Ancient Zoan"]],
+      ["Devil fruit", ["No fruit", "Paramecia: Rubber", "Paramecia: String", "Paramecia: Barrier", "Logia: Flame", "Logia: Ice", "Logia: Lightning", "Logia: Magma", "Zoan: Wolf", "Paramecia: Op-Op", "Paramecia: Gravity", "Logia: Smoke", "Logia: Light", "Mythical Zoan", "Ancient Zoan"]],
       ["Haki type", ["None yet", "Observation", "Armament", "Observation and Armament", "Conqueror's", "All three"]],
       ["Affiliation", ["Pirate crew", "Pirate crew", "Marines", "Revolutionary Army", "Cross Guild", "Bounty hunter", "Celestial Dragon runaway"]],
+      ["Weapon", ["three swords", "one cursed blade", "a slingshot", "kicks", "fists", "a Clima-Tact", "a giant hammer", "flintlock pistols"]],
       ["Personality", PERS],
+      ["Rival", ["A rookie captain with a rubber grin", "A Marine prodigy", "A swordsman from your village", "A Supernova", "A Celestial Dragon's bodyguard", "A Revolutionary officer", "A Cipher Pol agent", "The pirate who stole your treasure"]],
       ["Bounty", ["0 berries", "30 million", "300 million", "1 billion", "3 billion", "5 billion, Emperor level"]]
     ],
     hidden: [
       ["Sea", ["East Blue", "West Blue", "North Blue", "South Blue", "the Grand Line", "Wano"]],
       ["Role", ["captain", "swordsman", "navigator", "sniper", "cook", "doctor", "shipwright", "musician"]],
-      ["Weapon", ["three swords", "one cursed blade", "a slingshot", "kicks", "fists", "a Clima-Tact", "a giant hammer", "flintlock pistols"]],
       ["Dream", ["find the One Piece", "draw a map of the whole world", "find the All Blue", "become the world's greatest swordsman", "free every slave", "topple the World Government"]],
       ["Hair", HAIR], ["Eyes", EYES]
     ],
@@ -693,7 +706,9 @@
       { when: ["Race", "Fish-man"], cat: "Devil fruit", opts: ["No fruit", "No fruit", "No fruit", "Paramecia: Bubble"] },
       { when: ["Race", "Lunarian"], cat: "Devil fruit", opts: ["No fruit", "Ancient Zoan", "Logia: Flame"] }
     ],
-    vis: { tier: "Bounty", aura: "Devil fruit", costume: "Affiliation", race: "Race" },
+    vis: { tier: "Bounty", aura: "Devil fruit", costume: "Affiliation", race: "Race", rival: "Rival" },
+    allies: [["A swordsman who gets lost", { s: 2, v: 8 }], ["A navigator", { s: 5, v: 8 }], ["A cook", { heal: true, all: 3 }], ["A reindeer doctor", { heal: true, s: 3, v: 5 }], ["A sniper with tall tales", { s: 2, v: 6, all: 2 }], ["A cyborg shipwright", { s: 3, v: 8 }]],
+    loot: [["A second Devil Fruit (you can't eat it)", { pts: 3 }], ["A Meito sword", { s: 2, v: 10 }], ["A Poneglyph rubbing", { s: 5, v: 10 }], ["Sea Prism Stone cuffs", { s: 3, v: 8 }], ["Gold from a sunken ship", { pts: 2, all: 2 }], ["A Road Poneglyph clue", { all: 4 }]],
     statAdapt: [{ when: ["Devil fruit", "No fruit"], stat: 1, name: "Six Powers", tiers: ["Never trained", "Basic Soru", "Soru and Geppo", "Tekkai", "Shigan", "Rankyaku", "All six", "Rokuogan", "Doriki 4000+", "Beyond Doriki"] }],
     move: "{Devil fruit}",
     prologue: "{name} set out from {Sea}: {Race|a|lower} with {Haki type|lower} for Haki and {Devil fruit} for a Devil Fruit. They joined up with the {Affiliation} as their {Role}, fighting with {Weapon}. {first} is {Personality|lower}, and swore to {Dream}. On the board: {Bounty}.",
@@ -745,15 +760,16 @@
     last: ["Ashveil", "Stormborn", "of the Hollow Oak", "Blackthorn", "Dawnbringer", "Grimward", "Silverbrook", "Ironhand", "the Unbound", "Nightbloom"],
     stats: ["Arcana", "Spell mastery", "Weapon skill", "Strength", "Agility", "IQ"],
     cats: [
-      ["Race", ["Human", "Elf", "Dwarf", "Orc", "Tiefling", "Dragonborn", "Fae", "Undead", "Demigod", "Fallen god"]],
-      ["Class", ["Warrior", "Mage", "Rogue", "Cleric", "Ranger", "Paladin", "Necromancer", "Bard", "Druid", "Warlock"]],
+      ["Race", ["Human", "Elf", "Dwarf", "Orc", "Tiefling", "Dragonborn", "Fae", "Gnome", "Halfling", "Vampire", "Undead", "Demigod", "Fallen god"]],
+      ["Class", ["Warrior", "Mage", "Rogue", "Cleric", "Ranger", "Paladin", "Necromancer", "Bard", "Druid", "Warlock", "Monk", "Artificer", "Blood hunter"]],
       ["Magic", ["Pyromancy", "Frost", "Healing", "Illusion", "Summoning", "Blood magic", "Runes", "Storm calling"]],
+      ["Weapon", ["a longsword", "a staff", "twin daggers", "a warhammer", "a longbow", "a halberd", "a lute", "a spell tome", "a whip"]],
       ["Alignment", ["Lawful good", "Neutral good", "Chaotic good", "Lawful neutral", "True neutral", "Chaotic neutral", "Lawful evil", "Neutral evil", "Chaotic evil"]],
       ["Personality", PERS],
+      ["Rival", ["The Chosen Hero", "A rival guild leader", "Your older sibling", "A dragon who remembers you", "An elven archer prodigy", "A necromancer from your village", "Your former party member", "A knight sworn to stop you"]],
       ["Rank", ["Peasant", "Squire", "Adventurer", "Veteran", "Champion", "Legend", "Mythic"]]
     ],
     hidden: [
-      ["Weapon", ["a longsword", "a staff", "twin daggers", "a warhammer", "a longbow", "a halberd", "a lute", "a spell tome", "a whip"]],
       ["Companion", ["a wolf", "a raven", "a tiny dragon", "a talking cat", "a ghost", "a horse", "a mimic", "an owl", "no one"]],
       ["Flaw", ["greedy", "reckless", "cowardly", "too trusting", "vengeful", "arrogant", "cursed", "afraid of water"]],
       ["Background", ["an exiled noble", "a street orphan", "a temple acolyte", "a retired soldier", "a pirate", "a scholar", "a farmhand", "a cult escapee"]],
@@ -792,7 +808,9 @@
       { when: ["Class", "Rogue"], cat: "Magic", name: "Trick", opts: ["Shadow step", "Poison craft", "Lockpicking legend", "Illusion"] },
       { when: ["Race", "Fallen god"], cat: "Rank", name: "Divinity", opts: ["Mortal shell", "Forgotten god", "Minor deity", "Returning god", "Restored god"] }
     ],
-    vis: { tier: "Rank", aura: "Magic", costume: "Class", race: "Race" },
+    vis: { tier: "Rank", aura: "Magic", costume: "Class", race: "Race", rival: "Rival" },
+    allies: [["A dwarf cleric", { heal: true, all: 3 }], ["An elf ranger", { s: 2, v: 8 }], ["A gnome artificer", { s: 5, v: 8 }], ["A half-orc barbarian", { s: 3, v: 8 }], ["A fae trickster", { s: 4, v: 8 }], ["A ghost mage", { s: 0, v: 8 }]],
+    loot: [["A vorpal sword", { s: 2, v: 10 }], ["The archmage's staff", { s: 1, v: 10 }], ["Boots of speed", { s: 4, v: 10 }], ["A cursed crown", { all: 6, inj: true }], ["Dragon gold", { pts: 3 }], ["A tome of lost knowledge", { s: 5, v: 10 }]],
     move: "{Magic|lower}",
     prologue: "{name} was once {Background}. Now {first} is {Race|a|lower} {Class|lower} with a gift for {Magic|lower}, carrying {Weapon} and travelling with {Companion}. They lean {Alignment|lower}, they're {Personality|lower}, and everyone who knows them says they're {Flaw}. Guild rank: {Rank}.",
     titleTpl: "{Race} {Class}",
@@ -843,16 +861,16 @@
     stats: ["Raw power", "Power control", "Gadgets & weapons", "Strength", "Speed", "IQ"],
     cats: [
       ["Archetype", ["Hero", "Hero", "Villain", "Anti-hero", "Vigilante", "Sidekick", "Mercenary"]],
-      ["Power", ["Super strength", "Flight", "Telekinesis", "Super speed", "Invisibility", "Shapeshifting", "Mind control", "Energy blasts", "Healing factor", "Tech genius", "Size shifting", "Duplication"]],
+      ["Power", ["Super strength", "Flight", "Telekinesis", "Super speed", "Invisibility", "Shapeshifting", "Mind control", "Energy blasts", "Healing factor", "Tech genius", "Size shifting", "Duplication", "Time control", "Gravity", "Elemental control", "Portals"]],
       ["Origin", ["Lab accident", "Alien", "Born with it", "Cursed artifact", "Trained for years", "Escaped experiment", "Rich and bored", "Struck by lightning"]],
+      ["Costume", ["Black and red", "Blue and gold", "All white", "Green and purple", "Silver armor", "Street clothes and a mask", "Neon"]],
       ["Personality", PERS],
+      ["Nemesis", ["An evil twin", "A former mentor", "A shadow government", "An alien warlord", "A mad scientist", "A best friend gone bad", "A rival hero", "An AI you built"]],
       ["Rank", ["Street level", "City level", "Country level", "Planet level", "Cosmic"]]
     ],
     hidden: [
       ["Weakness", ["loud noises", "the cold", "their own fear", "magic", "a rare green metal", "sunlight", "running out of time", "their family"]],
-      ["Costume", ["Black and red", "Blue and gold", "All white", "Green and purple", "Silver armor", "Street clothes and a mask", "Neon"]],
       ["Base", ["an underground bunker", "a floating sky fortress", "an abandoned subway", "a penthouse", "a moon base", "their mom's garage"]],
-      ["Nemesis", ["an evil twin", "a former mentor", "a shadow government", "an alien warlord", "a mad scientist", "a best friend gone bad"]],
       ["Hair", HAIR], ["Eyes", EYES]
     ],
     say: { Archetype: "Archetype: {v}.", Power: "Power: {v|lower}.", Origin: "Origin story: {v|lower}.", Personality: "Personality: {v|lower}.", Rank: "Power rank: {v|lower}.", "Threat level": "Threat level: {v|lower}." },
@@ -881,9 +899,11 @@
       { when: ["Archetype", "Sidekick"], cat: "Rank", opts: ["Street level", "Street level", "City level", "Country level"] },
       { when: ["Archetype", "Mercenary"], cat: "Origin", opts: ["Trained for years", "Escaped experiment", "Super-soldier program", "Cursed artifact"] }
     ],
-    vis: { tier: "Rank", aura: "Power", costume: "Costume" },
+    vis: { tier: "Rank", aura: "Power", costume: "Costume", rival: "Nemesis" },
+    allies: [["A tech-genius sidekick", { s: 2, v: 8 }], ["A speedster", { s: 4, v: 8 }], ["A telepath", { s: 5, v: 8 }], ["A retired legend", { all: 3 }], ["A teenage powerhouse", { s: 0, v: 8 }], ["A medic with healing hands", { heal: true, s: 3, v: 5 }]],
+    loot: [["An alien power core", { s: 0, v: 10 }], ["A prototype suit", { s: 2, v: 10 }], ["A new secret identity", { pts: 2 }], ["A cosmic gem", { all: 6, inj: true }], ["A super-soldier serum", { s: 3, v: 10 }], ["A quantum computer", { s: 5, v: 10 }]],
     move: "{Power|lower}",
-    prologue: "Origin story: {Origin|lower}. Now {name} is {Archetype|a|lower} with {Power|lower}, a costume in {Costume|lower}, and a base in {Base}. {first} is {Personality|lower}. Weakness: {Weakness}. Nemesis: {Nemesis}. Power rank: {Rank|lower}.",
+    prologue: "Origin story: {Origin|lower}. Now {name} is {Archetype|a|lower} with {Power|lower}, a costume in {Costume|lower}, and a base in {Base}. {first} is {Personality|lower}. Weakness: {Weakness}. Nemesis: {Nemesis|lower}. Power rank: {Rank|lower}.",
     titleTpl: "{Archetype} with {Power|lower}",
     chips: ["Origin", "Weakness"],
     pathCat: "Archetype",
@@ -971,7 +991,13 @@
     return i <= 1 ? "Rock bottom. Everyone else is better at this." : i <= 3 ? "Below average, with room to grow." : i <= 5 ? "Solid. Nothing special yet."
       : i <= 7 ? "Gifted. People are starting to notice." : i === 8 ? "Prodigy level." : "Once in a generation. Monsters live up here.";
   }
-  const STEPS = ["battle:early", "train", "battle:mid", "evolve", "twist", "battle:late", "battle:boss", "ending"];
+  // 14 chapters. ch = index into the series' own chapter names; name = shared name for the newer chapters.
+  const STEPS = [
+    { k: "battle", pool: "early", ch: 0 }, { k: "train", ch: 1 }, { k: "recruit", name: "A new ally" }, { k: "battle", pool: "side", name: "Side quest" },
+    { k: "rival", n: 1, name: "Enter the rival" }, { k: "battle", pool: "mid", ch: 2 }, { k: "loot", name: "Treasure" }, { k: "evolve", ch: 3 },
+    { k: "twist", ch: 4 }, { k: "battle", pool: "late", ch: 5 }, { k: "train", name: "Second training arc" }, { k: "rival", n: 2, name: "Rival rematch" },
+    { k: "battle", pool: "boss", ch: 6 }, { k: "ending", ch: 7 }
+  ];
   const SEG_COLORS = ["#5b3fa8", "#c2416b", "#2b7d9c", "#c9822a", "#3c8a58", "#8b3fa1", "#b0502f", "#2f5cb0"];
   const STORE = "wheel-of-faith.v2", RUNSTORE = "wheel-of-faith.run.v2";
   const TAU = Math.PI * 2, POINTER = -Math.PI / 2;
@@ -1000,11 +1026,11 @@
   function hslHex(h, s, l) { s /= 100; l /= 100; const k = (n) => (n + h / 30) % 12, a = s * Math.min(l, 1 - l); const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); return "#" + [f(0), f(8), f(4)].map((x) => Math.round(x * 255).toString(16).padStart(2, "0")).join(""); }
   const hashColor = (s, l) => hslHex(hash(String(s)) % 360, 55, l || 50);
 
-  const HAIR_MAP = [["jet", "#16141d"], ["black", "#1d1a26"], ["silver", "#c9cdd8"], ["white", "#eef0f5"], ["crimson", "#b3122e"], ["red", "#c8202e"], ["blond", "#f2cf5b"], ["gold", "#e3b23c"], ["pink", "#f4a6c8"], ["blue", "#3a6fd8"], ["green", "#3fa35b"], ["purple", "#7b4bc4"], ["orange", "#f07a28"], ["brown", "#6b4226"]];
-  const EYE_MAP = [["gold", "#e8b030"], ["red", "#d0202e"], ["ice", "#7fd0ff"], ["blue", "#3a7fd8"], ["violet", "#9a5ae0"], ["emerald", "#2fb36a"], ["brown", "#7a4a24"], ["black", "#1a1a1a"]];
-  const AURA_MAP = [["anti", "#4a4a4a"], ["lightning", "#ffe14d"], ["electric", "#ffe14d"], ["storm", "#ffe14d"], ["fire", "#ff6a2b"], ["flame", "#ff6a2b"], ["magma", "#ff4a1a"], ["pyro", "#ff6a2b"], ["water", "#3aa7ff"], ["wind", "#6fe0b0"], ["ice", "#a8e6ff"], ["frost", "#a8e6ff"], ["light", "#fff1a8"], ["holy", "#fff1a8"], ["smite", "#ffe9a0"], ["oath", "#ffb84d"], ["shadow", "#7a3cff"], ["dark", "#7a3cff"], ["void", "#5a2ccf"], ["blood", "#c4142c"], ["thorn", "#5fa04a"], ["vine", "#5fa04a"], ["spatial", "#b48cff"], ["sealing", "#e0c070"], ["star", "#ffd6f0"], ["earth", "#b08850"], ["curse", "#8a2be2"], ["gravity", "#6a5acd"], ["body", "#e07a5f"], ["iron", "#9aa3b5"], ["healing", "#7dffb0"], ["limitless", "#4ab3ff"], ["six eyes", "#4ab3ff"], ["speech", "#9b59ff"], ["straw", "#d38b4a"], ["boogie", "#ffcc4d"], ["idle", "#6dd3a8"], ["ratio", "#e5e5e5"], ["projection", "#7cffd9"], ["construction", "#c7ccd8"], ["heavenly", "#d0d0d0"], ["ten shadows", "#5b3dbf"], ["poison", "#8cd13a"], ["maggot", "#9a8a4a"], ["paper", "#f2efe0"], ["cursed tool", "#9aa3b5"], ["enhancer", "#e8463a"], ["transmuter", "#b04de0"], ["emitter", "#ff9a2a"], ["conjurer", "#3a8cff"], ["manipulator", "#3fc46a"], ["specialist", "#f0f0f0"], ["rubber", "#ff8fb0"], ["string", "#f2f2f2"], ["barrier", "#bfe8ff"], ["bubble", "#bfe8ff"], ["mythical", "#4fd2ff"], ["ancient", "#9a8a4a"], ["wolf", "#a0a0c8"], ["illusion", "#d48cff"], ["summon", "#ffb84d"], ["rune", "#7fd4ff"], ["bone", "#e8e2cc"], ["soul", "#7fffe0"], ["plague", "#8cd13a"], ["divination", "#c8b8ff"], ["shapeshift", "#9ac36b"], ["beast", "#c89a4a"], ["charm", "#ff8fd8"], ["inspiration", "#ffd27a"], ["sonic", "#9fe8ff"], ["berserk", "#e8463a"], ["shield", "#9aa3b5"], ["steel", "#9aa3b5"], ["dual", "#c0c8d8"], ["lockpick", "#c0a060"], ["flight", "#9fd8ff"], ["telekinesis", "#c27bff"], ["speed", "#ffd84a"], ["invisib", "#d8e8ff"], ["mind", "#ff6fd8"], ["energy", "#ff9a3a"], ["tech", "#5af0ff"], ["size", "#ff6a6a"], ["duplic", "#ffa0f0"], ["strength", "#ff5a3a"], ["no fruit", "#2d7fbf"]];
+  const HAIR_MAP = [["jet", "#16141d"], ["black", "#1d1a26"], ["silver", "#c9cdd8"], ["white", "#eef0f5"], ["crimson", "#b3122e"], ["red", "#c8202e"], ["blond", "#f2cf5b"], ["gold", "#e3b23c"], ["pink", "#f4a6c8"], ["blue", "#3a6fd8"], ["green", "#3fa35b"], ["purple", "#7b4bc4"], ["orange", "#f07a28"], ["brown", "#6b4226"], ["gray", "#8a8f9c"], ["teal", "#2aa7a0"]];
+  const EYE_MAP = [["gold", "#e8b030"], ["red", "#d0202e"], ["ice", "#7fd0ff"], ["blue", "#3a7fd8"], ["violet", "#9a5ae0"], ["emerald", "#2fb36a"], ["brown", "#7a4a24"], ["black", "#1a1a1a"], ["amber", "#e89a30"], ["silver", "#c0c8d8"], ["pink", "#f08ab8"]];
+  const AURA_MAP = [["anti", "#4a4a4a"], ["mirror", "#cfe8ff"], ["copy", "#d0d0ff"], ["shrine", "#c4142c"], ["puppet", "#d38b4a"], ["op-op", "#5ab0ff"], ["smoke", "#c8c8c8"], ["time", "#b8a0ff"], ["portal", "#7cffd9"], ["elemental", "#ff9a3a"], ["monk", "#ffb84d"], ["artificer", "#5af0ff"], ["lightning", "#ffe14d"], ["electric", "#ffe14d"], ["storm", "#ffe14d"], ["fire", "#ff6a2b"], ["flame", "#ff6a2b"], ["magma", "#ff4a1a"], ["pyro", "#ff6a2b"], ["water", "#3aa7ff"], ["wind", "#6fe0b0"], ["ice", "#a8e6ff"], ["frost", "#a8e6ff"], ["light", "#fff1a8"], ["holy", "#fff1a8"], ["smite", "#ffe9a0"], ["oath", "#ffb84d"], ["shadow", "#7a3cff"], ["dark", "#7a3cff"], ["void", "#5a2ccf"], ["blood", "#c4142c"], ["thorn", "#5fa04a"], ["vine", "#5fa04a"], ["spatial", "#b48cff"], ["sealing", "#e0c070"], ["star", "#ffd6f0"], ["earth", "#b08850"], ["curse", "#8a2be2"], ["gravity", "#6a5acd"], ["body", "#e07a5f"], ["iron", "#9aa3b5"], ["healing", "#7dffb0"], ["limitless", "#4ab3ff"], ["six eyes", "#4ab3ff"], ["speech", "#9b59ff"], ["straw", "#d38b4a"], ["boogie", "#ffcc4d"], ["idle", "#6dd3a8"], ["ratio", "#e5e5e5"], ["projection", "#7cffd9"], ["construction", "#c7ccd8"], ["heavenly", "#d0d0d0"], ["ten shadows", "#5b3dbf"], ["poison", "#8cd13a"], ["maggot", "#9a8a4a"], ["paper", "#f2efe0"], ["cursed tool", "#9aa3b5"], ["enhancer", "#e8463a"], ["transmuter", "#b04de0"], ["emitter", "#ff9a2a"], ["conjurer", "#3a8cff"], ["manipulator", "#3fc46a"], ["specialist", "#f0f0f0"], ["rubber", "#ff8fb0"], ["string", "#f2f2f2"], ["barrier", "#bfe8ff"], ["bubble", "#bfe8ff"], ["mythical", "#4fd2ff"], ["ancient", "#9a8a4a"], ["wolf", "#a0a0c8"], ["illusion", "#d48cff"], ["summon", "#ffb84d"], ["rune", "#7fd4ff"], ["bone", "#e8e2cc"], ["soul", "#7fffe0"], ["plague", "#8cd13a"], ["divination", "#c8b8ff"], ["shapeshift", "#9ac36b"], ["beast", "#c89a4a"], ["charm", "#ff8fd8"], ["inspiration", "#ffd27a"], ["sonic", "#9fe8ff"], ["berserk", "#e8463a"], ["shield", "#9aa3b5"], ["steel", "#9aa3b5"], ["dual", "#c0c8d8"], ["lockpick", "#c0a060"], ["flight", "#9fd8ff"], ["telekinesis", "#c27bff"], ["speed", "#ffd84a"], ["invisib", "#d8e8ff"], ["mind", "#ff6fd8"], ["energy", "#ff9a3a"], ["tech", "#5af0ff"], ["size", "#ff6a6a"], ["duplic", "#ffa0f0"], ["strength", "#ff5a3a"], ["no fruit", "#2d7fbf"]];
   const COSTUME_MAP = [["black bulls", "#1d1a22"], ["golden", "#b88a26"], ["silver", "#8f98aa"], ["crimson", "#8e1d28"], ["blue rose", "#2c4a9a"], ["mantis", "#2f6a34"], ["coral", "#c9604c"], ["orca", "#3a2a5a"], ["aqua", "#2a7a8a"], ["dark", "#2a1838"], ["spade", "#2a1838"], ["heart", "#b04060"], ["spirit", "#3a7a6a"], ["diamond", "#5a7ab0"], ["shining", "#5a7ab0"], ["tokyo", "#1e2340"], ["kyoto", "#2a2238"], ["gojo", "#20243a"], ["zenin", "#3a2a22"], ["kamo", "#5a1e28"], ["cult", "#2a2a2a"], ["ordinary", "#3a4a6a"], ["culling", "#4a3a2a"], ["zoldyck", "#2a2630"], ["kurta", "#7a5a2a"], ["meteor", "#4a4038"], ["whale", "#3a7a5a"], ["kakin", "#8a2a3a"], ["yorknew", "#2a2a3a"], ["ngl", "#4a6a3a"], ["heavens", "#7a6a4a"], ["marine", "#e8ecf2"], ["pirate", "#9e2a22"], ["revolution", "#2f4a35"], ["cross guild", "#6a2a5e"], ["bounty", "#5a4632"], ["celestial", "#d9d9f0"], ["warrior", "#6a4a3a"], ["mage", "#3a3a8a"], ["rogue", "#2a2a30"], ["cleric", "#e0d8c0"], ["ranger", "#3a5a3a"], ["paladin", "#c0c8d8"], ["necromancer", "#2a1a2a"], ["bard", "#8a3a6a"], ["druid", "#4a6a3a"], ["warlock", "#3a1a4a"], ["black", "#1d1a22"], ["red", "#a3262f"], ["blue", "#2c4a9a"], ["green", "#3c7a3a"], ["purple", "#5a2c7a"], ["white", "#e6e8ee"], ["neon", "#ff3fa4"], ["armor", "#8a93a6"], ["street", "#3a3f4a"]];
-  const SKIN_MAP = [["fish", "#8cc3d4"], ["undead", "#bcc8b8"], ["orc", "#8fae6a"], ["tiefling", "#c85a5a"], ["fallen god", "#f2e2c8"], ["demigod", "#f6dcbc"], ["fae", "#f0e4f4"], ["lunarian", "#6a524a"], ["giant", "#e0b48a"], ["dragonborn", "#c8945a"], ["mink", "#e8d2b0"]];
+  const SKIN_MAP = [["fish", "#8cc3d4"], ["vampire", "#f2e6ea"], ["gnome", "#f0cfb0"], ["undead", "#bcc8b8"], ["orc", "#8fae6a"], ["tiefling", "#c85a5a"], ["fallen god", "#f2e2c8"], ["demigod", "#f6dcbc"], ["fae", "#f0e4f4"], ["lunarian", "#6a524a"], ["giant", "#e0b48a"], ["dragonborn", "#c8945a"], ["mink", "#e8d2b0"]];
   const SKINS = ["#f7d9c4", "#eec1a0", "#d9a07a", "#b97a55", "#8d5a3b", "#f3cdb3"];
 
   // ================= state =================
@@ -1042,7 +1068,7 @@
     (T().hidden || []).forEach(([n, opts]) => { hidden[n] = pickR(opts, r); });
     const th = T();
     return {
-      theme: state.theme, seed, name: pickR(th.first, r) + " " + pickR(th.last, r), results: new Array(baseCats().length).fill(null), subs: {}, hidden,
+      v: 3, theme: state.theme, seed, name: pickR(th.first, r) + " " + pickR(th.last, r), results: new Array(baseCats().length).fill(null), subs: {}, hidden,
       rerollsUsed: 0, phase: "create", step: 0, foe: null, bonus: th.stats.map(() => 0), talent: th.stats.map(() => null), tierUp: 0, awakened: null, evolution: null, awarded: false,
       points: 0, w: 0, l: 0, d: 0, injured: false, ally: false, bossWin: false, log: [], narr: { big: "", text: "Press Spin to roll your first trait. Every pick can unlock bonus wheels and change the wheels after it." }, ending: null, ai: null, showAI: true
     };
@@ -1186,6 +1212,35 @@
   }
 
   // ================= portrait =================
+  // during play the card shows a silhouette in the power's color; the face is revealed at the end
+  function drawMystery(canvas, L) {
+    const W = 300, H = 300, d = window.devicePixelRatio || 1;
+    const px = Math.max(1, Math.round((canvas.clientWidth || 300) * d));
+    if (canvas.width !== px) { canvas.width = px; canvas.height = px; }
+    const c = canvas.getContext("2d");
+    c.setTransform(px / W, 0, 0, px / H, 0, 0);
+    c.clearRect(0, 0, W, H);
+    const R = rng(L.seed);
+    let g = c.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, shade(L.aura, -0.8)); g.addColorStop(1, shade(L.aura, -0.45));
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+    c.save(); c.globalAlpha = 0.14; c.strokeStyle = "#fff";
+    for (let i = 0; i < 40; i++) { const a = R() * TAU, r1 = 80 + R() * 40; c.lineWidth = 0.5 + R() * 1.4; c.beginPath(); c.moveTo(150 + Math.cos(a) * r1, 150 + Math.sin(a) * r1); c.lineTo(150 + Math.cos(a) * 320, 150 + Math.sin(a) * 320); c.stroke(); }
+    c.restore();
+    g = c.createRadialGradient(150, 160, 20, 150, 160, 170);
+    g.addColorStop(0, rgba(L.aura, 0.55)); g.addColorStop(1, rgba(L.aura, 0));
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+    c.save(); c.shadowColor = L.aura; c.shadowBlur = 18; c.fillStyle = "#0b0816";
+    c.beginPath(); c.moveTo(18, H + 2); c.bezierCurveTo(26, 268, 88, 250, 128, 246); c.lineTo(172, 246); c.bezierCurveTo(212, 250, 274, 268, 282, H + 2); c.closePath(); c.fill();
+    c.fillRect(132, 205, 36, 50);
+    c.beginPath(); c.moveTo(80, 160); c.bezierCurveTo(62, 30, 238, 30, 220, 160); c.quadraticCurveTo(212, 205, 150, 238); c.quadraticCurveTo(88, 205, 80, 160); c.closePath(); c.fill();
+    for (let k = 0; k < 7; k++) { const a = (-165 + k * 25) * Math.PI / 180; c.beginPath(); c.moveTo(150 + Math.cos(a - 0.2) * 60, 118 + Math.sin(a - 0.2) * 60); c.lineTo(150 + Math.cos(a) * (88 + R() * 18), 118 + Math.sin(a) * (88 + R() * 18)); c.lineTo(150 + Math.cos(a + 0.2) * 60, 118 + Math.sin(a + 0.2) * 60); c.closePath(); c.fill(); }
+    c.restore();
+    c.fillStyle = rgba(L.aura, 0.9); c.font = "800 72px Cinzel, Georgia, serif"; c.textAlign = "center"; c.textBaseline = "middle";
+    c.fillText("?", 150, 160);
+  }
+  const showMystery = () => run.phase !== "done" || state.aiBusy;
+  function drawCardArt() { const L = look(); if (showMystery()) drawMystery($("portrait"), L); else drawPortrait($("portrait"), L); }
   function drawPortrait(canvas, L, cssSize) {
     const W = 300, H = 300;
     const d = window.devicePixelRatio || 1;
@@ -1374,7 +1429,7 @@
       ctx.save(); ctx.translate(c, c); ctx.rotate(s + a / 2);
       ctx.fillStyle = "#fff8ec"; ctx.font = `700 ${fs}px Figtree, "Segoe UI", sans-serif`;
       ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 3;
-      ctx.fillText(fitText(opts[i], R * 0.66), R - 16, 0);
+      ctx.fillText(fitText(cap(String(opts[i])), R * 0.66), R - 16, 0);
       ctx.restore();
     }
     ctx.beginPath(); ctx.arc(c, c, R, 0, TAU); ctx.strokeStyle = "#eab54d"; ctx.lineWidth = 5; ctx.stroke();
@@ -1433,9 +1488,20 @@
     const col = { win: "#3c8a58", clutch: "#c9902a", draw: "#55598a", loss: "#a8323f" };
     return { title: "Battle", segs, opts: segs.map((s) => label[s.k]), colors: segs.map((s) => col[s.k]), weights: segs.map((s) => s.w) };
   }
+  const chapterName = (i) => { const st = STEPS[i]; return st.ch != null ? path().chapters[st.ch] : st.name; };
+  function foePool(pool) {
+    const F = path().foes;
+    if (pool === "side") return F.early.slice(-3).concat(F.mid.slice(0, 3)).map(([n, p]) => [n, p + 6]);
+    return F[pool];
+  }
+  function rivalFoe(n) {
+    const r = tv(T().vis.rival) || "Your rival";
+    const p = clamp(overall() + (n === 1 ? (hash(run.seed + "rival") % 9) - 4 : 10), 10, 99);
+    return [cap(r), p, true];
+  }
   function endingWheel() {
     const P = path();
-    const g = clamp(2 + run.w + (run.bossWin ? 1 : 0), 1, 7);
+    const g = clamp(run.w + (run.bossWin ? 1 : 0) + (run.rivalBeaten ? 1 : 0), 1, 7);
     let gi = 0, bi = 0;
     const segs = spread(g, 8).map((isG) => isG ? { good: true, t: P.endings.good[gi++ % P.endings.good.length] } : { good: false, t: P.endings.bad[bi++ % P.endings.bad.length] });
     return { title: "Ending", segs, opts: segs.map((s) => s.t), colors: segs.map((s, i) => s.good ? (i % 2 ? "#c9902a" : "#3c8a58") : (i % 2 ? "#5a2a3a" : "#3b2a4a")) };
@@ -1453,11 +1519,14 @@
     }
     if (run.phase === "journey") {
       const st = STEPS[run.step], P = path();
-      if (st.startsWith("battle")) return run.foe ? battleWheel() : listWheel("Opponent", P.foes[st.split(":")[1]].map((f) => f[0]));
-      if (st === "train") return listWheel("Training", P.training.map((t) => t[0]));
-      if (st === "twist") return listWheel("Twist", P.twists.map((t) => t[0]));
-      if (st === "evolve") return listWheel("Evolution", evolveOptions());
-      if (st === "ending") return endingWheel();
+      if (st.k === "battle") return run.foe ? battleWheel() : listWheel("Opponent", foePool(st.pool).map((f) => f[0]));
+      if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
+      if (st.k === "train") return listWheel("Training", P.training.map((t) => t[0]));
+      if (st.k === "twist") return listWheel("Twist", P.twists.map((t) => t[0]));
+      if (st.k === "recruit") return listWheel("Ally", T().allies.map((t) => t[0]));
+      if (st.k === "loot") return listWheel("Treasure", T().loot.map((t) => t[0]));
+      if (st.k === "evolve") return listWheel("Evolution", evolveOptions());
+      if (st.k === "ending") return endingWheel();
     }
     return state.wheel;
   }
@@ -1572,16 +1641,26 @@
 
   async function journeyStep() {
     const P = path(), st = STEPS[run.step];
-    const head = `Chapter ${run.step + 1}: ${P.chapters[run.step]}`;
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
     const vars = () => ({ foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: fill(T().move), clutch: T().clutch });
-    if (st.startsWith("battle")) {
-      const pool = P.foes[st.split(":")[1]];
+    if (st.k === "battle" || st.k === "rival") {
       if (!run.foe) {
-        const k = await spin(listWheel("Opponent", pool.map((f) => f[0])));
-        run.foe = pool[k];
-        const t = fill(pick(MEET), vars());
-        logAdd(head, t);
-        setNarr(run.foe[0], `${t} Your power: ${playerPower()}. Chance to win: ${Math.round(winChance() * 100)}%.`);
+        if (st.k === "rival") {
+          run.foe = rivalFoe(st.n);
+          const t = st.n === 1
+            ? fill("{foe} blocks the road. They've heard about {first}, and they want to see if the stories are true. Power {fp}.", vars())
+            : fill("{foe} is back, stronger, and this time it's personal. Power {fp}.", vars());
+          logAdd(head, t);
+          setNarr(run.foe[0], `${t} Your power: ${playerPower()}. Chance to win: ${Math.round(winChance() * 100)}%.`);
+          state.wheel = battleWheel(); state.winner = -1;
+        } else {
+          const pool = foePool(st.pool);
+          const k = await spin(listWheel("Opponent", pool.map((f) => f[0])));
+          run.foe = pool[k];
+          const t = fill(pick(MEET), vars());
+          logAdd(head, t);
+          setNarr(run.foe[0], `${t} Your power: ${playerPower()}. Chance to win: ${Math.round(winChance() * 100)}%.`);
+        }
       } else {
         const bw = battleWheel();
         const k = await spin(bw);
@@ -1592,25 +1671,33 @@
         else if (o === "clutch") { run.w++; run.points += 3; run.injured = false; run.bonus = run.bonus.map((b) => b + 4); t = fill(pick(CLUTCH), v); fx = `${T().clutch}! Victory, +4 to every stat, +3 upgrade points.`; }
         else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(DRAW), v); fx = "Draw. +1 upgrade point."; }
         else { run.l++; run.points += 1; run.injured = true; t = fill(pick(LOSS), v); fx = "Defeat. Injured for the next fight, +1 upgrade point."; bad = true; }
-        if (st === "battle:boss" && (o === "win" || o === "clutch")) run.bossWin = true;
+        if (st.pool === "boss" && (o === "win" || o === "clutch")) run.bossWin = true;
+        if (st.k === "rival" && (o === "win" || o === "clutch")) {
+          run.rivalWins = (run.rivalWins || 0) + 1;
+          if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel."; }
+        }
         run.ally = false;
         logAdd(head, t, fx, bad);
         setNarr(bw.opts[k], t + " " + fx);
         if (!bad) chime(o === "clutch" ? [523, 784, 1046, 1568] : [660, 990]);
         run.foe = null; run.step++;
       }
-    } else if (st === "train" || st === "twist") {
-      const list = st === "train" ? P.training : P.twists;
-      const k = await spin(listWheel(st === "train" ? "Training" : "Twist", list.map((x) => x[0])));
+    } else if (st.k === "train" || st.k === "twist" || st.k === "recruit" || st.k === "loot") {
+      const list = st.k === "train" ? P.training : st.k === "twist" ? P.twists : st.k === "recruit" ? T().allies : T().loot;
+      const title = { train: "Training", twist: "Twist", recruit: "Ally", loot: "Treasure" }[st.k];
+      const k = await spin(listWheel(title, list.map((x) => x[0])));
       const [txt, e] = list[k];
       apply(e);
-      if (st === "train") run.points += 1;
-      const fx = describe(e) + (st === "train" ? ", +1 upgrade point." : ".");
+      if (st.k === "train") run.points += 1;
+      let line = txt + ".";
+      if (st.k === "recruit") { run.companion = txt; line = fill("{a} joins {first}'s side.", { a: txt }); }
+      if (st.k === "loot") { run.items = (run.items || []).concat(txt); line = fill("{first} finds {a}.", { a: txt.charAt(0).toLowerCase() + txt.slice(1) }); }
+      const fx = describe(e) + (st.k === "train" ? ", +1 upgrade point." : ".");
       const bad = !!(e.inj || (e.v && e.v < 0));
-      logAdd(head, txt + ".", fx, bad);
+      logAdd(head, line, fx, bad);
       setNarr(txt, fx);
       run.step++;
-    } else if (st === "evolve") {
+    } else if (st.k === "evolve") {
       const opts = evolveOptions();
       const k = await spin(listWheel("Evolution", opts));
       run.evolution = opts[k];
@@ -1621,7 +1708,7 @@
       setNarr(run.evolution, t + " " + fx);
       chime([523, 659, 784, 1046]);
       run.step++;
-    } else if (st === "ending") {
+    } else if (st.k === "ending") {
       const ew = endingWheel();
       const k = await spin(ew);
       const seg = ew.segs[k];
@@ -1632,9 +1719,10 @@
       setNarr(seg.t, `${rec} ${legacy}`);
       if (seg.good) chime([523, 659, 784, 1046, 1318]);
       addHistory();
+      const canAI = !inClaude && state.ai.key;
+      $("aiMsg").textContent = canAI ? "" : inClaude ? "Portrait revealed. The AI portrait needs the GitHub Pages or downloaded version, since claude.ai can't reach OpenAI." : "Portrait revealed. Add an OpenAI key under \"AI portraits\" below, then press Final portrait for the painted version.";
       persist(); render();
-      if (!inClaude && state.ai.key) genAI();
-      else $("aiMsg").textContent = inClaude ? "The final AI portrait works in the GitHub Pages or downloaded version. This claude.ai page can't reach OpenAI." : "Add your OpenAI key under \"AI portraits\" below, then press Final portrait.";
+      if (canAI) genAI();
       return;
     }
     persist(); render();
@@ -1774,7 +1862,7 @@
 
   // ================= render =================
   function render() {
-    if (run.results.length !== baseCats().length || run.talent.length !== T().stats.length) run = newRun();
+    if (run.results.length !== baseCats().length || run.talent.length !== T().stats.length || run.v !== 3) run = newRun();
     const busy = state.spinning || state.auto;
     if (!busy && state.winner === -1) state.wheel = upcomingWheel();
     renderPrompt(); renderButtons(busy); renderNarr(); renderCard(); renderUpgrades(); renderTraits(busy); renderStory(); renderEditor(); renderHistory();
@@ -1792,17 +1880,19 @@
       const all = slots(), done = all.filter((x) => slotVal(x) != null).length;
       eb = "Create your character";
       if (s) { const w = slotWheel(s); title = s.k === "sub" ? `Bonus wheel: ${w.title}` : s.k === "tal" ? `Talent: ${statNames()[s.i]}` : w.title; sub = s.k === "tal" ? `Talent wheel, 10 tiers from useless to legendary · ${done} of ${all.length} spun` : `${done} of ${all.length} spun`; }
-      else { title = "Ready for the journey"; sub = `${P.chapters.length} chapters ahead`; }
+      else { title = "Ready for the journey"; sub = `${STEPS.length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = STEPS[run.step];
-      eb = `Chapter ${run.step + 1} of ${STEPS.length} · ${P.chapters[run.step]}`;
-      if (st.startsWith("battle")) {
-        if (!run.foe) title = "Spin for your opponent";
+      eb = `Chapter ${run.step + 1} of ${STEPS.length} · ${chapterName(run.step)}`;
+      if (st.k === "battle" || st.k === "rival") {
+        if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : "Spin for your opponent";
         else { title = `${run.foe[0]} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
-      } else if (st === "train") title = "Spin your training";
-      else if (st === "twist") title = "Spin the twist of fate";
-      else if (st === "evolve") title = "Spin your power evolution";
-      else if (st === "ending") { title = "Spin your ending"; sub = "Every win puts more good endings on the wheel"; }
+      } else if (st.k === "train") title = "Spin your training";
+      else if (st.k === "twist") title = "Spin the twist of fate";
+      else if (st.k === "recruit") title = "Spin for a new ally";
+      else if (st.k === "loot") title = "Spin for treasure";
+      else if (st.k === "evolve") title = "Spin your power evolution";
+      else if (st.k === "ending") { title = "Spin your ending"; sub = "Every win puts more good endings on the wheel"; }
     } else {
       eb = "The end"; title = run.ending || ""; sub = `${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`;
     }
@@ -1815,7 +1905,8 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
     else if (run.phase === "journey") {
       const st = STEPS[run.step];
-      label = st.startsWith("battle") ? (run.foe ? "Fight!" : "Find opponent") : st === "train" ? "Train" : st === "twist" ? "Spin fate" : st === "evolve" ? "Evolve" : "Reveal ending";
+      label = st.k === "battle" ? (run.foe ? "Fight!" : "Find opponent") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+        : { train: "Train", twist: "Spin fate", recruit: "Recruit", loot: "Search", evolve: "Evolve", ending: "Reveal ending" }[st.k];
     } else label = "New character";
     p.textContent = label; p.disabled = busy;
     $("spinAll").hidden = run.phase !== "create" || isComplete();
@@ -1849,10 +1940,12 @@
     $("cName").textContent = run.name;
     $("cTier").textContent = tierInfo().label;
     const L = look();
-    drawPortrait($("portrait"), L);
+    drawCardArt();
     const img = $("aiImg");
     if (run.ai && run.showAI) { if (img.getAttribute("src") !== run.ai.src) img.src = run.ai.src; img.hidden = false; } else img.hidden = true;
     $("cAura").textContent = tv(th.vis.aura) || "Unknown power";
+    $("artNote").textContent = run.phase !== "done" ? "Face revealed at the end of the journey" : state.aiBusy ? "Painting the final portrait…" : "";
+    $("artNote").hidden = !$("artNote").textContent;
     const aw = $("cAwake"); aw.hidden = !run.awakened; aw.textContent = run.awakened || "";
     $("cTitle").textContent = complete ? fill(th.titleTpl) : "A character still taking shape…";
     const chips = $("cChips"); chips.innerHTML = "";
@@ -1860,7 +1953,9 @@
     th.chips.forEach((n) => { const v = tv(n); if (v) chipVals.push(cap(v)); });
     Object.values(run.subs).forEach((s) => { if (s.value) chipVals.push(s.value); });
     if (run.evolution) chipVals.push(run.evolution);
-    chipVals.slice(0, 7).forEach((v) => { const s = document.createElement("span"); s.className = "chip" + (v === run.evolution ? " new" : ""); s.textContent = v; chips.append(s); });
+    if (run.companion) chipVals.push("Ally: " + run.companion);
+    (run.items || []).forEach((x) => chipVals.push(x));
+    chipVals.slice(0, 9).forEach((v) => { const s = document.createElement("span"); s.className = "chip" + (v === run.evolution ? " new" : ""); s.textContent = v; chips.append(s); });
     const st = $("cStats"); st.innerHTML = "";
     const vals = complete ? stats() : null;
     statNames().forEach((name, k) => {
@@ -1926,6 +2021,8 @@
     });
     if (isComplete()) {
       Object.entries(run.hidden).forEach(([k, v]) => row("hid", k, v, null));
+      if (run.companion) row("sub", "Ally", run.companion, null);
+      (run.items || []).forEach((x) => row("sub", "Treasure", x, null));
       if (run.evolution) row("sub", "Evolution", run.evolution, null);
       if (run.awakened) row("sub", "Awakening", run.awakened, null);
     }
@@ -2076,12 +2173,12 @@
   // ================= boot =================
   try {
     const r = JSON.parse(localStorage.getItem(RUNSTORE));
-    if (r && r.theme === state.theme && Array.isArray(r.results) && r.results.length === baseCats().length && r.subs && r.hidden && r.narr && Array.isArray(r.talent) && r.talent.length === T().stats.length && r.bonus.length === T().stats.length) run = r;
+    if (r && r.theme === state.theme && Array.isArray(r.results) && r.results.length === baseCats().length && r.subs && r.hidden && r.narr && Array.isArray(r.talent) && r.talent.length === T().stats.length && r.bonus.length === T().stats.length && r.v === 3) run = r;
   } catch (e) { /* no saved run */ }
   if (!run) run = newRun();
 
-  if (window.ResizeObserver) { new ResizeObserver(() => drawWheel()).observe(cv); new ResizeObserver(() => drawPortrait($("portrait"), look())).observe($("portrait")); }
-  else window.addEventListener("resize", () => { drawWheel(); drawPortrait($("portrait"), look()); });
+  if (window.ResizeObserver) { new ResizeObserver(() => drawWheel()).observe(cv); new ResizeObserver(() => drawCardArt()).observe($("portrait")); }
+  else window.addEventListener("resize", () => { drawWheel(); drawCardArt(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWheel);
 
   fillEditForm();
