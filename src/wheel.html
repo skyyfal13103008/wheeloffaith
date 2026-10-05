@@ -409,6 +409,31 @@
     ],
     say: { Origin: "Born in {v}.", Magic: "The grimoire answers with {v} magic.", Grimoire: "A {v} grimoire floats down from the tower.", Squad: "Recruited by the {v}.", Allegiance: "Sworn to the {v}.", Personality: "Personality: {v|lower}.", Rank: "Starting rank: {v}." },
     lines: {
+      "Elf reincarnation": "An elf, reincarnated five hundred years after their people were massacred.",
+      "Witch": "A witch from the Witches' Forest, where the Witch Queen's word is law.",
+      "Half-dwarf": "Half-dwarf. When they get hungry enough, they grow.",
+      "Hage village": "Hage village, in the Forsaken Realm. The same village two future legends came from.",
+      "the Heart Kingdom": "The Heart Kingdom, where spirits and mages live side by side.",
+      "the Diamond Kingdom": "The Diamond Kingdom, which turns children into magic weapons.",
+      "Fire": "Fire Magic, the pride of House Vermillion.",
+      "Water": "Water Magic. Gentle, until it isn't.",
+      "Dark": "Dark Magic, like Captain Yami's: it cuts through magic and space.",
+      "Spatial": "Spatial Magic. Doors anywhere.",
+      "Star": "Star Magic, from the Spade Kingdom's stars.",
+      "Mirror": "Mirror Magic. Two of them, three, ten.",
+      "Copy": "Copy Magic. Whatever they see, they can use.",
+      "Mana Zone controller": "Mana Zone: the mana around them becomes part of their spell.",
+      "Ki-reading swordsman": "Ki: sensing the life force of everything around them, the way Asta learned in the Heart Kingdom.",
+      "Black Bulls": "The Black Bulls, under Captain Yami Sukehiro. The worst squad, and a real family.",
+      "Golden Dawn": "The Golden Dawn, under Captain William Vangeance. The kingdom's top squad on paper.",
+      "Silver Eagles": "The Silver Eagles, under Captain Nozel Silva. Royals, mostly.",
+      "Crimson Lion Kings": "The Crimson Lion Kings, the Vermillion family's squad. Loud, hot-blooded, and proud of it.",
+      "Blue Rose Knights": "The Blue Rose Knights, under Captain Charlotte Roselei. Thorns first, questions later.",
+      "Green Praying Mantis": "The Green Praying Mantis, under Captain Jack the Ripper. They live for a good fight.",
+      "Coral Peacocks": "The Coral Peacocks, under Captain Dorothy Unsworth, who is probably asleep.",
+      "Purple Orcas": "The Purple Orcas. Their last captain turned out to be a traitor. Awkward.",
+      "Aqua Deer": "The Aqua Deer, under Captain Rill Boismortier, who paints his spells.",
+      "Dark Triad's army": "Sworn to the Dark Triad: Dante, Vanica and Zenon Zogratis.",
       "Supreme devil": "A supreme devil. One of the rulers of the underworld is in that grimoire.",
       "Astaroth": "Astaroth. The strongest devil of all, and it chose them.",
       "Royal": "Royal blood. Mana pours out of them.",
@@ -436,6 +461,7 @@
         "the Heart Kingdom": ["Spirit Guardian path", ["No spirit, yet", "Trained by Queen Loropechika's guardians", "One of the Spirit Guardians"], true],
         "the Forsaken Realm": ["Street past", ["Church orphan", "Pickpocket", "Gang runner"]],
         "the Spade Kingdom": ["Under the Dark Triad", ["Resistance member", "Dark Triad soldier", "Lab subject"]],
+        "Hage village": ["Hage upbringing", ["Raised at the church by Father Orsi", "Grew up with two orphans who became legends", "Ran the fields"]],
         "the Diamond Kingdom": ["Diamond upbringing", ["Magic-enhancement experiment", "Shining General's apprentice", "Deserter"]]
       },
       Magic: {
@@ -461,6 +487,7 @@
         "High-rank devil": ["Devil", ["Zagred", "Megicula"]],
         "Supreme devil": ["Devil", ["Lucifero", "Beelzebub", "Astaroth"]]
       },
+      "Under the Dark Triad": { "Dark Triad soldier": ["Your master", ["Dante Zogratis (Body Magic)", "Vanica Zogratis (Blood Magic)", "Zenon Zogratis (Bone Magic)"]] },
       Devil: { "*": ["Contract", ["Partial possession", "Partial Devil Union", "Full Devil Union", "The devil owns your heart"], true] },
       Squad: {
         "Black Bulls": ["Black Bulls life", ["Babysat by Captain Yami", "Drinking buddy of Vanessa", "Gets yelled at by Magna", "Trains with Asta every morning"]],
@@ -487,13 +514,16 @@
       { when: ["Magic", "Anti Magic"], cat: "Fighting style", opts: ["Anti-magic swordsman", "Anti-magic swordsman", "Ki-reading swordsman", "Mana Method brawler"] }
     ],
     vis: { tier: "Rank", aura: "Magic", costume: "Squad", rival: "Rival" },
-    allies: [["A Black Bulls brawler", { s: 3, v: 8 }], ["A Heart Kingdom healer", { heal: true, all: 3 }], ["A Golden Dawn strategist", { s: 5, v: 8 }], ["A spirit guardian", { s: 0, v: 8 }], ["A grumpy dwarf blacksmith", { s: 2, v: 8 }], ["A runaway witch", { s: 1, v: 8 }]],
-    loot: [["A demon-slayer blade", { s: 2, v: 10 }], ["A page from the first Wizard King's grimoire", { s: 1, v: 10 }], ["A stash of mana potions", { s: 0, v: 8 }], ["Elf treasure", { all: 3 }], ["A cursed artifact", { all: 6, inj: true }], ["A chest of gold", { pts: 3 }]],
+    allies: [["Asta", { s: 3, v: 8 }], ["Yuno", { s: 0, v: 8 }], ["Noelle Silva", { s: 1, v: 8 }], ["Luck Voltia", { s: 4, v: 8 }], ["Finral Roulacase", { s: 5, v: 6, all: 2 }], ["Mimosa Vermillion", { heal: true, all: 3 }], ["Magna Swing", { s: 3, v: 6 }], ["Secre Swallowtail", { s: 5, v: 8 }], ["Charmy Pappitson", { heal: true, s: 3, v: 5 }]],
+    loot: [["A demon-slayer blade", { s: 2, v: 10 }], ["A page from the first Wizard King's grimoire", { s: 1, v: 10 }], ["Mana potions from the Witches' Forest", { s: 0, v: 8 }], ["Elf treasure", { all: 3 }], ["A cursed artifact from the Dark Triad", { all: 6, inj: true }], ["A chest of gold from a dungeon", { pts: 3 }]],
     styles: {
       "Pure caster": 1, "Spell-sword": 2, "Ki-reading swordsman": 4, "Mana Zone controller": 0, "Mana Method brawler": 3, "Healer and support": 5,
       "Sealing and trap tactician": 5, "Creation magic summoner": 1, "Anti-magic swordsman": 2, "Long-range artillery mage": 0, "Mana Skin defender": 3, "Spatial ambusher": 4
     },
     perks: {
+      "Lab subject": { n: "Experiment survivor", d: "The Dark Triad's experiments left them stronger. +6 power.", power: 6 },
+      "Dante Zogratis (Body Magic)": { n: "Dante's soldier", d: "+3 power.", power: 3 },
+      "Grew up with two orphans who became legends": { n: "Hage rivalry", d: "Growing up next to future legends. +3 power after each defeat.", adapt: 3 },
       "Royal": { n: "Royal mana", d: "Royal blood carries enormous mana. +12 Mana.", stat: [0, 12], extra: ["Royal mana", 88] },
       "Peasant": { n: "Peasant grit", d: "Nobody expected anything from them. Each defeat makes them stronger: +3 power.", adapt: 3 },
       "House Kira (the royal family)": { n: "Crown's favor", d: "The royal family. +2 upgrade points.", pts: 2 },
@@ -535,16 +565,38 @@
     titleTpl: "{Magic} mage of the {Squad}",
     chips: ["Race", "Grimoire", "Devil/Elemental spirit", "Fighting style"],
     pathCat: "Origin",
+    scenes: {
+      early: ["The grimoire tower glows at dawn. A new Magic Knight's first mission begins.", "A border village is under attack, and the Magic Knights send whoever is free.", "A dungeon has risen near the Diamond Kingdom border. Treasure, traps, and enemy soldiers."],
+      train: ["Training never stops in the Clover Kingdom."],
+      train2: ["One last push before the final battle."],
+      recruit: ["A fellow Magic Knight is assigned to {first}'s missions."],
+      side: ["The Black Bulls' hideout is on fire again. Then an urgent mission comes in."],
+      rival1: ["{Rival} blocks the corridor of the Magic Knights headquarters."],
+      mid: ["The Magic Knights entrance exam. Every captain in the stands is watching {first}.", "The Royal Knights Selection Exam: teams of three, and only the best make it."],
+      loot: ["Deep in a dungeon, something glitters."],
+      evolve: ["{first}'s grimoire glows. A new page is writing itself."],
+      twist: ["A message arrives from Magic Knights headquarters. It's bad."],
+      late: ["The capital is burning. The elves have come back in the Magic Knights' own bodies.", "The Spade Kingdom's army crosses the border, led by the Dark Triad."],
+      rival2: ["{Rival} returns, stronger. This time it's personal."],
+      boss: ["The sky splits open. A gate to the underworld is opening."],
+      ending: ["When it's over, the Clover Kingdom remembers."]
+    },
+    battle: {
+      win: ["{first} pours everything into {sig}. {foe} is blasted out of the battlefield.", "{foe} sneers at a {Rank}. {style} and {sig} change their mind fast.", "A long, ugly fight. {first} surpasses their limits and outlasts {foe}."],
+      loss: ["{foe}'s mana is overwhelming. {first} wakes up in the infirmary.", "{first} charges in with {sig}. {foe} saw it coming."],
+      clutch: ["{first} is on the ground, grimoire torn. Then they surpass their limits right here, right now. {sig} lands, and {foe} goes down."],
+      draw: ["Both mages run dry of mana at the same moment."]
+    },
     journey: {
       chapters: ["First mission", "Training arc", "Magic Knight exam", "Power evolution", "Twist of fate", "Kingdom war", "Final battle", "Epilogue"],
       foes: {
-        early: [["Bandit mage", 18], ["Rampaging mana beast", 22], ["Diamond Kingdom scout", 28], ["Dungeon guardian", 32], ["Eye of the Midnight Sun grunt", 26], ["Arrogant noble rival", 30]],
-        mid: [["Golden Dawn ace", 45], ["Royal Knight hopeful", 42], ["Diamond Shining General", 52], ["Elf vanguard", 50], ["Witch Queen's puppet", 48]],
-        late: [["Dark Triad general", 66], ["Spade Kingdom Dark Disciple", 62], ["Possessed captain", 70], ["Reincarnated elf legend", 64], ["Rampaging mid-rank devil", 68]],
-        boss: [["Dante of the Dark Triad", 86], ["Megicula", 90], ["Lucifero", 97], ["Your own grimoire's devil", 80], ["The elf king Patry", 84]]
+        early: [["A gang of bandit mages", 18], ["Mars of the Diamond Kingdom", 30], ["A dungeon guardian golem", 26], ["Eye of the Midnight Sun grunt", 24], ["An arrogant noble rival", 22], ["Heath Grice", 28]],
+        mid: [["Vetto, the Despair", 50], ["Fana, the Hatred", 46], ["Rades the Spirit", 44], ["Ladros", 48], ["Valtos", 42], ["Rhya the Disloyal", 52], ["Fuegoleon's reincarnated elf body", 54]],
+        late: [["Patry, reborn as an elf", 68], ["Dante Zogratis", 74], ["Vanica Zogratis", 72], ["Zenon Zogratis", 70], ["Megicula", 76], ["Licht, leader of the elves", 72]],
+        boss: [["Lucifero", 97], ["Lucius Zogratis", 98], ["Dante Zogratis in Devil Union", 88], ["Your own grimoire's devil", 82]]
       },
-      training: [["Mana Zone training with a captain", { s: 0, v: 8 }], ["Ki reading in the Heart Kingdom", { s: 4, v: 8 }], ["Muscle training with the Black Bulls", { s: 3, v: 10 }], ["Studied forbidden spell pages", { s: 1, v: 9 }], ["Sword drills with the Black Bulls", { s: 2, v: 10 }], ["Survived a month in the Forsaken Realm", { s: 5, v: 10 }], ["Learned a brand-new spell", { all: 3 }], ["Slacked off and ate a lot", { pts: 2 }]],
-      twists: [["Your captain vouches for you in front of the Wizard King", { ally: true }], ["The Wizard King notices you", { pts: 2 }], ["Your grimoire grows a new page", { s: 1, v: 10 }], ["Your best friend betrays the kingdom", { s: 5, v: 8 }], ["A devil whispers an offer, and you take it", { all: 6, inj: true }], ["Kidnapped by the Eye of the Midnight Sun", { inj: true, pts: 1 }], ["A witch lifts a curse on you", { heal: true, all: 2 }]],
+      training: [["Ki training with Captain Yami", { s: 4, v: 10 }], ["Mana Zone training with Mereoleona inside a volcano", { s: 0, v: 10 }], ["Studied ancient spells in the Royal Library", { s: 1, v: 10 }], ["Sword drills with the Black Bulls", { s: 2, v: 10 }], ["Training under the Heart Kingdom's Spirit Guardians", { s: 1, v: 8 }], ["Survived a month in the Forsaken Realm", { s: 5, v: 10 }], ["Learned a brand-new spell", { all: 3 }], ["Slacked off and ate a lot", { pts: 2 }]],
+      twists: [["The Royal Knights Selection Exam is announced", { pts: 2 }], ["Your grimoire grows a new page", { s: 1, v: 10 }], ["Elves reincarnate in the bodies of the Magic Knights", { inj: true, all: 4 }], ["Captain Yami is kidnapped by the Dark Triad", { s: 3, v: 8 }], ["A witch lifts a curse on you", { heal: true, all: 2 }], ["The Wizard King notices you", { ally: true }], ["A devil whispers an offer, and you take it", { all: 6, inj: true }], ["Your best friend betrays the kingdom", { s: 5, v: 8 }]],
       endings: { good: ["Becomes the Wizard King", "Captain of their own squad", "Saves the kingdom and goes home a hero", "Seals the devil for good"], bad: ["Swallowed by their devil", "Exiled to the Forsaken Realm", "Falls in the final war", "Defects to the Spade Kingdom"] }
     },
     paths: {
@@ -601,6 +653,26 @@
     ],
     say: { Origin: "They come from {v}.", "Cursed technique": "Innate technique: {v}.", "Restriction trade": "Heavenly Restriction: {v|lower}.", Domain: "Domain: {v|lower}.", Personality: "Personality: {v|lower}.", Grade: "Officially listed as {v}.", Infamy: "Wanted level: {v}." },
     lines: {
+      "Human": "Human. Most sorcerers are.",
+      "Incarnated sorcerer": "An incarnated sorcerer. A soul from a past era, living again in a modern body.",
+      "Cursed womb: Death Painting": "A Death Painting. Half curse, half human, born from an experiment a hundred and fifty years ago.",
+      "Cursed corpse": "A cursed corpse. Made, not born.",
+      "the Gojo clan": "The Gojo clan, one of the Big Three families of jujutsu.",
+      "the Zenin clan": "The Zenin clan. If you don't have a technique, you're not a Zenin.",
+      "the Kamo clan": "The Kamo clan, keepers of Blood Manipulation.",
+      "Ten Shadows": "Ten Shadows. In the Zenin clan, this technique once killed a Gojo heir.",
+      "Blood Manipulation": "Blood Manipulation, the Kamo clan's inherited technique.",
+      "Cursed Speech": "Cursed Speech. Every word is a weapon, and talking hurts.",
+      "Idle Transfiguration": "Idle Transfiguration. They can touch the shape of a soul.",
+      "Projection Sorcery": "Projection Sorcery. 24 frames per second, and you'd better keep up.",
+      "Disaster Flames": "Disaster Flames: a curse born from humanity's fear of the earth.",
+      "Shrine": "Shrine. The King of Curses' own technique.",
+      "Boogie Woogie": "Boogie Woogie. One clap and everything changes places.",
+      "Star Rage": "Star Rage: they can give their attacks virtual mass.",
+      "Divergent Fist": "Divergent Fist: the cursed energy hits a beat after the punch.",
+      "New Shadow Style (Simple Domain iaido)": "New Shadow Style, the school that teaches Simple Domain to ordinary sorcerers.",
+      "the Inverted Spear of Heaven": "The Inverted Spear of Heaven. It once cut through Infinity.",
+      "Colony ruler": "A Culling Game colony ruler. Everyone inside plays by their rules.",
       "Vessel": "A vessel. Something else lives in their body.",
       "All 20 fingers": "All twenty fingers. The King of Curses is complete.",
       "Unlimited Void": "Unlimited Void. Only one sorcerer in history has used it.",
@@ -628,6 +700,7 @@
         "the Kamo clan": ["Kamo standing", ["Heir of the Kamo bloodline", "Child of a concubine", "An elder's pawn"]],
         "a curse user cult": ["Cult role", ["Lackey", "Curse breeder", "Leader's heir", "Spy inside Jujutsu High"]],
         "the Culling Game": ["Player type", ["Sorcerer reincarnated from 1000 years ago", "Awakened modern player"]],
+        "an ordinary family": ["How you found jujutsu", ["Saw a curse as a kid", "A curse killed a relative", "Recruited by a teacher who saw your potential"]],
         "Tokyo Jujutsu High": ["Year", ["First-year", "Second-year", "Third-year", "Graduate on missions"]],
         "Kyoto Jujutsu High": ["Year", ["First-year", "Second-year", "Third-year", "Graduate on missions"]]
       },
@@ -646,6 +719,9 @@
         "Star Rage": ["Star Rage", ["Garuda", "Bom Ba Ye (virtual mass)"]],
         "Puppet Manipulation": ["Body", ["Fragile restricted body", "Ultimate Mechamaru"]]
       },
+      "Player type": { "*": ["Colony", ["Tokyo No. 1", "Tokyo No. 2", "Sendai", "Sakurajima"]] },
+      "Colony": { "*": ["Culling Game points", ["0 points", "15 points", "100 points (add a rule)", "Colony ruler"], true] },
+      "Year": { "*": ["Teacher", ["Satoru Gojo", "Kento Nanami (on missions)", "Masamichi Yaga", "Utahime Iori", "Yoshinobu Gakuganji"]] },
       "First shikigami": { "*": ["Mahoraga", ["Never dared summon Mahoraga", "Never dared summon Mahoraga", "Attempted the exorcism ritual", "Tamed the Eight-Handled Sword Divergent Sila Divine General Mahoraga"], true] },
       Domain: {
         "Simple Domain only": ["Anti-domain", ["Simple Domain", "Hollow Wicker Basket", "Falling Blossom Emotion"]],
@@ -673,13 +749,21 @@
       { when: ["Origin", "the Gojo clan"], cat: "Grade", opts: ["Semi-grade 1", "Grade 1", "Special Grade"] }
     ],
     vis: { tier: "Grade", aura: "Cursed technique", costume: "Origin", rival: "Rival" },
-    allies: [["Panda", { s: 3, v: 8 }], ["A Kyoto barrier specialist", { s: 1, v: 8 }], ["A teleporting first-year", { s: 4, v: 8 }], ["A cursed corpse bodyguard", { s: 3, v: 6, all: 2 }], ["A shikigami that likes you", { s: 0, v: 8 }], ["A cursed tool smith", { s: 2, v: 8 }]],
-    loot: [["A Special Grade cursed tool", { s: 2, v: 10 }], ["One of Sukuna's fingers", { all: 6, inj: true }], ["A forbidden technique scroll", { s: 1, v: 10 }], ["A Death Painting womb", { s: 0, v: 8 }], ["A box of sealing talismans", { s: 5, v: 6, all: 2 }], ["The higher-ups' hush money", { pts: 3 }]],
+    allies: [["Yuji Itadori", { s: 3, v: 8 }], ["Megumi Fushiguro", { s: 1, v: 8 }], ["Nobara Kugisaki", { s: 2, v: 8 }], ["Maki Zenin", { s: 2, v: 8 }], ["Panda", { s: 3, v: 8 }], ["Toge Inumaki", { s: 0, v: 8 }], ["Kinji Hakari", { all: 3 }], ["Yuta Okkotsu", { s: 0, v: 10 }], ["Choso", { s: 1, v: 6, all: 2 }]],
+    loot: [["The Inverted Spear of Heaven", { s: 2, v: 10 }], ["One of Sukuna's fingers", { all: 6, inj: true }], ["A Death Painting womb", { s: 0, v: 8 }], ["The Prison Realm", { pts: 3 }], ["A forbidden technique scroll", { s: 1, v: 10 }], ["A stack of Culling Game points", { pts: 2, all: 2 }]],
     styles: {
       "Divergent Fist": 3, "Kendo with cursed tools": 2, "Shikigami commander": 1, "Barrier specialist": 5, "New Shadow Style (Simple Domain iaido)": 2, "Grappler": 3,
       "Cursed energy gunner": 2, "Spear and chain fighter": 2, "Puppet controller": 1, "Ranged cursed energy": 0, "Body enhancement brawler": 4, "Reverse Cursed Technique medic": 0
     },
     perks: {
+      "100 points (add a rule)": { n: "Rule maker", d: "Spent 100 points to add a rule to the Culling Game. +2 upgrade points.", pts: 2 },
+      "Colony ruler": { n: "Colony ruler", d: "Nobody leaves their colony without their say. +5 power.", power: 5 },
+      "Satoru Gojo": { n: "Taught by the strongest", d: "+4 to every stat.", all: 4 },
+      "Kento Nanami (on missions)": { n: "Nanami's ratio lessons", d: "Overtime makes them stronger. +6 IQ.", stat: [5, 6] },
+      "the Inverted Spear of Heaven": { n: "Inverted Spear of Heaven", d: "A Special Grade cursed tool that cancels any cursed technique it touches. +8 power in the biggest fights.", boss: 8 },
+      "Playful Cloud": { n: "Playful Cloud", d: "A Special Grade three-section staff whose power comes from the wielder's strength. +6 Strength.", stat: [3, 6] },
+      "the Split Soul Katana": { n: "Split Soul Katana", d: "Cuts the soul directly, ignoring how hard the body is. +5 power.", power: 5 },
+      "the Chain of a Thousand Miles": { n: "Chain of a Thousand Miles", d: "A chain with no end. +6 Weapon skill.", stat: [2, 6] },
       "1 finger": { n: "Sukuna's finger", d: "One finger of the King of Curses. +2 power.", power: 2 },
       "5 fingers": { n: "Five fingers", d: "Sukuna stirs. +4 power.", power: 4 },
       "15 fingers": { n: "Fifteen fingers", d: "The King of Curses is nearly whole inside them. +7 power.", power: 7, extra: ["Sukuna's fingers", 88] },
@@ -723,16 +807,38 @@
     titleTpl: "{Grade}, {Cursed technique} user",
     chips: ["Being", "Domain name/Domain", "Fighting style"],
     pathCat: "Origin",
+    scenes: {
+      early: ["A school hallway at night. Something in the walls is breathing.", "A Curtain falls over a rundown building. Inside, a curse has been feeding for weeks.", "The juvenile detention center, in the rain. A cursed womb is about to hatch."],
+      train: ["Jujutsu High's training grounds, before sunrise."],
+      train2: ["Between disasters, there's one more chance to get stronger."],
+      recruit: ["A new face is assigned to {first}'s missions."],
+      side: ["Extra missions pile up. The higher-ups don't care that {first} hasn't slept."],
+      rival1: ["{Rival} is waiting at Jujutsu High's gates."],
+      mid: ["The Kyoto Goodwill Event: Tokyo versus Kyoto, and nobody is pulling punches.", "The Goodwill Event turns real when special grade curses crash it."],
+      loot: ["Deep in a sealed storehouse, something cursed is waiting."],
+      evolve: ["Something about {first}'s technique finally clicks."],
+      twist: ["October 31st. Shibuya. Nothing will ever be the same."],
+      late: ["Shibuya on Halloween night. Curtains cover the whole district, and the subway is full of transfigured people.", "A Culling Game colony: barriers, points, and players from a thousand years ago."],
+      rival2: ["{Rival} is back, stronger, and this time it's personal."],
+      boss: ["Shinjuku, December 24th. The final battle of the modern era of jujutsu."],
+      ending: ["When it's over, the jujutsu world counts its dead and its survivors."]
+    },
+    battle: {
+      win: ["{first} closes the distance with {style} and finishes it with {sig}. {foe} disintegrates.", "{foe} expected a {Grade} sorcerer. They got {sig}.", "Cursed energy flares around {weapon}. One clean hit, and {foe} is exorcised."],
+      loss: ["{foe}'s cursed energy is overwhelming. {first} wakes up in Shoko's infirmary.", "{first} commits to {sig} too early. {foe} reads it and punishes them hard."],
+      clutch: ["The distortion hits within a millionth of a second. {clutch}. Cursed energy sparks black, and {foe} flies through three walls."],
+      draw: ["Both sides run out of cursed energy at once. {first} and {foe} stagger apart."]
+    },
     journey: {
       chapters: ["First exorcism", "Training arc", "Kyoto Goodwill Event", "Power evolution", "Twist of fate", "Shibuya Incident", "Final battle", "Epilogue"],
       foes: {
-        early: [["Grade 4 curse swarm", 15], ["Grade 3 curse", 20], ["Cursed womb", 30], ["Curse user thug", 25], ["Grade 2 curse", 32], ["Fly-head curse", 12]],
-        mid: [["Kyoto school rival", 42], ["Grade 1 curse", 50], ["Disgraced Zenin heir", 46], ["Cursed spirit of a lake", 48], ["Rogue sorcerer", 44]],
-        late: [["Special Grade cursed spirit", 68], ["Army of transfigured humans", 58], ["Death Painting womb", 62], ["Curse user with a domain", 66], ["Culling Game player", 64]],
-        boss: [["Sukuna, all twenty fingers", 98], ["Kenjaku", 90], ["Mahoraga", 88], ["A Special Grade curse born from fear", 82]]
+        early: [["Grade 4 curse swarm", 15], ["Fly Heads", 12], ["A cursed womb at the juvenile detention center", 30], ["Eso and Kechizu", 32], ["A Grade 2 curse haunting a school", 24], ["Junpei's bullies' curse", 20]],
+        mid: [["Aoi Todo", 48], ["Noritoshi Kamo", 44], ["Hanami", 54], ["Dagon", 50], ["Haruta Shigemo", 36], ["Choso", 52], ["Mai Zenin", 34]],
+        late: [["Jogo", 66], ["Mahito", 68], ["Naoya Zenin, cursed spirit form", 64], ["Hajime Kashimo", 74], ["Ryu Ishigori", 70], ["Uro Takako", 62], ["Hiromi Higuruma", 70], ["Hana Kurusu as Angel", 66]],
+        boss: [["Ryomen Sukuna, all twenty fingers", 99], ["Kenjaku", 92], ["Eight-Handled Sword Divergent Sila Divine General Mahoraga", 90], ["Yorozu", 84]]
       },
-      training: [["Movie marathon while keeping cursed energy steady", { s: 0, v: 9 }], ["Sparring with Panda", { s: 3, v: 9 }], ["Learned Reverse Cursed Technique", { heal: true, s: 4, v: 8 }], ["Studied barrier techniques", { s: 1, v: 10 }], ["Cursed tool drills with Maki", { s: 2, v: 10 }], ["Speed drills against shikigami", { s: 4, v: 10 }], ["Made a new binding vow", { all: 4 }], ["Got dragged onto a mission instead", { pts: 2 }]],
-      twists: [["A Special Grade teacher takes an interest in you", { ally: true }], ["Your binding vow pays off", { all: 5 }], ["You lose an arm", { inj: true, s: 2, v: -6 }], ["You swallow a cursed finger", { all: 8, inj: true }], ["The higher-ups sentence you to death", { pts: 2 }], ["Your friend is transfigured in front of you", { s: 1, v: 10 }], ["You awaken an innate domain", { s: 1, v: 12 }]],
+      training: [["Movie marathon with a cursed doll in their lap", { s: 0, v: 9 }], ["Sparring with Panda", { s: 3, v: 9 }], ["Learned Reverse Cursed Technique", { heal: true, s: 0, v: 8 }], ["Barrier lessons from Tengen's archives", { s: 5, v: 10 }], ["Black Flash drills with Aoi Todo", { s: 1, v: 10 }], ["Cursed tool training with Maki", { s: 2, v: 10 }], ["Speed drills against shikigami", { s: 4, v: 10 }], ["Made a new binding vow", { all: 4 }], ["Got dragged onto a mission instead", { pts: 2 }]],
+      twists: [["Gojo is sealed in the Prison Realm", { inj: true, pts: 2 }], ["The higher-ups sentence you to death", { pts: 2 }], ["You swallow one of Sukuna's fingers", { all: 8, inj: true }], ["Your friend is transfigured in front of you", { s: 1, v: 10 }], ["Kenjaku starts the Culling Game", { all: 5 }], ["Yuta returns from overseas to help", { ally: true }], ["You lose an arm", { inj: true, s: 3, v: -6 }], ["Your binding vow pays off", { all: 5 }]],
       endings: { good: ["Becomes the strongest sorcerer alive", "Teaches the next generation at Jujutsu High", "Exorcises the King of Curses", "Retires and lives quietly in Sendai"], bad: ["Becomes a vessel", "Executed by the higher-ups", "Dies in Shibuya", "Turns curse user"] }
     },
     paths: {
@@ -791,6 +897,20 @@
     ],
     say: { Origin: "They grew up in {v}.", "Nen type": "Water divination says: {v}.", Hatsu: "Their Hatsu: {v|lower}.", Personality: "Personality: {v|lower}.", Rank: "Current standing: {v}.", "Assassin rank": "Family rank: {v}." },
     lines: {
+      "Human": "Human. Most Hunters are.",
+      "Reborn Chimera Ant": "A Chimera Ant reborn with human memories. Two lives, one body.",
+      "Whale Island": "Whale Island. Small, quiet, and somehow it keeps producing Hunters.",
+      "Yorknew City": "Yorknew City, home of the biggest underground auction in the world.",
+      "Heavens Arena": "Heavens Arena: 251 floors, and the higher you climb, the more it pays.",
+      "Greed Island": "Greed Island, a game built with Nen by Ging Freecss and his friends.",
+      "the Hunter Association": "The Hunter Association. They grew up around the Zodiacs.",
+      "Enhancer": "An Enhancer. Simple, strong, and hard to fool.",
+      "Transmuter": "A Transmuter. Whimsical liars, the personality test says.",
+      "Emitter": "An Emitter. Short-tempered and impatient, the personality test says.",
+      "Conjurer": "A Conjurer. High-strung and on guard.",
+      "Manipulator": "A Manipulator. Logical, and they always have a reason.",
+      "Zobae, the immortality disease": "Zobae. One of the Five Calamities of the Dark Continent, living in their blood.",
+      "Joined the Phantom Troupe": "They joined the Phantom Troupe. There's a numbered spider tattooed on them now.",
       "Chimera Ant": "A Chimera Ant. Born from a Queen, made to eat humans. Or not.",
       "Born a King": "Born a King. The whole species bows.",
       "Host of a Dark Continent being": "Something from the Dark Continent lives inside them.",
@@ -805,7 +925,7 @@
       Race: {
         "Chimera Ant": ["Ant caste", ["Soldier ant", "Soldier ant", "Squadron leader", "Royal Guard", "Born a King"], true],
         "Reborn Chimera Ant": ["Human memories", ["Faint", "Clear", "Remembers dying"]],
-        "Host of a Dark Continent being": ["The being inside", ["A wish-granting being, like Nanika", "A calamity sealed in your body", "Something with no name"]]
+        "Host of a Dark Continent being": ["The calamity inside", ["Ai, the gatekeeper of desire (like Nanika)", "Zobae, the immortality disease", "Hellbell, the sickness", "Brion, the living weapon", "Pap, the hybrid beast"]]
       },
       Origin: {
         "the Zoldyck estate": ["Zoldyck role", ["Heir to the family", "Runaway", "Butler", "Grandchild of Zeno"]],
@@ -819,6 +939,8 @@
         "the Hunter Association": ["Association job", ["Exam proctor", "Zodiac aide", "Netero's last student"]],
         "Yorknew City": ["Yorknew past", ["Auction house runner", "Mafia family kid", "Underground fighter"]]
       },
+      "Meteor City past": { "Childhood friend of the Troupe": ["Phantom Troupe", ["Never joined", "Joined the Phantom Troupe", "Left the Troupe"]] },
+      "Association job": { "*": ["Dark Continent", ["Staying home", "Staying home", "Expedition member under Beyond Netero", "Expedition member with the Zodiacs"]] },
       "Zoldyck role": { "*": ["Illumi's needle", ["No needle", "No needle", "A needle in your head"]] },
       "Prince number": { "*": ["Guardian Spirit Beast", ["A parasitic beast with unknown power", "A protective beast", "A beast that kills for you"]] },
       "Nen type": { "Specialist": ["Specialist trick", ["Time manipulation", "Steal abilities", "Prophecy poems", "Command anything with a card"]] },
@@ -847,8 +969,8 @@
       { when: ["Race", "Chimera Ant"], cat: "Fighting style", opts: ["Enhancement brawler", "Nen beast tamer", "Puppet master", "Swordsman"] }
     ],
     vis: { tier: "Rank", aura: "Nen type", costume: "Origin", rival: "Rival" },
-    allies: [["A Zoldyck butler", { s: 4, v: 8 }], ["A Hunter Association examiner", { s: 5, v: 8 }], ["A Greed Island card collector", { all: 3 }], ["A Nen teacher", { s: 1, v: 8 }], ["A Chimera Ant defector", { s: 3, v: 8 }], ["A rookie with a fishing rod", { s: 0, v: 6, all: 2 }]],
-    loot: [["Greed Island card: Risky Dice", { all: 5 }], ["A Nen-forged weapon", { s: 2, v: 10 }], ["A Scarlet Eye", { s: 0, v: 8 }], ["A rare Hunter License", { pts: 3 }], ["A cursed Nen object", { all: 6, inj: true }], ["A Dark Continent relic", { s: 1, v: 10 }]],
+    allies: [["Gon Freecss", { s: 3, v: 8 }], ["Killua Zoldyck", { s: 4, v: 8 }], ["Kurapika", { s: 1, v: 8 }], ["Leorio Paradinight", { heal: true, all: 3 }], ["Biscuit Krueger", { s: 3, v: 6, all: 2 }], ["Knuckle Bine", { s: 0, v: 8 }], ["Morel Mackernasey", { s: 1, v: 6 }], ["Kite", { s: 2, v: 8 }], ["Knov", { s: 5, v: 8 }]],
+    loot: [["Greed Island card: Risky Dice", { all: 5 }], ["A Nen-forged weapon", { s: 2, v: 10 }], ["A pair of Scarlet Eyes", { s: 0, v: 8 }], ["A Hunter License", { pts: 3 }], ["A cursed Nen object", { all: 6, inj: true }], ["A Dark Continent relic", { s: 1, v: 10 }]],
     styles: {
       "Enhancement brawler": 3, "Zoldyck assassination arts": 4, "Shingen-ryu Kung Fu": 1, "Fishing rod fighter": 2, "Card fighter": 2, "Chain fighter": 2,
       "Marksman": 2, "Puppet master": 1, "Nen beast tamer": 0, "Swordsman": 2, "Gyo-reading tactician": 5, "Rhythm Echo speedster": 4
@@ -858,7 +980,11 @@
       "Born a King": { n: "King of the Ants", d: "Born to rule every species. +10 power.", power: 10, extra: ["King's aura", 99] },
       "Squadron leader": { n: "Squadron leader", d: "+3 power.", power: 3 },
       "Reborn Chimera Ant": { n: "Ant body, human heart", d: "+8 Strength.", stat: [3, 8] },
-      "A wish-granting being, like Nanika": { n: "Wish", d: "A being that grants wishes, for a price.", save: { chance: 0.5, uses: 1, text: "A small voice says 'Ai.' {foe} is gone. Somebody made a wish." }, extra: ["Wish power", 97] },
+      "Zobae, the immortality disease": { n: "Zobae", d: "Can't die. Can't stop being alive, either.", save: { chance: 0.6, uses: 2, text: "{foe} lands a killing blow. {first} keeps breathing anyway. Zobae doesn't let its hosts die." } },
+      "Hellbell, the sickness": { n: "Hellbell", d: "Everyone near them gets weaker. +6 power.", power: 6 },
+      "Brion, the living weapon": { n: "Brion", d: "A weapon that guards the Dark Continent. +8 power in the biggest fights.", boss: 8 },
+      "Pap, the hybrid beast": { n: "Pap", d: "+8 Strength.", stat: [3, 8] },
+      "Ai, the gatekeeper of desire (like Nanika)": { n: "Wish", d: "A being that grants wishes, for a price.", save: { chance: 0.5, uses: 1, text: "A small voice says 'Ai.' {foe} is gone. Somebody made a wish." }, extra: ["Wish power", 97] },
       "A calamity sealed in your body": { n: "Sealed calamity", d: "+6 power.", power: 6 },
       "Heir to the family": { n: "Zoldyck conditioning", d: "Poison and electricity barely hurt them. +6 Speed.", stat: [4, 6], extra: ["Poison immunity", 90] },
       "A needle in your head": { n: "Illumi's needle", d: "A needle that makes them flee from stronger opponents. -4 power.", power: -4 },
@@ -866,6 +992,8 @@
       "A beast that kills for you": { n: "Guardian Spirit Beast", d: "A beast born from the Kakin succession ritual. +5 power.", power: 5 },
       "A protective beast": { n: "Guardian Spirit Beast", d: "It guards you.", save: { chance: 0.35, uses: 1, text: "A Guardian Spirit Beast uncoils behind {first} and takes the hit. {foe} doesn't get a second chance." } },
       "Childhood friend of the Troupe": { n: "Phantom Troupe ties", d: "+2 upgrade points.", pts: 2 },
+      "Joined the Phantom Troupe": { n: "Spider tattoo", d: "A numbered member of the Phantom Troupe. +5 power.", power: 5, extra: ["Spider tattoo", 88] },
+      "Expedition member under Beyond Netero": { n: "Dark Continent expedition", d: "+4 to every stat.", all: 4 },
       "Floor Master": { n: "Floor Master", d: "+4 power.", power: 4 },
       "Game master": { n: "Spell card", d: "A Greed Island spell card for emergencies.", save: { chance: 0.3, uses: 1, text: "{first} slaps down a Greed Island spell card. The fight ends on their terms." } },
       "Netero's last student": { n: "Netero's student", d: "+5 power.", power: 5 },
@@ -882,16 +1010,38 @@
     titleTpl: "{Nen type}, {Rank}",
     chips: ["Race", "Hatsu", "Fighting style", "Weapon"],
     pathCat: "Origin",
+    scenes: {
+      early: ["The 287th Hunter Exam. Four hundred applicants, a tunnel, and a man counting how many will die.", "Zaban City. A steakhouse, a code word, and an elevator down to the exam.", "Trick Tower: 72 hours to reach the bottom, and every door is a trap."],
+      train: ["Nen doesn't come easy. {first} trains until they can't stand."],
+      train2: ["One more round of training before the end."],
+      recruit: ["On the road, {first} meets someone they'd trust with their life."],
+      side: ["A Hunter job comes up. Good money, bad odds."],
+      rival1: ["{Rival} is waiting at the end of the exam course."],
+      mid: ["Heavens Arena: 251 floors of fighters. Above floor 200, everyone uses Nen.", "Greed Island, a game made with Nen where dying is real."],
+      loot: ["A card, a chest, a relic. Something worth keeping."],
+      evolve: ["{first}'s aura shifts. Their Hatsu is growing."],
+      twist: ["A call comes in on the Hunter website. Nothing good happens after that."],
+      late: ["Yorknew City's underground auction. The Phantom Troupe is in town.", "East Gorteau. The Chimera Ant King's palace is about to be stormed."],
+      rival2: ["{Rival} is back, stronger, and this time it's personal."],
+      boss: ["The palace at night. The fight that decides humanity's future."],
+      ending: ["When it's over, the Hunter Association writes it all down."]
+    },
+    battle: {
+      win: ["{first} reads {foe}'s aura with Gyo, then lands {sig}.", "{foe} underestimates a rookie. {style} punishes the mistake.", "A long Nen battle of tricks and conditions. {first}'s vow holds, and {foe}'s doesn't."],
+      loss: ["{foe}'s aura is suffocating. {first} gets away, barely, with a lot to think about.", "{foe} figures out the conditions on {first}'s Hatsu. It's over."],
+      clutch: ["{clutch}. Every drop of {first}'s aura floods into {sig}, and {foe} never sees it coming."],
+      draw: ["Both Nen users hit zero aura at the same moment."]
+    },
     journey: {
       chapters: ["The Hunter Exam", "Training arc", "Heavens Arena", "Power evolution", "Twist of fate", "The Yorknew auction", "Final battle", "Epilogue"],
       foes: {
-        early: [["Applicant with a grudge", 18], ["Trick Tower prisoner", 22], ["Man-faced swamp monkey", 14], ["Rookie Crusher", 26], ["Bounty hunter", 30]],
-        mid: [["200th-floor Nen user", 44], ["Greed Island bomber", 50], ["Mafia bodyguard", 42], ["Rival Hunter", 46], ["Phantom Troupe scout", 52]],
-        late: [["Phantom Troupe member", 66], ["Chimera Ant squadron leader", 62], ["Zoldyck assassin", 68], ["Rogue Zodiac", 70], ["Kakin prince's guardian spirit", 64]],
-        boss: [["Meruem", 99], ["Chrollo", 86], ["Hisoka", 82], ["Neferpitou", 84], ["Netero at his peak", 92]]
+        early: [["Tonpa the Rookie Crusher", 14], ["Hanzo the ninja", 30], ["The Amori brothers", 18], ["Majitani, Trick Tower prisoner", 12], ["Bourbon the snake user", 22], ["Geretta the blowgun hunter", 16]],
+        mid: [["Gido and his spinning tops", 36], ["Riehlvelt", 38], ["Sadaso", 34], ["Genthru the Bomber", 52], ["Razor", 58], ["Hisoka at Heavens Arena", 60], ["Kastro", 46]],
+        late: [["Uvogin", 66], ["Nobunaga Hazama", 62], ["Feitan Portor", 68], ["Zazan", 64], ["Neferpitou", 80], ["Shaiapouf", 76], ["Menthuthuyoupi", 76]],
+        boss: [["Meruem, King of the Chimera Ants", 99], ["Chrollo Lucilfer", 86], ["Hisoka Morow", 84], ["Illumi Zoldyck", 80], ["Tserriednich Hui Guo Rou", 78]]
       },
-      training: [["Ten, Zetsu, Ren, Hatsu drills", { s: 0, v: 9 }], ["Climbed Heavens Arena floors", { s: 3, v: 9 }], ["Rock-splitting focus training", { s: 1, v: 10 }], ["Speed training on Greed Island", { s: 4, v: 10 }], ["Studied every opponent's tells", { s: 5, v: 10 }], ["Weapon drills in the Zoldyck training room", { s: 2, v: 10 }], ["Mastered Gyo and In", { all: 4 }], ["Gambled away every Jenny", { pts: 2 }]],
-      twists: [["A Double-star Hunter becomes your mentor", { ally: true }], ["Your restriction tightens: more power, more risk", { s: 1, v: 12, inj: true }], ["The Phantom Troupe hunts you", { inj: true, pts: 2 }], ["A Greed Island card heals you", { heal: true, all: 2 }], ["Your rival saves your life", { ally: true, pts: 1 }], ["The Zoldycks take you in", { s: 4, v: 10 }], ["Your Hatsu evolves on its own", { s: 1, v: 10 }]],
+      training: [["Ten, Zetsu, Ren and Hatsu with Wing", { s: 0, v: 9 }], ["Climbed the Heavens Arena floors", { s: 3, v: 9 }], ["Rock-splitting training with Biscuit Krueger", { s: 1, v: 10 }], ["Speed drills on Greed Island", { s: 4, v: 10 }], ["Studied every opponent's tells", { s: 5, v: 10 }], ["Mastered Gyo and In", { all: 4 }], ["Weapon drills in the Zoldyck training room", { s: 2, v: 10 }], ["Gambled away every Jenny", { pts: 2 }]],
+      twists: [["Ging Freecss appears on top of the World Tree", { pts: 2 }], ["Your restriction tightens: more power, more risk", { s: 1, v: 12, inj: true }], ["The Phantom Troupe hunts you", { inj: true, pts: 2 }], ["A Greed Island card heals you", { heal: true, all: 2 }], ["Chairman Netero dies fighting the King", { all: 5 }], ["The Zoldycks take you in", { s: 4, v: 10 }], ["The Black Whale sets sail for the Dark Continent", { ally: true }], ["Your Hatsu evolves on its own", { s: 1, v: 10 }]],
       endings: { good: ["Becomes a Triple-star Hunter", "Finds the person they were searching for", "Joins the Zodiacs", "Leads an expedition to the Dark Continent"], bad: ["Burned out by their own restriction", "Recruited by the Phantom Troupe", "Lost on the Dark Continent", "Reborn as a Chimera Ant"] }
     },
     paths: {
@@ -949,6 +1099,39 @@
     ],
     say: { Race: "Race: {v}.", "Devil fruit": "Devil Fruit: {v}.", "Haki type": "Haki: {v|lower}.", Affiliation: "They sail with: {v}.", Personality: "Personality: {v|lower}.", Bounty: "Bounty: {v}.", "Marine rank": "Marine rank: {v}." },
     lines: {
+      "Fish-Man": "A Fish-Man from the bottom of the sea. Born ten times stronger than any human.",
+      "Merfolk": "Merfolk. Faster than any ship, and worth a fortune at a Sabaody slave auction, which is exactly why they're careful.",
+      "Mink": "A Mink from Zou, the island on the back of a thousand-year-old elephant.",
+      "Giant": "A giant. Elbaf's warriors measure their lives in centuries.",
+      "Long-Arm Tribe": "Long-Arm Tribe: two elbows on every arm.",
+      "Long-Leg Tribe": "Long-Leg Tribe. Kicks from a distance nobody expects.",
+      "Three-Eye Tribe": "Three-Eye Tribe. Big Mom spent years hunting for people like them.",
+      "Skypiean": "A Skypiean, born above the clouds on an island of sea-cloud.",
+      "Buccaneer": "A Buccaneer, a race the World Government tried to wipe out.",
+      "Tontatta Dwarf": "A Tontatta dwarf from Green Bit: tiny, honest, and stronger than they look.",
+      "Paramecia": "A Paramecia. The rarest effects come from the strangest fruits.",
+      "Logia": "A Logia. Their body can become an element.",
+      "Zoan": "A Zoan. Animal power, animal instincts.",
+      "Gura Gura no Mi": "The Gura Gura no Mi. Whitebeard's fruit, said to be able to destroy the world.",
+      "Ope Ope no Mi": "The Ope Ope no Mi. The ultimate Devil Fruit, they say, because of what it can do at the cost of a life.",
+      "Yami Yami no Mi": "The Yami Yami no Mi, the only fruit that can pull other fruits' powers away.",
+      "Yomi Yomi no Mi": "The Yomi Yomi no Mi. Die once, come back once.",
+      "Mera Mera no Mi": "The Mera Mera no Mi, the fruit that belonged to Fire Fist Ace.",
+      "Magu Magu no Mi": "The Magu Magu no Mi. Magma burns even fire.",
+      "Tori Tori no Mi, Model: Phoenix": "The Phoenix. Blue flames that heal instead of burn.",
+      "Uo Uo no Mi, Model: Seiryu": "The Azure Dragon. Kaido's own fruit.",
+      "Marines": "A Marine. The pirates are the enemy now.",
+      "Revolutionary Army": "The Revolutionary Army, led by the world's most wanted man, Monkey D. Dragon.",
+      "Cross Guild": "Cross Guild: Buggy, Crocodile and Mihawk, putting bounties on Marines.",
+      "World Government agent": "A World Government agent. Cipher Pol trains its killers from childhood.",
+      "Black Leg Style": "Black Leg Style: never use your hands, they're for cooking.",
+      "Santoryu (Three Sword Style)": "Santoryu. One sword in each hand and one in the teeth.",
+      "Rokushiki (Six Powers)": "Rokushiki: Soru, Geppo, Tekkai, Shigan, Rankyaku, Kami-e.",
+      "Okama Kenpo": "Okama Kenpo: ballet, high heels, and devastating kicks.",
+      "Life Return": "Life Return: total control over every cell of your own body.",
+      "Survivor of Ohara": "A survivor of Ohara. The World Government burned an island to stop people like them.",
+      "Kin of Rocks D. Xebec": "Rocks D. Xebec's blood. A name history tried to delete.",
+      "Supreme Grade": "A Supreme Grade sword. Only twelve exist.",
       "Celestial Dragon": "A Celestial Dragon. They were born in Mary Geoise, above everyone else.",
       "Favored by Imu": "Favored by Imu. Something on the Empty Throne has taken an interest in them.",
       "Carries the Will of D.": "The Will of D. Somewhere, the World Government just got nervous.",
@@ -964,7 +1147,7 @@
     },
     follow: {
       Race: {
-        "Human": ["Human heritage", ["Ordinary", "Ordinary", "Ordinary", "Carries the Will of D.", "Amazon Lily blood", "Wano samurai blood"]],
+        "Human": ["Human heritage", ["Ordinary", "Ordinary", "Ordinary", "Carries the Will of D.", "Amazon Lily blood", "Wano samurai blood", "Survivor of Ohara"]],
         "Fish-Man": ["Fish-Man type", ["Shark", "Octopus", "Swordfish", "Whale shark", "Sawshark", "Blowfish"]],
         "Merfolk": ["Merfolk tail", ["Fish tail", "Fish tail", "Tail forked into legs at 30"]],
         "Mink": ["Mink tribe", ["Dog", "Cat", "Rabbit", "Lion", "Jaguar", "Wolf"]],
@@ -974,6 +1157,21 @@
         "Lunarian": ["Lunarian trait", ["Wings of black fire", "Fireproof skin", "Ancient royal blood"]],
         "Buccaneer": ["Buccaneer fate", ["Hidden heritage", "Hunted by the World Government", "Freed slave of Mary Geoise"]],
         "Tontatta Dwarf": ["Tontatta home", ["Green Bit", "Tontatta Kingdom guard", "Exiled dwarf"]]
+      },
+      "Human heritage": {
+        "Carries the Will of D.": ["D. connection", ["An unknown D. line", "Kin of the Monkey family", "Kin of Gol D. Roger", "Kin of Rocks D. Xebec"]],
+        "Wano samurai blood": ["Wano ties", ["A ronin's child", "Trained by one of the Nine Red Scabbards", "A Kozuki retainer's heir"]]
+      },
+      "Whose crew": { "An Emperor's crew": ["Which Emperor", ["The Red Hair Pirates", "The Blackbeard Pirates", "Cross Guild", "The Straw Hat Grand Fleet"]] },
+      "Marine post": {
+        "An admiral's aide": ["Which admiral", ["Admiral Kizaru", "Admiral Fujitora", "Admiral Ryokugyu", "Fleet Admiral Akainu"]],
+        "*": ["Your justice", ["Absolute Justice", "Lazy Justice", "Unclear Justice", "Humane Justice", "A justice of your own"]]
+      },
+      "Which admiral": { "*": ["Your justice", ["Absolute Justice", "Lazy Justice", "Unclear Justice", "Humane Justice", "A justice of your own"]] },
+      "Revolutionary role": { "One of the four Army Commanders": ["Army", ["East Army (Belo Betty)", "West Army (Morley)", "North Army (Karasu)", "South Army (Lindbergh)"]] },
+      Weapon: {
+        "three swords": ["Blade grade", ["Unranked blades", "Skillful Grade", "Great Grade", "Supreme Grade"], true],
+        "one cursed blade": ["Blade grade", ["Unranked blade", "Skillful Grade", "Great Grade", "Supreme Grade"], true]
       },
       "Merfolk tail": { "*": ["Ryugu bloodline", ["Commoner", "Commoner", "Commoner", "Ryugu Kingdom royalty", "Born with the power of Poseidon"]] },
       "Mink tribe": { "*": ["Sulong", ["Never looked at the full moon", "Can enter Sulong form", "Mastered Sulong (keeps control)"], true] },
@@ -1005,7 +1203,6 @@
         "Celestial Dragon": ["Bloodline", ["An ordinary noble family", "An ordinary noble family", "A Five Elders family", "The Figarland family", "The Donquixote family", "The Shepherd family", "The Nerona family"]],
         "Celestial Dragon runaway": ["Escape", ["Fled in a slave rebellion", "Bribed a Marine", "Rescued by Revolutionaries"]]
       },
-      "Marine post": { "*": ["Your justice", ["Absolute Justice", "Lazy Justice", "Unclear Justice", "Humane Justice", "A justice of your own"]] },
       "Crew status": {
         "Captain of their own crew": ["Crew size", ["A rowboat and a dream", "A small crew", "A famous crew", "An Emperor-level fleet"], true],
         "*": ["Whose crew", ["A rookie crew", "A Supernova's crew", "An Emperor's crew"], true]
@@ -1043,9 +1240,8 @@
       { when: ["Affiliation", "Celestial Dragon"], cat: "Fighting style", opts: ["Flintlock and bodyguards", "Haki-only brawler", "Ittoryu (One Sword Style)", "Rokushiki (Six Powers)"] }
     ],
     vis: { tier: "Bounty", aura: "Devil fruit", costume: "Affiliation", race: "Race", rival: "Rival" },
-    allies: [["A swordsman who gets lost", { s: 2, v: 8 }], ["A navigator", { s: 5, v: 8 }], ["A cook", { heal: true, all: 3 }], ["A reindeer doctor", { heal: true, s: 3, v: 5 }], ["A sniper with tall tales", { s: 2, v: 6, all: 2 }], ["A cyborg shipwright", { s: 3, v: 8 }]],
-    loot: [["A second Devil Fruit (you can't eat it)", { pts: 3 }], ["A Meito sword", { s: 2, v: 10 }], ["A Poneglyph rubbing", { s: 5, v: 10 }], ["Sea Prism Stone cuffs", { s: 3, v: 8 }], ["Gold from a sunken ship", { pts: 2, all: 2 }], ["A Road Poneglyph clue", { all: 4 }]],
-    statAdapt: [{ when: ["Devil fruit", "No fruit"], stat: 1, name: "Six Powers", tiers: ["Never trained", "Basic Soru", "Soru and Geppo", "Tekkai", "Shigan", "Rankyaku", "All six", "Rokuogan", "Doriki 4000+", "Beyond Doriki"] }],
+    allies: [["Jinbe, First Son of the Sea", { s: 3, v: 8 }], ["Nico Robin", { s: 5, v: 8 }], ["Trafalgar Law", { s: 1, v: 8 }], ["Sanji", { heal: true, all: 3 }], ["Tony Tony Chopper", { heal: true, s: 3, v: 5 }], ["Franky", { s: 2, v: 8 }], ["Carrot of the Mokomo Dukedom", { s: 4, v: 8 }], ["Yamato", { s: 0, v: 8 }], ["Usopp", { s: 2, v: 6, all: 2 }], ["Nami", { s: 5, v: 8 }]],
+    loot: [["A Road Poneglyph rubbing", { s: 5, v: 10 }], ["Enma, a Supreme Grade sword", { s: 2, v: 10 }], ["A Devil Fruit you can't eat", { pts: 3 }], ["Seastone cuffs", { s: 3, v: 8 }], ["Gold from Shandora's golden bell", { pts: 2, all: 2 }], ["A Vivre Card of a legend", { all: 4 }], ["A Den Den Mushi tuned to the Revolutionary Army", { s: 5, v: 6 }]],
     styles: {
       "Black Leg Style": 3, "Santoryu (Three Sword Style)": 2, "Ittoryu (One Sword Style)": 2, "Nitoryu (Two Sword Style)": 2, "Fish-Man Karate": 3, "Fish-Man Jujutsu": 0,
       "Rokushiki (Six Powers)": 4, "Okama Kenpo": 4, "Hasshoken": 3, "Ryusoken (Dragon Claw Fist)": 3, "Electro brawling": 4, "Sniper": 2, "Weather science": 5, "Cyborg weaponry": 2,
@@ -1091,6 +1287,16 @@
       "Future Sight": { n: "Future Sight", d: "They see a few seconds ahead. +4 power.", power: 4 },
       "Internal destruction": { n: "Internal destruction", d: "Haki that destroys from the inside. +4 power.", power: 4 },
       "Advanced Conqueror's (coating)": { n: "Conqueror's coating", d: "Their attacks hit before they connect. +8 power in the biggest fights.", boss: 8, extra: ["Conqueror's Haki", 96] },
+      "Survivor of Ohara": { n: "Poneglyph reader", d: "One of the last people alive who can read the Poneglyphs. +10 IQ.", stat: [5, 10], extra: ["Poneglyph reading", 95] },
+      "Kin of the Monkey family": { n: "Monkey blood", d: "Garp's fists, Dragon's defiance. +5 power.", power: 5 },
+      "Kin of Gol D. Roger": { n: "Roger's blood", d: "The World Government would kill to know this. +4 power, +2 upgrade points.", power: 4, pts: 2 },
+      "Kin of Rocks D. Xebec": { n: "Rocks' blood", d: "Heir to the man who almost conquered the world. +6 power in the biggest fights.", boss: 6 },
+      "Trained by one of the Nine Red Scabbards": { n: "Red Scabbard training", d: "+8 Weapon skill.", stat: [2, 8] },
+      "The Red Hair Pirates": { n: "Red Hair's shadow", d: "Nobody picks a fight under Shanks' flag. +6 power in the biggest fights.", boss: 6 },
+      "The Straw Hat Grand Fleet": { n: "Grand Fleet", d: "Seven crews answer the call. +5 power.", power: 5 },
+      "Fleet Admiral Akainu": { n: "Akainu's favorite", d: "Absolute Justice, backed by the Fleet Admiral. +5 power.", power: 5 },
+      "Supreme Grade": { n: "Supreme Grade blade", d: "One of the twelve greatest swords in the world. +10 Weapon skill.", stat: [2, 10], extra: ["Meito: Supreme Grade", 96] },
+      "Great Grade": { n: "Great Grade blade", d: "One of the 21 Great Grade swords. +6 Weapon skill.", stat: [2, 6] },
       "Absolute Justice": { n: "Absolute Justice", d: "No mercy for evil. +4 power.", power: 4 },
       "Lazy Justice": { n: "Lazy Justice", d: "Does the job their own way. +2 upgrade points.", pts: 2 },
       "An Emperor's crew": { n: "Emperor's backing", d: "Picking a fight with them means picking a fight with an Emperor. +6 power in the biggest fights.", boss: 6 },
@@ -1112,20 +1318,42 @@
       "Sulong Electro": { n: "Sulong Electro", d: "Moonlit lightning. +4 power.", power: 4 }
     },
     move: "{Fruit/Devil fruit}",
-    prologue: "{name} set out from {Sea}: {Race|a|lower} whose Haki is {Haki type|lower} and whose Devil Fruit is {Fruit/Devil fruit|lower}. They joined up with the {Affiliation} as their {Role}, fighting with {Weapon}. Fighting style: {Fighting style}. {first} is {Personality|lower}, and swore to {Dream}. On the board: {Bounty}.",
+    prologue: "{name} set out from {Sea}: {Race|a|lower}. Haki: {Haki type|lower}. Devil Fruit: {Fruit/Devil fruit}. They joined up with the {Affiliation} as their {Role}, fighting with {Weapon}. Fighting style: {Fighting style}. {first} is {Personality|lower}, and swore to {Dream}. On the board: {Bounty}.",
     titleTpl: "{Race} of the {Affiliation}",
     chips: ["Fruit", "Haki type", "Fighting style"],
     pathCat: "Affiliation",
+    scenes: {
+      early: ["Loguetown, the town where Gol D. Roger was born and executed. {first} looks up at the execution platform and swears this is only the start.", "The East Blue is called the weakest sea. Somebody forgot to tell the Fish-Men running Cocoyasi Village.", "Shells Town's Marine base looms over the docks. A man is tied to a stake in the yard, and {first} can't look away."],
+      train: ["{first} needs to get stronger before the Grand Line eats them alive."],
+      train2: ["The New World punishes the unprepared. One more push before the end."],
+      recruit: ["Somewhere between islands, {first} meets someone worth sailing with."],
+      side: ["Before Reverse Mountain, a detour: an island in trouble, and {first} can't sail past it."],
+      rival1: ["Reverse Mountain. The current climbs straight up to the Grand Line, and {rival} is waiting at the top."],
+      mid: ["The Grand Line: weather that changes every hour, islands that break the rules, and a Log Pose that won't sit still.", "Alabasta's desert, Water 7's canals, Sabaody's bubbles. The Grand Line throws everything at {first}.", "Enies Lobby, the judicial island where the sun never sets. Someone has to declare war on the World Government."],
+      loot: ["An old shipwreck, a buried chest, a map with an X. Treasure."],
+      evolve: ["After everything, {first}'s power starts to change."],
+      twist: ["A News Coo drops the morning paper on deck. {first} doesn't like the headline."],
+      late: ["The New World. Every island flies an Emperor's flag, and every Emperor has an army.", "Wano's borders are closed. Onigashima's skull-shaped island waits offshore.", "Dressrosa: toys that remember being people, and a Warlord pulling every string."],
+      rival2: ["{Rival} is back, stronger, and this time it's personal."],
+      boss: ["The sea goes quiet. This is the fight that decides the next era."],
+      ending: ["When the dust settles, the whole world reads about it in the morning paper."]
+    },
+    battle: {
+      win: ["{first} plants their feet and goes all in with {style}. {foe} hits the deck and doesn't get up.", "{foe} laughs at {first}'s bounty. {sig} wipes the smile off.", "The fight tears the whole deck apart. {first} finishes it with {weapon} and pure stubbornness.", "Haki-coated and grinning, {first} lands {sig} square on {foe}'s jaw."],
+      loss: ["{foe} is on another level. {first} wakes up on a beach, bandaged, with seagulls staring at them.", "{first} goes for {sig} too early. {foe} saw it coming from a whole sea away."],
+      clutch: ["{first} is down. Then the air cracks. {clutch}! {first} gets up and {sig} hits {foe} like a cannonball."],
+      draw: ["{first} and {foe} fight until the island itself gives out. Neither falls. The papers call it a draw."]
+    },
     journey: {
-      chapters: ["First bounty", "Training arc", "Entering the Grand Line", "Power evolution", "Twist of fate", "The Paramount War", "Final battle", "Epilogue"],
+      chapters: ["East Blue", "Training arc", "The Grand Line", "Power evolution", "Twist of fate", "The New World", "Final battle", "Epilogue"],
       foes: {
-        early: [["Axe-hand Marine captain", 20], ["Fish-man pirate", 24], ["Sea King", 30], ["Bounty hunter duo", 18], ["Clown pirate captain", 22]],
-        mid: [["Baroque Works agent", 40], ["Vice admiral", 55], ["Supernova rookie", 50], ["CP9 agent", 48], ["Warlord's right hand", 45]],
-        late: [["Admiral", 78], ["Emperor's commander", 70], ["Warlord", 66], ["Seraphim", 72], ["CP0 agent", 64]],
-        boss: [["Kaido", 95], ["Blackbeard", 94], ["Akainu", 90], ["Big Mom", 92], ["Imu", 99]]
+        early: [["Axe-Hand Morgan", 18], ["Buggy the Clown", 20], ["Kuro of a Hundred Plans", 24], ["Don Krieg", 26], ["Arlong", 32], ["Captain Nezumi's Marines", 14], ["Alvida", 12]],
+        mid: [["Mr. 1, Daz Bonez", 42], ["Crocodile", 55], ["Enel", 58], ["Rob Lucci", 56], ["Gecko Moria", 54], ["Vice Admiral Smoker", 48], ["Caesar Clown", 50], ["Hody Jones", 46]],
+        late: [["Donquixote Doflamingo", 70], ["Charlotte Katakuri", 74], ["King the Wildfire", 72], ["Admiral Kizaru", 80], ["Magellan", 68], ["Jack the Drought", 64], ["Admiral Ryokugyu", 78]],
+        boss: [["Kaido of the Beasts", 95], ["Marshall D. Teach", 94], ["Fleet Admiral Akainu", 92], ["Charlotte Linlin", 93], ["Imu", 99], ["Saint Jaygarcia Saturn", 90]]
       },
-      training: [["Two years on a deserted island", { s: 3, v: 10 }], ["Haki training with Rayleigh", { s: 0, v: 10 }], ["Pushed their Devil Fruit to its limit", { s: 1, v: 10 }], ["Geppo and Soru drills", { s: 4, v: 10 }], ["Sword training on a haunted island", { s: 2, v: 10 }], ["Survived Impel Down", { s: 0, v: 10 }], ["Feasted with the crew", { heal: true, all: 2 }], ["Got lost at sea for a month", { pts: 2 }]],
-      twists: [["An Emperor's crew takes you under their wing", { ally: true }], ["Your bounty jumps overnight", { pts: 2 }], ["Captured and thrown in Impel Down", { inj: true, s: 4, v: 6 }], ["You find a mythical Devil Fruit", { all: 6 }], ["A crewmate sells you out to the Marines", { inj: true, pts: 1 }], ["You awaken Conqueror's Haki", { s: 0, v: 12 }], ["Sabaody: the crew is scattered", { s: 1, v: 6 }]],
+      training: [["Two years on Rusukaina with Silvers Rayleigh", { s: 0, v: 10 }], ["Sword training on Kuraigana Island with Mihawk", { s: 2, v: 10 }], ["Black Leg and Okama Kenpo on Kamabakka", { s: 3, v: 10 }], ["Weather science lessons on Weatheria", { s: 5, v: 10 }], ["Ryuo lessons from old Hyogoro in Udon prison", { s: 0, v: 8 }], ["Soru and Geppo drills on a Marine base", { s: 4, v: 10 }], ["Pushing their Devil Fruit to its limit", { s: 1, v: 10 }], ["Got lost at sea for a month", { pts: 2 }], ["Feasted with the crew for three days", { heal: true, all: 2 }]],
+      twists: [["Your bounty poster goes out and the world learns your face", { pts: 2 }], ["Bartholomew Kuma scatters your crew across the world", { s: 3, v: 6 }], ["A Buster Call is ordered on the island you're on", { inj: true, pts: 2 }], ["Vegapunk's broadcast reveals the truth of the Void Century", { s: 5, v: 10 }], ["An Emperor offers you a place in their crew", { ally: true }], ["You find a Road Poneglyph", { pts: 3 }], ["Your crewmate is captured and sent to Impel Down", { inj: true, s: 0, v: 8 }], ["You awaken Conqueror's Haki in a moment of rage", { s: 0, v: 12 }], ["The Five Elders mark you as a threat to the world", { all: 5 }]],
       endings: { good: ["Becomes King of the Pirates", "A new Emperor of the Sea", "Achieves their dream", "Retires to a quiet island with a legendary bounty"], bad: ["Executed in public", "Locked in Impel Down Level 6", "Sunk at sea", "Captured and made a Marine dog"] }
     },
     paths: {
@@ -1207,6 +1435,13 @@
     ],
     say: { Race: "Race: {v}.", Class: "Class: {v}.", Magic: "Magic: {v|lower}.", "Fighting style": "Fighting style: {v|lower}.", Trick: "Signature trick: {v|lower}.", Alignment: "Alignment: {v|lower}.", Personality: "Personality: {v|lower}.", Rank: "Guild rank: {v}.", Divinity: "Divinity: {v}." },
     lines: {
+      "Elf": "An elf. Centuries to live, and they remember every slight.",
+      "Dwarf": "A dwarf. Born under the mountain, stubborn as stone.",
+      "Orc": "An orc. Strong, proud, and nobody's fool.",
+      "Tiefling": "A tiefling, marked by an infernal bargain made generations ago.",
+      "Dragonborn": "Dragonborn. Breath weapon included.",
+      "Halfling": "A halfling. Small, lucky, and always hungry.",
+      "Vampire": "A vampire. The night is theirs.",
       "Fallen god": "A fallen god. Their temples are ruins, but something is still listening.",
       "Demigod": "Half mortal, half divine. One of the gods is their parent.",
       "Chaotic evil": "Chaotic evil. The story just switched sides.",
@@ -1312,6 +1547,28 @@
     titleTpl: "{Race} {Class}",
     chips: ["Alignment", "Fighting style", "Companion"],
     pathCat: "Alignment",
+    scenes: {
+      early: ["A tavern on the edge of the kingdom. A notice board, a reward, and a goblin problem.", "The road out of {first}'s home village. Rain, mud, and something howling in the woods."],
+      train: ["{first} needs to get better before the next fight kills them."],
+      train2: ["Before the final march, one more lesson."],
+      recruit: ["Around a campfire, {first} meets a new companion."],
+      side: ["A side quest: a missing child, a haunted mill, a reward nobody else will take."],
+      rival1: ["{Rival} steps out onto the road ahead."],
+      mid: ["The grand tournament in the capital. Banners, crowds, and blades."],
+      loot: ["A dragon's empty lair. Not quite empty."],
+      evolve: ["{first}'s magic answers in a way it never has before."],
+      twist: ["A rider arrives at night with terrible news."],
+      late: ["The war of the realms. Every banner in the land is on the field."],
+      rival2: ["{Rival} returns, stronger. This time it's personal."],
+      boss: ["The final dungeon. Every story ends here."],
+      ending: ["The bards are still arguing over how to tell it."]
+    },
+    battle: {
+      win: ["{first} fights with {style}, and {weapon} finds the gap in {foe}'s armor.", "{foe} laughs at a {Rank}. {sig} ends the laughing.", "A long, desperate fight. {first} is the last one standing."],
+      loss: ["{foe} is too much. {first} wakes in a temple, bandaged and broke.", "{first} overextends, and {foe} punishes it."],
+      clutch: ["A natural 20. {sig} hits {foe} at exactly the right moment."],
+      draw: ["Both fighters collapse in the mud. Nobody wins."]
+    },
     journey: {
       chapters: ["First quest", "Training arc", "The grand tournament", "Power evolution", "Twist of fate", "War of the realms", "Final battle", "Epilogue"],
       foes: {
@@ -1378,6 +1635,11 @@
     ],
     say: { Archetype: "Archetype: {v}.", Power: "Power: {v|lower}.", Origin: "Origin story: {v|lower}.", Personality: "Personality: {v|lower}.", Rank: "Power rank: {v|lower}.", "Threat level": "Threat level: {v|lower}." },
     lines: {
+      "Mutant": "A mutant. The world hasn't decided yet if they're a hero or a threat.",
+      "Android": "An android. Built, then woke up.",
+      "Lab-made clone": "A clone. Somebody out there has their face.",
+      "Magic-born": "Magic-born. Science can't explain them.",
+      "Cyborg": "A cyborg. Part human, part machine, all stubborn.",
       "Villain": "A villain. The heroes are the problem now.",
       "Cosmic": "Cosmic level. Planets are small to them.",
       "Rich and bored": "No powers at first. Just money and too much free time.",
@@ -1452,6 +1714,28 @@
     titleTpl: "{Archetype} with {Power|lower}",
     chips: ["Species", "Origin", "Fighting style", "Weakness"],
     pathCat: "Archetype",
+    scenes: {
+      early: ["Midnight, downtown. Sirens, a broken window, and {first} in costume for the first time.", "A bank alarm goes off three blocks away. {first} gets there first."],
+      train: ["A rooftop training montage, set to whatever's on {first}'s playlist."],
+      train2: ["One more training session before the city needs them."],
+      recruit: ["A new hero shows up on {first}'s patrol route."],
+      side: ["A side job: a cat in a tree, then a robot in a reactor."],
+      rival1: ["{Rival} is waiting on top of the tallest building in the city."],
+      mid: ["The hero league trials, live on every channel."],
+      loot: ["A crashed ship, a sealed vault, a strange glowing thing."],
+      evolve: ["{first}'s power surges past every limit they had."],
+      twist: ["Breaking news. {first} recognizes the face on the screen."],
+      late: ["The sky is full of ships. The invasion has started."],
+      rival2: ["{Rival} is back, stronger. This time it's personal."],
+      boss: ["The city holds its breath for the final fight."],
+      ending: ["The news runs the story for weeks."]
+    },
+    battle: {
+      win: ["{first} goes in with {style} and finishes it with {sig}. {foe} goes through a billboard.", "{foe} monologues too long. {sig} interrupts.", "A fight across six city blocks. {first} wins it on the last one."],
+      loss: ["{foe} wins this round. {first} limps home through the sewers.", "{first} goes for {sig} and {foe} was ready for it."],
+      clutch: ["{clutch}. {sig} hits harder than it ever has, and {foe} leaves a crater."],
+      draw: ["Both of them crash through the same wall and pass out."]
+    },
     journey: {
       chapters: ["First patrol", "Training arc", "Hero league trials", "Power evolution", "Twist of fate", "City-wide invasion", "Final battle", "Epilogue"],
       foes: {
@@ -1692,6 +1976,14 @@
     return out;
   }
   function perkLine(v) { const p = perkFor(v); return !p ? "" : p.quiet ? p.d : `New perk: ${p.n}. ${p.d}`; }
+  function signature() {
+    if (run.evolution) return run.evolution;
+    const ai = idxOf(T().vis.aura);
+    const chain = ai >= 0 ? (run.subs[ai] || []).map((x) => x.value).filter((x) => x && !/^(not awakened|no |basic|none)/i.test(x)) : [];
+    if (chain.length) return chain[chain.length - 1];
+    const mv = fill(T().move);
+    return /^(no |none|\?\?\?)/i.test(mv) ? ((tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "")) : mv;
+  }
   function perkPower(boss) { return perks().reduce((a, p) => a + (p.power || 0) + (boss ? (p.boss || 0) : 0), 0); }
   function statAdapt(k) {
     for (const r of (T().statAdapt || [])) if (r.stat === k && run && tv(r.when[0]) === r.when[1]) return r;
@@ -2430,7 +2722,15 @@
   async function journeyStep() {
     const P = path(), st = STEPS[run.step];
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
-    const vars = () => ({ foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: fill(T().move), clutch: T().clutch });
+    const vars = () => ({ foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: fill(T().move), clutch: T().clutch, sig: signature(),
+      style: (tv("Fighting style") || "raw instinct").replace(/ \(.*\)$/, ""), weapon: tv("Weapon/Cursed tool/Costume") || "their bare hands", ally: run.companion || "", rival: (tv(T().vis.rival) || "their rival").replace(/^(A|An|The|Your) /, (m) => m.toLowerCase()), Rival: cap(tv(T().vis.rival) || "Their rival") });
+    const lines = (k, fallback) => (T().battle && T().battle[k]) || fallback;
+    // every chapter opens with a scene from the series' world
+    if (!run.log.length || run.log[run.log.length - 1].h !== head) {
+      const key = st.k === "rival" ? "rival" + st.n : st.k === "battle" ? st.pool : st.k === "train" && run.step > 2 ? "train2" : st.k;
+      const pool = (P.scenes && P.scenes[key]) || (T().scenes && T().scenes[key]);
+      if (pool && pool.length) logAdd(head, fill(pick(pool), vars()));
+    }
     if (st.k === "battle" || st.k === "rival") {
       if (!run.foe) {
         if (st.k === "rival") {
@@ -2464,11 +2764,11 @@
         const v = vars();
         let t, fx, bad = false;
         if (saved) { run.w++; run.points += 2; run.injured = false; t = fill(saved.save.text, v); fx = `${saved.n}! The defeat is undone. Victory, +2 upgrade points.`; }
-        else if (o === "win") { run.w++; run.points += 2; run.injured = false; t = fill(pick(WIN), v); fx = "Victory. +2 upgrade points."; }
-        else if (o === "clutch") { run.w++; run.points += 3; run.injured = false; run.bonus = run.bonus.map((b) => b + 4); t = fill(pick(CLUTCH), v); fx = `${T().clutch}! Victory, +4 to every stat, +3 upgrade points.`; }
-        else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(DRAW), v); fx = "Draw. +1 upgrade point."; }
+        else if (o === "win") { run.w++; run.points += 2; run.injured = false; t = fill(pick(lines("win", WIN)), v); fx = "Victory. +2 upgrade points."; }
+        else if (o === "clutch") { run.w++; run.points += 3; run.injured = false; run.bonus = run.bonus.map((b) => b + 4); t = fill(pick(lines("clutch", CLUTCH)), v); fx = `${T().clutch}! Victory, +4 to every stat, +3 upgrade points.`; }
+        else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(lines("draw", DRAW)), v); fx = "Draw. +1 upgrade point."; }
         else {
-          run.l++; run.points += 1; run.injured = true; t = fill(pick(LOSS), v); fx = "Defeat. Injured for the next fight, +1 upgrade point."; bad = true;
+          run.l++; run.points += 1; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured for the next fight, +1 upgrade point."; bad = true;
           const ad = perks().find((p) => p.adapt);
           if (ad) { run.adaptBonus = (run.adaptBonus || 0) + ad.adapt; fx += ` ${ad.n}: +${ad.adapt} power from now on.`; }
         }
@@ -2478,6 +2778,10 @@
           if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel."; }
         }
         run.ally = false;
+        const won = o !== "loss" && o !== "draw";
+        if (st.k === "rival") t += " " + fill(won ? (st.n === 2 ? "{Rival} finally admits it: {first} is stronger. The rivalry that started on the road ends here." : "{Rival} spits blood, grins, and swears the next round will be different.")
+          : (st.n === 2 ? "{Rival} walks away without a word. {first} will think about this fight for the rest of their life." : "{Rival} looks down at {first} and leaves. That stings more than the wounds."), v);
+        else if (run.companion && Math.random() < 0.45) t += " " + fill(pick(won ? ["{ally} was watching their back the whole time.", "{ally} hauls {first} to their feet and laughs.", "Afterwards, {ally} patches them up and doesn't say a word."] : ["{ally} drags {first} out before it gets worse.", "{ally} sits with them that night. Nobody talks."]), v);
         logAdd(head, t, fx, bad);
         setNarr(bw.opts[k], t + " " + fx);
         if (saved) { sfx.heavenly(); fxFlash("#fff6d0"); }
@@ -2522,7 +2826,16 @@
       const rec = `Final record: ${run.w} win${run.w === 1 ? "" : "s"}, ${run.l} loss${run.l === 1 ? "" : "es"}${run.d ? `, ${run.d} draw${run.d > 1 ? "s" : ""}` : ""}.`;
       const legacy = (seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end."))
         + (run.epithet ? ` History remembers them as ${run.name}, ${run.epithet}.` : "");
+      const after = [];
+      if (run.companion) after.push(fill("{a} stayed by their side to the very end.", { a: run.companion }));
+      const rv = cap(tv(T().vis.rival) || "Their rival");
+      after.push(run.rivalBeaten ? `${rv} never beat them again, though they never stopped trying.` : `${rv} remained the one opponent they could never quite put away.`);
+      if ((run.items || []).length) after.push(`They kept ${run.items[0].charAt(0).toLowerCase() + run.items[0].slice(1)} until their last day.`);
+      if (run.evolution) after.push(`Students would one day try to copy ${run.evolution}. None of them managed it.`);
+      const pk = perks().filter((p) => !p.quiet && (p.save || p.extra))[0];
+      if (pk) after.push(`And the stories about ${pk.n} never died.`);
       logAdd(head, `${seg.t}.`, `${rec} ${legacy}`, !seg.good);
+      logAdd(head, after.join(" "));
       setNarr(seg.t, `${rec} ${legacy}`);
       if (seg.good) { sfx.heavenly(); fxFlash("#fff6d0"); } else sfx.womp();
       addHistory();
