@@ -251,7 +251,7 @@
       <div id="cardSlot"></div>
       <div class="card-tools">
         <button id="rename" class="link">New name</button>
-        <button id="aiGen" class="secondary small" hidden>Final portrait</button>
+        <button id="aiGen" class="secondary small" hidden>AI portrait</button>
         <button id="artToggle" class="link" hidden>Show drawn portrait</button>
         <button id="copy" class="link">Copy character</button>
         <button id="saveCard" class="secondary small" hidden>Save card as image</button>
@@ -353,6 +353,8 @@
       <p class="note" id="modalMeta" style="margin:0"></p>
       <div class="row">
         <button id="modalSave" class="primary small">Save card as image</button>
+        <button id="modalPaint" class="secondary small">New AI portrait</button>
+        <button id="modalDelete" class="ghost small">Delete card</button>
         <button id="modalClose" class="ghost small">Close</button>
       </div>
       <p class="note" id="modalMsg" aria-live="polite" style="margin:0"></p>
@@ -1101,7 +1103,7 @@
     history: Array.isArray(saved.history) ? saved.history : [],
     muted: !!saved.muted,
     ai: Object.assign({ key: "", model: "gpt-image-1", quality: "low" }, saved.ai || {}),
-    wheel: { title: "", opts: ["?", "?"] }, winner: -1, rotation: 0, spinning: false, auto: false, editIdx: 0, aiBusy: false, abandonArmed: false
+    wheel: { title: "", opts: ["?", "?"] }, winner: -1, rotation: 0, spinning: false, auto: false, editIdx: 0, aiBusySeeds: new Set(), aiQueue: false, abandonArmed: false
   };
   let run = null;
 
@@ -1416,7 +1418,8 @@
     c.fillStyle = rgba(L.aura, 0.9); c.font = "800 72px Cinzel, Georgia, serif"; c.textAlign = "center"; c.textBaseline = "middle";
     c.fillText("?", 150, 160);
   }
-  const showMystery = () => run.phase !== "done" || state.aiBusy;
+  const isPainting = (seed) => state.aiBusySeeds.has(seed);
+  const showMystery = () => run.phase !== "done" || isPainting(run.seed);
   function drawPortrait(canvas, L, cssSize) {
     const W = 300, H = 300;
     const d = window.devicePixelRatio || 1;
@@ -1911,9 +1914,9 @@
       if (seg.good) chime([523, 659, 784, 1046, 1318]);
       addHistory();
       const canAI = !inClaude && state.ai.key;
-      $("aiMsg").textContent = canAI ? "" : inClaude ? "Portrait revealed. The AI portrait needs the GitHub Pages or downloaded version, since claude.ai can't reach OpenAI." : "Portrait revealed. Add an OpenAI key under \"AI portraits\" below, then press Final portrait for the painted version.";
+      $("aiMsg").textContent = canAI ? "" : inClaude ? "Portrait revealed. The AI portrait needs the GitHub Pages or downloaded version, since claude.ai can't reach OpenAI." : "Portrait revealed. Add an OpenAI key under \"AI portraits\" below and every card without an AI face gets painted.";
       persist(); render();
-      if (canAI) genAI();
+      if (canAI) paintEntry(state.history[0], $("aiMsg"));
       return;
     }
     persist(); render();
@@ -1956,7 +1959,7 @@
   function addHistory() {
     const d = cardData();
     d.mystery = false; d.note = ""; d.ai = run.ai ? (run.ai.card || run.ai.src) : null;
-    state.history.unshift({ seed: run.seed, name: run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null, card: d, log: run.log });
+    state.history.unshift({ seed: run.seed, name: run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null, card: d, log: run.log, prompt: aiPrompt() });
     state.history = state.history.slice(0, 20);
   }
 
@@ -2016,45 +2019,82 @@
       img.src = src;
     });
   }
-  async function genAI() {
-    const msg = $("aiMsg");
-    if (inClaude) { msg.textContent = "AI portraits only work from GitHub Pages or a copy on your computer. This claude.ai page can't reach OpenAI."; return; }
-    if (!state.ai.key) { $("aiSettings").open = true; $("aiKey").focus(); msg.textContent = "Add your OpenAI API key below first."; return; }
-    if (state.aiBusy || run.ai || run.phase !== "done") return;
-    state.aiBusy = true; render();
-    msg.textContent = "Painting the final portrait. This takes 10 to 40 seconds.";
+  // prompt for cards saved before prompts were stored
+  function fallbackPrompt(h) {
+    const key = Object.keys(THEMES).find((k) => THEMES[k].label === h.theme) || state.theme, th = THEMES[key];
+    const d = h.card || {};
+    const first = String(h.name || "").split(" ")[0];
+    const female = (th.firstF || []).includes(first);
+    const who = female ? "The character is FEMALE: a girl / young woman with a clearly feminine face. Do not draw a man." : "The character is MALE: a boy / young man with a clearly masculine face. Do not draw a woman.";
+    return `Character portrait for a collectible trading card, head and shoulders, facing the viewer. ${who} ${th.style}. ` +
+      (th.sceneText ? `Background scene: ${th.sceneText}. ` : "") +
+      `${d.title || ""}. Power: ${d.aura || "unknown"}. ${(d.chips || []).join(". ")}. ` + (h.ending ? `Their ending: ${h.ending}. ` : "") +
+      `Dramatic lighting, vivid colors, clean detailed anime illustration. No text, no letters, no card frame, no watermark.`;
+  }
+  async function aiRequest(prompt) {
     const model = (state.ai.model || "gpt-image-1").trim();
-    const body = { model, prompt: aiPrompt(), n: 1, size: "1024x1024" };
+    const body = { model, prompt, n: 1, size: "1024x1024" };
     if (/^gpt-image/.test(model)) { body.quality = state.ai.quality; body.output_format = "jpeg"; body.output_compression = 85; }
     else if (/^dall-e/.test(model)) body.response_format = "b64_json";
+    const res = await fetch("https://api.openai.com/v1/images/generations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + state.ai.key },
+      body: JSON.stringify(body)
+    });
+    let json = null;
+    try { json = await res.json(); } catch (e) { /* non-JSON error body */ }
+    if (!res.ok) {
+      const m = json && json.error && json.error.message ? json.error.message : `HTTP ${res.status}`;
+      const err = new Error(res.status === 401 ? "OpenAI rejected the key. Check it at platform.openai.com/api-keys." : res.status === 429 ? "you're out of credit or sending too fast. Check billing, then try again. (" + m + ")" : m);
+      err.fatal = res.status === 401 || res.status === 403 || res.status === 429;
+      throw err;
+    }
+    const d = json.data[0];
+    const src = d.b64_json ? `data:image/${/^gpt-image/.test(model) ? "jpeg" : "png"};base64,${d.b64_json}` : d.url;
+    return { src: await downscale(src, 640, 0.86), card: await downscale(src, 400, 0.82), thumb: await downscale(src, 160, 0.8) };
+  }
+  function aiBlocked(msgEl) {
+    if (inClaude) { msgEl.textContent = "AI portraits only work from GitHub Pages or the downloaded file. This claude.ai page can't reach OpenAI."; return true; }
+    if (!state.ai.key) { $("aiSettings").open = true; msgEl.textContent = "Add your OpenAI API key under \"AI portraits\" first."; return true; }
+    return false;
+  }
+  // paint (or repaint) the AI face for one finished card; any number of times
+  async function paintEntry(h, msgEl) {
+    if (!h || aiBlocked(msgEl) || isPainting(h.seed)) return false;
+    if (!h.card) h.card = historyCard(h);
+    state.aiBusySeeds.add(h.seed); render(); refreshModal(h);
+    msgEl.textContent = `Painting ${h.name}. This takes 10 to 40 seconds.`;
+    let ok = false;
     try {
-      const res = await fetch("https://api.openai.com/v1/images/generations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: "Bearer " + state.ai.key },
-        body: JSON.stringify(body)
-      });
-      let json = null;
-      try { json = await res.json(); } catch (e) { /* non-JSON error body */ }
-      if (!res.ok) {
-        const m = json && json.error && json.error.message ? json.error.message : `HTTP ${res.status}`;
-        if (res.status === 401) throw new Error("OpenAI rejected the key. Check it at platform.openai.com/api-keys.");
-        if (res.status === 429) throw new Error("you're out of credit or sending too fast. Check billing, then try again. (" + m + ")");
-        throw new Error(m);
-      }
-      const d = json.data[0];
-      const src = d.b64_json ? `data:image/${/^gpt-image/.test(model) ? "jpeg" : "png"};base64,${d.b64_json}` : d.url;
-      const full = await downscale(src, 640, 0.86);
-      const card = await downscale(src, 400, 0.82);
-      const thumb = await downscale(src, 160, 0.8);
-      run.ai = { src: full, card, thumb }; run.showAI = true;
-      const h = state.history.find((x) => x.seed === run.seed);
-      if (h) { h.thumb = thumb; if (h.card) h.card.ai = card; }
-      msg.textContent = "Final portrait ready.";
+      const r = await aiRequest(h.prompt || fallbackPrompt(h));
+      h.thumb = r.thumb; h.card.ai = r.card;
+      if (run.seed === h.seed) { run.ai = r; run.showAI = true; }
+      msgEl.textContent = `AI portrait ready for ${h.name}.`;
+      ok = true;
       persist();
     } catch (e) {
-      msg.textContent = e instanceof TypeError ? "Couldn't reach OpenAI. Check your connection, or open the page from GitHub Pages or your computer." : "OpenAI error: " + e.message;
+      msgEl.textContent = e instanceof TypeError ? "Couldn't reach OpenAI. Check your connection." : "OpenAI error: " + e.message;
+      if (e.fatal) state.aiStop = true;
     }
-    state.aiBusy = false; render();
+    state.aiBusySeeds.delete(h.seed);
+    render(); refreshModal(h);
+    return ok;
+  }
+  // every finished card should have an AI face: paint the ones that don't, one at a time
+  async function backfill() {
+    if (state.aiQueue || inClaude || !state.ai.key) return;
+    state.aiQueue = true; state.aiStop = false;
+    for (const h of state.history.slice()) {
+      if (state.aiStop) break;
+      if (h.card && h.card.ai) continue;
+      if (!state.history.includes(h)) continue;
+      await paintEntry(h, $("aiMsg"));
+    }
+    state.aiQueue = false;
+  }
+  function genAI() {
+    const h = state.history.find((x) => x.seed === run.seed);
+    if (h) paintEntry(h, $("aiMsg"));
   }
 
   // ================= render =================
@@ -2119,9 +2159,9 @@
     $("rerollRow").hidden = run.phase !== "create";
     $("rerollLimit").value = String(state.rerollLimit); $("rerollLimit").disabled = busy;
     $("rerollInfo").textContent = state.rerollLimit === 0 ? "No rerolls" : state.rerollLimit >= 99 ? "Unlimited rerolls" : `Rerolls left: ${rerollsLeft()} of ${state.rerollLimit}`;
-    $("aiGen").hidden = run.phase !== "done" || !!run.ai;
-    $("aiGen").disabled = state.aiBusy || busy;
-    $("aiGen").textContent = state.aiBusy ? "Painting…" : "Final portrait";
+    $("aiGen").hidden = run.phase !== "done";
+    $("aiGen").disabled = isPainting(run.seed) || busy;
+    $("aiGen").textContent = isPainting(run.seed) ? "Painting…" : run.ai ? "New AI portrait" : "AI portrait";
     $("artToggle").hidden = !run.ai;
     $("artToggle").textContent = run.showAI ? "Show drawn portrait" : "Show AI portrait";
   }
@@ -2155,7 +2195,7 @@
       stats: statNames().map((n, k) => [n, vals ? vals[k] : null, talentLabel(k) || ""]), overall: complete ? overall() : null,
       record: complete ? rec.join(" · ") : `${slots().filter((x) => slotVal(x) != null).length} / ${slots().length} traits`,
       look: look(), ai: run.ai && run.showAI && !mystery ? (run.ai.card || run.ai.src) : null, mystery,
-      note: run.phase !== "done" ? "Face revealed at the end of the journey" : state.aiBusy ? "Painting the final portrait…" : "",
+      note: run.phase !== "done" ? "Face revealed at the end of the journey" : isPainting(run.seed) ? "Painting the AI portrait…" : "",
       ending: run.ending || ""
     };
   }
@@ -2302,36 +2342,55 @@
       const txt = document.createElement("div"); txt.style.minWidth = "0";
       const s = document.createElement("strong"); s.textContent = h.name + (h.card && h.card.epithet ? `, ${h.card.epithet}` : "");
       const a = document.createElement("span"); a.textContent = `${h.theme} · ${h.tier} · Overall ${h.overall}`;
-      const b = document.createElement("span"); b.textContent = h.ending || "";
+      const b = document.createElement("span"); b.textContent = (h.ending || "") + (isPainting(h.seed) ? " · painting…" : h.card && h.card.ai ? "" : " · no AI face yet");
       txt.append(s, a, b); li.append(th, txt); ul.append(li);
     });
   }
 
   // ---------- popup for a past card ----------
-  let lastFocus = null;
-  function openCard(idx) {
+  let lastFocus = null, modalSeed = null, deleteArmed = false;
+  const seriesKey = (h) => Object.keys(THEMES).find((k) => THEMES[k].label === h.theme) || state.theme;
+  function historyCard(h) {
+    const key = seriesKey(h);
+    return { seed: h.seed, theme: key, themeLabel: h.theme, name: h.name, tier: h.tier, rarity: "common", aura: "", title: "", chips: [], stats: [], overall: h.overall, record: "", look: h.look, ai: null, mystery: false, ending: h.ending };
+  }
+  function refreshModal(h) { if (!$("modal").hidden && modalSeed === h.seed) openCard(state.history.indexOf(h), true); }
+  function openCard(idx, keepFocus) {
     const h = state.history[idx]; if (!h) return;
-    const key = Object.keys(THEMES).find((k) => THEMES[k].label === h.theme) || state.theme;
-    const d = h.card || { seed: h.seed, theme: key, themeLabel: h.theme, name: h.name, tier: h.tier, rarity: "common", aura: "", title: "", chips: [], stats: [], overall: h.overall, record: "", look: h.look, ai: null, mystery: false, ending: h.ending };
+    const key = seriesKey(h);
+    if (!h.card) h.card = historyCard(h);
+    const d = Object.assign({}, h.card, { mystery: isPainting(h.seed), note: isPainting(h.seed) ? "Painting the AI portrait…" : "" });
+    if (d.mystery) d.ai = null;
     if (d.look && !d.look.scene) d.look.scene = key;
+    modalSeed = h.seed;
     $("modalBox").dataset.series = key;
     $("modalSeries").textContent = h.theme;
     $("modalTitle").textContent = h.name + (d.epithet ? `, ${d.epithet}` : "");
     $("modalMeta").textContent = `${d.tier || ""} · Overall ${h.overall} · ${d.record || ""}`.replace(/ · $/, "");
-    $("modalMsg").textContent = "";
+    if (!keepFocus) { $("modalMsg").textContent = ""; deleteArmed = false; }
+    $("modalDelete").textContent = deleteArmed ? "Click again to delete" : "Delete card";
+    $("modalPaint").disabled = isPainting(h.seed);
+    $("modalPaint").textContent = isPainting(h.seed) ? "Painting…" : h.card.ai ? "New AI portrait" : "Paint AI portrait";
     const story = $("modalStory"); story.innerHTML = "";
     (h.log || []).forEach((ch) => {
       const hh = document.createElement("h3"); hh.textContent = ch.h; story.append(hh);
       ch.p.forEach((p) => { const e = document.createElement("p"); e.textContent = p.t + (p.fx ? " " + p.fx : ""); story.append(e); });
     });
     if (!h.log) { const e = document.createElement("p"); e.className = "note"; e.textContent = "This card was saved before stories were kept."; story.append(e); }
-    lastFocus = document.activeElement;
+    if (!keepFocus) lastFocus = document.activeElement;
     $("modal").hidden = false;
     mountCard($("modalCard"), d);
     $("modalSave").onclick = () => saveCardImage($("modalCard").querySelector(".tcard"), h.name, $("modalMsg"));
-    $("modalClose").focus();
+    $("modalPaint").onclick = () => paintEntry(h, $("modalMsg"));
+    $("modalDelete").onclick = () => {
+      if (!deleteArmed) { deleteArmed = true; $("modalDelete").textContent = "Click again to delete"; $("modalMsg").textContent = "This removes the card and its story for good."; return; }
+      deleteArmed = false;
+      state.history = state.history.filter((x) => x !== h);
+      persist(); closeModal(); render();
+    };
+    if (!keepFocus) $("modalClose").focus();
   }
-  function closeModal() { $("modal").hidden = true; $("modalCard").innerHTML = ""; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  function closeModal() { $("modal").hidden = true; $("modalCard").innerHTML = ""; modalSeed = null; deleteArmed = false; if (lastFocus && lastFocus.focus && document.contains(lastFocus)) lastFocus.focus(); }
 
   // ---------- save a card as a PNG ----------
   async function saveCardImage(el, name, msgEl) {
@@ -2403,6 +2462,7 @@
   $("aiSave").addEventListener("click", () => {
     state.ai.key = $("aiKey").value.trim(); state.ai.model = $("aiModel").value.trim() || "gpt-image-1"; state.ai.quality = $("aiQuality").value;
     persist(); render(); $("aiSaved").textContent = state.ai.key ? "Saved." : "No key saved.";
+    backfill();
   });
   $("aiForget").addEventListener("click", () => { state.ai.key = ""; $("aiKey").value = ""; persist(); render(); });
   $("aiQuality").addEventListener("change", () => { state.ai.quality = $("aiQuality").value; persist(); });
@@ -2467,6 +2527,7 @@
 
   fillEditForm();
   render();
+  backfill();
 })();
 </script>
 </body>
