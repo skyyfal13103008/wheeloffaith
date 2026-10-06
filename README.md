@@ -14,7 +14,8 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
 4. **The card**: a silhouette in your power's color during play; the face is revealed at the ending, rarity frame from your rank, and six series-specific stats.
 5. **The journey**: 14 chapters. Most are free turns that start with "What do you do now?" (fight, hunt a monster, train, take a quest, explore, find treasure, make an ally or an enemy, learn a skill, recruit followers, go to war, rest, or retire). Each choice opens its own chain of wheels: which monster, how many, how strong, do you win, does it pay off, what improves. Winning can raise a stat a whole tier, losing can mean "Do you survive?". Fixed beats: two rival fights, a power evolution, a twist, the final battle and the ending.
 6. **Reactions**: big moments (rare pulls, godly stats, upsets, clutch wins, deaths) pop a TikTok-style reaction caption over the wheel.
-7. **Upgrades**: earn points from fights and training, then spend them on stats, rank-ups, or an awakening spin (Domain Expansion, Devil Union, Gear-style transformation...).
+7. **Live bounty (One Piece)**: pirates, revolutionaries and runaways start from their bounty wheel and get a new wanted poster after every win, quest and headline twist. The card shows it live, and the ending shows where it started and where it finished.
+8. **Upgrades**: earn points from fights and training, then spend them on stats, rank-ups, or an awakening spin (Domain Expansion, Devil Union, Gear-style transformation...).
 
 ## Lore depth
 
