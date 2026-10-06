@@ -4855,12 +4855,19 @@
   function fresh(list, kind) {
     const u = new Set(used(kind)), gone = new Set(run.gone || []), allies = new Set(used("ally"));
     const ok = (x) => { const k = nameKey(x[0]); return !gone.has(k) && !(kind === "foe" && allies.has(k)); };
-    const out = list.filter((x) => ok(x) && !u.has(nameKey(x[0])));
+    let out = list.filter((x) => ok(x) && !u.has(nameKey(x[0])));
+    // when a list runs dry, top it up with fresh generic options before anything repeats
+    if (out.length < 3 && SPARE[kind]) out = out.concat(SPARE[kind].filter((x) => !u.has(nameKey(x[0])))).slice(0, 6);
     if (out.length >= (kind === "ally" ? 1 : 2)) return out;
     if (kind === "ally") return [["A new friend from the road", { all: 2 }]];
     const back = list.filter(ok);
     return back.length ? back : list;
   }
+  const SPARE = {
+    train: [["Sparred until sunrise", { s: 3, v: 8 }], ["Meditated under a waterfall", { s: 0, v: 8 }], ["Ran drills until they collapsed", { s: 4, v: 8 }], ["Studied every fight they'd lost", { s: 5, v: 8 }], ["Practiced their signature move a thousand times", { s: 1, v: 8 }], ["Weapon drills with weighted gear", { s: 2, v: 8 }], ["Trained blindfolded for a week", { all: 3 }], ["Climbed a mountain with no gear", { s: 3, v: 8 }], ["Copied a master's stance until it stuck", { s: 2, v: 8 }], ["Fasted and trained in silence", { s: 0, v: 8 }]],
+    loot: [["A pouch of old coins", { pts: 2 }], ["A map with half the route torn off", { s: 5, v: 6 }], ["A strange glowing stone", { s: 0, v: 6 }], ["A well-balanced spare weapon", { s: 2, v: 6 }], ["A journal from someone who didn't make it", { s: 5, v: 6 }], ["A healing salve", { heal: true, all: 2 }]],
+    twist: [["An old friend turns up with bad news", { s: 5, v: 6 }], ["A storm traps everyone in one place for a week", { all: 3 }], ["Someone powerful starts watching {first}", { pts: 2 }], ["A rumor about {first} spreads, and most of it is wrong", { s: 5, v: 6 }], ["{first} gets sick at the worst possible time", { inj: true, all: 3 }], ["A stranger leaves {first} a gift and disappears", { pts: 2 }]]
+  };
   const LST = {
     train: () => fresh(path().training, "train"), ally: () => fresh(path().allies, "ally"), loot: () => fresh(path().loot, "loot"), twist: () => fresh(path().twists, "twist"),
     quest: () => fresh(T().quests || QUESTS_DEFAULT, "quest"), foe: (pool) => fresh(foePool(pool), "foe"),
@@ -4949,7 +4956,10 @@
     if (!a) {
       const o = actOptions()[k];
       run.act = a = { kind: o.k, label: o.label };
-      run.names = Object.assign(run.names || {}, { [run.step]: o.label });
+      const CH = { fight: "A new mission", hunt: "The hunt", train: "Training arc", quest: "The quest", explore: "Into the unknown", treasure: "Treasure hunt", ally: "A new ally", enemy: "A new enemy", learn: "A new technique", followers: "Gathering followers", war: "War", rest: "A quiet day", retire: "Walking away" };
+      const taken = Object.values(run.names || {});
+      let nm = CH[o.k] || o.label; if (taken.includes(nm)) nm = taken.includes(nm + ", part two") ? o.label : nm + ", part two";
+      run.names = Object.assign(run.names || {}, { [run.step]: nm });
       const pk = st.pool === "side" ? "side" : st.pool;
       sceneFor(actHead(), st.ch != null ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: run.step > 2 ? "train2" : "train", learn: run.step > 2 ? "train2" : "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
       const intro = { fight: "{first} goes looking for trouble.", hunt: "Something big has been spotted nearby. {first} goes after it.", train: "{first} decides it's time to get stronger.", quest: "{first} takes on a quest.", explore: "{first} sets off into the unknown.", treasure: "{first} goes treasure hunting.", ally: "{first} could use a friend.", enemy: "{first} is about to make an enemy.", learn: "{first} wants a new technique.", followers: "{first} starts gathering people.", war: "War is coming, and {first} walks straight into it.", rest: "{first} takes a break.", retire: "{first} looks at everything they've done and decides it's enough." }[o.k];
