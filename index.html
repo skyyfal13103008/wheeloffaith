@@ -4437,7 +4437,8 @@
   function evolveOptions() {
     const ev = T().evolve, val = tv(ev.cat);
     const out = [...((ev.byValue || {})[val] || [])];
-    for (const g of ev.generic) { if (out.length >= 6) break; const f = fill(g); if (!out.includes(f)) out.push(f); }
+    for (const g of ev.generic) { if (out.length >= 6) break; const f = fill(g); if (!out.includes(f) && !/\bno (fruit|powers?|magic)\b|\bnone\b|\?\?\?/i.test(f)) out.push(f); }
+    if (!out.length) out.push("Haki mastery", "A fighting style all their own", "Pure willpower");
     return out;
   }
   function upcomingWheel() {
@@ -4627,8 +4628,10 @@
     const talentLine = `Best talent: ${bw.best}. Weakest: ${bw.worst}.`;
     const avgTier = run.talent.reduce((a, b) => a + b, 0) / run.talent.length;
     run.underdog = overall() < 48 || avgTier < 3.6;
+    bountyStart();
     logAdd("Prologue", fill(P.prologue || T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (run.epithet ? ` One day they'll be called ${run.epithet}.` : "") + (P.tag ? " " + P.tag : ""));
     if (run.underdog) logAdd("Prologue", fill("Nobody expects anything from {first}. That's the one advantage they have."), "Underdog: training gains doubled, +3 power after every defeat, and upsets pay out big.");
+    if (run.bounty != null) logAdd("Prologue", run.bounty ? fill("The Marines already have a file on {first}.") : fill("Nobody has heard of {first} yet. That's about to change."), `Starting bounty: ${berry(run.bounty)}.`);
     setNarr("The journey begins", fill(P.prologue || T().prologue));
     persist(); render();
   }
@@ -4680,6 +4683,34 @@
     setNarr(fill(txt), fx);
     if (e.gain) { sfx.heavenly(); fxFlash("#fff6d0"); } else sfx.sparkle();
   }
+  // ================= live bounty (One Piece) =================
+  // pirates, revolutionaries and runaways carry a bounty that climbs with every fight the world hears about
+  const berry = (n) => "฿" + Math.round(n).toLocaleString("en-US");
+  const berryShort = (n) => n >= 1e9 ? `${+(n / 1e9).toFixed(2)} billion` : n >= 1e6 ? `${Math.round(n / 1e6)} million` : n.toLocaleString("en-US");
+  function parseBounty(s) {
+    const m = String(s || "").match(/([\d.]+)\s*(million|billion)?/i);
+    if (!m) return null;
+    return parseFloat(m[1]) * (/billion/i.test(m[2] || "") ? 1e9 : /million/i.test(m[2] || "") ? 1e6 : 1);
+  }
+  function bountyStart() {
+    const i = idxOf("Bounty");
+    if (i < 0 || run.results[i] == null || effCat(i).name !== "Bounty") return;
+    run.bounty = parseBounty(run.results[i]) || 0;
+    run.bountyStart = run.bounty;
+  }
+  // raise the bounty after a deed; returns the line for the story log
+  function bountyBump(power, mult, why) {
+    if (run.bounty == null) return "";
+    const base = Math.max(5, power) ** 2 * 40000 * (mult || 1) * (1 + run.step * 0.08);
+    const add = base >= 1e8 ? Math.round(base / 1e7) * 1e7 : Math.round(base / 1e6) * 1e6;
+    if (add <= 0) return "";
+    const before = run.bounty;
+    run.bounty += add;
+    if (before === 0) return `The World Government prints ${run.name}'s first wanted poster: ${berry(run.bounty)}.`;
+    if (before < 1e9 && run.bounty >= 1e9) { react("bounty"); sfx.gong(); }
+    return `New wanted poster${why ? ` (${why})` : ""}: ${berry(before)} → ${berry(run.bounty)}.`;
+  }
+
   // ================= the adventure loop =================
   // Free turns spin "What do you do now?" and then a chain of wheels for that choice:
   // which monster, how many, how strong, do you win, do you improve, what improves.
@@ -4827,7 +4858,7 @@
       a.stage = "battle"; return;
     }
     if (s === "battle") {
-      const r = resolveBattle(w, k, head, { pool: a.kind === "war" ? "late" : st.pool });
+      const r = resolveBattle(w, k, head, { pool: a.kind === "war" ? "late" : st.pool, mult: a.kind === "war" ? 1 + (a.size || 0) : 1 });
       if (r.won) { a.upset = r.upset; a.stage = "improve"; a.times = a.kind === "war" ? WAR_SIZE[a.size || 0][3] : 1; if (r.o === "clutch") a.stage = "what"; }
       else if (r.o === "loss" && (a.kind === "war" || st.pool === "late" || st.pool === "mid" || a.extra >= 12)) a.stage = "survive";
       else endAct();
@@ -4907,7 +4938,8 @@
       const d = a.quest[1], q = a.quest[0] + (a.target ? `: ${a.target}` : "");
       if (k === 0) {
         run.w++; run.points += 1 + d;
-        const fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
+        let fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
+        if (run.bounty != null) fx += " " + bountyBump(questPower(d), 0.6 * d, q.toLowerCase());
         if (d >= 4) run.gained = (run.gained || []).concat({ n: cap(q), d: "A legendary deed. +5 power.", power: 5 });
         logAdd(head, fill("{first} pulls it off.", {}), fx); setNarr("Quest complete", fx);
         sfx.fanfare(); if (d >= 3) { fxFlash("#fff6d0"); react("legend"); }
@@ -4937,7 +4969,7 @@
 
   // shared fight resolution for free fights, rivals and the final boss
   function resolveBattle(bw, k, head, ctx) {
-    const st = STEPS[run.step], odds = winChance();
+    const st = STEPS[run.step], odds = winChance(), foe = run.foe;
     let o = bw.segs[k].k, saved = null;
     if (o === "loss") {
       for (const p of perks()) {
@@ -4970,6 +5002,11 @@
       run.rivalWins = (run.rivalWins || 0) + 1;
       if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel."; }
     }
+    if (run.bounty != null && foe && (won || o === "draw")) {
+      const mult = (st.pool === "boss" ? 3 : 1) * (st.k === "rival" ? 1.5 : 1) * (upset ? 1.5 : 1) * (o === "clutch" ? 1.3 : 1) * (o === "draw" ? 0.4 : 1) * ((ctx && ctx.mult) || 1);
+      const why = st.pool === "boss" ? `beat ${foe[0]}` : st.k === "rival" ? "beat their rival" : upset ? "a giant-killing upset" : "";
+      fx += " " + bountyBump(foe[1], mult, why);
+    }
     run.ally = false;
     if (st.k === "rival") t += " " + fill(won ? (st.n === 2 ? "{Rival} finally admits it: {first} is stronger. The rivalry that started on the road ends here." : "{Rival} spits blood, grins, and swears the next round will be different.")
       : (st.n === 2 ? "{Rival} walks away without a word. {first} will think about this fight for the rest of their life." : "{Rival} looks down at {first} and leaves. That stings more than the wounds."), v);
@@ -4987,7 +5024,8 @@
     return { o, won, upset };
   }
   function battleVars() {
-    return { foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: fill(T().move), clutch: T().clutch, sig: signature(),
+    const mv = fill(T().move);
+    return { foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "") : mv, clutch: T().clutch, sig: signature(),
       style: (tv("Fighting style") || "raw instinct").replace(/ \(.*\)$/, ""), weapon: tv("Weapon/Cursed tool/Costume") || "their bare hands", ally: run.companion || "", rival: (tv(T().vis.rival) || "their rival").replace(/^(A|An|The|Your) /, (m) => m.toLowerCase()), Rival: cap(tv(T().vis.rival) || "Their rival") };
   }
   // every chapter opens with a scene from the series' world
@@ -5035,7 +5073,9 @@
       const P = path(), k = await spin(listWheel(jTitle("twist"), P.twists.map(lbl)));
       const txt = lbl(P.twists[k]), e = P.twists[k][1];
       apply(e);
-      logAdd(head, txt + ".", describe(e) + ".", !!(e.inj || (e.v && e.v < 0)));
+      let bfx = "";
+      if (run.bounty != null && /bounty|Five Elders|Buster Call|threat|Emperor|Poneglyph|Void Century/i.test(txt)) bfx = " " + bountyBump(60, 1.5, "the world is watching");
+      logAdd(head, txt + ".", describe(e) + "." + bfx, !!(e.inj || (e.v && e.v < 0)));
       setNarr(txt, describe(e) + ".");
       run.step++;
     } else if (st.k === "evolve") {
@@ -5065,7 +5105,8 @@
   }
   function finishRun(head, seg) {
     run.ending = seg.t; run.phase = "done";
-    const rec = `Final record: ${run.w} win${run.w === 1 ? "" : "s"}, ${run.l} loss${run.l === 1 ? "" : "es"}${run.d ? `, ${run.d} draw${run.d > 1 ? "s" : ""}` : ""}.`;
+    const rec = `Final record: ${run.w} win${run.w === 1 ? "" : "s"}, ${run.l} loss${run.l === 1 ? "" : "es"}${run.d ? `, ${run.d} draw${run.d > 1 ? "s" : ""}` : ""}.`
+      + (run.bounty != null ? ` Final bounty: ${berry(run.bounty)} (started at ${berry(run.bountyStart || 0)}).` : "");
     const legacy = (run.dead ? fill("{first} died young, {Personality|lower} to the very end.") : run.retired ? fill("{first} walked away on their own terms.") : seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end."))
       + (run.epithet ? ` History remembers them as ${run.name}, ${run.epithet}.` : "");
     const after = [];
@@ -5113,10 +5154,11 @@
     legend: ["That's a legendary quest done", "History books material"],
     evolve: ["The evolution is evolving", "{v} goes hard"],
     retire: ["Retiring at the peak. Respect.", "Knew when to walk away"],
+    bounty: ["A billion-berry bounty?? Emperor energy", "The World Government is sweating", "That poster is going on every wall"],
     goodEnd: ["What a story", "Main character ending", "Peak"],
     badEnd: ["Not the ending we wanted..", "Pain.", "The wheel was cruel"]
   };
-  const REACT_FACE = { rare: "😳", godly: "🤯", low: "😬", combo: "🔥", upset: "😭", clutch: "😤", choke: "💀", saved: "😇", scary: "😨", lucky: "😮‍💨", nothing: "🗿", dead: "💀", barely: "😰", ally: "🤝", enemy: "😈", followers: "👑", legend: "🏆", evolve: "⚡", retire: "🫡", goodEnd: "🥹", badEnd: "😔" };
+  const REACT_FACE = { rare: "😳", godly: "🤯", low: "😬", combo: "🔥", upset: "😭", clutch: "😤", choke: "💀", saved: "😇", scary: "😨", lucky: "😮‍💨", nothing: "🗿", dead: "💀", barely: "😰", ally: "🤝", enemy: "😈", followers: "👑", legend: "🏆", evolve: "⚡", retire: "🫡", bounty: "💰", goodEnd: "🥹", badEnd: "😔" };
   let reactTimer = 0, lastReact = 0;
   function react(kind, vars) {
     if ((turbo && !window.__showReact) || !REACT[kind]) return;
@@ -5334,7 +5376,7 @@
       else { title = "Ready for the journey"; sub = `${STEPS.length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = STEPS[run.step];
-      eb = `Chapter ${run.step + 1} of ${STEPS.length} · ${chapterName(run.step)}`;
+      eb = `Chapter ${run.step + 1} of ${STEPS.length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "");
       if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
       else if (needsCodename() && !run.act) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
       else if (st.k === "act") {
@@ -5412,7 +5454,7 @@
     const mystery = showMystery();
     return {
       seed: run.seed, theme: state.theme, themeLabel: th.label, name: run.codename || run.name, epithet: run.codename ? `${run.name}${run.epithet ? ", " + run.epithet : ""}` : (run.epithet || ""),
-      tier: tierInfo().label, rarity: complete ? rarity() : "common", aura: tv(th.vis.aura) || "Unknown power", awakened: run.awakened || "",
+      tier: run.bounty != null && run.phase !== "create" ? berry(run.bounty) : tierInfo().label, rarity: complete ? rarity() : "common", aura: tv(th.vis.aura) || "Unknown power", awakened: run.awakened || "",
       title: complete ? fill(th.titleTpl) : "A character still taking shape…", chips: chipVals.slice(0, 9), evolution: run.evolution || "",
       stats: statNames().map((n, k) => [n, vals ? vals[k] : null, talentLabel(k) || ""]), overall: complete ? overall() : null,
       record: complete ? rec.join(" · ") : `${slots().filter((x) => slotVal(x) != null).length} / ${slots().length} traits`,
