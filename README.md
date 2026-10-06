@@ -12,11 +12,14 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
    - hair, eyes, weapon, dream and other details are rolled in the background, so each run is a different person
 3. **Talent wheels**: one spin per stat (power, ability mastery, weapon skill, strength, speed, IQ). Each stat has its own 10-tier ladder, like IQ from "Can't count to ten" to "Ten moves ahead". Slices are sized by rarity, so the top and bottom tiers are slivers.
 4. **The card**: a silhouette in your power's color during play; the face is revealed at the ending, rarity frame from your rank, and six series-specific stats.
-5. **The journey**: 14 chapters, each one a spin. Opponents, battles weighted by your power, training, a new ally, treasure, a twist, a power evolution, two fights against your rival, and an ending. Wins put more good endings on the final wheel.
-6. **Upgrades**: earn points from fights and training, then spend them on stats, rank-ups, or an awakening spin (Domain Expansion, Devil Union, Gear-style transformation...).
+5. **The journey**: 14 chapters. Most are free turns that start with "What do you do now?" (fight, hunt a monster, train, take a quest, explore, find treasure, make an ally or an enemy, learn a skill, recruit followers, go to war, rest, or retire). Each choice opens its own chain of wheels: which monster, how many, how strong, do you win, does it pay off, what improves. Winning can raise a stat a whole tier, losing can mean "Do you survive?". Fixed beats: two rival fights, a power evolution, a twist, the final battle and the ending.
+6. **Reactions**: big moments (rare pulls, godly stats, upsets, clutch wins, deaths) pop a TikTok-style reaction caption over the wheel.
+7. **Upgrades**: earn points from fights and training, then spend them on stats, rank-ups, or an awakening spin (Domain Expansion, Devil Union, Gear-style transformation...).
 
 ## Lore depth
 
+- Every character spins an age (with exact-age follow-up), a height (bell-curve wheel, giants and dwarves get their own), a weakness and a title from a wheel of about 90.
+- Hybrid / mixed-race characters spin a father and a mother and inherit from both.
 - Every series has a race / being / species wheel and a fighting-style wheel with canon styles.
 - Answers branch several levels deep. Example: Celestial Dragon → bloodline → which Five Elder → does Imu know you exist.
 - Special answers grant **perks**: stat boosts, new card stats (Divine Authority, Six Eyes, Sulong, Spirit: Salamander...) and once-per-journey interventions that undo a lost fight (Imu, Sukuna, Astaroth, Hakari's jackpot, the Revive-Revive Fruit...).

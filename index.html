@@ -86,6 +86,12 @@
   .wheel-wrap { position: relative; width: min(100%, 430px); aspect-ratio: 1; max-width: 100%; }
   .wheel-wrap::before { content: ""; position: absolute; inset: -10px; border-radius: 50%; background: radial-gradient(closest-side, rgba(234,181,77,.18), transparent); }
   #wheel { position: relative; z-index: 1; width: 100%; height: 100%; display: block; }
+  .reaction { position: absolute; z-index: 4; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.6); width: min(92%, 380px); padding: 14px 16px; border-radius: 16px; background: rgba(8,6,16,.88); border: 1px solid rgba(255,255,255,.18); box-shadow: 0 12px 40px rgba(0,0,0,.6); text-align: center; opacity: 0; pointer-events: none; }
+  .reaction.show { animation: rxpop 2.3s ease forwards; }
+  .reaction .rx-face { display: block; font-size: 52px; line-height: 1.1; }
+  .reaction .rx-text { display: block; margin-top: 6px; font: 800 20px/1.25 Figtree, "Segoe UI", sans-serif; color: #fff; text-shadow: 0 2px 0 #000, 0 0 2px #000; }
+  @keyframes rxpop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.6); } 10% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); } 18% { transform: translate(-50%, -50%) scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .reaction.show { animation: none; opacity: 1; transform: translate(-50%, -50%); } }
   .pointer { position: absolute; z-index: 2; top: -6px; left: 50%; width: 30px; height: 40px; transform: translateX(-50%); transform-origin: 50% 20%; background: var(--gold); clip-path: polygon(0 0, 100% 0, 50% 100%); filter: drop-shadow(0 3px 4px rgba(0,0,0,.5)); }
   .pointer.tick { animation: tick .09s ease-out; }
   @keyframes tick { 50% { transform: translateX(-50%) rotate(-14deg); } }
@@ -232,6 +238,7 @@
       </div>
       <div class="wheel-wrap">
         <div class="pointer" id="pointer"></div>
+        <div class="reaction" id="reaction" hidden><span class="rx-face"></span><span class="rx-text"></span></div>
         <canvas id="wheel" role="img" aria-label="Wheel"></canvas>
       </div>
       <div class="narration" aria-live="polite">
@@ -3428,6 +3435,7 @@
     chances: [["The World Government patches {first} up and sends them back out", { heal: true, all: 2 }], ["A CP0 mask hides the bruises", { pts: 2 }]]
   });
   [THEMES.fantasy.paths["Lawful evil"]].forEach((d) => Object.assign(d, {
+    acts: [["fight", "Crush a rival warlord", 3], ["hunt", "Bind a monster to your will", 2.5], ["train", "Study forbidden magic", 3], ["quest", "Carry out the Dark Lord's orders", 3], ["explore", "Raid a crypt", 2], ["treasure", "Plunder a temple", 1.5], ["ally", "Make a dark pact", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a forbidden spell", 1.5], ["followers", "Raise an army", 1], ["followers", "Build a dark kingdom", 0.6], ["war", "Go to war", 1], ["rest", "Feast in your fortress", 0.8], ["retire", "Vanish into legend", 0.25]],
     scenes: {
       early: ["A village refuses to pay tribute. {first} has been sent to change their minds."], train: ["The Dark Lord's war college. The weak are fed to the hounds."], mid: ["The Black Tournament. Losers don't leave the arena."],
       twist: ["The prophecy names the Chosen Hero, and {first}'s master wants them dead."], late: ["The Dark Lord's armies march on the capital of the light."], boss: ["The Chosen Hero stands at the gates with a blade of light."], ending: ["The realm will remember {first}. Some will curse their name."]
@@ -3438,6 +3446,7 @@
     chances: [["The Dark Lord's healers stitch {first} back together", { heal: true, all: 3 }], ["{first} drinks a demon's blood", { gain: { n: "Demon's blood", d: "+5 power, bad karma.", power: 5, karma: -1 } }]]
   }));
   Object.assign(THEMES.hero.paths["Villain"], {
+    acts: [["fight", "Take down a hero", 3], ["hunt", "Unleash a monster on the city", 2], ["train", "Train in the lair", 3], ["quest", "Pull off a heist", 3], ["explore", "Scout the city", 2], ["treasure", "Rob a vault", 1.5], ["ally", "Hire a henchman", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Invent a new trick", 1.5], ["followers", "Build a villain league", 1], ["war", "Declare war on the city", 1], ["rest", "Lay low", 0.8], ["retire", "Retire to a private island", 0.25]],
     scenes: {
       early: ["The bank vault is open. {first}'s first heist starts now."], train: ["A secret lair, a punching bag, and a lot of anger."], recruit: ["A new face shows up at the lair, looking for a boss."], side: ["A side job for the villain league. Nothing personal."],
       mid: ["The villain league trials. Everyone wants a seat at the table."], twist: ["The hero league announces a manhunt for {first}."], late: ["{first}'s plan goes live. The whole city is the target."], boss: ["The greatest hero in the world lands in front of {first}."], ending: ["The city still talks about {first}, mostly in whispers."]
@@ -3487,7 +3496,128 @@
     "Astaroth": 0.6, "Lucifero": 0.8, "Liebe, the anti-magic devil": 0.6, "Royal": 0.6, "Elf reincarnation": 0.7,
     "Born a King": 0.5, "A wish-granting being, like Nanika": 0.5, "Host of a Dark Continent being": 0.5, "Eyes awaken in rage": 0.8,
     "Chosen by prophecy": 0.6, "A whole city still prays": 0.6, "Loop an entire day": 0.6
+  };  // ================= age, height, weakness, parents =================
+  const AGE_ANIME = ["Kid (10-14)", "Teen (15-19)", "Teen (15-19)", "Teen (15-19)", "Young adult (20-29)", "Young adult (20-29)", "Adult (30-45)", "Veteran (46-70)", "Elder (71+)"];
+  const AGE_LONG = ["Teen (15-19)", "Young adult (20-29)", "Centuries old", "Centuries old", "Centuries old", "Over a thousand years old", "Over a thousand years old", "Ancient (older than recorded history)"];
+  const AGE_COSMIC = ["Young adult (20-29)", "Centuries old", "Centuries old", "Over a thousand years old", "Ancient (older than recorded history)", "Older than the world", "Older than the universe"];
+  const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => String(a + i));
+  const AGE_EXACT = {
+    "Kid (10-14)": range(10, 14), "Teen (15-19)": range(15, 19), "Young adult (20-29)": range(20, 29), "Adult (30-45)": ["30", "32", "34", "36", "38", "40", "42", "45"],
+    "Veteran (46-70)": ["46", "50", "54", "58", "62", "66", "70"], "Elder (71+)": ["72", "78", "84", "90", "99", "108"],
+    "Centuries old": ["150", "212", "300", "347", "404", "500", "666", "800"], "Over a thousand years old": ["1,000", "1,200", "1,500", "2,000", "3,000", "5,000"],
+    "Ancient (older than recorded history)": ["10,000", "50,000", "100,000", "Nobody knows"]
   };
+  const AGE_PERKS = {
+    "Kid (10-14)": { n: "Still growing", d: "Young enough to grow fast. +3 power after each defeat.", adapt: 3 },
+    "Elder (71+)": { n: "Old master", d: "Decades of experience. +8 IQ.", stat: [5, 8], quiet: true },
+    "Veteran (46-70)": { n: "Veteran", d: "Seen it all. +5 IQ.", stat: [5, 5], quiet: true },
+    "Centuries old": { n: "Centuries of experience", d: "+8 IQ, +3 power.", stat: [5, 8], power: 3 },
+    "Over a thousand years old": { n: "A thousand years of fighting", d: "+6 power.", power: 6 },
+    "Ancient (older than recorded history)": { n: "Ancient", d: "Talent wheels start at tier 3. +8 power.", power: 8, minTier: 2 },
+    "Older than the world": { n: "Older than the world", d: "Talent wheels start at tier 4. +10 power.", power: 10, minTier: 3 },
+    "Older than the universe": { n: "Older than the universe", d: "Talent wheels start at tier 5. +12 power.", power: 12, minTier: 4 }
+  };
+  const ft = (inch) => `${Math.floor(inch / 12)}'${inch % 12}"`;
+  // bell-shaped height wheels: a height appears more often the closer it is to the middle
+  function heightWheel(lo, hi, mid) { const out = []; for (let i = lo; i <= hi; i++) { const n = Math.max(1, Math.round(6 * Math.exp(-Math.pow((i - mid) / 4.5, 2)))); for (let j = 0; j < n; j++) out.push(ft(i)); } return out; }
+  const H_M = heightWheel(58, 82, 70), H_F = heightWheel(56, 78, 65), H_SHORT = heightWheel(34, 50, 42), H_TALL = heightWheel(72, 94, 82);
+  const H_GIANT = ["15 ft", "20 ft", "20 ft", "25 ft", "25 ft", "30 ft", "40 ft", "50 ft", "60 ft"], H_TINY = ["6 inches", "8 inches", "8 inches", "10 inches", "1 ft"];
+  const HEIGHT_PERKS = {};
+  for (let i = 30; i <= 96; i++) { if (i >= 78) HEIGHT_PERKS[ft(i)] = { n: "Towering", d: "Built like a wall. +5 Strength.", stat: [3, 5], quiet: true }; else if (i <= 60) HEIGHT_PERKS[ft(i)] = { n: "Small and quick", d: "Hard to hit. +5 Speed.", stat: [4, 5], quiet: true }; }
+  H_GIANT.forEach((h) => { HEIGHT_PERKS[h] = { n: "Giant body", d: "+10 Strength.", stat: [3, 10], quiet: true }; });
+  H_TINY.forEach((h) => { HEIGHT_PERKS[h] = { n: "Tiny", d: "+10 Speed.", stat: [4, 10], quiet: true }; });
+  const WEAK_ALL = ["No known weakness", "Their temper", "Their pride", "Their family", "Their friends", "Can't swim", "Afraid of heights", "Afraid of the dark", "Terrible sense of direction", "Can't say no to food",
+    "Falls asleep anywhere", "Trusts too easily", "Can't lie", "Motion sickness", "Gets bored mid-fight", "Talks too much in fights", "Easily flattered", "Gambling", "Cute animals", "Their ex",
+    "A childhood trauma", "Overthinks everything", "Can't read", "Allergic to cats", "Bad eyesight", "Tone-deaf battle cries", "Burns out fast", "Can't fight on an empty stomach", "Holds back against friends", "Never retreats",
+    "Hates losing so much they get reckless", "Terrified of bugs", "A debt they can't repay", "An old injury", "Insomnia", "Gets lost in their own head", "Can't refuse a challenge", "Overprotective", "Too loud to sneak anywhere", "Mute"];
+  const WEAK_SERIES = {
+    blackclover: ["Low mana reserves", "Anti Magic", "Curse-warding marks", "Their devil's temptation", "Can't fly a broom", "Spatial traps", "Sealing magic", "Noble arrogance"],
+    jjk: ["Their binding vow", "Low cursed energy reserves", "Can't use Reverse Cursed Technique", "Domain Amplification", "Their technique's rules are known", "Simple Domain users", "Soul attacks", "Cursed tools that ignore techniques"],
+    hxh: ["Their Nen restriction", "Emperor Time's lifespan cost", "In (hidden aura)", "Gyo-blind", "Manipulator needles", "Zetsu ambushes", "Aura exhaustion", "Their vow's penalty"],
+    onepiece: ["Seastone", "The sea (Devil Fruit user)", "Haki users", "Getting seasick on a ship", "Being hungry", "A bounty on their head", "Celestial Dragon privilege", "Buster Calls"],
+    fantasy: ["Silver", "Holy water", "Cold iron", "Sunlight", "Fire", "Running water", "Their true name", "Dragon fear"],
+    hero: ["A rare green metal", "Magic", "Loud noises", "Sunlight", "The cold", "Electricity", "Running out of time", "Their secret identity"]
+  };
+  const WEAK_RARE = { "No known weakness": 0.45 };
+  Object.entries(THEMES).forEach(([key, th]) => {
+    const raceCat = th.cats.findIndex((c) => /^(Race|Being|Species)$/.test(c[0]));
+    const at = raceCat >= 0 ? raceCat + 1 : 1;
+    const longLived = { blackclover: ["Elf reincarnation", "Witch"], jjk: ["Incarnated sorcerer", "Cursed womb: Death Painting", "Cursed corpse"], hxh: ["Host of a Dark Continent being"], onepiece: ["Lunarian", "Giant", "Mink"], fantasy: ["Elf", "Dwarf", "Vampire", "Undead", "Fae"], hero: ["Alien", "Android", "Magic-born"] }[key] || [];
+    const cosmic = { fantasy: ["Demigod", "Fallen god"], hero: ["Demigod"], jjk: [], onepiece: [] }[key] || [];
+    const anime = key !== "fantasy" && key !== "hero";
+    th.cats.splice(at, 0, ["Age", anime ? AGE_ANIME : AGE_ANIME.concat(["Centuries old"])], ["Height", H_M]);
+    const pIdx = th.cats.findIndex((c) => c[0] === "Personality");
+    th.cats.splice(pIdx >= 0 ? pIdx + 1 : th.cats.length, 0, ["Weakness", WEAK_ALL.concat(WEAK_SERIES[key] || [])]);
+    if (key === "hero") th.hidden = th.hidden.filter((h) => h[0] !== "Weakness");
+    th.adapt = th.adapt || [];
+    th.adapt.push({ when: ["Gender", "Female"], cat: "Height", opts: H_F });
+    const rc = raceCat >= 0 ? th.cats[raceCat][0] : "Race";
+    longLived.forEach((r) => th.adapt.push({ when: [rc, r], cat: "Age", opts: AGE_LONG }));
+    cosmic.forEach((r) => th.adapt.push({ when: [rc, r], cat: "Age", opts: AGE_COSMIC }));
+    th.follow = th.follow || {};
+    th.follow.Age = Object.fromEntries(Object.entries(AGE_EXACT).map(([b, l]) => [b, ["Exact age", l]]));
+    th.perks = Object.assign({}, AGE_PERKS, HEIGHT_PERKS, th.perks || {});
+    th.titles = Object.assign({ Age: "How old is {first}?", "Exact age": "Exactly how old?", Height: "How tall is {first}?", Weakness: "What's {first}'s weakness?", Father: "Who is {first}'s father?", Mother: "Who is {first}'s mother?" }, th.titles || {});
+    th.say = Object.assign({ Age: "Age: {v|lower}.", Height: "{v} tall.", Weakness: "Weakness: {v|lower}." }, th.say || {});
+  });
+  Object.assign(RARE, WEAK_RARE, { "Centuries old": 0.6, "Over a thousand years old": 0.45, "Ancient (older than recorded history)": 0.3, "Older than the world": 0.2, "Older than the universe": 0.1, "Kid (10-14)": 0.8, "Elder (71+)": 0.6, "60 ft": 0.5, "Nobody knows": 0.5 });
+  // body size follows race
+  THEMES.onepiece.adapt.push({ when: ["Race", "Giant"], cat: "Height", opts: H_GIANT }, { when: ["Race", "Tontatta Dwarf"], cat: "Height", opts: H_TINY }, { when: ["Race", "Long-Leg Tribe"], cat: "Height", opts: H_TALL }, { when: ["Race", "Fish-Man"], cat: "Height", opts: H_TALL });
+  THEMES.blackclover.adapt.push({ when: ["Race", "Half-dwarf"], cat: "Height", opts: H_SHORT });
+  THEMES.fantasy.adapt.push(...["Halfling", "Gnome"].map((r) => ({ when: ["Race", r], cat: "Height", opts: H_SHORT })), ...["Orc", "Dragonborn", "Demigod"].map((r) => ({ when: ["Race", r], cat: "Height", opts: H_TALL })), { when: ["Race", "Dwarf"], cat: "Height", opts: heightWheel(46, 58, 52) });
+  // mixed blood: spin a father and a mother, and inherit from both
+  const parents = (th, raceCat, label, list) => {
+    th.cats.find((c) => c[0] === raceCat)[1].push(label);
+    const opts = list.filter((x, i) => x !== label && list.indexOf(x) === i);
+    th.follow[raceCat] = Object.assign(th.follow[raceCat] || {}, { [label]: ["Father", opts] });
+    th.follow.Father = { "*": ["Mother", opts] };
+  };
+  parents(THEMES.fantasy, "Race", "Hybrid", THEMES.fantasy.cats.find((c) => c[0] === "Race")[1]);
+  parents(THEMES.hero, "Species", "Hybrid", THEMES.hero.cats.find((c) => c[0] === "Species")[1]);
+  parents(THEMES.onepiece, "Race", "Mixed-race", THEMES.onepiece.cats.find((c) => c[0] === "Race")[1]);
+  Object.assign(RARE, { Hybrid: 0.8, "Mixed-race": 0.7 });
+  THEMES.fantasy.lines = Object.assign(THEMES.fantasy.lines || {}, { Hybrid: "A hybrid. Two bloodlines, one body. Time to find out who the parents are." });
+  THEMES.hero.lines = Object.assign(THEMES.hero.lines || {}, { Hybrid: "A hybrid. Two different species made this one." });
+  THEMES.onepiece.lines = Object.assign(THEMES.onepiece.lines || {}, { "Mixed-race": "Mixed blood. In this world, that can mean anything. Who were the parents?" });
+
+  // ================= free-turn content per series =================
+  Object.assign(THEMES.blackclover, {
+    acts: [["fight", "Take a Magic Knight mission", 3], ["hunt", "Hunt a dungeon beast", 2.5], ["train", "Train", 3], ["quest", "Accept a royal request", 3], ["explore", "Explore a dungeon", 2], ["treasure", "Raid a dungeon vault", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new spell", 1.5], ["followers", "Gather followers", 1], ["war", "Join the war", 1], ["rest", "Party at the hideout", 0.8], ["retire", "Retire from the Magic Knights", 0.25]],
+    monsters: ["A dungeon golem", "A mana-eating beast", "A giant boar", "A crystal salamander", "A rock giant", "An undead knight", "A sea serpent off the Clover coast", "A shadow beast", "A lower-rank devil", "A cursed spirit", "A dragon from the Grand Magic Zone", "A mana-mad wyvern"],
+    quests: [["Clear a dungeon on the Diamond border", 2], ["Escort a royal to the capital", 1], ["Catch an Eye of the Midnight Sun spy", 2], ["Seal a cursed relic", 2], ["Rescue a kidnapped village", 1], ["Hunt down a devil host", 3, ["Which devil?", ["A lower-rank devil", "A mid-rank devil", "A high-rank devil"]]], ["Recover a stolen grimoire", 2], ["Win the Royal Knights selection exam", 3], ["Defeat a ruler of the underworld", 4, ["Which one?", ["Lucifero", "Beelzebub", "Astaroth"]]], ["Stop the Spade Kingdom's invasion", 4]],
+    skills: ["A new {Magic} magic spell", "Mana Zone", "Mana Skin", "Ki sensing", "Mana Method", "A compound spell", "A sealing spell", "Spatial transfer"]
+  });
+  Object.assign(THEMES.jjk, {
+    acts: [["fight", "Take an exorcism mission", 3], ["hunt", "Exorcise a cursed spirit", 2.5], ["train", "Train", 3], ["quest", "Take a request from the higher-ups", 3], ["explore", "Investigate a haunting", 2], ["treasure", "Search for cursed tools", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Develop a new technique", 1.5], ["followers", "Gather sorcerers to your cause", 1], ["war", "Join the war against the curses", 1], ["rest", "Hang out with classmates", 0.8], ["retire", "Quit jujutsu for good", 0.25]],
+    monsters: ["A Grade 4 cursed spirit", "Fly Heads", "A Grade 3 cursed spirit", "A Grade 2 cursed spirit", "A Grade 1 cursed spirit", "A finger bearer", "A cursed womb", "Smallpox Deity", "Kuchisake-onna", "Rainbow Dragon", "A Special Grade cursed spirit", "A Disaster curse"],
+    quests: [["Exorcise a finger bearer", 2], ["Protect the Star Plasma Vessel", 3], ["Recover a stolen Sukuna finger", 2], ["Investigate the cursed womb at the detention center", 2], ["Score 100 points in the Culling Game", 3], ["Defeat a Special Grade", 4, ["Which one?", ["Jogo", "Hanami", "Dagon", "Mahito"]]], ["Escort a non-sorcerer home", 1], ["Seal a cursed object in the vault", 1], ["Survive Shibuya", 4]],
+    skills: ["An extension of {Cursed technique}", "Reverse Cursed Technique", "Domain Expansion", "Simple Domain", "Black Flash on command", "Maximum Technique", "A new binding vow", "Domain Amplification"]
+  });
+  Object.assign(THEMES.hxh, {
+    acts: [["fight", "Take a Hunter job", 3], ["hunt", "Hunt a beast", 2.5], ["train", "Train", 3], ["quest", "Accept a Hunter contract", 3], ["explore", "Explore uncharted land", 2], ["treasure", "Hunt for treasure", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Develop your Hatsu", 1.5], ["followers", "Build a team", 1], ["war", "Join the Chimera Ant war", 1], ["rest", "Rest at a hotel", 0.8], ["retire", "Retire from hunting", 0.25]],
+    monsters: ["A Great Stamp", "A Kiriko", "A Lord of the Forest fox-bear", "A Zevil Island predator", "A Greed Island monster", "A Chimera Ant soldier", "A Chimera Ant squadron leader", "A Nen beast", "A Dark Continent calamity", "A swarm of Hellbell carriers"],
+    quests: [["Pass the Hunter Exam", 2], ["Win a Greed Island card", 2], ["Guard the Southernpiece auction", 2], ["Capture a Phantom Troupe member", 3], ["Exterminate a Chimera Ant colony", 3], ["Recover a pair of Scarlet Eyes", 2], ["Find a missing Hunter", 1], ["Survive the Dark Continent", 4, ["Which calamity?", ["Ai", "Zobae", "Hellbell", "Brion", "Pap"]]]],
+    skills: ["A new Hatsu", "Ko", "Ken", "Ryu", "En", "Shu", "A heavier vow", "A second ability"]
+  });
+  Object.assign(THEMES.onepiece, {
+    acts: [["fight", "Pick a fight on the next island", 3], ["hunt", "Hunt a sea monster", 2.5], ["train", "Train", 3], ["quest", "Take a job", 3], ["explore", "Explore an island", 2], ["treasure", "Hunt for treasure", 1.5], ["ally", "Recruit a crewmate", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new technique", 1.5], ["followers", "Grow your crew", 1], ["war", "Go to war", 1], ["rest", "Throw a party", 0.8], ["retire", "Retire to a quiet island", 0.25]],
+    monsters: ["A Sea King", "A Kraken", "A Fighting Fish", "A Neptunian", "A Sandora lizard", "A Lapahn pack", "A dinosaur from Little Garden", "A Pacifista", "A Seraphim", "An Island Whale", "A Mythical Zoan user gone wild"],
+    quests: [["Find a Road Poneglyph", 3], ["Free the slaves at Sabaody", 2], ["Steal a Devil Fruit", 2, ["Which fruit?", ["A Paramecia", "A Logia", "A Mythical Zoan"]]], ["Break a crewmate out of Impel Down", 3], ["Escort a princess home", 1], ["Climb Reverse Mountain", 1], ["Break into Enies Lobby", 3], ["Defeat an Emperor", 4, ["Which Emperor?", ["Blackbeard", "Shanks", "Buggy", "Luffy"]]], ["Find the One Piece", 5]],
+    skills: ["Armament Haki", "Observation Haki", "Future Sight", "Advanced Conqueror's Haki", "Ryuo", "A new fruit technique", "Rokushiki: Soru", "Geppo"]
+  });
+  Object.assign(THEMES.fantasy, {
+    acts: [["fight", "Take a contract", 3], ["hunt", "Fight a monster", 2.5], ["train", "Train", 3], ["quest", "Complete a quest", 3], ["explore", "Explore", 2], ["treasure", "Find a treasure", 1.5], ["ally", "Make an ally", 1.2], ["ally", "Tame a beast", 0.8], ["enemy", "Make an enemy", 1], ["learn", "Learn a new spell", 1.5], ["followers", "Recruit followers", 1], ["followers", "Build a kingdom", 0.6], ["war", "Go to war", 1], ["rest", "Start a business", 0.6], ["rest", "Rest at the tavern", 0.6], ["retire", "You retire", 0.25]],
+    monsters: ["Hydra", "Minotaur", "Cyclops", "Troll", "Ogre", "Goblin", "Kaiju", "Titan", "Dragon", "Behemoth", "Leviathan", "Sea Serpent", "Wyvern", "Griffin", "Fenrir", "Cerberus", "Chimera", "Manticore", "Cockatrice", "Basilisk", "Kraken"],
+    quests: [["Escort a Royal", 1], ["Retrieve a Cursed Item", 2], ["Hunt a Legendary Beast", 3], ["Protect a Village", 1], ["Find a Lost Artifact", 2], ["Rescue a Prisoner", 2], ["Capture a Criminal", 1], ["Find a Hidden City", 2], ["Recover a Lost Treasure", 2], ["Survive a Deadly Realm", 3], ["Stop an Invasion", 3], ["Destroy a Powerful Artifact", 3], ["Save a Kingdom", 3], ["Clear a Dungeon", 2], ["Defeat a Villain", 2], ["Explore Ancient Ruins", 1], ["Conquer a Realm", 4], ["Prevent the End of the World", 5], ["Kill a God", 5, ["Which god?", ["God of War", "God of Destruction", "God of Fate"]]]],
+    skills: ["A new {Magic|lower} spell", "A fireball", "Teleportation", "A healing word", "Summon familiar", "Time stop", "A shield spell", "Wild shape"]
+  });
+  Object.assign(THEMES.hero, {
+    acts: [["fight", "Stop a villain", 3], ["hunt", "Stop a monster attack", 2.5], ["train", "Train", 3], ["quest", "Take a mission", 3], ["explore", "Patrol the city", 2], ["treasure", "Raid a villain's lair", 1.5], ["ally", "Team up", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Unlock a new power trick", 1.5], ["followers", "Build a hero team", 1], ["war", "Stop an invasion", 1], ["rest", "Take a day off", 0.8], ["retire", "Hang up the cape", 0.25]],
+    monsters: ["A kaiju", "A giant robot", "A drone swarm", "An alien beast", "A lab mutant", "A sewer monster", "A living storm", "A rogue AI war machine", "An interdimensional horror"],
+    quests: [["Stop a bank heist", 1], ["Defuse a bomb", 2], ["Rescue hostages", 2], ["Take down a crime boss", 2], ["Stop an alien invasion", 3], ["Save the president", 3], ["Stop a time paradox", 4], ["Prevent the end of the world", 5]],
+    skills: ["A new way to use {Power|lower}", "A power shield", "A finishing move", "Flight", "A team-up combo", "A suit upgrade", "Power overdrive", "Precision control"]
+  });
+
   const tierWeight = (i, n) => n > 1 ? 1 - 0.75 * i / (n - 1) : 1;
   // collapse repeated options into one slice whose size counts the repeats
   function uniqWeighted(opts) {
@@ -3503,10 +3633,11 @@
   }
   // 14 chapters. ch = index into the series' own chapter names; name = shared name for the newer chapters.
   const STEPS = [
-    { k: "battle", pool: "early", ch: 0 }, { k: "train", ch: 1 }, { k: "recruit", name: "A new ally" }, { k: "battle", pool: "side", name: "Side quest" },
-    { k: "rival", n: 1, name: "Enter the rival" }, { k: "battle", pool: "mid", ch: 2 }, { k: "loot", name: "Treasure" }, { k: "evolve", ch: 3 },
-    { k: "twist", ch: 4 }, { k: "battle", pool: "late", ch: 5 }, { k: "train", name: "Second training arc" }, { k: "rival", n: 2, name: "Rival rematch" },
-    { k: "battle", pool: "boss", ch: 6 }, { k: "ending", ch: 7 }
+    { k: "act", lean: "fight", pool: "early", sc: "early", ch: 0 }, { k: "act", lean: "train", pool: "early", sc: "train", ch: 1 },
+    { k: "act", lean: "ally", pool: "early", sc: "recruit" }, { k: "act", lean: "quest", pool: "side", sc: "side" },
+    { k: "rival", n: 1, name: "Enter the rival" }, { k: "act", lean: "fight", pool: "mid", sc: "mid", ch: 2 }, { k: "act", lean: "explore", pool: "mid", sc: "loot" },
+    { k: "evolve", ch: 3 }, { k: "twist", ch: 4 }, { k: "act", lean: "war", pool: "late", sc: "late", ch: 5 }, { k: "act", lean: "train", pool: "late", sc: "train2" },
+    { k: "rival", n: 2, name: "Rival rematch" }, { k: "battle", pool: "boss", ch: 6 }, { k: "ending", ch: 7 }
   ];
   const SEG_COLORS = ["#5b3fa8", "#c2416b", "#2b7d9c", "#c9822a", "#3c8a58", "#8b3fa1", "#b0502f", "#2f5cb0"];
   const STORE = "wheel-of-faith.v2", RUNSTORE = "wheel-of-faith.run.v2";
@@ -3580,7 +3711,7 @@
     (T().hidden || []).forEach(([n, opts]) => { hidden[n] = pickR(opts, r); });
     const th = T();
     return {
-      v: 5, theme: state.theme, seed, name: "???", results: new Array(baseCats().length).fill(null), subs: {}, hidden, perkUses: {}, adaptBonus: 0,
+      v: 6, theme: state.theme, seed, name: "???", results: new Array(baseCats().length).fill(null), subs: {}, hidden, perkUses: {}, adaptBonus: 0,
       rerollsUsed: 0, phase: "create", step: 0, foe: null, bonus: th.stats.map(() => 0), talent: th.stats.map(() => null), tierUp: 0, awakened: null, evolution: null, awarded: false,
       points: 0, w: 0, l: 0, d: 0, injured: false, ally: false, bossWin: false, log: [], narr: { big: "", text: "Press Spin to roll your first trait. Every pick can unlock bonus wheels and change the wheels after it." }, ending: null, ai: null, showAI: true
     };
@@ -3602,9 +3733,10 @@
     const out = [];
     baseCats().forEach((c, i) => { out.push({ k: "cat", i }); (run.subs[i] || []).forEach((x, j) => out.push({ k: "sub", i, j })); });
     T().stats.forEach((n, i) => out.push({ k: "tal", i }));
+    out.push({ k: "title" });
     return out;
   }
-  const slotVal = (s) => s.k === "cat" ? run.results[s.i] : s.k === "tal" ? run.talent[s.i] : (run.subs[s.i] && run.subs[s.i][s.j] ? run.subs[s.i][s.j].value : null);
+  const slotVal = (s) => s.k === "title" ? (run.epithet || null) : s.k === "cat" ? run.results[s.i] : s.k === "tal" ? run.talent[s.i] : (run.subs[s.i] && run.subs[s.i][s.j] ? run.subs[s.i][s.j].value : null);
   const nextSlot = () => slots().find((s) => slotVal(s) == null) || null;
   const isComplete = () => !nextSlot();
   function slotWheel(s) {
@@ -3612,6 +3744,7 @@
       const e = effCat(s.i), isTier = e.base.toLowerCase() === String(T().vis.tier).toLowerCase();
       return { title: titleFor(e.name, null, null) === e.name ? titleFor(e.base, null, null) : titleFor(e.name, null, null), label: e.name, opts: e.opts, weights: e.opts.map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
     }
+    if (s.k === "title") { const o = titleOptions(); return { title: "What's your title?", label: "Title", opts: o, weights: o.map((x, i) => i === 0 ? 3 : 1) }; }
     if (s.k === "tal") {
       const tl = tiersFor(s.i), m = minTier();
       return { title: talTitle(s.i), label: statNames()[s.i], opts: tl.slice(m), colors: TAL_COL.slice(m), weights: TAL_WEIGHT.slice(m), tierIdx: tl.map((x, j) => j).slice(m) };
@@ -3717,7 +3850,7 @@
     const th = T(), j = th.journey, L = arcLayers();
     const take = (k) => L.find((l) => l[k] != null);
     const out = Object.assign({}, j);
-    ["chapters", "prologue", "home", "tal", "jt"].forEach((k) => { const l = take(k); if (l) out[k] = l[k]; });
+    ["chapters", "prologue", "home", "tal", "jt", "acts"].forEach((k) => { const l = take(k); if (l) out[k] = l[k]; });
     out.tag = L.map((l) => l.tag).filter(Boolean).join(" ");
     const merge = (lists, base, min, max) => {
       const seen = new Set(), res = [];
@@ -3739,7 +3872,7 @@
   const J_DEFAULT = { foe: ["Who stands in the way?"], train: ["How do they train?"], twist: ["Twist of fate"], recruit: ["Who joins them?"], loot: ["What do they find?"], evolve: ["How does the power evolve?"], chance: ["A second chance"], battle: ["{first} vs {foe}"] };
   function jTitle(kind, extra) {
     const P = path(), L = (P.jt && P.jt[kind]) || ((T().jt || {})[kind]) || J_DEFAULT[kind];
-    const s = fill(L[hash(run.seed + "|" + kind + "|" + run.step) % L.length], Object.assign({ chapter: chapterName(run.step), foe: run.foe ? run.foe[0] : "" }, extra || {}));
+    const s = fill(L[hash(run.seed + "|" + kind + "|" + run.step) % L.length], Object.assign({ chapter: chapterName(run.step), foe: run.foe ? run.foe[0].replace(/^(A|An|The) /, (m) => m.toLowerCase()) : "" }, extra || {}));
     return s.includes("???") ? fill(J_DEFAULT[kind][0], { foe: run.foe ? run.foe[0] : "" }) : s;
   }
 
@@ -4162,6 +4295,9 @@
     const p = perkFor(v);
     if ((p && !p.quiet) || (RARE[v] && RARE[v] <= 0.4)) { sfx.heavenly(); fxFlash("#fff6d0"); }
     else if (follow) sfx.sparkle();
+    const strong = p && !p.quiet && (p.minTier || (p.power || 0) >= 6 || (p.boss || 0) >= 6 || p.save);
+    if ((RARE[v] && RARE[v] <= 0.4) || strong) react(perks().filter((x) => !x.quiet).length >= 3 ? "combo" : "rare", { v });
+    else if (/^no (powers|magic|fruit|weapon|domain|spirit)|^none yet$|^not awakened$/i.test(v)) react("low", { v });
   }
   function chime(notes) {
     const a = ensureAudio(); if (!a) return;
@@ -4205,14 +4341,16 @@
     const c = size / 2, R = c - 8;
     for (let i = 0; i < n; i++) {
       const a = G.sizes[i], s = state.rotation + G.starts[i];
-      const fs = Math.max(8, Math.min(R * 0.072, R * 0.62 * a * 0.6));
+      const fs = Math.max(n > 40 ? 5.5 : 8, Math.min(R * 0.072, R * 0.62 * a * 0.6));
       ctx.beginPath(); ctx.moveTo(c, c); ctx.arc(c, c, R, s, s + a); ctx.closePath();
       let col = i % SEG_COLORS.length;
       if (i === n - 1 && col === 0 && n > 1) col = 3;
       ctx.fillStyle = state.wheel.colors ? state.wheel.colors[i] : (T().palette || SEG_COLORS)[col];
       ctx.fill();
       if (i === state.winner) { ctx.fillStyle = "rgba(255,240,200,0.3)"; ctx.fill(); }
-      ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.stroke();
+      else if (state.winner >= 0 && !state.spinning) { ctx.fillStyle = "rgba(0,0,0,0.55)"; ctx.fill(); }
+      ctx.strokeStyle = INK; ctx.lineWidth = n > 60 ? 0.6 : n > 24 ? 1.2 : 2; ctx.stroke();
+      if (R * 0.8 * a < 5.5) continue;
       ctx.save(); ctx.translate(c, c); ctx.rotate(s + a / 2);
       ctx.fillStyle = "#fff8ec"; ctx.font = `700 ${fs}px Figtree, "Segoe UI", sans-serif`;
       ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 3;
@@ -4220,7 +4358,7 @@
       ctx.restore();
     }
     ctx.beginPath(); ctx.arc(c, c, R, 0, TAU); ctx.strokeStyle = ACC; ctx.lineWidth = 5; ctx.stroke();
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < (n > 40 ? 0 : n); i++) {
       const ang = state.rotation + G.starts[i];
       ctx.beginPath(); ctx.arc(c + Math.cos(ang) * (R - 1), c + Math.sin(ang) * (R - 1), Math.max(2.5, R * 0.018), 0, TAU); ctx.fillStyle = "#fff1cf"; ctx.fill();
     }
@@ -4278,7 +4416,7 @@
     const col = { win: "#3c8a58", clutch: "#c9902a", draw: "#55598a", loss: "#a8323f" };
     return { title: run.foe ? jTitle("battle") : "Battle", label: "Battle", segs, opts: segs.map((s) => label[s.k]), colors: segs.map((s) => col[s.k]), weights: segs.map((s) => s.w) };
   }
-  const chapterName = (i) => { const st = STEPS[i]; return st.ch != null ? path().chapters[st.ch] : st.name; };
+  const chapterName = (i) => { const st = STEPS[i]; return st.ch != null ? path().chapters[st.ch] : st.name || (run.names || {})[i] || "What now?"; };
   function foePool(pool) {
     const F = path().foes;
     if (pool === "side") return F.early.slice(-3).concat(F.mid.slice(0, 3)).map(([n, p]) => [n, p + 6]);
@@ -4309,16 +4447,14 @@
     }
     if (run.phase === "journey") {
       const st = STEPS[run.step], P = path();
-      if (run.chance) return listWheel(jTitle("chance"), chanceList().map(lbl));
-      if (needsCodename()) return listWheel("Hero name", codenameOptions());
-      if (st.k === "battle") return run.foe ? battleWheel() : listWheel(jTitle("foe"), foePool(st.pool).map((f) => f[0]));
+      if (run.chance && !run.act) return listWheel(jTitle("chance"), chanceList().map(lbl));
+      if (needsCodename() && !run.act) return listWheel("Hero name", codenameOptions());
+      if (st.k === "act") return actWheel();
+      if (st.k === "battle") return run.foe ? battleWheel() : listWheel(jTitle("foe"), bossPool().map((f) => f[0]));
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
-      if (st.k === "train") return listWheel(jTitle("train"), P.training.map(lbl));
       if (st.k === "twist") return listWheel(jTitle("twist"), P.twists.map(lbl));
-      if (st.k === "recruit") return listWheel(jTitle("recruit"), P.allies.map(lbl));
-      if (st.k === "loot") return listWheel(jTitle("loot"), P.loot.map(lbl));
       if (st.k === "evolve") return listWheel(jTitle("evolve"), evolveOptions());
-      if (st.k === "ending") return endingWheel();
+      if (st.k === "ending") return run.dead ? listWheel("Ending", [`Killed by ${run.dead}`]) : endingWheel();
     }
     return state.wheel;
   }
@@ -4387,7 +4523,31 @@
   function landTal(i, t) {
     run.talent[i] = t;
     setNarr(tiersFor(i)[t], `${statNames()[i]}: tier ${t + 1} of 10. ${bandLine(t)}`);
-    if (t >= 8) { sfx.heavenly(); fxFlash("#fff6d0"); } else if (t <= 1) sfx.womp();
+    if (t >= 8) { sfx.heavenly(); fxFlash("#fff6d0"); react("godly", { v: tiersFor(i)[t] }); } else if (t <= 1) { sfx.womp(); react("low", { v: tiersFor(i)[t] }); }
+  }
+  function landTitle(v) {
+    run.epithet = v;
+    if (run.name === "???") run.name = makeName();
+    setNarr(cap(v), fill("From now on, people will call {first} {t}.", { t: v }));
+    sfx.fanfare(); fxFlash("#fff6d0");
+  }
+  // a big wheel of titles built from the character's power, weapon and personality, plus wild cards
+  const TITLE_ADJ = ["Silent", "Wandering", "Unbreakable", "Iron", "Golden", "Smiling", "Last", "Nameless", "Wild", "Crimson", "Black", "Pale", "Hollow", "Laughing", "Sleeping", "Burning", "Frozen", "Storm", "Sand", "Ash", "Blood", "Moon", "Sun", "Star", "Ghost", "Grave", "Thorn", "Steel", "Mad", "Gentle", "Lonely", "Broken", "Endless", "Final", "First", "Shattered", "Hungry", "Quiet", "Scarlet", "Midnight"];
+  const TITLE_NOUN = ["Wraith", "Blade", "Fang", "King", "Saint", "Demon", "Reaper", "Fox", "Wolf", "Hammer", "Shadow", "Storm", "Comet", "Ghost", "Monster", "Prince", "Knight", "Hunter", "Witch", "Sage", "Viper", "Raven", "Lion", "Tiger", "Dragon", "Phoenix", "Butcher", "Healer", "Gambler", "Joker", "Executioner", "Wanderer", "Tyrant", "Hero", "Fool", "Thorn", "Spark", "Titan", "Specter", "Warden"];
+  function titleOptions() {
+    if (run.titleOpts && run.titleOpts.length) return run.titleOpts;
+    const r = rng(run.seed + 13), th = T();
+    const matched = (rules, text) => rules.filter(([re]) => re.test(text || "")).flatMap(([, l]) => l);
+    const ai = idxOf(th.vis.aura);
+    const powerText = [...(ai >= 0 ? (run.subs[ai] || []).map((x) => x.value) : []), tv(th.vis.aura), tv(th.evolve.cat)].join(" ");
+    const adj = [...new Set(matched(EPI_ADJ, powerText).concat(TITLE_ADJ))];
+    const noun = [...new Set(matched(EPI_WEAPON, tv("Weapon") || tv("Cursed tool") || tv("Costume") || "").concat(matched(EPI_PERS, tv("Personality")), TITLE_NOUN))];
+    const fem = isFemale(), fix = (n) => fem ? ({ King: "Queen", Prince: "Princess" }[n] || n) : n;
+    const out = new Set([makeEpithet()]);
+    let guard = 0;
+    while (out.size < 90 && guard++ < 2000) out.add(`the ${pickR(adj, r)} ${fix(pickR(noun, r))}`);
+    run.titleOpts = [...out];
+    return run.titleOpts;
   }
   function landSub(i, j, v) {
     const chain = run.subs[i];
@@ -4410,7 +4570,7 @@
         const fam = activeValues().map((v) => sn.from[v]).find(Boolean);
         run.name = `Saint ${fam ? fam + " " : ""}${run.given || run.name.split(" ")[0]}`;
       }
-      run.epithet = makeEpithet();
+      if (!run.epithet) run.epithet = makeEpithet();
       run.points += perks().reduce((a, p) => a + (p.pts || 0), 0);
       setNarr(`${run.name}, ${run.epithet}`, `Character complete: ${fill(T().titleTpl)}. Your card is ready and you have 2 upgrade points. Begin the journey when you're ready.`);
       chime();
@@ -4420,7 +4580,7 @@
   async function spinSlot(s) {
     const wh = slotWheel(s);
     const k = await spin(wh);
-    if (s.k === "cat") landCat(s.i, wh.opts[k]); else if (s.k === "tal") landTal(s.i, wh.tierIdx[k]); else landSub(s.i, s.j, wh.opts[k]);
+    if (s.k === "title") landTitle(wh.opts[k]); else if (s.k === "cat") landCat(s.i, wh.opts[k]); else if (s.k === "tal") landTal(s.i, wh.tierIdx[k]); else landSub(s.i, s.j, wh.opts[k]);
   }
   async function spinNext() {
     const s = nextSlot();
@@ -4443,6 +4603,7 @@
     if (state.spinning || state.auto || rerollsLeft() <= 0 || slotVal(s) == null || run.phase !== "create") return;
     ensureAudio(); state.winner = -1;
     run.rerollsUsed++;
+    if (s.k === "title") run.epithet = null;
     if (s.k === "cat") {
       const base = baseCats()[s.i].name.toLowerCase();
       run.subs[s.i] = [];
@@ -4519,104 +4680,363 @@
     setNarr(fill(txt), fx);
     if (e.gain) { sfx.heavenly(); fxFlash("#fff6d0"); } else sfx.sparkle();
   }
-  async function journeyStep() {
-    if (run.chance) { await chanceStep(); persist(); render(); return; }
-    if (needsCodename()) { await codenameStep(); persist(); render(); return; }
+  // ================= the adventure loop =================
+  // Free turns spin "What do you do now?" and then a chain of wheels for that choice:
+  // which monster, how many, how strong, do you win, do you improve, what improves.
+  const ACTS_DEFAULT = [
+    ["fight", "Pick a fight", 3], ["hunt", "Fight a monster", 2.5], ["train", "Train", 3], ["quest", "Complete a quest", 3], ["explore", "Explore", 2],
+    ["treasure", "Find a treasure", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new skill", 1.5],
+    ["followers", "Recruit followers", 1], ["war", "Go to war", 1], ["rest", "Rest", 0.8], ["retire", "You retire", 0.25]
+  ];
+  const MONSTERS_DEFAULT = ["A troll", "An ogre", "A wyvern", "A giant serpent", "A pack of wolves", "A golem", "A dragon"];
+  const QUESTS_DEFAULT = [["Protect a village", 1], ["Rescue a prisoner", 2], ["Clear a dungeon", 2], ["Defeat a villain", 3], ["Save a kingdom", 4]];
+  const HOW_MANY = [["Just one", 0, 5], ["A few", 6, 3], ["A pack", 12, 2], ["A horde", 20, 1], ["An army", 30, 0.4]];
+  const HOW_STRONG = [["A pushover", -15, 2], ["A fair fight", -2, 3], ["Stronger than {first}", 10, 2], ["A nightmare", 22, 0.8]];
+  const FOE_FORM = [["Weaker than the rumors", -8, 2], ["As strong as the rumors", 0, 4], ["Stronger than the rumors", 8, 2], ["Holding back until now", 16, 1]];
+  const WAR_SIZE = [["A skirmish", 0, 3, 1], ["A real battle", 8, 3, 1], ["A full-scale war", 16, 2, 2], ["The end of the world", 28, 0.6, 3]];
+  const FOLLOW_COUNT = [["Just one loyal friend", 1, 4], ["A handful", 2, 4], ["Dozens", 3, 3], ["Hundreds", 5, 2], ["Thousands", 7, 1], ["A whole nation", 10, 0.35]];
+  const FINDS = [["Treasure", 3], ["A hidden master", 2], ["An ambush", 2], ["A secret about their past", 1.5], ["Nothing. Absolutely nothing", 1.2], ["A mysterious door", 1]];
+  const DOOR = [["Treasure", 2], ["A monster", 2], ["A sleeping legend", 1], ["A secret nobody was meant to find", 1]];
+  const ACT_LINES = {
+    nothing: ["{first} searches for hours. There is nothing there. Not even a rock worth keeping.", "Three days of exploring. {first} finds a nice view and a sunburn."],
+    rest: ["{first} takes a break. Good food, real sleep, and nobody trying to kill them for once.", "A day off. {first} wakes up feeling like a new person."]
+  };
+
+  const actList = () => path().acts || T().acts || ACTS_DEFAULT;
+  const actLabel = (kind) => (actList().find((a) => a[0] === kind) || ACTS_DEFAULT.find((a) => a[0] === kind) || [kind, kind])[1];
+  function actOptions() {
+    const st = STEPS[run.step];
+    return actList().filter(([k]) => !(k === "war" && st.pool === "early") && !(k === "retire" && run.step < 9))
+      .map(([k, label, w]) => ({ k, label, w: w * (k === st.lean ? 4 : 1) }));
+  }
+  const tw = (title, opts, weights, extra) => Object.assign({ title, opts, weights }, extra || {});
+  const statWheelOpts = () => statNames().map((n, k) => `${n} (${talentLabel(k) || "?"})`);
+  function questPower(d) { return clamp(18 + d * 14 + run.step * 2, 10, 99); }
+  function improveOdds() { return clamp(0.55 + (run.underdog ? 0.15 : 0) + (run.act && run.act.upset ? 0.25 : 0), 0.3, 0.95); }
+
+  // the wheel for the current stage of the current action
+  function actWheel() {
+    const a = run.act, P = path(), st = STEPS[run.step];
+    if (!a) { const o = actOptions(); return tw(fill((T().jt || {}).act ? pick1((T().jt || {}).act) : "What does {first} do now?"), o.map((x) => x.label), o.map((x) => x.w), { label: "What do you do now?" }); }
+    const s = a.stage;
+    if (s === "foe") { const pool = a.kind === "war" ? foePool("late").concat(foePool("boss").slice(0, 2)) : foePool(st.pool === "side" ? "side" : st.pool); return tw(a.kind === "war" ? fill("Who is the war against?") : jTitle("foe"), pool.map((f) => f[0]), null, { label: "Which enemy?" }); }
+    if (s === "form") return tw(fill("How strong is {foe} today?", { foe: a.foe[0] }), FOE_FORM.map((x) => x[0]), FOE_FORM.map((x) => x[2]), { label: "How strong is your enemy?" });
+    if (s === "beast") { const m = T().monsters || MONSTERS_DEFAULT; return tw(fill((T().jt || {}).beast ? pick1(T().jt.beast) : "Which monster?"), m, null, { label: "Which monster?" }); }
+    if (s === "count") return tw("How many?", HOW_MANY.map((x) => x[0]), HOW_MANY.map((x) => x[2]), { label: "How many?" });
+    if (s === "scale") return tw(fill("How strong is it?"), HOW_STRONG.map((x) => fill(x[0])), HOW_STRONG.map((x) => x[2]), { label: "How strong is your enemy?" });
+    if (s === "size") return tw("How big is this war?", WAR_SIZE.map((x) => x[0]), WAR_SIZE.map((x) => x[2]), { label: "How big is the war?" });
+    if (s === "battle") return battleWheel();
+    if (s === "survive") { const no = a.kind === "war" || st.pool === "late" ? 0.14 : 0.06; return tw(fill("Does {first} survive?"), ["Yes", "Barely", "No"], [1 - no - 0.3, 0.3, no], { label: "Do you survive?", colors: ["#3c8a58", "#c9902a", "#5a0010"] }); }
+    if (s === "improve") { const p = improveOdds(); return tw("Do you improve in return?", ["Yes", "No"], [p, 1 - p], { label: "Do you improve in return?", colors: ["#1fb5ad", "#1b1f2a"] }); }
+    if (s === "what") return tw("What improves?", statWheelOpts(), null, { label: "What improves?" });
+    if (s === "train") return tw(jTitle("train"), P.training.map(lbl), null, { label: "Training" });
+    if (s === "ally") return tw(jTitle("recruit"), P.allies.map(lbl), null, { label: "Ally" });
+    if (s === "loot") return tw(jTitle("loot"), P.loot.map(lbl), null, { label: "Treasure" });
+    if (s === "twist") return tw(jTitle("twist"), P.twists.map(lbl), null, { label: "Twist" });
+    if (s === "enemy") { const pool = foePool("mid").concat(foePool("late")); return tw(fill("Who becomes {first}'s enemy?"), pool.map((f) => f[0]), null, { label: "Who becomes your enemy?" }); }
+    if (s === "skill") return tw(fill("What does {first} learn?"), skillOptions(), null, { label: "What do you learn?" });
+    if (s === "followers") return tw(fill("How many people follow {first}?"), FOLLOW_COUNT.map((x) => x[0]), FOLLOW_COUNT.map((x) => x[2]), { label: "How many follow you?" });
+    if (s === "quest") { const q = T().quests || QUESTS_DEFAULT; return tw("What is the quest?", q.map((x) => x[0]), null, { label: "What is the quest?" }); }
+    if (s === "qsub") return tw(a.quest[2][0], a.quest[2][1], null, { label: a.quest[2][0] });
+    if (s === "succeed") { const p = clamp(0.5 + (playerPower() - questPower(a.quest[1])) / 50, 0.08, 0.92); return tw("Do you succeed?", ["Yes", "No"], [p, 1 - p], { label: "Do you succeed?", colors: ["#3c8a58", "#a8323f"] }); }
+    if (s === "find") return tw(fill("What does {first} find?"), FINDS.map((x) => x[0]), FINDS.map((x) => x[1]), { label: "What do you find?" });
+    if (s === "door") return tw("What's behind the door?", DOOR.map((x) => x[0]), DOOR.map((x) => x[1]), { label: "What's behind the door?" });
+    return tw("?", ["?"]);
+  }
+  const pick1 = (list) => list[hash(run.seed + "|a|" + run.step) % list.length];
+  function skillOptions() {
+    const out = evolveOptions().filter((x) => x !== run.evolution && !(run.skills || []).includes(x));
+    (T().skills || []).forEach((x) => { const f = fill(x); if (!out.includes(f) && !(run.skills || []).includes(f)) out.push(f); });
+    return out.length ? out.slice(0, 10) : ["A move nobody has a name for yet"];
+  }
+  function improveStat(k, n) {
+    n = n || 1;
+    const before = talentLabel(k), name = statNames()[k];
+    if (run.talent[k] >= 9) { run.bonus[k] += 6; return `${name} is already maxed: +6 ${name}.`; }
+    run.talent[k] = Math.min(9, run.talent[k] + n);
+    const after = talentLabel(k);
+    if (run.talent[k] >= 8) { sfx.heavenly(); fxFlash("#fff6d0"); } else chime([523, 784]);
+    if (run.talent[k] >= 8) react("godly", { v: after });
+    return `${name}: ${before} → ${after}.`;
+  }
+  function foeLine(a) {
+    if (!a.count || a.count === "Just one") return a.foe[0];
+    const n = a.foe[0].replace(/^(A|An) /, "");
+    return `${a.count.toLowerCase()} of ${/s$/.test(n) ? n : /^[A-Z]/.test(n) && !/^A /.test(a.foe[0]) ? n + "s" : n + "s"}`;
+  }
+  const actHead = () => `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+  function endAct() { run.act = null; run.foe = null; run.step++; }
+
+  async function actStep() {
+    const w = actWheel(), k = await spin(w);
     const P = path(), st = STEPS[run.step];
-    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
-    const vars = () => ({ foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: fill(T().move), clutch: T().clutch, sig: signature(),
-      style: (tv("Fighting style") || "raw instinct").replace(/ \(.*\)$/, ""), weapon: tv("Weapon/Cursed tool/Costume") || "their bare hands", ally: run.companion || "", rival: (tv(T().vis.rival) || "their rival").replace(/^(A|An|The|Your) /, (m) => m.toLowerCase()), Rival: cap(tv(T().vis.rival) || "Their rival") });
-    const lines = (k, fallback) => (T().battle && T().battle[k]) || fallback;
-    // every chapter opens with a scene from the series' world
-    if (!run.log.length || run.log[run.log.length - 1].h !== head) {
-      const key = st.k === "rival" ? "rival" + st.n : st.k === "battle" ? st.pool : st.k === "train" && run.step > 2 ? "train2" : st.k;
-      const pool = (P.scenes && P.scenes[key]) || (T().scenes && T().scenes[key]);
-      const home = run.step === 0 ? (P.home || (T().birthScenes ? T().birthScenes[tv("Birthplace")] || null : null)) : null;
-      if (home) logAdd(head, fill(home, vars()));
-      else if (pool && pool.length) logAdd(head, fill(pick(pool), vars()));
+    let a = run.act;
+    const v = w.opts[k];
+    if (!a) {
+      const o = actOptions()[k];
+      run.act = a = { kind: o.k, label: o.label };
+      run.names = Object.assign(run.names || {}, { [run.step]: o.label });
+      const pk = st.pool === "side" ? "side" : st.pool;
+      sceneFor(actHead(), st.ch != null ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: run.step > 5 ? "train2" : "train", learn: "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
+      const intro = { fight: "{first} goes looking for trouble.", hunt: "Something big has been spotted nearby. {first} goes after it.", train: "{first} decides it's time to get stronger.", quest: "{first} takes on a quest.", explore: "{first} sets off into the unknown.", treasure: "{first} goes treasure hunting.", ally: "{first} could use a friend.", enemy: "{first} is about to make an enemy.", learn: "{first} wants a new technique.", followers: "{first} starts gathering people.", war: "War is coming, and {first} walks straight into it.", rest: "{first} takes a break.", retire: "{first} looks at everything they've done and decides it's enough." }[o.k];
+      logAdd(actHead(), fill(intro));
+      setNarr(o.label, fill(intro));
+      if (o.k === "rest") { apply({ heal: true, pts: 2 }); logAdd(actHead(), fill(pick(ACT_LINES.rest)), "Injuries healed, +2 upgrade points."); sfx.sparkle(); endAct(); return; }
+      if (o.k === "retire") { run.retired = true; react("retire"); run.act = null; run.step = STEPS.length - 1; return; }
+      a.stage = { fight: "foe", war: "foe", hunt: "beast", train: "train", quest: "quest", explore: "find", treasure: "loot", ally: "ally", enemy: "enemy", learn: "skill", followers: "followers" }[o.k];
+      sfx.sparkle();
+      return;
     }
+    const head = actHead(), s = a.stage;
+    if (s === "foe") {
+      const pool = a.kind === "war" ? foePool("late").concat(foePool("boss").slice(0, 2)) : foePool(st.pool === "side" ? "side" : st.pool);
+      a.foe = pool[k].slice(0, 2);
+      logAdd(head, fill(a.kind === "war" ? "The war is against {foe}." : "{first} runs into {foe}.", { foe: a.foe[0] }));
+      setNarr(a.foe[0], fill("Power {fp}. But how strong are they today?", { fp: a.foe[1] }));
+      a.stage = a.kind === "war" ? "size" : "form"; return;
+    }
+    if (s === "form") {
+      const f = FOE_FORM[k]; a.foe[1] = clamp(a.foe[1] + f[1], 5, 99); run.foe = a.foe;
+      const t = fill(["{foe} is weaker than everyone said.", "{foe} is exactly as strong as the stories say.", "{foe} is stronger than the rumors.", "{foe} was holding back this whole time."][k], { foe: a.foe[0] });
+      logAdd(head, t, `Enemy power ${a.foe[1]}. Your power ${playerPower()}.`, k >= 2);
+      setNarr(v, `${t} ${Math.round(winChance() * 100)}% chance to win.`);
+      if (k === 3) { sfx.gong(); fxShake(); react("scary"); }
+      a.stage = "battle"; return;
+    }
+    if (s === "beast") { a.foe = [v, 0]; logAdd(head, fill("{first} tracks down {m}.", { m: v.charAt(0).toLowerCase() + v.slice(1) })); setNarr(v, "How many of them are there?"); a.stage = "count"; return; }
+    if (s === "count") {
+      a.count = v; a.extra = HOW_MANY[k][1];
+      if (k >= 3) { sfx.gong(); react("scary"); } else if (k === 0) react("lucky");
+      logAdd(head, k === 0 ? "Just one. Lucky." : fill("Not one. {c}.", { c: v }));
+      setNarr(v, "And how strong is it?"); a.stage = "scale"; return;
+    }
+    if (s === "scale") {
+      const base = clamp(playerPower() + HOW_STRONG[k][1] + (a.extra || 0) + (st.pool === "late" ? 6 : st.pool === "mid" ? 3 : 0), 5, 99);
+      a.foe = [cap(foeLine(a)), base]; run.foe = a.foe;
+      logAdd(head, fill(["It's a pushover.", "It's a fair fight.", "It's stronger than {first}.", "It's a nightmare."][k]), `Enemy power ${base}. Your power ${playerPower()}.`, k >= 2);
+      setNarr(v, `${Math.round(winChance() * 100)}% chance to win.`);
+      if (k === 3) { sfx.gong(); fxShake(); }
+      a.stage = "battle"; return;
+    }
+    if (s === "size") {
+      a.size = k; a.foe[1] = clamp(a.foe[1] + WAR_SIZE[k][1], 5, 99); run.foe = a.foe;
+      logAdd(head, fill(["It's only a skirmish.", "It's a real battle. Armies on both sides.", "A full-scale war. Cities will burn.", "This is the end of the world."][k]), `Enemy power ${a.foe[1]}. Your power ${playerPower()}.`, k >= 2);
+      setNarr(v, `${Math.round(winChance() * 100)}% chance to win.`);
+      if (k >= 2) { sfx.explosion(); fxShake(); }
+      if (k === 3) react("scary");
+      a.stage = "battle"; return;
+    }
+    if (s === "battle") {
+      const r = resolveBattle(w, k, head, { pool: a.kind === "war" ? "late" : st.pool });
+      if (r.won) { a.upset = r.upset; a.stage = "improve"; a.times = a.kind === "war" ? WAR_SIZE[a.size || 0][3] : 1; if (r.o === "clutch") a.stage = "what"; }
+      else if (r.o === "loss" && (a.kind === "war" || st.pool === "late" || st.pool === "mid" || a.extra >= 12)) a.stage = "survive";
+      else endAct();
+      return;
+    }
+    if (s === "survive") {
+      if (k === 0) { logAdd(head, fill("{first} survives. Bruised, angry, alive.")); setNarr("Survived", fill("{first} lives to fight another day.")); endAct(); return; }
+      if (k === 1) { run.adaptBonus = (run.adaptBonus || 0) + 3; logAdd(head, fill("{first} barely survives. It leaves scars, and the scars make them harder."), "+3 power from now on.", true); setNarr("Barely", fill("{first} crawls away alive.")); react("barely"); endAct(); return; }
+      run.dead = a.foe[0];
+      logAdd(head, fill("{first} doesn't get back up."), "", true);
+      setNarr("Dead", fill("{first} falls to {foe}.", { foe: a.foe[0] }));
+      sfx.womp(); react("dead");
+      run.chance = false; run.act = null; run.foe = null; run.step = STEPS.length - 1; return;
+    }
+    if (s === "improve") {
+      if (k === 0) { setNarr("Yes", "What improves?"); a.stage = "what"; return; }
+      logAdd(head, fill("{first} wins, but doesn't learn anything new from it."), ""); setNarr("No", "Not this time."); sfx.meh(); endAct(); return;
+    }
+    if (s === "what") {
+      const fx = improveStat(k);
+      logAdd(head, fill("{first} comes out of it stronger."), fx);
+      setNarr(statNames()[k], fx);
+      a.times = (a.times || 1) - 1;
+      if (a.times > 0) return;
+      endAct(); return;
+    }
+    if (s === "train") {
+      const txt = lbl(P.training[k]), e0 = P.training[k][1];
+      const e = run.underdog ? Object.assign({}, e0, { v: e0.v ? e0.v * 2 : e0.v, all: e0.all ? e0.all * 2 : e0.all }) : e0;
+      apply(e); run.points += 1;
+      logAdd(head, txt + ".", describe(e) + ", +1 upgrade point" + (run.underdog ? " (underdog: doubled)." : "."), !!e.inj);
+      setNarr(txt, "Does it pay off?");
+      a.stage = "improve"; return;
+    }
+    if (s === "ally") {
+      const txt = lbl(P.allies[k]); apply(P.allies[k][1]); run.companion = txt;
+      const t = fill("{a} joins {first}'s side.", { a: txt });
+      logAdd(head, t, describe(P.allies[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); react("ally", { v: txt }); endAct(); return;
+    }
+    if (s === "loot") {
+      const txt = lbl(P.loot[k]); apply(P.loot[k][1]); run.items = (run.items || []).concat(txt);
+      const t = fill("{first} finds {a}.", { a: txt.charAt(0).toLowerCase() + txt.slice(1) });
+      logAdd(head, t, describe(P.loot[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); endAct(); return;
+    }
+    if (s === "twist") {
+      const txt = lbl(P.twists[k]); apply(P.twists[k][1]);
+      logAdd(head, txt + ".", describe(P.twists[k][1]) + ".", !!P.twists[k][1].inj); setNarr(txt, describe(P.twists[k][1]) + "."); endAct(); return;
+    }
+    if (s === "enemy") {
+      const pool = foePool("mid").concat(foePool("late")), f = pool[k];
+      run.nemesis = [f[0], clamp(f[1] + 8, 10, 99)];
+      const t = fill("{foe} decides {first} has to die. They'll be back, stronger, at the worst possible moment.", { foe: f[0] });
+      logAdd(head, t, "A new enemy. They'll show up at the final battle.", true); setNarr(f[0], t); sfx.gong(); react("enemy", { v: f[0] }); endAct(); return;
+    }
+    if (s === "skill") {
+      run.skills = (run.skills || []).concat(v);
+      const t = fill("{first} learns {s}.", { s: v });
+      logAdd(head, t); setNarr(v, "What improves?"); chime([523, 659, 784]); a.stage = "what"; return;
+    }
+    if (s === "followers") {
+      const f = FOLLOW_COUNT[k];
+      run.gained = (run.gained || []).filter((p) => p.n !== "Followers").concat({ n: "Followers", d: `${f[0]} follow them. +${f[1]} power.`, power: f[1] });
+      const t = fill(k === 0 ? "Just one person follows {first}. But they'd die for them." : "{c} now follow {first}.", { c: f[0] });
+      logAdd(head, t, `Followers: +${f[1]} power.`); setNarr(f[0], t);
+      if (k >= 4) { sfx.fanfare(); react("followers", { v: f[0] }); } else sfx.sparkle();
+      endAct(); return;
+    }
+    if (s === "quest") {
+      const q = (T().quests || QUESTS_DEFAULT)[k]; a.quest = q;
+      logAdd(head, fill("The quest: {q}.", { q: q[0].charAt(0).toLowerCase() + q[0].slice(1) }), `Difficulty ${"★".repeat(q[1])}.`);
+      setNarr(q[0], q[2] ? q[2][0] : "Do you succeed?");
+      if (q[1] >= 4) react("scary");
+      a.stage = q[2] ? "qsub" : "succeed"; return;
+    }
+    if (s === "qsub") { a.target = v; logAdd(head, `${a.quest[2][0]} ${v}.`); setNarr(v, "Do you succeed?"); a.stage = "succeed"; return; }
+    if (s === "succeed") {
+      const d = a.quest[1], q = a.quest[0] + (a.target ? `: ${a.target}` : "");
+      if (k === 0) {
+        run.w++; run.points += 1 + d;
+        const fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
+        if (d >= 4) run.gained = (run.gained || []).concat({ n: cap(q), d: "A legendary deed. +5 power.", power: 5 });
+        logAdd(head, fill("{first} pulls it off.", {}), fx); setNarr("Quest complete", fx);
+        sfx.fanfare(); if (d >= 3) { fxFlash("#fff6d0"); react("legend"); }
+        a.times = d >= 3 ? 2 : 1; a.stage = "what"; return;
+      }
+      run.l++; run.injured = true; run.points += 1;
+      logAdd(head, fill("The quest fails. {first} limps home with nothing."), "Injured for the next fight, +1 upgrade point.", true);
+      setNarr("Failed", fill("{first} comes back empty-handed.")); sfx.womp();
+      if (run.step < STEPS.length - 2 && chanceList().length) run.chance = true;
+      endAct(); return;
+    }
+    if (s === "find") {
+      const t = fill(["{first} finds treasure.", "{first} finds a hidden master living alone in the wild.", "It's an ambush!", "{first} finds a secret about their own past.", pick(ACT_LINES.nothing), "{first} finds a door that shouldn't exist."][k]);
+      logAdd(head, t, "", k === 2 || k === 4); setNarr(v, t);
+      if (k === 4) { sfx.womp(); react("nothing"); endAct(); return; }
+      if (k === 2) { sfx.gong(); a.kind = "hunt"; a.stage = "beast"; return; }
+      a.stage = ["loot", "what", null, "twist", null, "door"][k]; return;
+    }
+    if (s === "door") {
+      const t = ["There's treasure behind it.", "Something was locked in there for a reason.", "A legend sleeps behind it, and they wake up.", "Behind it is a secret nobody was meant to find."][k];
+      logAdd(head, t); setNarr(v, t);
+      if (k === 1) { a.kind = "hunt"; a.stage = "beast"; sfx.gong(); return; }
+      a.stage = ["loot", null, "ally", "twist"][k]; return;
+    }
+    endAct();
+  }
+
+  // shared fight resolution for free fights, rivals and the final boss
+  function resolveBattle(bw, k, head, ctx) {
+    const st = STEPS[run.step], odds = winChance();
+    let o = bw.segs[k].k, saved = null;
+    if (o === "loss") {
+      for (const p of perks()) {
+        if (!p.save) continue;
+        const left = run.perkUses[p.n] ?? (p.save.uses || 1);
+        if (left > 0 && Math.random() < p.save.chance) { run.perkUses[p.n] = left - 1; saved = p; o = "win"; break; }
+      }
+    }
+    const v = battleVars(), lines = (key, fb) => (T().battle && T().battle[key]) || fb;
+    let t, fx, bad = false;
+    if (saved) { run.w++; run.points += 2; run.injured = false; t = fill(saved.save.text, v); fx = `${saved.n}! The defeat is undone. Victory, +2 upgrade points.`; }
+    else if (o === "win") { run.w++; run.points += 2; run.injured = false; t = fill(pick(lines("win", WIN)), v); fx = "Victory. +2 upgrade points."; }
+    else if (o === "clutch") { run.w++; run.points += 3; run.injured = false; run.bonus = run.bonus.map((b) => b + 4); t = fill(pick(lines("clutch", CLUTCH)), v); fx = `${T().clutch}! Victory, +4 to every stat, +3 upgrade points.`; }
+    else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(lines("draw", DRAW)), v); fx = "Draw. +1 upgrade point."; }
+    else {
+      run.l++; run.points += 1; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured for the next fight, +1 upgrade point."; bad = true;
+      const ad = perks().find((p) => p.adapt);
+      if (ad) { run.adaptBonus = (run.adaptBonus || 0) + ad.adapt; fx += ` ${ad.n}: +${ad.adapt} power from now on.`; }
+      if (run.step < STEPS.length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
+    }
+    const won = o !== "loss" && o !== "draw";
+    const upset = won && odds < 0.42;
+    if (upset) {
+      const up = odds < 0.25 ? 6 : 4;
+      run.bonus = run.bonus.map((b) => b + up); run.points += 1;
+      fx += ` Upset! Nobody gave them a chance. +${up} to every stat, +1 upgrade point.`;
+    }
+    if (st.pool === "boss" && won) run.bossWin = true;
+    if (st.k === "rival" && won) {
+      run.rivalWins = (run.rivalWins || 0) + 1;
+      if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel."; }
+    }
+    run.ally = false;
+    if (st.k === "rival") t += " " + fill(won ? (st.n === 2 ? "{Rival} finally admits it: {first} is stronger. The rivalry that started on the road ends here." : "{Rival} spits blood, grins, and swears the next round will be different.")
+      : (st.n === 2 ? "{Rival} walks away without a word. {first} will think about this fight for the rest of their life." : "{Rival} looks down at {first} and leaves. That stings more than the wounds."), v);
+    else if (run.companion && Math.random() < 0.45) t += " " + fill(pick(won ? ["{ally} was watching their back the whole time.", "{ally} hauls {first} to their feet and laughs.", "Afterwards, {ally} patches them up and doesn't say a word."] : ["{ally} drags {first} out before it gets worse.", "{ally} sits with them that night. Nobody talks."]), v);
+    if (!won && o === "loss" && Math.random() < 0.3 && tv("Weakness") && !/^no /i.test(tv("Weakness"))) t += " " + fill("Their weakness, {Weakness|lower}, didn't help.");
+    logAdd(head, t, fx, bad);
+    setNarr(bw.opts[k], t + " " + fx);
+    if (saved) { sfx.heavenly(); fxFlash("#fff6d0"); react("saved", { v: saved.n }); }
+    else if (o === "clutch") { sfx.explosion(); fxFlash("#ffd27a"); fxShake(); setTimeout(() => sfx.fanfare(), 350); react("clutch"); }
+    else if (upset) { sfx.explosion(); fxShake(); setTimeout(() => sfx.fanfare(), 300); react("upset"); }
+    else if (o === "win") { sfx.hit(); setTimeout(() => sfx.fanfare(), 180); }
+    else if (o === "draw") sfx.meh();
+    else { sfx.hit(); setTimeout(() => sfx.womp(), 250); if (odds > 0.6) react("choke"); }
+    run.foe = null;
+    return { o, won, upset };
+  }
+  function battleVars() {
+    return { foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: fill(T().move), clutch: T().clutch, sig: signature(),
+      style: (tv("Fighting style") || "raw instinct").replace(/ \(.*\)$/, ""), weapon: tv("Weapon/Cursed tool/Costume") || "their bare hands", ally: run.companion || "", rival: (tv(T().vis.rival) || "their rival").replace(/^(A|An|The|Your) /, (m) => m.toLowerCase()), Rival: cap(tv(T().vis.rival) || "Their rival") };
+  }
+  // every chapter opens with a scene from the series' world
+  function sceneFor(head, key) {
+    if (run.log.length && run.log[run.log.length - 1].h === head) return;
+    const P = path(), pool = (P.scenes && P.scenes[key]) || (T().scenes && T().scenes[key]);
+    const home = run.step === 0 ? (P.home || (T().birthScenes ? T().birthScenes[tv("Birthplace")] || null : null)) : null;
+    if (home) logAdd(head, fill(home, battleVars()));
+    else if (pool && pool.length) logAdd(head, fill(pick(pool), battleVars()));
+  }
+
+  async function journeyStep() {
+    if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
+    if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
+    const st = STEPS[run.step];
+    if (st.k === "act") { await actStep(); persist(); render(); return; }
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    sceneFor(head, st.k === "rival" ? "rival" + st.n : st.k === "battle" ? st.pool : st.k);
     if (st.k === "battle" || st.k === "rival") {
       if (!run.foe) {
         if (st.k === "rival") {
           run.foe = rivalFoe(st.n);
           const t = st.n === 1
-            ? fill("{foe} blocks the road. They've heard about {first}, and they want to see if the stories are true. Power {fp}.", vars())
-            : fill("{foe} is back, stronger, and this time it's personal. Power {fp}.", vars());
+            ? fill("{foe} blocks the road. They've heard about {first}, and they want to see if the stories are true. Power {fp}.", battleVars())
+            : fill("{foe} is back, stronger, and this time it's personal. Power {fp}.", battleVars());
           logAdd(head, t);
           setNarr(run.foe[0], `${t} Your power: ${playerPower()}. Chance to win: ${Math.round(winChance() * 100)}%.`);
           state.wheel = battleWheel(); state.winner = -1;
         } else {
-          const pool = foePool(st.pool);
+          const pool = bossPool();
           const k = await spin(listWheel(jTitle("foe"), pool.map((f) => f[0])));
           run.foe = pool[k];
-          if (st.pool === "boss") { sfx.gong(); fxFlash("#5a0010"); }
-          const t = fill(pick(MEET), vars());
+          sfx.gong(); fxFlash("#5a0010");
+          const t = run.nemesis && run.foe[0] === run.nemesis[0] ? fill("{foe} kept their promise. They're back, and they've been waiting for this. Power {fp}.", battleVars()) : fill(pick(MEET), battleVars());
           logAdd(head, t);
           setNarr(run.foe[0], `${t} Your power: ${playerPower()}. Chance to win: ${Math.round(winChance() * 100)}%.`);
         }
       } else {
-        const bw = battleWheel(), odds = winChance();
-        const k = await spin(bw);
-        let o = bw.segs[k].k, saved = null;
-        if (o === "loss") {
-          for (const p of perks()) {
-            if (!p.save) continue;
-            const left = run.perkUses[p.n] ?? (p.save.uses || 1);
-            if (left > 0 && Math.random() < p.save.chance) { run.perkUses[p.n] = left - 1; saved = p; o = "win"; break; }
-          }
-        }
-        const v = vars();
-        let t, fx, bad = false;
-        if (saved) { run.w++; run.points += 2; run.injured = false; t = fill(saved.save.text, v); fx = `${saved.n}! The defeat is undone. Victory, +2 upgrade points.`; }
-        else if (o === "win") { run.w++; run.points += 2; run.injured = false; t = fill(pick(lines("win", WIN)), v); fx = "Victory. +2 upgrade points."; }
-        else if (o === "clutch") { run.w++; run.points += 3; run.injured = false; run.bonus = run.bonus.map((b) => b + 4); t = fill(pick(lines("clutch", CLUTCH)), v); fx = `${T().clutch}! Victory, +4 to every stat, +3 upgrade points.`; }
-        else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(lines("draw", DRAW)), v); fx = "Draw. +1 upgrade point."; }
-        else {
-          run.l++; run.points += 1; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured for the next fight, +1 upgrade point."; bad = true;
-          const ad = perks().find((p) => p.adapt);
-          if (ad) { run.adaptBonus = (run.adaptBonus || 0) + ad.adapt; fx += ` ${ad.n}: +${ad.adapt} power from now on.`; }
-          if (run.step < STEPS.length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
-        }
-        // beating the odds pays: the weaker the starting chance, the bigger the jump
-        if (o !== "loss" && o !== "draw" && odds < 0.42) {
-          const up = odds < 0.25 ? 6 : 4;
-          run.bonus = run.bonus.map((b) => b + up); run.points += 1;
-          fx += ` Upset! Nobody gave them a chance. +${up} to every stat, +1 upgrade point.`;
-        }
-        if (st.pool === "boss" && (o === "win" || o === "clutch")) run.bossWin = true;
-        if (st.k === "rival" && (o === "win" || o === "clutch")) {
-          run.rivalWins = (run.rivalWins || 0) + 1;
-          if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel."; }
-        }
-        run.ally = false;
-        const won = o !== "loss" && o !== "draw";
-        if (st.k === "rival") t += " " + fill(won ? (st.n === 2 ? "{Rival} finally admits it: {first} is stronger. The rivalry that started on the road ends here." : "{Rival} spits blood, grins, and swears the next round will be different.")
-          : (st.n === 2 ? "{Rival} walks away without a word. {first} will think about this fight for the rest of their life." : "{Rival} looks down at {first} and leaves. That stings more than the wounds."), v);
-        else if (run.companion && Math.random() < 0.45) t += " " + fill(pick(won ? ["{ally} was watching their back the whole time.", "{ally} hauls {first} to their feet and laughs.", "Afterwards, {ally} patches them up and doesn't say a word."] : ["{ally} drags {first} out before it gets worse.", "{ally} sits with them that night. Nobody talks."]), v);
-        logAdd(head, t, fx, bad);
-        setNarr(bw.opts[k], t + " " + fx);
-        if (saved) { sfx.heavenly(); fxFlash("#fff6d0"); }
-        else if (o === "clutch") { sfx.explosion(); fxFlash("#ffd27a"); fxShake(); setTimeout(() => sfx.fanfare(), 350); }
-        else if (o === "win") { sfx.hit(); setTimeout(() => sfx.fanfare(), 180); }
-        else if (o === "draw") sfx.meh();
-        else { sfx.hit(); setTimeout(() => sfx.womp(), 250); }
-        run.foe = null; run.step++;
+        const bw = battleWheel(), k = await spin(bw);
+        const r = resolveBattle(bw, k, head, { pool: st.pool });
+        if (st.k === "battle" && r.o === "loss" && !run.chance) { /* the final battle is lost: the ending wheel decides the rest */ }
+        run.step++;
       }
-    } else if (st.k === "train" || st.k === "twist" || st.k === "recruit" || st.k === "loot") {
-      const list = st.k === "train" ? P.training : st.k === "twist" ? P.twists : st.k === "recruit" ? P.allies : P.loot;
-      const k = await spin(listWheel(jTitle(st.k), list.map(lbl)));
-      const txt = lbl(list[k]), e0 = list[k][1];
-      const e = st.k === "train" && run.underdog ? Object.assign({}, e0, { v: e0.v ? e0.v * 2 : e0.v, all: e0.all ? e0.all * 2 : e0.all }) : e0;
+    } else if (st.k === "twist") {
+      const P = path(), k = await spin(listWheel(jTitle("twist"), P.twists.map(lbl)));
+      const txt = lbl(P.twists[k]), e = P.twists[k][1];
       apply(e);
-      if (st.k === "train") run.points += 1;
-      let line = txt + ".";
-      if (st.k === "recruit" || st.k === "loot") sfx.sparkle();
-      if (st.k === "recruit") { run.companion = txt; line = fill("{a} joins {first}'s side.", { a: txt }); }
-      if (st.k === "loot") { run.items = (run.items || []).concat(txt); line = fill("{first} finds {a}.", { a: txt.charAt(0).toLowerCase() + txt.slice(1) }); }
-      const fx = describe(e) + (st.k === "train" ? ", +1 upgrade point" + (run.underdog ? " (underdog: doubled)." : ".") : ".");
-      const bad = !!(e.inj || (e.v && e.v < 0));
-      logAdd(head, line, fx, bad);
-      setNarr(txt, fx);
+      logAdd(head, txt + ".", describe(e) + ".", !!(e.inj || (e.v && e.v < 0)));
+      setNarr(txt, describe(e) + ".");
       run.step++;
     } else if (st.k === "evolve") {
       const opts = evolveOptions();
@@ -4627,39 +5047,88 @@
       const fx = `+8 ${statNames()[1]}, +2 to every stat.`;
       logAdd(head, t, fx);
       setNarr(run.evolution, t + " " + fx);
-      chime([523, 659, 784, 1046]);
+      chime([523, 659, 784, 1046]); react("evolve", { v: run.evolution });
       run.step++;
     } else if (st.k === "ending") {
-      const ew = endingWheel();
-      const k = await spin(ew);
-      const seg = ew.segs[k];
-      run.ending = seg.t; run.phase = "done";
-      const rec = `Final record: ${run.w} win${run.w === 1 ? "" : "s"}, ${run.l} loss${run.l === 1 ? "" : "es"}${run.d ? `, ${run.d} draw${run.d > 1 ? "s" : ""}` : ""}.`;
-      const legacy = (seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end."))
-        + (run.epithet ? ` History remembers them as ${run.name}, ${run.epithet}.` : "");
-      const after = [];
-      if (run.companion) after.push(fill("{a} stayed by their side to the very end.", { a: run.companion }));
-      const rv = cap(tv(T().vis.rival) || "Their rival");
-      after.push(run.rivalBeaten ? `${rv} never beat them again, though they never stopped trying.` : `${rv} remained the one opponent they could never quite put away.`);
-      if ((run.items || []).length) after.push(`They kept ${run.items[0].charAt(0).toLowerCase() + run.items[0].slice(1)} until their last day.`);
-      if (run.evolution) after.push(`Students would one day try to copy ${run.evolution}. None of them managed it.`);
-      const km = karma();
-      if (km <= -3) after.push(fill("The people who served {first} remember them too, and not kindly. Some of them still wake up screaming.", {}));
-      else if (km >= 3) after.push(fill("Years later, the people {first} freed still tell their children about the noble who knelt down and unlocked their chains.", {}));
-      const pk = perks().filter((p) => !p.quiet && (p.save || p.extra))[0];
-      if (pk) after.push(`And the stories about ${pk.n} never died.`);
-      logAdd(head, `${seg.t}.`, `${rec} ${legacy}`, !seg.good);
-      logAdd(head, after.join(" "));
-      setNarr(seg.t, `${rec} ${legacy}`);
-      if (seg.good) { sfx.heavenly(); fxFlash("#fff6d0"); } else sfx.womp();
-      addHistory();
-      const canAI = !inClaude && state.ai.key;
-      $("aiMsg").textContent = canAI ? "" : inClaude ? "Portrait revealed. The AI portrait needs the GitHub Pages or downloaded version, since claude.ai can't reach OpenAI." : "Portrait revealed. Add an OpenAI key under \"AI portraits\" below and every card without an AI face gets painted.";
-      persist(); render();
-      if (canAI) paintEntry(state.history[0], $("aiMsg"));
+      let seg;
+      if (run.dead) seg = { good: false, t: `Killed by ${run.dead}` };
+      else { const ew = endingWheel(), k = await spin(ew); seg = ew.segs[k]; }
+      finishRun(head, seg);
       return;
     }
     persist(); render();
+  }
+  function bossPool() {
+    const pool = foePool("boss").slice();
+    if (run.nemesis && !pool.some((f) => f[0] === run.nemesis[0])) pool.unshift(run.nemesis, run.nemesis);
+    return pool;
+  }
+  function finishRun(head, seg) {
+    run.ending = seg.t; run.phase = "done";
+    const rec = `Final record: ${run.w} win${run.w === 1 ? "" : "s"}, ${run.l} loss${run.l === 1 ? "" : "es"}${run.d ? `, ${run.d} draw${run.d > 1 ? "s" : ""}` : ""}.`;
+    const legacy = (run.dead ? fill("{first} died young, {Personality|lower} to the very end.") : run.retired ? fill("{first} walked away on their own terms.") : seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end."))
+      + (run.epithet ? ` History remembers them as ${run.name}, ${run.epithet}.` : "");
+    const after = [];
+    if (run.companion) after.push(fill("{a} stayed by their side to the very end.", { a: run.companion }));
+    const rv = cap(tv(T().vis.rival) || "Their rival");
+    after.push(run.rivalBeaten ? `${rv} never beat them again, though they never stopped trying.` : `${rv} remained the one opponent they could never quite put away.`);
+    if (run.nemesis && !run.dead) after.push(`${cap(run.nemesis[0])} never forgave them.`);
+    if ((run.items || []).length) after.push(`They kept ${run.items[0].charAt(0).toLowerCase() + run.items[0].slice(1)} until their last day.`);
+    if (run.evolution) after.push(`Students would one day try to copy ${run.evolution}. None of them managed it.`);
+    const km = karma();
+    if (km <= -3) after.push(fill("The people who served {first} remember them too, and not kindly. Some of them still wake up screaming.", {}));
+    else if (km >= 3) after.push(fill("Years later, the people {first} freed still tell their children about the noble who knelt down and unlocked their chains.", {}));
+    const pk = perks().filter((p) => !p.quiet && (p.save || p.extra))[0];
+    if (pk) after.push(`And the stories about ${pk.n} never died.`);
+    logAdd(head, `${seg.t}.`, `${rec} ${legacy}`, !seg.good);
+    logAdd(head, after.join(" "));
+    setNarr(seg.t, `${rec} ${legacy}`);
+    if (seg.good) { sfx.heavenly(); fxFlash("#fff6d0"); react("goodEnd"); } else { sfx.womp(); react("badEnd"); }
+    addHistory();
+    const canAI = !inClaude && state.ai.key;
+    $("aiMsg").textContent = canAI ? "" : inClaude ? "Portrait revealed. The AI portrait needs the GitHub Pages or downloaded version, since claude.ai can't reach OpenAI." : "Portrait revealed. Add an OpenAI key under \"AI portraits\" below and every card without an AI face gets painted.";
+    persist(); render();
+    if (canAI) paintEntry(state.history[0], $("aiMsg"));
+  }
+
+  // ================= reactions =================
+  // TikTok-style captions that react to big moments
+  const REACT = {
+    rare: ["Ngl that's a crazy pull", "{v}?? On the first try??", "Nah that's actually insane", "The wheel is cooking today", "Hold on. {v}?"],
+    godly: ["That's one broken stat right there", "{v}. Built different.", "Okay that's just unfair", "Somebody nerf this character"],
+    low: ["Tbh kind of low..", "Womp womp", "The wheel said no", "{v}... it's okay, we can work with this", "That's rough buddy"],
+    combo: ["Ngl that's a crazy combo", "This build is getting scary", "The synergy is unreal"],
+    upset: ["Oh what a comeback ngl..", "NOBODY gave them a chance", "Underdog story fr", "The odds were lying"],
+    clutch: ["THAT'S WHAT I'M TALKING ABOUT", "Clutch of the century", "They really said not today"],
+    choke: ["How did they lose that??", "Fumbled the bag", "The wheel has a sense of humor"],
+    saved: ["{v} saved them. Plot armor is real", "Not like this... wait, it IS like this"],
+    scary: ["Oh no.", "Unlucky spin..", "This is not looking good", "Run."],
+    lucky: ["Lucky it wasn't the whole army", "Phew."],
+    nothing: ["All that for nothing", "Womp womp"],
+    dead: ["Rest in peace legend", "Neg diff.. unlucky", "Gone too soon"],
+    barely: ["That was way too close", "Survived by a thread"],
+    ally: ["{v} as an ally is crazy", "The squad is getting stacked"],
+    enemy: ["Made the wrong enemy", "{v} is going to remember that"],
+    followers: ["They have a whole fanbase now", "Main character energy"],
+    legend: ["That's a legendary quest done", "History books material"],
+    evolve: ["The evolution is evolving", "{v} goes hard"],
+    retire: ["Retiring at the peak. Respect.", "Knew when to walk away"],
+    goodEnd: ["What a story", "Main character ending", "Peak"],
+    badEnd: ["Not the ending we wanted..", "Pain.", "The wheel was cruel"]
+  };
+  const REACT_FACE = { rare: "😳", godly: "🤯", low: "😬", combo: "🔥", upset: "😭", clutch: "😤", choke: "💀", saved: "😇", scary: "😨", lucky: "😮‍💨", nothing: "🗿", dead: "💀", barely: "😰", ally: "🤝", enemy: "😈", followers: "👑", legend: "🏆", evolve: "⚡", retire: "🫡", goodEnd: "🥹", badEnd: "😔" };
+  let reactTimer = 0, lastReact = 0;
+  function react(kind, vars) {
+    if ((turbo && !window.__showReact) || !REACT[kind]) return;
+    const now = Date.now();
+    if (now - lastReact < 1200 && !/dead|clutch|upset|goodEnd|badEnd/.test(kind)) return;
+    lastReact = now;
+    const el = $("reaction");
+    if (!el) return;
+    el.querySelector(".rx-face").textContent = REACT_FACE[kind] || "😳";
+    el.querySelector(".rx-text").textContent = fill(pick(REACT[kind]), vars || {});
+    el.hidden = false; el.classList.remove("show"); void el.offsetWidth; el.classList.add("show");
+    clearTimeout(reactTimer); reactTimer = setTimeout(() => { el.classList.remove("show"); el.hidden = true; }, 2300);
   }
 
   async function primary() {
@@ -4842,7 +5311,7 @@
 
   // ================= render =================
   function render() {
-    if (run.results.length !== baseCats().length || run.talent.length !== T().stats.length || run.v !== 5) run = newRun();
+    if (run.results.length !== baseCats().length || run.talent.length !== T().stats.length || run.v !== 6) run = newRun();
     const busy = state.spinning || state.auto;
     if (document.documentElement.dataset.series !== state.theme) document.documentElement.dataset.series = state.theme;
     $("tagline").textContent = T().tagline || "Spin the wheels, accept your fate";
@@ -4866,17 +5335,19 @@
     } else if (run.phase === "journey") {
       const st = STEPS[run.step];
       eb = `Chapter ${run.step + 1} of ${STEPS.length} · ${chapterName(run.step)}`;
-      if (run.chance) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
-      else if (needsCodename()) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
-      else if (st.k === "battle" || st.k === "rival") {
+      if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
+      else if (needsCodename() && !run.act) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
+      else if (st.k === "act") {
+        const w = actWheel(); title = w.title;
+        const a = run.act;
+        sub = !a ? "Spin to decide what happens next" : a.stage === "battle" && run.foe ? `${cap(run.foe[0])} · power ${run.foe[1]} · your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win` : a.label;
+      } else if (st.k === "battle" || st.k === "rival") {
         if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : jTitle("foe");
         else { title = `${cap(run.foe[0])} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
-      } else if (st.k === "train") { title = jTitle("train"); if (run.underdog) sub = "Underdog: training gains are doubled"; }
+      }
       else if (st.k === "twist") title = jTitle("twist");
-      else if (st.k === "recruit") title = jTitle("recruit");
-      else if (st.k === "loot") title = jTitle("loot");
       else if (st.k === "evolve") title = jTitle("evolve");
-      else if (st.k === "ending") { title = "Spin your ending"; sub = karma() ? `Every win puts more good endings on the wheel · karma ${karma() > 0 ? "+" : ""}${karma()}` : "Every win puts more good endings on the wheel"; }
+      else if (st.k === "ending") { title = run.dead ? "The end of the road" : run.retired ? "Retirement" : "Spin your ending"; sub = karma() ? `Every win puts more good endings on the wheel · karma ${karma() > 0 ? "+" : ""}${karma()}` : "Every win puts more good endings on the wheel"; }
     } else {
       eb = "The end"; title = run.ending || ""; sub = `${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`;
     }
@@ -4889,8 +5360,8 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
     else if (run.phase === "journey") {
       const st = STEPS[run.step];
-      label = needsCodename() ? "Get your name" : st.k === "battle" ? (run.foe ? "Fight!" : "Find opponent") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
-        : { train: "Train", twist: "Spin fate", recruit: "Recruit", loot: "Search", evolve: "Evolve", ending: "Reveal ending" }[st.k];
+      label = run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+        : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending" }[st.k];
     } else label = "New character";
     p.textContent = label; p.disabled = busy;
     $("spinAll").hidden = run.phase !== "create" || isComplete();
