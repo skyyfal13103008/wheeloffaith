@@ -19,6 +19,9 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
 
 ## Lore depth
 
+- **Black Clover stays in the Clover Kingdom**: you grow up in Hage, the Forsaken Realm, a Common Realm town, a noble house or the royal capital. Chapter 1 is the grimoire ceremony, chapter 3 is the Magic Knights entrance exam (the captain of your squad raises their hand), and the ending wheel always carries your character's own dream. Ranks start at recruit level and climb with big wins.
+- **No contradictions**: an ally can't be recruited twice or show up as an enemy, a defeated foe stays down, and treasure, training, twists and finished quests never repeat in one run. Characters who die in a twist leave the ally pool.
+
 - Every character spins an age (with exact-age follow-up), a height (bell-curve wheel, giants and dwarves get their own), a weakness and a title from a wheel of about 90.
 - Hybrid / mixed-race characters spin a father and a mother and inherit from both.
 - Every series has a race / being / species wheel and a fighting-style wheel with canon styles.

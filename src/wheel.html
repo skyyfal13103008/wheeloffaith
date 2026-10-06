@@ -2360,7 +2360,7 @@
           boss: [["Naoya Zenin, Projection Sorcery cursed spirit", 86], ["The Zenin clan elders", 82]]
         },
         training: [["Kukuru Unit drills until somebody breaks", { s: 3, v: 10 }], ["Studied the clan's records on Ten Shadows", { s: 5, v: 8 }], ["Trained in the cursed tool vault", { s: 2, v: 12 }], ["Snuck out to train with Maki", { s: 4, v: 10 }]],
-        twists: [["Naobito's will names Megumi Fushiguro head of the clan", { pts: 2 }], ["The elders order {first} killed", { inj: true, all: 4 }], ["Mai dies and leaves Maki a sword", { s: 2, v: 10 }], ["Maki burns the clan down", { gain: { n: "Survived the Zenin purge", d: "Walked out of the estate alive. +4 power.", power: 4 } }]],
+        twists: [["Naobito's will names Megumi Fushiguro head of the clan", { pts: 2 }], ["The elders order {first} killed", { inj: true, all: 4 }], ["Mai dies and leaves Maki a sword", { s: 2, v: 10, gone: ["Mai Zenin"] }], ["Maki burns the clan down", { gain: { n: "Survived the Zenin purge", d: "Walked out of the estate alive. +4 power.", power: 4 } }]],
         allies: [["Maki Zenin", { s: 3, v: 6 }], ["Mai Zenin", { s: 2, v: 6 }], ["Megumi Fushiguro", { s: 1, v: 6 }]],
         loot: [["A blade from the Zenin cursed tool vault", { s: 2, v: 10 }], ["Toji's old Playful Cloud", { s: 3, v: 10 }]],
         chances: [["Maki finds {first} in the courtyard and says: get up, or they win", { all: 3 }], ["The cursed tool vault's door is unlocked for one night", { gain: { n: "Vault blade", d: "A Zenin heirloom weapon. +4 power.", power: 4 } }]],
@@ -2654,7 +2654,7 @@
           boss: [["Meruem, King of the Chimera Ants", 99]]
         },
         training: [["Survived the jungle with no technology", { s: 4, v: 10 }], ["Nen training with Knuckle and Shoot", { s: 0, v: 10 }], ["Studied Morel's smoke tactics", { s: 5, v: 10 }]],
-        twists: [["Neferpitou kills Kite", { s: 0, v: 10, inj: true }], ["The ants discover Nen", { all: 4 }], ["Netero takes on the King himself", { ally: true }], ["The Miniature Rose bomb goes off", { gain: { n: "Survived the Rose", d: "Saw what humans will do to win. +4 power.", power: 4 } }]],
+        twists: [["Neferpitou kills Kite", { s: 0, v: 10, inj: true, gone: ["Kite"] }], ["The ants discover Nen", { all: 4 }], ["Netero takes on the King himself", { ally: true }], ["The Miniature Rose bomb goes off", { gain: { n: "Survived the Rose", d: "Saw what humans will do to win. +4 power.", power: 4 } }]],
         allies: [["Morel Mackernasey", { s: 1, v: 6 }], ["Knov", { s: 5, v: 6 }], ["Knuckle Bine", { s: 3, v: 6 }], ["Meleoron", { s: 4, v: 6 }], ["Ikalgo", { s: 2, v: 6 }]],
         chances: [["Knuckle refuses to let {first} die. That's his whole thing", { heal: true, all: 2 }], ["A reborn ant remembers being {first}'s neighbor", { ally: true, s: 5, v: 6 }]],
         endings: { good: ["Survives the Chimera Ant crisis", "Plays gungi with Komugi in the end"], bad: ["Eaten in the selection", "Caught in the Rose's poison"] }
@@ -3450,6 +3450,111 @@
     chances: [["{first}'s henchmen drag them out of the wreckage", { heal: true, all: 3 }], ["{first} steals a hero's power booster", { gain: { n: "Stolen booster", d: "+4 power.", power: 4 } }]]
   });
 
+  // ---------- Black Clover stays in the Clover Kingdom ----------
+  // grimoire ceremony at fifteen, six months of training, the Magic Knights entrance exam, then the road to the dream
+  (() => {
+    const bc = THEMES.blackclover;
+    bc.cats.find((c) => c[0] === "Origin")[1] = ["Hage village", "Hage village", "the Forsaken Realm", "a Common Realm village", "Kiten, in the Common Realm", "Saussy village, in the Common Realm", "a noble house", "the royal capital"];
+    bc.adapt = bc.adapt.filter((r) => !(r.when[0] === "Origin" && (r.cat === "Squad" || r.cat === "Rank" || /Witches|Spade|Heart|Diamond/.test(r.when[1]))));
+    bc.tierStart = 3;
+    bc.paths = {};
+    bc.prologue = "{name}, {Race|a|lower}, grew up in {Origin}. {first} is {Personality|lower}, and the dream is simple: {Dream}. In the Clover Kingdom, every fifteen-year-old goes to the grimoire tower to receive a grimoire. Today it's {first}'s turn.";
+    bc.say = Object.assign(bc.say, { Origin: "Grew up in {v}.", Magic: "The grimoire will answer with {v} magic.", Grimoire: "A {v} grimoire is waiting in the tower.", Squad: "At the entrance exam, the {v} will claim them.", Rank: "They'll start out as {v|a}." });
+    Object.assign(bc.lines, {
+      "Witch": "Witch blood. Their mother fled the Witches' Forest for the Clover Kingdom, and the Witch Queen never forgets a runaway.",
+      "a Common Realm village": "A village in the Common Realm. Not poor enough to be pitied, not rich enough to be noticed.",
+      "Kiten, in the Common Realm": "Kiten, the big Common Realm city near the Diamond Kingdom border. Raids are part of life there.",
+      "Saussy village, in the Common Realm": "Saussy village, a small Common Realm village with a forest full of wild boars.",
+      "the Forsaken Realm": "The Forsaken Realm, the poorest corner of the Clover Kingdom. Nobles pretend it isn't there."
+    });
+    Object.assign(bc.follow.Origin, {
+      "a Common Realm village": ["Family trade", ["Farmers", "Merchants", "Blacksmiths", "Innkeepers"]],
+      "Kiten, in the Common Realm": ["Life in Kiten", ["Survived a Diamond Kingdom raid as a kid", "Child of a town guard", "Grew up in the market"]],
+      "Saussy village, in the Common Realm": ["Life in Saussy", ["Hunted boars in the forest", "Grew up on a farm", "Saw mages attack the village"]]
+    });
+    Object.assign(bc.titles, { Rank: "What rank will {first} start at after the exam?", Origin: "Where in the Clover Kingdom did {first} grow up?", "Family trade": "What does {first}'s family do?", "Life in Kiten": "What was life like in Kiten?", "Life in Saussy": "What was life like in Saussy?" });
+    bc.journey.chapters = ["The grimoire acceptance ceremony", "Six months to the exam", "The Magic Knights entrance exam", "Power evolution", "Twist of fate", "The Spade Kingdom invades", "Final battle", "The final goal"];
+    bc.scenes.mid = ["The Royal Knights Selection Exam: teams of three, and only the best make it.", "Magic Knights headquarters has a lead on the Eye of the Midnight Sun."];
+    bc.scenes.early = ["{first}'s first mission as a Magic Knight. The squad sends them out with a map and a shrug.", "A Common Realm village has asked for help, and {first}'s squad is the closest."];
+    bc.scenes.train = ["Six months until the Magic Knights entrance exam. {first} spends every day of it training."];
+    bc.laterSubs = ["Black Bulls life", "Golden Dawn rank", "Lion King rank", "Your captain thinks you're"];
+    bc.scenes.train2 = ["Training with the {Squad}. Nobody in the Magic Knights ever stops getting stronger.", "Months into life as a Magic Knight, {first} finds a quiet training ground and goes to work."];
+    bc.scenes.side = ["Back at the {Squad} base, an urgent request comes in.", "A village in the Common Realm sends a desperate letter to Magic Knights headquarters."];
+    bc.arcs["Hage village"].twists = bc.arcs["Hage village"].twists.map((x) => /four-leaf/.test(x[0]) ? ["News from Hage: Sister Lily is sick, and the church can't afford a healer", { s: 5, v: 6 }] : x);
+    bc.scenes.ending = ["Years later, the grimoire tower still remembers the day it picked {first}."];
+    bc.steps = [
+      { k: "event", ev: "ceremony", ch: 0 }, { k: "act", lean: "train", pool: "early", sc: "train", ch: 1 }, { k: "event", ev: "exam", ch: 2 },
+      { k: "act", lean: "fight", pool: "early", sc: "early" }, { k: "rival", n: 1, name: "Enter the rival" }, { k: "act", lean: "quest", pool: "mid", sc: "mid" },
+      { k: "act", lean: "explore", pool: "mid", sc: "loot" }, { k: "evolve", ch: 3 }, { k: "twist", ch: 4 }, { k: "act", lean: "war", pool: "late", sc: "late", ch: 5 },
+      { k: "act", lean: "train", pool: "late", sc: "train2" }, { k: "rival", n: 2, name: "Rival rematch" }, { k: "battle", pool: "boss", ch: 6 }, { k: "ending", ch: 7 }
+    ];
+    bc.captains = { "Black Bulls": "Yami Sukehiro", "Golden Dawn": "William Vangeance", "Silver Eagles": "Nozel Silva", "Crimson Lion Kings": "Fuegoleon Vermillion", "Blue Rose Knights": "Charlotte Roselei", "Green Praying Mantis": "Jack the Ripper", "Coral Peacocks": "Dorothy Unsworth", "Purple Orcas": "Gueldre Poizot", "Aqua Deer": "Rill Boismortier" };
+    bc.events = {
+      ceremony: {
+        title: "How does {first}'s grimoire find them?", label: "The grimoire ceremony", sub: "The grimoire acceptance ceremony",
+        intro: "The grimoire tower. Rows of grimoires float near the ceiling, and every fifteen-year-old in the region is waiting for one to come down.",
+        opts: [
+          ["It floats straight into their hands", 4, { s: 0, v: 4 }, "The tower hums. A {Grimoire} grimoire drifts down and settles in {first}'s hands. {Magic} magic on page one."],
+          ["Every grimoire in the tower shakes", 1, { all: 3 }, "Every grimoire in the tower shudders when {first} steps forward. Only one comes down: a {Grimoire} grimoire, crackling with {Magic} magic. Nobody in the room says a word."],
+          ["It comes last, after everyone has gone home", 1.5, { gain: { n: "Late bloomer", d: "The grimoire took its time. +3 power after each defeat.", adapt: 3 } }, "Everyone gets a grimoire except {first}. They wait alone in the tower until dusk. Then a dusty {Grimoire} grimoire drifts down from the very top shelf. {Magic} magic."],
+          ["A thief tries to steal it that night", 1, { s: 5, v: 6 }, "That night, a grimoire thief in a dark coat jumps {first} on the road home. {first} gets their {Grimoire} grimoire back, and learns their first {Magic} spell doing it."],
+          ["{rival} gets theirs at the same moment", 1.5, { s: 1, v: 6 }, "Two grimoires come down at once: {first}'s {Grimoire} grimoire and {rival}'s. They look at each other across the tower, and both of them know."]
+        ]
+      },
+      exam: {
+        title: "How does the Magic Knights entrance exam go?", label: "The entrance exam", sub: "Broom flight, attack spells, then one-on-one duels. Nine captains are watching.",
+        intro: "The Magic Knights entrance exam. Hundreds of applicants, nine captains in the stands, and one chance.",
+        opts: [
+          ["Every captain raises their hand", 1, { pts: 3 }, "Broom flight, attack spells, the duel: {first} aces all of it. Every captain in the stands raises a hand. {first} chooses the {Squad}, and {captain} grins."],
+          ["Several captains want them", 2.5, { pts: 2 }, "{first} passes with room to spare. Three captains raise their hands, and {first} picks the {Squad}, under {captain}."],
+          ["Exactly one captain raises a hand", 3, { pts: 1 }, "A solid exam. One hand goes up: {captain} of the {Squad}."],
+          ["Nobody raises a hand, until one does", 1.5, { gain: { n: "Last pick", d: "Nobody wanted them at the exam. +3 power after each defeat.", adapt: 3 } }, "Nobody raises a hand. The nobles in the stands laugh. Then {captain} stands up. \"{Squad}. You're with me.\""],
+          ["They beat a noble favorite in the duel round", 1, { s: 3, v: 8 }, "In the duel round {first} draws the examiners' favorite noble and floors them in one move. {captain} of the {Squad} takes them on the spot."]
+        ],
+        after: "Joined the {Squad} as {Rank|a}."
+      }
+    };
+    bc.dreamEnd = { "become the Wizard King": "Becomes the Wizard King", "protect their village": "Keeps their home village safe for the rest of their life", "hunt the devil that cursed their family": "Hunts down the devil that cursed their family", "restore their family name": "Restores their family name", "prove a peasant can be a knight": "Proves a peasant can become a Magic Knight captain", "end the war between kingdoms": "Ends the war between the four kingdoms" };
+    bc.journey.endings = { good: ["Becomes the Wizard King", "Captain of their own squad", "Joins the Royal Knights", "Saves the Clover Kingdom and goes home a hero"], bad: ["Swallowed by their devil", "Kicked out of the Magic Knights", "Falls defending the Clover Kingdom", "Defects to the Spade Kingdom"] };
+    Object.assign(bc.arcs, {
+      "a Common Realm village": {
+        pri: 2, tag: "Your story starts in the Common Realm, where nobody is starving and nobody important is watching.",
+        home: "A Common Realm village. Fields, a market day once a week, and taxes paid to a noble who never visits. Today is the grimoire ceremony.",
+        scenes: { twist: ["The local noble raises taxes again. The village asks {first}, their Magic Knight, for help."] },
+        foes: { early: [["Bandit mages raiding the farms", 18], ["A noble's thugs collecting taxes", 20]] },
+        twists: [["The local noble raises taxes on {first}'s village", { s: 5, v: 6 }], ["The village throws {first} a parade", { gain: { n: "Village hero", d: "A whole village is cheering. +3 power.", power: 3 } }]],
+        chances: [["A letter from home with a pressed flower and a lot of misspelled encouragement", { heal: true, all: 2 }]]
+      },
+      "Kiten, in the Common Realm": {
+        pri: 2, tag: "Your story starts in Kiten, the Common Realm city closest to the Diamond Kingdom border.",
+        home: "Kiten. Market stalls, city walls, and the Diamond Kingdom less than a day's march away. Today is the grimoire ceremony.",
+        scenes: { early: ["Diamond Kingdom mages are testing Kiten's walls again."], late: ["The Diamond Kingdom marches on Kiten in force. {first} is on the walls."] },
+        foes: { early: [["Diamond Kingdom raiders", 24], ["A Diamond mage warrior scout", 26]], late: [["The Diamond Kingdom army at Kiten", 66]] },
+        twists: [["The Diamond Kingdom attacks Kiten", { inj: true, all: 4 }]],
+        chances: [["Kiten's town guards drag {first} behind the walls", { heal: true, all: 2 }]]
+      },
+      "Saussy village, in the Common Realm": {
+        pri: 2, tag: "Your story starts in Saussy, a quiet Common Realm village with a forest full of wild boars.",
+        home: "Saussy village. The boars in the forest are the biggest threat anyone remembers. Today is the grimoire ceremony.",
+        scenes: { early: ["The wild boars of Saussy are back. Then the real trouble arrives: mages in black robes."] },
+        foes: { early: [["Saussy's giant wild boars", 14], ["Heath Grice of the Eye of the Midnight Sun", 30], ["Heath's ice mages", 22]] },
+        twists: [["Heath Grice freezes the villagers of Saussy", { s: 0, v: 8 }]],
+        chances: [["The villagers of Saussy cook {first} a boar feast", { heal: true, all: 3 }]]
+      }
+    });
+    bc.arcs["the Forsaken Realm"].chapters = ["Grimoire ceremony in the slums", "Street training", "The Magic Knights entrance exam", "Grimoire awakening", "The capital's contempt", "The Spade Kingdom invades", "Final battle", "The final goal"];
+    bc.arcs["a noble house"].chapters = ["A noble's grimoire ceremony", "Family training", "The Magic Knights entrance exam", "Heir's evolution", "Family scandal", "The Spade Kingdom invades", "Final battle", "The final goal"];
+    bc.arcs["a noble house"].home = "A noble banquet the night before the grimoire ceremony. Every cousin at the table is waiting for {first} to embarrass the house.";
+    bc.arcs["Hage village"].chapters = ["Grimoire ceremony in Hage", "Training behind the church", "The Magic Knights entrance exam", "Grimoire awakening", "A letter from Hage", "The Spade Kingdom invades", "Final battle", "The final goal"];
+    // scenes that used to describe the exam now describe what comes after it
+    bc.arcs["Hage village"].scenes.early = ["A mission takes {first} back toward Hage. They know every road out here."];
+    bc.arcs["Hage village"].scenes.mid = ["A briefing at Magic Knights headquarters. Someone snickers when they hear 'Hage'."];
+    bc.arcs["the Forsaken Realm"].scenes.mid = ["A royal request comes in, and the noble in charge makes sure {first} knows where they came from."];
+    bc.arcs["a noble house"].scenes.mid = ["A royal ceremony. {first}'s whole family watches from the royal box, judging."];
+    bc.arcs["House Silva"].scenes.mid = ["The Silva siblings watch {first}'s first royal mission. Nobody in the family claps."];
+    bc.arcs["the royal capital"].home = "The royal capital. The grimoire tower is a short walk from home, and every noble family in the city is watching whose child gets what.";
+  })();
+
   // ================= constants =================
   // talent ladders: 10 tiers per stat, weakest first. Keyed by the series' stat name.
   const TIERS = {
@@ -3538,7 +3643,8 @@
     const longLived = { blackclover: ["Elf reincarnation", "Witch"], jjk: ["Incarnated sorcerer", "Cursed womb: Death Painting", "Cursed corpse"], hxh: ["Host of a Dark Continent being"], onepiece: ["Lunarian", "Giant", "Mink"], fantasy: ["Elf", "Dwarf", "Vampire", "Undead", "Fae"], hero: ["Alien", "Android", "Magic-born"] }[key] || [];
     const cosmic = { fantasy: ["Demigod", "Fallen god"], hero: ["Demigod"], jjk: [], onepiece: [] }[key] || [];
     const anime = key !== "fantasy" && key !== "hero";
-    th.cats.splice(at, 0, ["Age", anime ? AGE_ANIME : AGE_ANIME.concat(["Centuries old"])], ["Height", H_M]);
+    // Black Clover characters are fifteen at the grimoire ceremony, so they skip the age wheel
+    th.cats.splice(at, 0, ...(key === "blackclover" ? [] : [["Age", anime ? AGE_ANIME : AGE_ANIME.concat(["Centuries old"])]]), ["Height", H_M]);
     const pIdx = th.cats.findIndex((c) => c[0] === "Personality");
     th.cats.splice(pIdx >= 0 ? pIdx + 1 : th.cats.length, 0, ["Weakness", WEAK_ALL.concat(WEAK_SERIES[key] || [])]);
     if (key === "hero") th.hidden = th.hidden.filter((h) => h[0] !== "Weakness");
@@ -3575,7 +3681,7 @@
 
   // ================= free-turn content per series =================
   Object.assign(THEMES.blackclover, {
-    acts: [["fight", "Take a Magic Knight mission", 3], ["hunt", "Hunt a dungeon beast", 2.5], ["train", "Train", 3], ["quest", "Accept a royal request", 3], ["explore", "Explore a dungeon", 2], ["treasure", "Raid a dungeon vault", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new spell", 1.5], ["followers", "Gather followers", 1], ["war", "Join the war", 1], ["rest", "Party at the hideout", 0.8], ["retire", "Retire from the Magic Knights", 0.25]],
+    acts: [["fight", "Take a Magic Knight mission", 3], ["hunt", "Hunt a dungeon beast", 2.5], ["train", "Train", 3], ["quest", "Accept a royal request", 3], ["explore", "Explore a dungeon", 2], ["treasure", "Raid a dungeon vault", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new spell", 1.5], ["followers", "Gather followers", 1], ["war", "Join the war", 1], ["rest", "Rest at the squad base", 0.8], ["retire", "Retire from the Magic Knights", 0.25]],
     monsters: ["A dungeon golem", "A mana-eating beast", "A giant boar", "A crystal salamander", "A rock giant", "An undead knight", "A sea serpent off the Clover coast", "A shadow beast", "A lower-rank devil", "A cursed spirit", "A dragon from the Grand Magic Zone", "A mana-mad wyvern"],
     quests: [["Clear a dungeon on the Diamond border", 2], ["Escort a royal to the capital", 1], ["Catch an Eye of the Midnight Sun spy", 2], ["Seal a cursed relic", 2], ["Rescue a kidnapped village", 1], ["Hunt down a devil host", 3, ["Which devil?", ["A lower-rank devil", "A mid-rank devil", "A high-rank devil"]]], ["Recover a stolen grimoire", 2], ["Win the Royal Knights selection exam", 3], ["Defeat a ruler of the underworld", 4, ["Which one?", ["Lucifero", "Beelzebub", "Astaroth"]]], ["Stop the Spade Kingdom's invasion", 4]],
     skills: ["A new {Magic} magic spell", "Mana Zone", "Mana Skin", "Ki sensing", "Mana Method", "A compound spell", "A sealing spell", "Spatial transfer"]
@@ -3625,7 +3731,9 @@
       : i <= 7 ? "Gifted. People are starting to notice." : i === 8 ? "Prodigy level." : "Once in a generation. Monsters live up here.";
   }
   // 14 chapters. ch = index into the series' own chapter names; name = shared name for the newer chapters.
-  const STEPS = [
+  // a series can replace the chapter list (Black Clover starts with the grimoire ceremony and the entrance exam)
+  const S = () => (T().steps || STEPS_DEFAULT);
+  const STEPS_DEFAULT = [
     { k: "act", lean: "fight", pool: "early", sc: "early", ch: 0 }, { k: "act", lean: "train", pool: "early", sc: "train", ch: 1 },
     { k: "act", lean: "ally", pool: "early", sc: "recruit" }, { k: "act", lean: "quest", pool: "side", sc: "side" },
     { k: "rival", n: 1, name: "Enter the rival" }, { k: "act", lean: "fight", pool: "mid", sc: "mid", ch: 2 }, { k: "act", lean: "explore", pool: "mid", sc: "loot" },
@@ -3735,7 +3843,8 @@
   function slotWheel(s) {
     if (s.k === "cat") {
       const e = effCat(s.i), isTier = e.base.toLowerCase() === String(T().vis.tier).toLowerCase();
-      return { title: titleFor(e.name, null, null) === e.name ? titleFor(e.base, null, null) : titleFor(e.name, null, null), label: e.name, opts: e.opts, weights: e.opts.map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
+      const cut = isTier && T().tierStart ? T().tierStart : e.opts.length;
+      return { title: titleFor(e.name, null, null) === e.name ? titleFor(e.base, null, null) : titleFor(e.name, null, null), label: e.name, opts: e.opts.slice(0, cut), weights: e.opts.slice(0, cut).map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
     }
     if (s.k === "title") { const o = titleOptions(); return { title: "What's your title?", label: "Title", opts: o, weights: o.map((x, i) => i === 0 ? 3 : 1) }; }
     if (s.k === "tal") {
@@ -3943,7 +4052,7 @@
   }
   const overall = () => { const s = stats(); return Math.round(s.reduce((a, b) => a + b, 0) / s.length); };
   function rarity() { const f = tierInfo().f; return f >= 1 ? "mythic" : f >= 0.75 ? "legendary" : f >= 0.5 ? "epic" : f >= 0.25 ? "rare" : "common"; }
-  const bossFight = () => { const st = STEPS[run.step]; return !!st && run.phase === "journey" && (st.pool === "boss" || (st.k === "rival" && st.n === 2)); };
+  const bossFight = () => { const st = S()[run.step]; return !!st && run.phase === "journey" && (st.pool === "boss" || (st.k === "rival" && st.n === 2)); };
   const playerPower = () => overall() + (run.ally ? 6 : 0) - (run.injured ? 8 : 0) + perkPower(bossFight()) + (run.adaptBonus || 0);
   const winChance = () => run.foe ? clamp(0.5 + (playerPower() - run.foe[1]) / 50, 0.1, 0.9) : 0.5;
 
@@ -4410,7 +4519,7 @@
     const col = { win: "#3c8a58", clutch: "#c9902a", draw: "#55598a", loss: "#a8323f" };
     return { title: run.foe ? jTitle("battle") : "Battle", label: "Battle", segs, opts: segs.map((s) => label[s.k]), colors: segs.map((s) => col[s.k]), weights: segs.map((s) => s.w) };
   }
-  const chapterName = (i) => { const st = STEPS[i]; return st.ch != null ? path().chapters[st.ch] : st.name || (run.names || {})[i] || "What now?"; };
+  const chapterName = (i) => { const st = S()[i]; return st.ch != null ? path().chapters[st.ch] : st.name || (run.names || {})[i] || "What now?"; };
   function foePool(pool) {
     const F = path().foes;
     if (pool === "side") return F.early.slice(-3).concat(F.mid.slice(0, 3)).map(([n, p]) => [n, p + 6]);
@@ -4422,7 +4531,8 @@
     return [r.replace(/^(A|An|The) /, (m) => m.toLowerCase()), p, true];
   }
   function endingWheel() {
-    const P = path();
+    const P0 = path(), dream = T().dreamEnd && T().dreamEnd[tv("Dream")];
+    const P = dream ? Object.assign({}, P0, { endings: { good: [dream].concat(P0.endings.good.filter((x) => x !== dream)), bad: ["Never reaches their dream"].concat(P0.endings.bad) } }) : P0;
     const g = clamp(run.w + (run.bossWin ? 1 : 0) + (run.rivalBeaten ? 1 : 0) + karma(), 1, 7);
     let gi = 0, bi = 0;
     const segs = spread(g, 8).map((isG) => isG ? { good: true, t: fill(P.endings.good[gi++ % P.endings.good.length]) } : { good: false, t: fill(P.endings.bad[bi++ % P.endings.bad.length]) });
@@ -4441,13 +4551,14 @@
       return s ? slotWheel(s) : state.wheel;
     }
     if (run.phase === "journey") {
-      const st = STEPS[run.step], P = path();
+      const st = S()[run.step], P = path();
       if (run.chance && !run.act) return listWheel(jTitle("chance"), chanceList().map(lbl));
       if (needsCodename() && !run.act) return listWheel("Hero name", codenameOptions());
       if (st.k === "act") return actWheel();
+      if (st.k === "event") return eventWheel(st.ev);
       if (st.k === "battle") return run.foe ? battleWheel() : listWheel(jTitle("foe"), bossPool().map((f) => f[0]));
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
-      if (st.k === "twist") return listWheel(jTitle("twist"), P.twists.map(lbl));
+      if (st.k === "twist") return listWheel(jTitle("twist"), LST.twist().map(lbl));
       if (st.k === "evolve") return listWheel(jTitle("evolve"), evolveOptions());
       if (st.k === "ending") return run.dead ? listWheel("Ending", [`Killed by ${run.dead}`]) : endingWheel();
     }
@@ -4619,7 +4730,8 @@
     run.phase = "journey"; run.step = 0;
     const P = path(), tpl = P.prologue || T().prologue;
     const told = (n) => tpl.toLowerCase().includes("{" + n.toLowerCase());
-    const subsLine = allSubs().filter((x) => x.value && !told(x.name)).map((x) => `${x.name}: ${x.value}.`).join(" ");
+    const later = T().laterSubs || [];
+    const subsLine = allSubs().filter((x) => x.value && !told(x.name) && !later.includes(x.name)).map((x) => `${x.name}: ${x.value}.`).join(" ");
     const bw = bestWorst();
     const talentLine = `Best talent: ${bw.best}. Weakest: ${bw.worst}.`;
     const avgTier = run.talent.reduce((a, b) => a + b, 0) / run.talent.length;
@@ -4729,10 +4841,38 @@
     rest: ["{first} takes a break. Good food, real sleep, and nobody trying to kill them for once.", "A day off. {first} wakes up feeling like a new person."]
   };
 
+  // ---- no contradictions: nobody is recruited twice, defeated foes stay down, treasure and quests don't repeat ----
+  const nameKey = (s) => String(s).toLowerCase().replace(/^(a|an|the) /, "").split(/,| \(/)[0].trim();
+  const used = (kind) => ((run.used || {})[kind] || []);
+  function markUsed(kind, label) { run.used = run.used || {}; (run.used[kind] = run.used[kind] || []).push(nameKey(label)); }
+  function fresh(list, kind) {
+    const u = new Set(used(kind)), gone = new Set(run.gone || []), allies = new Set(used("ally"));
+    const ok = (x) => { const k = nameKey(x[0]); return !gone.has(k) && !(kind === "foe" && allies.has(k)); };
+    const out = list.filter((x) => ok(x) && !u.has(nameKey(x[0])));
+    if (out.length >= (kind === "ally" ? 1 : 2)) return out;
+    if (kind === "ally") return [["A new friend from the road", { all: 2 }]];
+    const back = list.filter(ok);
+    return back.length ? back : list;
+  }
+  const LST = {
+    train: () => fresh(path().training, "train"), ally: () => fresh(path().allies, "ally"), loot: () => fresh(path().loot, "loot"), twist: () => fresh(path().twists, "twist"),
+    quest: () => fresh(T().quests || QUESTS_DEFAULT, "quest"), foe: (pool) => fresh(foePool(pool), "foe"),
+    enemy: () => fresh(foePool("mid").concat(foePool("late")), "foe"), war: () => fresh(foePool("late").concat(foePool("boss").slice(0, 2)), "foe")
+  };
+  // climbing the ranks: big wins earn a promotion on the series' rank ladder
+  function promote() {
+    if (run.bounty != null) return "";
+    const t0 = tierInfo();
+    if (t0.idx >= t0.n - 1) return "";
+    run.tierUp++;
+    chime([523, 784, 1046]);
+    return ` Promoted: ${t0.label} → ${tierInfo().label}.`;
+  }
+  function applyTwist(e) { apply(e); (e.gone || []).forEach((n) => { run.gone = (run.gone || []).concat(nameKey(n)); if (run.companion && nameKey(run.companion) === nameKey(n)) run.companion = null; }); }
   const actList = () => path().acts || T().acts || ACTS_DEFAULT;
   const actLabel = (kind) => (actList().find((a) => a[0] === kind) || ACTS_DEFAULT.find((a) => a[0] === kind) || [kind, kind])[1];
   function actOptions() {
-    const st = STEPS[run.step];
+    const st = S()[run.step];
     return actList().filter(([k]) => !(k === "war" && st.pool === "early") && !(k === "retire" && run.step < 9))
       .map(([k, label, w]) => ({ k, label, w: w * (k === st.lean ? 4 : 1) }));
   }
@@ -4743,10 +4883,10 @@
 
   // the wheel for the current stage of the current action
   function actWheel() {
-    const a = run.act, P = path(), st = STEPS[run.step];
+    const a = run.act, P = path(), st = S()[run.step];
     if (!a) { const o = actOptions(); return tw(fill((T().jt || {}).act ? pick1((T().jt || {}).act) : "What does {first} do now?"), o.map((x) => x.label), o.map((x) => x.w), { label: "What do you do now?" }); }
     const s = a.stage;
-    if (s === "foe") { const pool = a.kind === "war" ? foePool("late").concat(foePool("boss").slice(0, 2)) : foePool(st.pool === "side" ? "side" : st.pool); return tw(a.kind === "war" ? fill("Who is the war against?") : jTitle("foe"), pool.map((f) => f[0]), null, { label: "Which enemy?" }); }
+    if (s === "foe") { const pool = a.kind === "war" ? LST.war() : LST.foe(st.pool === "side" ? "side" : st.pool); return tw(a.kind === "war" ? fill("Who is the war against?") : jTitle("foe"), pool.map((f) => f[0]), null, { label: "Which enemy?" }); }
     if (s === "form") return tw(fill("How strong is {foe} today?", { foe: a.foe[0] }), FOE_FORM.map((x) => x[0]), FOE_FORM.map((x) => x[2]), { label: "How strong is your enemy?" });
     if (s === "beast") { const m = T().monsters || MONSTERS_DEFAULT; return tw(fill((T().jt || {}).beast ? pick1(T().jt.beast) : "Which monster?"), m, null, { label: "Which monster?" }); }
     if (s === "count") return tw("How many?", HOW_MANY.map((x) => x[0]), HOW_MANY.map((x) => x[2]), { label: "How many?" });
@@ -4756,14 +4896,14 @@
     if (s === "survive") { const no = a.kind === "war" || st.pool === "late" ? 0.14 : 0.06; return tw(fill("Does {first} survive?"), ["Yes", "Barely", "No"], [1 - no - 0.3, 0.3, no], { label: "Do you survive?", colors: ["#3c8a58", "#c9902a", "#5a0010"] }); }
     if (s === "improve") { const p = improveOdds(); return tw("Do you improve in return?", ["Yes", "No"], [p, 1 - p], { label: "Do you improve in return?", colors: ["#1fb5ad", "#1b1f2a"] }); }
     if (s === "what") return tw("What improves?", statWheelOpts(), null, { label: "What improves?" });
-    if (s === "train") return tw(jTitle("train"), P.training.map(lbl), null, { label: "Training" });
-    if (s === "ally") return tw(jTitle("recruit"), P.allies.map(lbl), null, { label: "Ally" });
-    if (s === "loot") return tw(jTitle("loot"), P.loot.map(lbl), null, { label: "Treasure" });
-    if (s === "twist") return tw(jTitle("twist"), P.twists.map(lbl), null, { label: "Twist" });
-    if (s === "enemy") { const pool = foePool("mid").concat(foePool("late")); return tw(fill("Who becomes {first}'s enemy?"), pool.map((f) => f[0]), null, { label: "Who becomes your enemy?" }); }
+    if (s === "train") return tw(jTitle("train"), LST.train().map(lbl), null, { label: "Training" });
+    if (s === "ally") return tw(jTitle("recruit"), LST.ally().map(lbl), null, { label: "Ally" });
+    if (s === "loot") return tw(jTitle("loot"), LST.loot().map(lbl), null, { label: "Treasure" });
+    if (s === "twist") return tw(jTitle("twist"), LST.twist().map(lbl), null, { label: "Twist" });
+    if (s === "enemy") { const pool = LST.enemy(); return tw(fill("Who becomes {first}'s enemy?"), pool.map((f) => f[0]), null, { label: "Who becomes your enemy?" }); }
     if (s === "skill") return tw(fill("What does {first} learn?"), skillOptions(), null, { label: "What do you learn?" });
     if (s === "followers") return tw(fill("How many people follow {first}?"), FOLLOW_COUNT.map((x) => x[0]), FOLLOW_COUNT.map((x) => x[2]), { label: "How many follow you?" });
-    if (s === "quest") { const q = T().quests || QUESTS_DEFAULT; return tw("What is the quest?", q.map((x) => x[0]), null, { label: "What is the quest?" }); }
+    if (s === "quest") { const q = LST.quest(); return tw("What is the quest?", q.map((x) => x[0]), null, { label: "What is the quest?" }); }
     if (s === "qsub") return tw(a.quest[2][0], a.quest[2][1], null, { label: a.quest[2][0] });
     if (s === "succeed") { const p = clamp(0.5 + (playerPower() - questPower(a.quest[1])) / 50, 0.08, 0.92); return tw("Do you succeed?", ["Yes", "No"], [p, 1 - p], { label: "Do you succeed?", colors: ["#3c8a58", "#a8323f"] }); }
     if (s === "find") return tw(fill("What does {first} find?"), FINDS.map((x) => x[0]), FINDS.map((x) => x[1]), { label: "What do you find?" });
@@ -4796,7 +4936,7 @@
 
   async function actStep() {
     const w = actWheel(), k = await spin(w);
-    const P = path(), st = STEPS[run.step];
+    const P = path(), st = S()[run.step];
     let a = run.act;
     const v = w.opts[k];
     if (!a) {
@@ -4804,20 +4944,20 @@
       run.act = a = { kind: o.k, label: o.label };
       run.names = Object.assign(run.names || {}, { [run.step]: o.label });
       const pk = st.pool === "side" ? "side" : st.pool;
-      sceneFor(actHead(), st.ch != null ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: run.step > 5 ? "train2" : "train", learn: "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
+      sceneFor(actHead(), st.ch != null ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: run.step > 2 ? "train2" : "train", learn: run.step > 2 ? "train2" : "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
       const intro = { fight: "{first} goes looking for trouble.", hunt: "Something big has been spotted nearby. {first} goes after it.", train: "{first} decides it's time to get stronger.", quest: "{first} takes on a quest.", explore: "{first} sets off into the unknown.", treasure: "{first} goes treasure hunting.", ally: "{first} could use a friend.", enemy: "{first} is about to make an enemy.", learn: "{first} wants a new technique.", followers: "{first} starts gathering people.", war: "War is coming, and {first} walks straight into it.", rest: "{first} takes a break.", retire: "{first} looks at everything they've done and decides it's enough." }[o.k];
       logAdd(actHead(), fill(intro));
       setNarr(o.label, fill(intro));
       if (o.k === "rest") { apply({ heal: true, pts: 2 }); logAdd(actHead(), fill(pick(ACT_LINES.rest)), "Injuries healed, +2 upgrade points."); sfx.sparkle(); endAct(); return; }
-      if (o.k === "retire") { run.retired = true; react("retire"); run.act = null; run.step = STEPS.length - 1; return; }
+      if (o.k === "retire") { run.retired = true; react("retire"); run.act = null; run.step = S().length - 1; return; }
       a.stage = { fight: "foe", war: "foe", hunt: "beast", train: "train", quest: "quest", explore: "find", treasure: "loot", ally: "ally", enemy: "enemy", learn: "skill", followers: "followers" }[o.k];
       sfx.sparkle();
       return;
     }
     const head = actHead(), s = a.stage;
     if (s === "foe") {
-      const pool = a.kind === "war" ? foePool("late").concat(foePool("boss").slice(0, 2)) : foePool(st.pool === "side" ? "side" : st.pool);
-      a.foe = pool[k].slice(0, 2);
+      const pool = a.kind === "war" ? LST.war() : LST.foe(st.pool === "side" ? "side" : st.pool);
+      a.foe = pool[k].slice(0, 2); markUsed("foe", a.foe[0]);
       logAdd(head, fill(a.kind === "war" ? "The war is against {foe}." : "{first} runs into {foe}.", { foe: a.foe[0] }));
       setNarr(a.foe[0], fill("Power {fp}. But how strong are they today?", { fp: a.foe[1] }));
       a.stage = a.kind === "war" ? "size" : "form"; return;
@@ -4867,7 +5007,7 @@
       logAdd(head, fill("{first} doesn't get back up."), "", true);
       setNarr("Dead", fill("{first} falls to {foe}.", { foe: a.foe[0] }));
       sfx.womp(); react("dead");
-      run.chance = false; run.act = null; run.foe = null; run.step = STEPS.length - 1; return;
+      run.chance = false; run.act = null; run.foe = null; run.step = S().length - 1; return;
     }
     if (s === "improve") {
       if (k === 0) { setNarr("Yes", "What improves?"); a.stage = "what"; return; }
@@ -4882,7 +5022,7 @@
       endAct(); return;
     }
     if (s === "train") {
-      const txt = lbl(P.training[k]), e0 = P.training[k][1];
+      const L = LST.train(), txt = lbl(L[k]), e0 = L[k][1]; markUsed("train", L[k][0]);
       const e = run.underdog ? Object.assign({}, e0, { v: e0.v ? e0.v * 2 : e0.v, all: e0.all ? e0.all * 2 : e0.all }) : e0;
       apply(e); run.points += 1;
       logAdd(head, txt + ".", describe(e) + ", +1 upgrade point" + (run.underdog ? " (underdog: doubled)." : "."), !!e.inj);
@@ -4890,21 +5030,22 @@
       a.stage = "improve"; return;
     }
     if (s === "ally") {
-      const txt = lbl(P.allies[k]); apply(P.allies[k][1]); run.companion = txt;
-      const t = fill("{a} joins {first}'s side.", { a: txt });
-      logAdd(head, t, describe(P.allies[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); react("ally", { v: txt }); endAct(); return;
+      const L = LST.ally(), txt = lbl(L[k]); apply(L[k][1]); markUsed("ally", L[k][0]);
+      const prev = run.companion; run.companion = txt; run.allies = (run.allies || []).concat(txt);
+      const t = fill("{a} joins {first}'s side.", { a: txt }) + (prev ? ` ${prev} is still around too.` : "");
+      logAdd(head, t, describe(L[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); react("ally", { v: txt }); endAct(); return;
     }
     if (s === "loot") {
-      const txt = lbl(P.loot[k]); apply(P.loot[k][1]); run.items = (run.items || []).concat(txt);
+      const L = LST.loot(), txt = lbl(L[k]); apply(L[k][1]); markUsed("loot", L[k][0]); run.items = (run.items || []).concat(txt);
       const t = fill("{first} finds {a}.", { a: txt.charAt(0).toLowerCase() + txt.slice(1) });
-      logAdd(head, t, describe(P.loot[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); endAct(); return;
+      logAdd(head, t, describe(L[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); endAct(); return;
     }
     if (s === "twist") {
-      const txt = lbl(P.twists[k]); apply(P.twists[k][1]);
-      logAdd(head, txt + ".", describe(P.twists[k][1]) + ".", !!P.twists[k][1].inj); setNarr(txt, describe(P.twists[k][1]) + "."); endAct(); return;
+      const L = LST.twist(), txt = lbl(L[k]); applyTwist(L[k][1]); markUsed("twist", L[k][0]);
+      logAdd(head, txt + ".", describe(L[k][1]) + ".", !!L[k][1].inj); setNarr(txt, describe(L[k][1]) + "."); endAct(); return;
     }
     if (s === "enemy") {
-      const pool = foePool("mid").concat(foePool("late")), f = pool[k];
+      const pool = LST.enemy(), f = pool[k]; markUsed("foe", f[0]);
       run.nemesis = [f[0], clamp(f[1] + 8, 10, 99)];
       const t = fill("{foe} decides {first} has to die. They'll be back, stronger, at the worst possible moment.", { foe: f[0] });
       logAdd(head, t, "A new enemy. They'll show up at the final battle.", true); setNarr(f[0], t); sfx.gong(); react("enemy", { v: f[0] }); endAct(); return;
@@ -4923,7 +5064,7 @@
       endAct(); return;
     }
     if (s === "quest") {
-      const q = (T().quests || QUESTS_DEFAULT)[k]; a.quest = q;
+      const q = LST.quest()[k]; a.quest = q;
       logAdd(head, fill("The quest: {q}.", { q: q[0].charAt(0).toLowerCase() + q[0].slice(1) }), `Difficulty ${"★".repeat(q[1])}.`);
       setNarr(q[0], q[2] ? q[2][0] : "Do you succeed?");
       if (q[1] >= 4) react("scary");
@@ -4933,9 +5074,10 @@
     if (s === "succeed") {
       const d = a.quest[1], q = a.quest[0] + (a.target ? `: ${a.target}` : "");
       if (k === 0) {
-        run.w++; run.points += 1 + d;
+        run.w++; run.points += 1 + d; markUsed("quest", a.quest[0]);
         let fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
         if (run.bounty != null) fx += " " + bountyBump(questPower(d), 0.6 * d, q.toLowerCase());
+        if (d >= 3) fx += promote();
         if (d >= 4) run.gained = (run.gained || []).concat({ n: cap(q), d: "A legendary deed. +5 power.", power: 5 });
         logAdd(head, fill("{first} pulls it off.", {}), fx); setNarr("Quest complete", fx);
         sfx.fanfare(); if (d >= 3) { fxFlash("#fff6d0"); react("legend"); }
@@ -4944,7 +5086,7 @@
       run.l++; run.injured = true; run.points += 1;
       logAdd(head, fill("The quest fails. {first} limps home with nothing."), "Injured for the next fight, +1 upgrade point.", true);
       setNarr("Failed", fill("{first} comes back empty-handed.")); sfx.womp();
-      if (run.step < STEPS.length - 2 && chanceList().length) run.chance = true;
+      if (run.step < S().length - 2 && chanceList().length) run.chance = true;
       endAct(); return;
     }
     if (s === "find") {
@@ -4965,7 +5107,7 @@
 
   // shared fight resolution for free fights, rivals and the final boss
   function resolveBattle(bw, k, head, ctx) {
-    const st = STEPS[run.step], odds = winChance(), foe = run.foe;
+    const st = S()[run.step], odds = winChance(), foe = run.foe;
     let o = bw.segs[k].k, saved = null;
     if (o === "loss") {
       for (const p of perks()) {
@@ -4984,7 +5126,7 @@
       run.l++; run.points += 1; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured for the next fight, +1 upgrade point."; bad = true;
       const ad = perks().find((p) => p.adapt);
       if (ad) { run.adaptBonus = (run.adaptBonus || 0) + ad.adapt; fx += ` ${ad.n}: +${ad.adapt} power from now on.`; }
-      if (run.step < STEPS.length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
+      if (run.step < S().length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
     }
     const won = o !== "loss" && o !== "draw";
     const upset = won && odds < 0.42;
@@ -4993,10 +5135,10 @@
       run.bonus = run.bonus.map((b) => b + up); run.points += 1;
       fx += ` Upset! Nobody gave them a chance. +${up} to every stat, +1 upgrade point.`;
     }
-    if (st.pool === "boss" && won) run.bossWin = true;
+    if (st.pool === "boss" && won) { run.bossWin = true; fx += promote(); }
     if (st.k === "rival" && won) {
       run.rivalWins = (run.rivalWins || 0) + 1;
-      if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel."; }
+      if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel." + promote(); }
     }
     if (run.bounty != null && foe && (won || o === "draw")) {
       const mult = (st.pool === "boss" ? 3 : 1) * (st.k === "rival" ? 1.5 : 1) * (upset ? 1.5 : 1) * (o === "clutch" ? 1.3 : 1) * (o === "draw" ? 0.4 : 1) * ((ctx && ctx.mult) || 1);
@@ -5027,16 +5169,17 @@
   // every chapter opens with a scene from the series' world
   function sceneFor(head, key) {
     if (run.log.length && run.log[run.log.length - 1].h === head) return;
-    const P = path(), pool = (P.scenes && P.scenes[key]) || (T().scenes && T().scenes[key]);
+    const P = path(), all = (P.scenes && P.scenes[key]) || (T().scenes && T().scenes[key]) || [];
     const home = run.step === 0 ? (P.home || (T().birthScenes ? T().birthScenes[tv("Birthplace")] || null : null)) : null;
+    const pool = all.filter((s) => !(run.usedScenes || []).includes(s));
     if (home) logAdd(head, fill(home, battleVars()));
-    else if (pool && pool.length) logAdd(head, fill(pick(pool), battleVars()));
+    else if (pool.length) { const s = pick(pool); run.usedScenes = (run.usedScenes || []).concat(s); logAdd(head, fill(s, battleVars())); }
   }
 
   async function journeyStep() {
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
     if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
-    const st = STEPS[run.step];
+    const st = S()[run.step];
     if (st.k === "act") { await actStep(); persist(); render(); return; }
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
     sceneFor(head, st.k === "rival" ? "rival" + st.n : st.k === "battle" ? st.pool : st.k);
@@ -5065,10 +5208,23 @@
         if (st.k === "battle" && r.o === "loss" && !run.chance) { /* the final battle is lost: the ending wheel decides the rest */ }
         run.step++;
       }
-    } else if (st.k === "twist") {
-      const P = path(), k = await spin(listWheel(jTitle("twist"), P.twists.map(lbl)));
-      const txt = lbl(P.twists[k]), e = P.twists[k][1];
+    } else if (st.k === "event") {
+      const ev = T().events[st.ev], w = eventWheel(st.ev), k = await spin(w);
+      const o = ev.opts[k], e = o[2] || {};
+      if (ev.intro) logAdd(head, fill(ev.intro, eventVars()));
       apply(e);
+      let fx = describe(e);
+      fx = fx ? fx + "." : "";
+      if (ev.after) fx += (fx ? " " : "") + fill(ev.after, eventVars());
+      if (st.ev === "exam") (T().laterSubs || []).forEach((n) => { const x = allSubs().find((y) => y.name === n && y.value); if (x) fx += ` ${x.name}: ${x.value}.`; });
+      logAdd(head, fill(o[3], eventVars()), fx);
+      setNarr(fill(o[0], eventVars()), fill(o[3], eventVars()));
+      if (k === 0 || /every|shakes|win/i.test(o[0])) { sfx.heavenly(); fxFlash("#fff6d0"); react("rare", { v: fill(o[0], eventVars()) }); } else sfx.fanfare();
+      run.step++;
+    } else if (st.k === "twist") {
+      const L = LST.twist(), k = await spin(listWheel(jTitle("twist"), L.map(lbl)));
+      const txt = lbl(L[k]), e = L[k][1];
+      applyTwist(e); markUsed("twist", L[k][0]);
       let bfx = "";
       if (run.bounty != null && /bounty|Five Elders|Buster Call|threat|Emperor|Poneglyph|Void Century/i.test(txt)) bfx = " " + bountyBump(60, 1.5, "the world is watching");
       logAdd(head, txt + ".", describe(e) + "." + bfx, !!(e.inj || (e.v && e.v < 0)));
@@ -5094,8 +5250,10 @@
     }
     persist(); render();
   }
+  function eventVars() { return Object.assign(battleVars(), { captain: ((T().captains || {})[tv("Squad")] || "the captain") }); }
+  function eventWheel(key) { const ev = T().events[key]; return tw(fill(ev.title, eventVars()), ev.opts.map((o) => fill(o[0], eventVars())), ev.opts.map((o) => o[1]), { label: ev.label || ev.title }); }
   function bossPool() {
-    const pool = foePool("boss").slice();
+    const pool = foePool("boss").filter((f) => !used("ally").includes(nameKey(f[0])) && !(run.gone || []).includes(nameKey(f[0])));
     if (run.nemesis && !pool.some((f) => f[0] === run.nemesis[0])) pool.unshift(run.nemesis, run.nemesis);
     return pool;
   }
@@ -5106,7 +5264,8 @@
     const legacy = (run.dead ? fill("{first} died young, {Personality|lower} to the very end.") : run.retired ? fill("{first} walked away on their own terms.") : seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end."))
       + (run.epithet ? ` History remembers them as ${run.name}, ${run.epithet}.` : "");
     const after = [];
-    if (run.companion) after.push(fill("{a} stayed by their side to the very end.", { a: run.companion }));
+    if ((run.allies || []).length > 1) after.push(`${run.allies.slice(0, -1).join(", ")} and ${run.allies[run.allies.length - 1]} stayed by their side to the very end.`);
+    else if (run.companion) after.push(fill("{a} stayed by their side to the very end.", { a: run.companion }));
     const rv = cap(tv(T().vis.rival) || "Their rival");
     after.push(run.rivalBeaten ? `${rv} never beat them again, though they never stopped trying.` : `${rv} remained the one opponent they could never quite put away.`);
     if (run.nemesis && !run.dead) after.push(`${cap(run.nemesis[0])} never forgave them.`);
@@ -5391,10 +5550,10 @@
       const all = slots(), done = all.filter((x) => slotVal(x) != null).length;
       eb = "Create your character";
       if (s) { const w = slotWheel(s); title = s.k === "sub" ? `${s.j ? "Deeper: " : "Bonus wheel: "}${w.title}` : w.title; sub = s.k === "tal" ? (minTier() ? `${statNames()[s.i]} talent · their blood starts them at tier ${minTier() + 1} of 10 · ${done} of ${all.length} spun` : `${statNames()[s.i]} talent · 10 tiers from useless to legendary · ${done} of ${all.length} spun`) : `${done} of ${all.length} spun`; }
-      else { title = "Ready for the journey"; sub = `${STEPS.length} chapters ahead`; }
+      else { title = "Ready for the journey"; sub = `${S().length} chapters ahead`; }
     } else if (run.phase === "journey") {
-      const st = STEPS[run.step];
-      eb = `Chapter ${run.step + 1} of ${STEPS.length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "");
+      const st = S()[run.step];
+      eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "");
       if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
       else if (needsCodename() && !run.act) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
       else if (st.k === "act") {
@@ -5405,6 +5564,7 @@
         if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : jTitle("foe");
         else { title = `${cap(run.foe[0])} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
       }
+      else if (st.k === "event") { title = eventWheel(st.ev).title; sub = T().events[st.ev].sub || ""; }
       else if (st.k === "twist") title = jTitle("twist");
       else if (st.k === "evolve") title = jTitle("evolve");
       else if (st.k === "ending") { title = run.dead ? "The end of the road" : run.retired ? "Retirement" : "Spin your ending"; sub = karma() ? `Every win puts more good endings on the wheel · karma ${karma() > 0 ? "+" : ""}${karma()}` : "Every win puts more good endings on the wheel"; }
@@ -5419,9 +5579,9 @@
     let label = "Spin";
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
     else if (run.phase === "journey") {
-      const st = STEPS[run.step];
+      const st = S()[run.step];
       label = run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
-        : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending" }[st.k];
+        : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     p.textContent = label; p.disabled = busy;
     $("spinAll").hidden = run.phase !== "create" || isComplete();
