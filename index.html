@@ -4087,7 +4087,8 @@
     c.fillText("?", 150, 160);
   }
   const isPainting = (seed) => state.aiBusySeeds.has(seed);
-  const showMystery = () => run.phase !== "done" || isPainting(run.seed);
+  // the face stays hidden while the character is still being rolled, or while its AI portrait is being painted
+  const showMystery = () => (run.phase === "create" && !isComplete()) || (isPainting(run.seed) && !run.ai);
   function drawPortrait(canvas, L, cssSize) {
     const W = 300, H = 300;
     const d = window.devicePixelRatio || 1;
@@ -4574,6 +4575,8 @@
       if (!run.epithet) run.epithet = makeEpithet();
       run.points += perks().reduce((a, p) => a + (p.pts || 0), 0);
       setNarr(`${run.name}, ${run.epithet}`, `Character complete: ${fill(T().titleTpl)}. Your card is ready and you have 2 upgrade points. Begin the journey when you're ready.`);
+      // the stats are rolled: paint the AI portrait now, while the journey starts
+      if (!inClaude && state.ai.key) setTimeout(() => paintRun($("aiMsg")), 0);
       chime();
     }
   }
@@ -5129,7 +5132,7 @@
     const canAI = !inClaude && state.ai.key;
     $("aiMsg").textContent = canAI ? "" : inClaude ? "Portrait revealed. The AI portrait needs the GitHub Pages or downloaded version, since claude.ai can't reach OpenAI." : "Portrait revealed. Add an OpenAI key under \"AI portraits\" below and every card without an AI face gets painted.";
     persist(); render();
-    if (canAI) paintEntry(state.history[0], $("aiMsg"));
+    if (canAI && !run.ai && !isPainting(run.seed)) paintEntry(state.history[0], $("aiMsg"));
   }
 
   // ================= reactions =================
@@ -5346,9 +5349,31 @@
     }
     state.aiQueue = false;
   }
+  // paint the character being played (before it has a history entry)
+  async function paintRun(msgEl) {
+    if (aiBlocked(msgEl) || isPainting(run.seed) || !isComplete()) return false;
+    const r0 = run;
+    state.aiBusySeeds.add(r0.seed); render();
+    msgEl.textContent = `Painting ${r0.codename || r0.name}. This takes 10 to 40 seconds, so the journey can start without it.`;
+    let ok = false;
+    try {
+      const r = await aiRequest(aiPrompt());
+      r0.ai = r; r0.showAI = true;
+      const h = state.history.find((x) => x.seed === r0.seed);
+      if (h) { h.thumb = r.thumb; if (h.card) h.card.ai = r.card; }
+      msgEl.textContent = `AI portrait ready for ${r0.codename || r0.name}.`;
+      ok = true;
+      persist();
+    } catch (e) {
+      msgEl.textContent = e instanceof TypeError ? "Couldn't reach OpenAI. Check your connection." : "OpenAI error: " + e.message;
+    }
+    state.aiBusySeeds.delete(r0.seed);
+    render();
+    return ok;
+  }
   function genAI() {
     const h = state.history.find((x) => x.seed === run.seed);
-    if (h) paintEntry(h, $("aiMsg"));
+    if (h) paintEntry(h, $("aiMsg")); else paintRun($("aiMsg"));
   }
 
   // ================= render =================
@@ -5359,7 +5384,7 @@
     $("tagline").textContent = T().tagline || "Spin the wheels, accept your fate";
     if (!busy && state.winner === -1) state.wheel = upcomingWheel();
     renderPrompt(); renderButtons(busy); renderNarr(); renderCard(); renderUpgrades(); renderTraits(busy); renderStory(); renderEditor(); renderHistory();
-    $("aiWhere").textContent = inClaude ? "You're viewing this inside claude.ai, which blocks outside services. AI portraits work when the page is opened from GitHub Pages or from index.html on your computer." : "Paste your own OpenAI API key. Each character gets one AI portrait, painted automatically when their story ends.";
+    $("aiWhere").textContent = inClaude ? "You're viewing this inside claude.ai, which blocks outside services. AI portraits work when the page is opened from GitHub Pages or from index.html on your computer." : "Paste your own OpenAI API key. Each character gets an AI portrait, painted automatically as soon as their stats are rolled.";
     $("aiSaved").textContent = state.ai.key ? "Key saved in this browser." : "No key saved.";
     cv.setAttribute("aria-label", `${state.wheel.title} wheel: ${state.wheel.opts.join(", ")}`);
     drawWheel();
@@ -5417,7 +5442,7 @@
     $("rerollRow").hidden = run.phase !== "create";
     $("rerollLimit").value = String(state.rerollLimit); $("rerollLimit").disabled = busy;
     $("rerollInfo").textContent = state.rerollLimit === 0 ? "No rerolls" : state.rerollLimit >= 99 ? "Unlimited rerolls" : `Rerolls left: ${rerollsLeft()} of ${state.rerollLimit}`;
-    $("aiGen").hidden = run.phase !== "done";
+    $("aiGen").hidden = run.phase === "create" && !isComplete();
     $("aiGen").disabled = isPainting(run.seed) || busy;
     $("aiGen").textContent = isPainting(run.seed) ? "Painting…" : run.ai ? "New AI portrait" : "AI portrait";
     $("artToggle").hidden = !run.ai;
@@ -5460,7 +5485,7 @@
       record: complete ? rec.join(" · ") : `${slots().filter((x) => slotVal(x) != null).length} / ${slots().length} traits`,
       look: look(), ai: run.ai && run.showAI && !mystery ? (run.ai.card || run.ai.src) : null, mystery,
       perks: perks().filter((p) => !p.quiet).map((p) => [p.n, p.d]), extras: Object.entries(perks().filter((p) => p.extra).reduce((m, p) => (m[p.extra[0]] = Math.max(m[p.extra[0]] || 0, p.extra[1]), m), {})),
-      note: run.phase !== "done" ? "Face revealed at the end of the journey" : isPainting(run.seed) ? "Painting the AI portrait…" : "",
+      note: run.phase === "create" && !isComplete() ? "Face revealed when the last stat is rolled" : isPainting(run.seed) ? "Painting the AI portrait…" : "",
       ending: run.ending || ""
     };
   }
