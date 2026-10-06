@@ -4957,8 +4957,9 @@
       const o = actOptions()[k];
       run.act = a = { kind: o.k, label: o.label };
       const CH = { fight: "A new mission", hunt: "The hunt", train: "Training arc", quest: "The quest", explore: "Into the unknown", treasure: "Treasure hunt", ally: "A new ally", enemy: "A new enemy", learn: "A new technique", followers: "Gathering followers", war: "War", rest: "A quiet day", retire: "Walking away" };
-      const taken = Object.values(run.names || {});
-      let nm = CH[o.k] || o.label; if (taken.includes(nm)) nm = taken.includes(nm + ", part two") ? o.label : nm + ", part two";
+      run.kinds = Object.assign(run.kinds || {}, { [run.step]: o.k });
+      const n = Object.entries(run.kinds).filter(([i, k]) => k === o.k && S()[i].ch == null).length;
+      const nm = (CH[o.k] || o.label) + (["", "", ", part two", ", part three", ", part four", ", part five"][n] || "");
       run.names = Object.assign(run.names || {}, { [run.step]: nm });
       const pk = st.pool === "side" ? "side" : st.pool;
       sceneFor(actHead(), st.ch != null ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: run.step > 2 ? "train2" : "train", learn: run.step > 2 ? "train2" : "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
