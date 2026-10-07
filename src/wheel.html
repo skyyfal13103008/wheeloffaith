@@ -5267,6 +5267,19 @@
     heartbeat() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; [0, 0.18, 0.8, 0.98].forEach((d) => tone(a, "sine", 58, t + d, 0.16, 0.5, 40)); },
     scratch() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; tone(a, "sawtooth", 900, t, 0.25, 0.08, 120); tone(a, "sawtooth", 700, t + 0.12, 0.2, 0.06, 1400); },
     whoosh() { const a = ensureAudio(); if (!a) return; const t = a.currentTime, s = a.createBufferSource(), bp = a.createBiquadFilter(), g = a.createGain(); s.buffer = noiseBuf(a, 0.5); bp.type = "lowpass"; bp.frequency.setValueAtTime(300, t); bp.frequency.linearRampToValueAtTime(900, t + 0.35); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.025, t + 0.15); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45); s.connect(bp).connect(g).connect(a.destination); s.start(t); },
+    // fight spins: a low rumble that swells, under a few slow war-drum hits that speed up toward the stop
+    tension(secs) {
+      const a = ensureAudio(); if (!a) return;
+      const t = a.currentTime, d = secs || 3.6;
+      const o = a.createOscillator(), o2 = a.createOscillator(), lp = a.createBiquadFilter(), g = a.createGain();
+      o.type = "sawtooth"; o.frequency.setValueAtTime(55, t); o.frequency.linearRampToValueAtTime(70, t + d);
+      o2.type = "sawtooth"; o2.frequency.setValueAtTime(55.6, t); o2.frequency.linearRampToValueAtTime(70.8, t + d);
+      lp.type = "lowpass"; lp.frequency.setValueAtTime(120, t); lp.frequency.exponentialRampToValueAtTime(700, t + d);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.07, t + d * 0.85); g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.25);
+      o.connect(lp); o2.connect(lp); lp.connect(g).connect(a.destination);
+      o.start(t); o2.start(t); o.stop(t + d + 0.3); o2.stop(t + d + 0.3);
+      [0, 1.1, 2.0, 2.7, 3.2].filter((x) => x < d).forEach((x, i) => tone(a, "sine", 95, t + x, 0.45, 0.16 + i * 0.03, 42));
+    },
     drumroll(secs) { const a = ensureAudio(); if (!a) return; const t = a.currentTime, n = Math.floor((secs || 3) * 14); for (let i = 0; i < n; i++) { const s = a.createBufferSource(), g = a.createGain(), v = 0.02 + 0.05 * (i / n); s.buffer = noiseBuf(a, 0.05); g.gain.setValueAtTime(v, t + i / 14); g.gain.exponentialRampToValueAtTime(0.0001, t + i / 14 + 0.05); s.connect(g).connect(a.destination); s.start(t + i / 14); } },
     meh() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; tone(a, "triangle", 330, t, 0.25, 0.08); tone(a, "triangle", 311, t + 0.28, 0.4, 0.08); }
   };
@@ -5363,7 +5376,7 @@
   function spin(wheel) {
     wheel = applyBend(wheel);
     if (wheel.bent != null) run.bend = null;
-    if (!turbo) { if (wheel.segs || wheel.label === "Battle") sfx.drumroll(3.6); else sfx.whoosh(); }
+    if (!turbo) { if (wheel.segs || wheel.label === "Battle") sfx.tension(3.6); else sfx.whoosh(); }
     return new Promise((resolve) => {
       state.wheel = wheel; state.winner = -1; state.spinning = true;
       render();
@@ -5380,11 +5393,12 @@
       const dur = turbo ? 20 : reduceMotion ? 700 : 3600 + Math.random() * 900;
       const t0 = performance.now();
       let last = segUnderPointer();
+      const fight = !!(wheel.segs || wheel.label === "Battle");
       const frame = (now) => {
         const t = Math.min(1, (now - t0) / dur);
         state.rotation = start + (end - start) * (1 - Math.pow(1 - t, 4));
         const seg = segUnderPointer();
-        if (seg !== last) { last = seg; tickSound(); const p = $("pointer"); p.classList.remove("tick"); void p.offsetWidth; p.classList.add("tick"); }
+        if (seg !== last) { last = seg; if (!fight) tickSound(); const p = $("pointer"); p.classList.remove("tick"); void p.offsetWidth; p.classList.add("tick"); }
         drawWheel();
         if (t < 1) { requestAnimationFrame(frame); return; }
         state.rotation = end % TAU; state.winner = segUnderPointer(); state.spinning = false;
