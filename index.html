@@ -3470,9 +3470,9 @@
         endings: { good: ["Becomes the clan's honored elder"], bad: ["Dies dishonored"] }
       },
       "Fae": {
-        pri: 2, tag: "Your story runs through the Feywild, where bargains are binding and names are power.",
-        home: "The Feywild. Seasons last a hundred years and every promise is a chain. {first} will make their first bargain before they can walk.",
-        scenes: { early: ["A mortal has wandered into the Feywild and the Queen wants them."], twist: ["Someone has learned {first}'s true name."] },
+        pri: 2, tag: "Your story runs through the Glimmerwild, where bargains are binding and names are power.",
+        home: "The Glimmerwild. Seasons last a hundred years and every promise is a chain. {first} will make their first bargain before they can walk.",
+        scenes: { early: ["A mortal has wandered into the Glimmerwild and the Queen wants them."], twist: ["Someone has learned {first}'s true name."] },
         foes: { early: [["A redcap", 20], ["A will-o'-wisp", 16]], late: [["A knight of the opposite court", 70]], boss: [["The Queen of the opposite court", 92]] },
         twists: [["Your true name is stolen", { inj: true, all: 4 }], ["You trick a hag out of her power", { s: 5, v: 10 }]],
         chances: [["{first} makes a bargain to get back up", { gain: { n: "Fae bargain", d: "Rewrites one defeat, for a price.", karma: -1, save: { chance: 0.5, uses: 1, text: "{first} whispers a bargain. Something in the air accepts. {foe} falls instead." } } }]],
@@ -4327,7 +4327,7 @@
       "Orc": "Strong, tribal warriors from the Ashlands. Humans call them monsters; orcs call humans liars.",
       "Tiefling": "A human with a devil somewhere in their bloodline. Horns, a tail, and people crossing the street to avoid them.",
       "Dragonborn": "A proud, scaled people descended from dragons. They can breathe a dragon's element.",
-      "Fae": "Creatures from the Feywild, a magical mirror-world. Beautiful, dangerous, and bound by their promises.",
+      "Fae": "Creatures from the Glimmerwild, a magical mirror-world. Beautiful, dangerous, and bound by their promises.",
       "Gnome": "Small, curious, clever people who love tinkering and illusion magic.",
       "Halfling": "Small, cheerful country folk who prefer second breakfast to adventure. Surprisingly brave when it counts.",
       "Vampire": "An undead who survives on blood. Strong and nearly immortal, but sunlight and holy things hurt.",
@@ -4369,12 +4369,12 @@
       "Transmutation": "Magic that changes one thing into another.",
       "Conjuration": "Magic that summons creatures or objects.",
       "Enchantment": "Magic that controls minds and emotions.",
-      "archfey": "A powerful ruler of the Feywild.",
+      "archfey": "A powerful ruler of the Glimmerwild.",
       "fiend": "A demon or devil from the lower planes.",
       "great old one": "An ancient, alien being from beyond the stars. Its gifts can drive a mind mad.",
       "Summer Court": "The fae court of light, warmth and passion.",
       "Winter Court": "The fae court of cold, cruelty and cunning.",
-      "Feywild": "A mirror-world of wild magic where the fae live.",
+      "Glimmerwild": "A mirror-world of wild magic where the fae live.",
       "Pyromancy": "Fire magic.",
       "Runes": "Magic carved into symbols that keep their power.",
       "Storm calling": "Magic that commands wind, rain and lightning.",
@@ -4390,8 +4390,8 @@
       "Mount Cinder": "The volcano where the Binding Ring was forged.",
       "Hollow Kings": "Nine kings who took the Dark Lord's gifts and became his wraiths.",
       "Last Ships": "The ships that carry the elves west to Evenmere, a land beyond the sea that mortals can't reach unless the elves take them.",
-      "Thorn Throne": "The throne of the Seven Kingdoms, forged from a thousand swords of conquered enemies with dragon fire.",
-      "Great Houses": "The noble families of the Seven Kingdoms: Varrow, Dravenmoor, Ashcombe and Merrin, and the exiled dragon kings of House Talgarth.",
+      "Thorn Throne": "The throne of the Thornlands, forged from a thousand swords of conquered enemies with dragon fire.",
+      "Great Houses": "The noble families of the Thornlands: Varrow, Dravenmoor, Ashcombe and Merrin, and the exiled dragon kings of House Talgarth.",
       "House Talgarth": "The exiled dragon kings who forged the Thorn Throne.",
       "Northwall": "A wall of ice seven hundred feet high, built to keep the frost-dead out after the last Long Night.",
       "Wardens": "The sworn guardians of the Northwall. They give up land, family and titles to serve.",
@@ -4771,7 +4771,15 @@
   // ---------- Fantasy: who you are shapes how the story begins ----------
   (() => {
     const fa = THEMES.fantasy, ev = (title, intro, opts) => ({ title, intro, opts });
-    fa.evBy = ["Race", "Alignment"];
+    fa.evBy = ["Race", "Age", "Alignment"];
+    // anyone older than the Crown's fall was born under an older sky
+    const oldOmen = ev("What marked {first}'s birth, long ago?", "Long before the Ember Crown shattered, the world still had signs worth reading.", [
+      ["The Ember Crown burned brighter for a night", 2, { gain: { n: "Born under the Crown", d: "Born while the Ember Crown was whole.", boss: 4 } }, "The night {first} was born, the Ember Crown blazed so bright the capital saw no darkness. Nobody alive today remembers that night. {first} does."],
+      ["Dragons filled the sky", 1.5, { all: 3 }, "{first} was born in the age when dragons still flew in flocks. They remember the sound."],
+      ["A god walked through the village", 1, { s: 0, v: 6 }, "A god walked through {first}'s village the night they were born and stopped at the door. The gods still did that, back then."],
+      ["Nothing. They were nobody, for a very long time", 2.5, { gain: { n: "Nobody", d: "No omen, no destiny. Every win is their own.", adapt: 3 } }, "No sign at all. {first} has been nobody for longer than most kingdoms have existed."]
+    ]);
+    ["Centuries old", "Over a thousand years old", "Ancient (older than recorded history)", "Older than the world", "Older than the universe"].forEach((a) => { fa.events["omen:" + a] = oldOmen; });
     fa.homeStep = 1; // step 0 is the birth omen; the home scene belongs to growing up
     // gods and the dead don't get a birth omen; they get the moment they fell or died
     fa.events["omen:Fallen god"] = ev("How did {first} fall?", "Gods in Aldmoor don't die. They fall, and they remember everything.", [
@@ -4814,6 +4822,15 @@
     fa.sagas.fellowship.drop = (fa.sagas.fellowship.drop || []).concat("The Dark Lord");
   })();
 
+  // ---------- Superhero: a public face can't be unmasked ----------
+  (() => {
+    const he = THEMES.hero, wk = (he.cats.find((c) => c[0] === "Weakness") || [])[1] || [];
+    ["Public", "Lost it on live TV"].forEach((v) => {
+      he.arcs[v] = Object.assign(he.arcs[v] || {}, { drop: ["Your secret identity leaks", "Unmasked on live TV", "Unmasked on live TV and disgraced"] });
+      he.adapt.push({ when: ["Secret identity", v], cat: "Weakness", opts: wk.filter((w) => w !== "Their secret identity") });
+    });
+  })();
+
   // ---------- One Piece: crews, ranks and powers that fit each other ----------
   (() => {
     const op = THEMES.onepiece, cat = (n) => (op.cats.find((c) => c[0] === n) || [])[1] || [];
@@ -4850,6 +4867,10 @@
       { stat: 0, when: ["Haki type", "Observation and Armament"], max: 7 }
     ];
     op.titleTpl = "{Race} · {Affiliation}";
+    const sc = (k, add) => { const P0 = (op.paths || {})[k]; if (P0) P0.scenes = Object.assign({}, add, P0.scenes || {}); };
+    sc("Marines", { side: ["A distress call from a village the pirates hit last week."], rival1: ["{Rival} is waiting on the dock at Marine HQ."], train: ["Marine HQ's training grounds, before dawn."] });
+    sc("World Government agent", { side: ["A sealed order sends {first} to an island the Government wants kept quiet."], rival1: ["{Rival} is waiting at the end of {first}'s first assignment."], train: ["A CP training facility with no name on the door."] });
+    sc("Celestial Dragon runaway", { side: ["A port town where nobody asks questions, which is exactly why {first} is here."], rival1: ["{Rival} has been following {first}'s trail since the Holy Land."] });
     // Marines, government agents and runaways don't spend free turns like pirates
     const P = op.paths || {};
     if (P.Marines) Object.assign(P.Marines, {
@@ -5120,7 +5141,7 @@
   function signature() {
     if (run.evolution) return run.evolution;
     const ai = idxOf(T().vis.aura);
-    const chain = ai >= 0 ? (run.subs[ai] || []).filter((x) => x.value && !x.tiered && !/awakening|spirit|limit|tier|control|contract|class|rank|level|depth|mastery/i.test(x.name))
+    const chain = ai >= 0 ? (run.subs[ai] || []).filter((x) => x.value && !x.tiered && !/awakening|spirit|limit|tier|control|contract|class|rank|level|depth|mastery|gadget|edge|identity|base|sidekick/i.test(x.name))
       .map((x) => x.value.replace(/ \(.*\)$/, "")).filter((x) => !/^(not awakened|awakened|no |basic|none)|chose you$/i.test(x)) : [];
     if (chain.length) return chain[chain.length - 1];
     const mv = fill(T().move);
@@ -5768,7 +5789,7 @@
     if (e.inj) out.push("injured for the next fight");
     if (e.heal) out.push("injuries healed");
     if (e.ally) out.push("an ally joins the next fight");
-    if (e.gain) out.push(`new perk: ${e.gain.n} (${e.gain.d.replace(/\.$/, "")})`);
+    if (e.gain) out.push(`new perk: ${e.gain.n} (${e.gain.d.replace(/\.$/, "").replace(/\. (?=\S)/g, ", ")})`);
     return cap(out.join(", "));
   }
   function apply(e) {
@@ -6534,11 +6555,11 @@
       const before = actHead();
       run.names = Object.assign(run.names || {}, { [run.step]: nm });
       // a fixed chapter ("Training arc") is renamed when the spin went somewhere else
-      if (st.ch != null && st.lean && o.k !== st.lean && !(o.k === "hunt" && st.lean === "fight")) run.offLean = Object.assign(run.offLean || {}, { [run.step]: true });
+      if ((st.ch != null || st.name) && st.lean && o.k !== st.lean && !(o.k === "hunt" && st.lean === "fight")) run.offLean = Object.assign(run.offLean || {}, { [run.step]: true });
       const after = actHead();
       if (before !== after) run.log.forEach((b) => { if (b.h === before) b.h = after; });
       const pk = st.pool === "side" ? "side" : st.pool, late = st.pool === "late";
-      sceneFor(actHead(), st.ch != null && !run.offLean?.[run.step] ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: late ? "train2" : "train", learn: late ? "train2" : "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
+      if (o.k !== "rest") sceneFor(actHead(), st.ch != null && !run.offLean?.[run.step] ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: late ? "train2" : "train", learn: late ? "train2" : "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
       const intro = { fight: "{first} goes looking for trouble.", hunt: "Something big has been spotted nearby. {first} goes after it.", train: "{first} decides it's time to get stronger.", quest: "{first} takes on a quest.", explore: "{first} sets off into the unknown.", treasure: "{first} goes treasure hunting.", ally: "{first} could use a friend.", enemy: "{first} is about to make an enemy.", learn: "{first} wants a new technique.", followers: "{first} starts gathering people.", war: "War is coming, and {first} walks straight into it.", rest: "{first} takes a break.", retire: "{first} looks at everything they've done and decides it's enough." }[o.k];
       logAdd(actHead(), fill(intro));
       setNarr(o.label, fill(intro));
@@ -6648,7 +6669,7 @@
       const pool = LST.enemy(), f = pool[k]; markUsed("foe", f[0]);
       run.nemesis = [f[0], clamp(f[1] + 8, 10, 99)];
       const t = fill("{foe} decides {first} has to die. They'll be back, stronger, at the worst possible moment.", { foe: f[0] });
-      logAdd(head, t, "A new enemy. They'll show up at the final battle.", true); setNarr(f[0], t); sfx.gong(); react("enemy", { v: f[0] }); endAct(); return;
+      logAdd(head, t, "A new enemy. They're on the final battle's wheel now.", true); setNarr(f[0], t); sfx.gong(); react("enemy", { v: f[0] }); endAct(); return;
     }
     if (s === "skill") {
       run.skills = (run.skills || []).concat(v);
@@ -6918,7 +6939,7 @@
     if (run.forceBoss) return [run.forceBoss];
     const beaten = new Set(used("foe").map(nameKey));
     const all = foePool("boss").filter((f) => !used("ally").includes(nameKey(f[0])) && !(run.gone || []).includes(nameKey(f[0])));
-    const fresh0 = all.filter((f) => !beaten.has(nameKey(f[0])));
+    const fresh0 = all.filter((f) => !beaten.has(nameKey(f[0])) && !(run.rivalBeaten && /^your nemesis\b(?!'s)/i.test(f[0])));
     const pool = fresh0.length ? fresh0 : all;
     if (run.nemesis && !pool.some((f) => f[0] === run.nemesis[0])) pool.unshift(run.nemesis, run.nemesis);
     return pool;
