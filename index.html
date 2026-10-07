@@ -5599,7 +5599,7 @@
     if (!a) { const o = actOptions(); return tw(fill((T().jt || {}).act ? pick1((T().jt || {}).act) : "What does {first} do now?"), o.map((x) => x.label), o.map((x) => x.w), { label: "What do you do now?" }); }
     const s = a.stage;
     if (s === "foe") { const pool = a.kind === "war" ? LST.war() : LST.foe(st.pool === "side" ? "side" : st.pool); return tw(a.kind === "war" ? fill("Who is the war against?") : jTitle("foe"), pool.map((f) => f[0]), null, { label: "Which enemy?" }); }
-    if (s === "form") return tw(fill("How strong is {foe} today?", { foe: a.foe[0] }), FOE_FORM.map((x) => x[0]), FOE_FORM.map((x) => x[2]), { label: "How strong is your enemy?" });
+    if (s === "form") return tw(fill("How strong is {foe} today?", { foe: lowArt(a.foe[0]) }), FOE_FORM.map((x) => x[0]), FOE_FORM.map((x) => x[2]), { label: "How strong is your enemy?" });
     if (s === "beast") { const m = T().monsters || MONSTERS_DEFAULT; return tw(fill((T().jt || {}).beast ? pick1(T().jt.beast) : "Which monster?"), m, null, { label: "Which monster?" }); }
     if (s === "count") return tw("How many?", HOW_MANY.map((x) => x[0]), HOW_MANY.map((x) => x[2]), { label: "How many?" });
     if (s === "scale") return tw(fill("How strong is it?"), HOW_STRONG.map((x) => fill(x[0])), HOW_STRONG.map((x) => x[2]), { label: "How strong is your enemy?" });
