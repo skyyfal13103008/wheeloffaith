@@ -7092,7 +7092,7 @@
   async function primary() {
     if (state.spinning || state.auto) return;
     ensureAudio();
-    if (state.hold) { state.hold = null; state.winner = -1; render(); return; }
+    if (state.hold) { state.hold = null; state.winner = -1; run.narr = { big: "", text: "", gloss: "" }; persist(); render(); return; }
     const shown = { eb: $("promptEyebrow").textContent, title: $("promptTitle").textContent, sub: $("promptSub").textContent }, spins = state.spinCount || 0;
     state.winner = -1;
     if (run.phase === "create") { if (isComplete()) startJourney(); else await spinNext(); }
