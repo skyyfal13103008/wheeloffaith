@@ -20,6 +20,12 @@ A character generator and story game in the style of the TikTok "wheel of fate" 
 ## Lore depth
 
 - **Black Clover stays in the Clover Kingdom**: you grow up in Hage, the Forsaken Realm, a Common Realm town, a noble house or the royal capital. Chapter 1 is the grimoire ceremony, chapter 3 is the Magic Knights entrance exam (the captain of your squad raises their hand), and the ending wheel always carries your character's own dream. Ranks start at recruit level and climb with big wins.
+- **Jujutsu Kaisen in three acts**: a beginning that depends on what you are (human, vessel, incarnated sorcerer, Death Painting, cursed corpse), a long Culling Game arc (pick a colony, score points off other players, add a rule at 100 points, face the colony's strongest), then Shinjuku, the final battle and the end of your career.
+- **Hunter x Hunter**: humans start with the five phases of the Hunter Exam and earn their license. Chimera Ants (and reborn ants) skip the exam and get their own story: hatching, the colony's hunts, learning Nen, the King's birth and the palace invasion. Being a Dark Continent host is now something that can happen to you later, not a starting race.
+- **Fantasy world of Aldmoor**: an original world with an Elden Ring-style shattered Ember Crown, a Lord of the Rings-style Dark Lord and ring, Game of Thrones-style Great Houses and a Northwall against the frost-dead, and Skyrim-style returning dragons. An omen marks your birth, and "the call" picks your saga, which shapes chapters, enemies, allies, loot and endings.
+- **Lore glossary**: the first time a term comes up (Lunarian, Druid, Haki, Nen, Domain Expansion, Anti Magic...), the narration explains it. Every term you've met is collected in the Lore glossary under the story, and traits explain themselves on hover.
+- **Card tooltips**: hover or tap a ★ perk to see exactly what it does. The card only keeps the headline traits.
+- **Allies matter**: each ally is rated Support, Strong, Very strong or Legendary and adds battle power to every fight (the strongest ally's bonus, +1 for each extra one). The 🤝 Allies chip on the card lists them.
 - **No contradictions**: an ally can't be recruited twice or show up as an enemy, a defeated foe stays down, and treasure, training, twists and finished quests never repeat in one run. Characters who die in a twist leave the ally pool.
 
 - Every character spins an age (with exact-age follow-up), a height (bell-curve wheel, giants and dwarves get their own), a weakness and a title from a wheel of about 90.

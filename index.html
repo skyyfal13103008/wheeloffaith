@@ -99,7 +99,7 @@
   .narration { width: 100%; max-width: 520px; text-align: center; min-height: 4.5em; display: flex; flex-direction: column; gap: 6px; }
   .narr-big { margin: 0; font-family: var(--display); font-size: clamp(20px, 3.4vw, 28px); font-weight: 800; color: var(--gold); text-wrap: balance; }
   .narr-big.pop { animation: pop .45s cubic-bezier(.2,1.6,.4,1); }
-  .narr-text { margin: 0; color: var(--fg); text-wrap: pretty; }
+  .narr-text { margin: 0; color: var(--fg); text-wrap: pretty; white-space: pre-line; }
   @keyframes pop { from { transform: scale(.6); opacity: 0; } }
   .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
   .rerolls { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 12px; color: var(--muted); font-size: 14px; }
@@ -158,6 +158,15 @@
 
   .story { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
   .story > h2 { margin: 0; font-family: var(--display); font-size: 22px; }
+  .tip { position: absolute; z-index: 50; padding: 9px 11px; border-radius: 10px; background: #0d0a18; color: #fff; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 10px 30px rgba(0,0,0,.5); font: 500 13px/1.45 Figtree, "Segoe UI", sans-serif; white-space: pre-line; pointer-events: none; }
+  [data-tip] { cursor: help; }
+  .chip.ally { background: rgba(60,138,88,.35); border-color: rgba(120,220,150,.5); }
+  .glossary { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .glossary summary { cursor: pointer; font-weight: 700; }
+  .glossary dl { display: grid; gap: 8px; margin: 10px 0 0; }
+  .glossary dt { font-weight: 700; color: var(--gold); }
+  .glossary dd { margin: 0 0 4px; opacity: .9; line-height: 1.45; }
+  .narr-text .gloss, .chapter .gloss { display: block; margin-top: 6px; font-size: .92em; opacity: .85; }
   #storyLog { display: flex; flex-direction: column; gap: 14px; }
   .chapter { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-top: 12px; }
   .chapter:first-child { border-top: none; padding-top: 0; }
@@ -291,6 +300,10 @@
   <section class="story" aria-label="Story">
     <h2>The story so far</h2>
     <div id="storyLog"></div>
+    <details class="glossary" id="glossary" hidden>
+      <summary>Lore glossary</summary>
+      <dl id="glossList"></dl>
+    </details>
   </section>
 
   <details class="box" id="aiSettings">
@@ -3562,6 +3575,644 @@
     bc.arcs["the royal capital"].home = "The royal capital. The grimoire tower is a short walk from home, and every noble family in the city is watching whose child gets what.";
   })();
 
+  // ---------- Jujutsu Kaisen: beginnings, the Culling Game, the end of a career ----------
+  (() => {
+    const jj = THEMES.jjk;
+    jj.evBy = "Being";
+    jj.steps = [
+      { k: "event", ev: "start", name: "Where it starts" }, { k: "act", lean: "train", pool: "early", sc: "train", name: "Learning to fight curses" },
+      { k: "event", ev: "first", name: "The first real mission" }, { k: "act", lean: "fight", pool: "early", sc: "early", name: "A sorcerer's work" },
+      { k: "rival", n: 1, name: "Enter the rival" },
+      { k: "event", ev: "culling", name: "The Culling Game begins" },
+      { k: "act", lean: "fight", pool: "culling", sc: "culling", acts: "culling", cg: true, name: "The Culling Game: first night" },
+      { k: "act", lean: "explore", pool: "culling", sc: "culling", acts: "culling", cg: true, name: "The Culling Game: points and rules" },
+      { k: "act", lean: "fight", pool: "culling", sc: "culling", acts: "culling", cg: true, name: "The Culling Game: day ten" },
+      { k: "act", lean: "ally", pool: "culling", sc: "culling", acts: "culling", cg: true, name: "The Culling Game: alliances" },
+      { k: "battle", pool: "colony", cg: true, name: "The Culling Game: the colony's strongest" },
+      { k: "evolve", name: "Technique evolution" },
+      { k: "event", ev: "shinjuku", name: "December 24th, Shinjuku" },
+      { k: "rival", n: 2, name: "Rival rematch" }, { k: "battle", pool: "boss", name: "The final battle" }, { k: "ending", name: "The end of their career" }
+    ];
+    jj.journey.foes.culling = [["A modern player scared out of their mind", 18, 5], ["A gang of players hunting newbies", 26, 15], ["A reincarnated sorcerer from the Heian era", 38, 30], ["Reggie Star", 46, 40], ["Charles Bernard", 44, 25], ["A curse user cashing in on the chaos", 32, 15], ["Hazenoki, the explosive player", 40, 30], ["A reincarnated warlord with 50 points", 50, 50]];
+    jj.colonyFoes = {
+      "Tokyo No. 1": [["Hiromi Higuruma, inside Deadly Sentencing", 70, 100], ["Reggie Star's gang", 52, 40]],
+      "Tokyo No. 2": [["Hajime Kashimo", 76, 25], ["Kinji Hakari on a jackpot streak", 74, 30]],
+      "Sendai": [["Ryu Ishigori", 74, 100], ["Takako Uro", 70, 80], ["Kurourushi", 64, 60]],
+      "Sakurajima": [["Naoya Zenin, now a cursed spirit", 76, 0], ["A reincarnated sorcerer guarding the shore", 60, 40]]
+    };
+    jj.cgRules = [
+      ["Players can transfer points to each other", { pts: 2 }],
+      ["Every player's name, points and added rules are made public", { s: 5, v: 8 }],
+      ["A player can spend 100 points to leave the game", { heal: true, all: 2 }],
+      ["Players can't attack non-players", { gain: { n: "Rule-maker", d: "They rewrote the Culling Game to protect people.", karma: 1, power: 2 } }],
+      ["Anyone who reaches 100 points gets a free healing", { heal: true, all: 3 }]
+    ];
+    jj.actSets = {
+      culling: [["fight", "Hunt a player for points", 4], ["enemy", "Make an enemy in the colony", 1], ["train", "Train between fights", 2], ["ally", "Team up with another player", 1.5], ["explore", "Scout the colony", 2], ["learn", "Push the technique further", 1.5], ["rest", "Hide and recover", 0.8]]
+    };
+    Object.assign(jj.scenes, {
+      culling: ["The barrier hums overhead. Kogane, the game's talking shikigami, pops up: score points or lose your technique.", "Night in the colony. Somewhere a player's technique lights up a whole block.", "Day ten. The weak players are gone. Everyone left is dangerous.", "Two players are fighting over the same rooftop. Both look at {first}."]
+    });
+    const ev = (title, intro, opts, extra) => Object.assign({ title, intro, opts }, extra || {});
+    jj.events = {
+      "start:Human": ev("How does {first} first see a curse?", "Cursed spirits are born from human fear and hate. Ordinary people can't see them. {first} can.", [
+        ["A curse attacks their school", 3, { s: 0, v: 6 }, "The thing in the school hallway has too many mouths. Nobody else can see it, and it's looking straight at {first}."],
+        ["A curse kills someone they love", 1.5, { gain: { n: "Grief", d: "They fight for someone they lost.", boss: 4 } }, "It happens on an ordinary night. By morning {first} has lost someone, and they're the only one who knows what did it."],
+        ["They've seen curses since they were born", 2, { s: 1, v: 6 }, "{first} has seen curses since they were a baby. Their family taught them to keep quiet about it."],
+        ["A sorcerer saves them and recruits them on the spot", 1.5, { pts: 2 }, "A curse corners {first} in an alley. Then a sorcerer in a dark uniform walks in, exorcises it with one hand, and asks if {first} wants a job."]
+      ]),
+      "start:Vessel": ev("How did something end up living inside {first}?", "A vessel is a human body that can hold a powerful curse or soul without being destroyed.", [
+        ["They swallowed a cursed object to save their friends", 3, { all: 4 }, "A Special Grade cursed object was about to get everyone killed. {first} swallowed it. Now {Whose vessel|lc} is awake inside their head."],
+        ["It was planted in them as a baby", 1.5, { s: 0, v: 8 }, "Someone sealed it inside {first} before they could walk. They've heard the voice their whole life."],
+        ["A cursed object fused to them in an accident", 1.5, { s: 3, v: 8, inj: true }, "A sealed box broke open in {first}'s hands. Something poured in through their skin."]
+      ]),
+      "start:Incarnated sorcerer": ev("How does {first} wake up in this century?", "An incarnated sorcerer is a soul from centuries ago that made a deal with Kenjaku to be reborn in a modern person's body.", [
+        ["Kenjaku's contract wakes them in a stranger's body", 3, { s: 5, v: 8 }, "{first} opens their eyes for the first time in a thousand years. The body is young, the city is loud, and the contract says: play the Culling Game."],
+        ["They wake in a hospital bed, a thousand years late", 2, { heal: true, all: 3 }, "A hospital bed, beeping machines, and a mirror with a stranger's face in it. {first} learns the year and laughs for a long time."],
+        ["The host's memories fight back on the first night", 1.5, { gain: { n: "Two minds", d: "The host is still in there.", karma: 1 } }, "The first night, {first} dreams the host's dreams: a family, a school, a life. The host isn't completely gone."]
+      ]),
+      "start:Cursed womb: Death Painting": ev("How does {first} get out of the jar?", "The Death Paintings are nine cursed wombs made 150 years ago by Noritoshi Kamo: half human, half curse. They grew in jars until someone gave them bodies.", [
+        ["Curses steal them from Jujutsu High's storehouse", 2, { s: 0, v: 8 }, "Curses break into Jujutsu High's storehouse and carry {first}'s jar out into the night. They wake up owing the wrong side a favor."],
+        ["Kenjaku gives them a body", 2, { s: 1, v: 8 }, "Kenjaku, the sorcerer who made them, comes back for his work. {first} wakes in a borrowed body."],
+        ["Choso comes for his little brother", 2, { ally: true, all: 3 }, "The eldest Death Painting, Choso, breaks the jar himself. \"You're my little brother,\" he says. He means it."]
+      ]),
+      "start:Cursed corpse": ev("How does {first} wake up?", "A cursed corpse is a doll given a soul by Principal Masamichi Yaga. Only Yaga knows how to make one that thinks for itself.", [
+        ["In Yaga's workshop, freshly stitched", 3, { s: 3, v: 8 }, "The first thing {first} sees is Principal Yaga's sunglasses and a needle. \"Good,\" Yaga says. \"Now we find out what you are.\""],
+        ["With Panda as an older sibling", 2, { ally: true, all: 3 }, "{first} wakes up next to a talking panda who says he's their big brother. Jujutsu High is going to be interesting."],
+        ["With three cores that won't stop arguing", 1, { gain: { n: "Three cores", d: "Three personalities, three chances.", save: { chance: 0.4, uses: 1, text: "{first}'s first core goes dark. The second one takes over and finishes {foe}." } } }, "{first} has three cores, like Panda. Three voices. They argue about everything."]
+      ]),
+      "first:Human": ev("How does {first}'s first real mission go?", "Jujutsu sorcerers are sent on missions by Windows, the support staff who find curses and guess their grade. The guess is often wrong.", [
+        ["They exorcise it alone", 2, { s: 1, v: 8 }, "A Grade 3 curse in an abandoned hospital. {first} handles it alone and walks out without a scratch."],
+        ["The Window got the grade wrong: it's a Special Grade", 1, { inj: true, all: 5 }, "The briefing said Grade 3. The thing in the building is a Special Grade. {first} survives, barely, and comes out different."],
+        ["A classmate has to save them", 2, { ally: true, s: 5, v: 6 }, "{first} freezes. A classmate doesn't. They owe someone their life now."],
+        ["They save a civilian and get chewed out for it", 1.5, { gain: { n: "Saved a stranger", d: "They broke protocol to save someone.", karma: 1 } }, "{first} breaks formation to drag a civilian out. The higher-ups write them up. The civilian sends a thank-you letter."]
+      ]),
+      "first:Vessel": ev("What do the higher-ups decide about {first}?", "The higher-ups are the old, conservative leaders of the jujutsu world. A vessel holding a powerful curse is, to them, a problem to execute.", [
+        ["Execution, postponed", 3, { pts: 2 }, "The higher-ups sentence {first} to death, then postpone it: they'll die once they've absorbed every finger. Satoru Gojo signs the paperwork with a smile."],
+        ["A mission designed to get them killed", 1.5, { inj: true, all: 5 }, "{first} is sent into a juvenile detention center with a Special Grade curse inside. The higher-ups expect a funeral. They don't get one."],
+        ["Gojo threatens the higher-ups and they back off", 1.5, { ally: true }, "Satoru Gojo walks into the meeting and says, very politely, that anyone who touches {first} will have to go through him. Nobody does."]
+      ]),
+      "first:Incarnated sorcerer": ev("What does {first} do with their new life?", "Incarnated sorcerers usually play Kenjaku's Culling Game, because the contract that revived them demands it.", [
+        ["Hunts points before the game even starts", 2, { s: 0, v: 8 }, "{first} doesn't wait for the rules. They start looking for strong opponents on day one."],
+        ["Looks for the descendants of their old clan", 2, { s: 5, v: 8 }, "{first} goes looking for their bloodline. Some of it survived, and it doesn't recognize them."],
+        ["Pretends to be the host", 1.5, { gain: { n: "Borrowed life", d: "Living someone else's life.", karma: -1, power: 3 } }, "{first} moves into the host's apartment, learns the host's name, and starts living their life."]
+      ]),
+      "first:Cursed womb: Death Painting": ev("Who takes {first} in?", "Death Paintings are hunted by sorcerers and used by curses. Choosing a side is the first real decision they make.", [
+        ["Their brothers", 2, { s: 0, v: 8 }, "{first} stays with Choso and the other brothers. Family first."],
+        ["Jujutsu High, reluctantly", 2, { s: 5, v: 8 }, "Jujutsu High takes {first} in on probation. Half the teachers want them dead."],
+        ["Nobody. They go their own way", 1.5, { gain: { n: "No side", d: "Belongs to no one.", power: 3 } }, "{first} walks away from both sides."]
+      ]),
+      "first:Cursed corpse": ev("What does Jujutsu High make of {first}?", "A cursed corpse that thinks for itself is illegal. If the higher-ups find out how Yaga made one, he'll be executed.", [
+        ["Enrolled as a student, like Panda", 3, { s: 3, v: 8 }, "{first} gets a uniform and a seat in class. The paperwork lists them as 'transfer student.'"],
+        ["Kept secret from the higher-ups", 1.5, { s: 5, v: 8 }, "Yaga keeps {first} off every record. One leak and they're both done."],
+        ["Used as a training dummy", 1.5, { s: 3, v: 10, inj: true }, "The first-years practice on {first}. {first} gets very, very good at taking hits."]
+      ]),
+      culling: ev("Which colony does Kenjaku drop {first} into?", "The Culling Game: Kenjaku's death game. Ten barriered colonies across Japan, players with awakened techniques, points for every kill, and 19 days to score or lose your technique. Anyone with 100 points can add a rule.", [
+        ["Tokyo No. 1", 2, { s: 5, v: 6 }, "Tokyo Colony No. 1. Hiromi Higuruma, a defense lawyer turned sorcerer, sits at the top of the board with a domain that puts people on trial.", { colony: "Tokyo No. 1", cg: 0 }],
+        ["Tokyo No. 2", 2, { s: 3, v: 6 }, "Tokyo Colony No. 2. Kinji Hakari and Hajime Kashimo are tearing it apart.", { colony: "Tokyo No. 2", cg: 0 }],
+        ["Sendai", 1.5, { s: 0, v: 6 }, "Sendai Colony. Four monsters locked in a standoff: Ryu Ishigori, Takako Uro, Kurourushi and Dhruv Lakdawalla.", { colony: "Sendai", cg: 0 }],
+        ["Sakurajima", 1.5, { s: 4, v: 6 }, "Sakurajima Colony. Maki Zenin is here. So is something that used to be Naoya Zenin.", { colony: "Sakurajima", cg: 0 }]
+      ], { sub: "A long arc: score points, survive, maybe add a rule" }),
+      shinjuku: ev("Where is {first} when the final war begins?", "December 24th. Satoru Gojo is free again, and the King of Curses, Sukuna, is waiting in Shinjuku. Every sorcerer alive has a part to play.", [
+        ["Beside Gojo on the front line", 1, { all: 4 }, "{first} stands where the strongest stands. The air in Shinjuku tastes like ash."],
+        ["Guarding the evacuated civilians", 2, { gain: { n: "Shield of Shinjuku", d: "They protected people instead of chasing glory.", karma: 1 } }, "{first} holds the line at the evacuation zone. Nobody behind them dies."],
+        ["In the backup team, waiting for their turn", 2.5, { s: 5, v: 8 }, "{first} watches the monitors with the backup team, studying Sukuna's every move, waiting for the moment the strongest falls."],
+        ["Hunting Kenjaku and Uraume", 1.5, { s: 0, v: 8 }, "While everyone watches Sukuna, {first} goes after the ones who started all this."]
+      ])
+    };
+    jj.journey.endings = { good: ["Retires and teaches the next generation at Jujutsu High", "The strongest sorcerer of their generation", "Survives Shinjuku and walks away from jujutsu", "Rebuilds the jujutsu world after Sukuna"], bad: ["Dies in Shinjuku", "Loses their technique to the Culling Game's rules", "Becomes a curse user", "Their body is taken by an incarnated sorcerer"] };
+    jj.glossary = {
+      "cursed energy": "The power sorcerers and curses use. It comes from negative emotions like fear and anger.",
+      "Cursed energy": "The power sorcerers and curses use. It comes from negative emotions like fear and anger.",
+      "cursed spirit": "A monster born from human fear and hate. Ordinary people can't see them.",
+      "curse": "Short for cursed spirit: a monster born from human fear and hate. Ordinary people can't see them.",
+      "Cursed technique": "A sorcerer's innate ability, carved into their brain at birth, like a superpower only they have.",
+      "Domain Expansion": "A sorcerer's ultimate move: they build a pocket world from their cursed energy where their technique is guaranteed to hit.",
+      "domain": "Short for Domain Expansion: a pocket world built from cursed energy where the user's technique always hits.",
+      "Simple Domain": "A small defensive barrier taught to ordinary sorcerers. It cancels the guaranteed hit of an enemy's domain.",
+      "Binding vow": "A promise with real power. Accept a restriction or a cost, and your technique gets stronger.",
+      "binding vow": "A promise with real power. Accept a restriction or a cost, and your technique gets stronger.",
+      "Heavenly Restriction": "Being born without something (usually cursed energy) in exchange for something else, usually a superhuman body.",
+      "Six Eyes": "A rare Gojo clan eye trait that sees cursed energy in perfect detail, making Limitless usable.",
+      "Limitless": "The Gojo clan's technique. It controls space at the atomic level; Infinity stops anything from touching the user.",
+      "Black Flash": "Hitting within a millionth of a second of releasing cursed energy. The blow lands 2.5 times harder.",
+      "Reverse Cursed Technique": "Turning negative cursed energy into positive energy to heal. Very few sorcerers can do it.",
+      "Vessel": "A body that can hold a powerful curse or soul inside without being destroyed.",
+      "vessel": "A body that can hold a powerful curse or soul inside without being destroyed.",
+      "Sukuna": "Ryomen Sukuna, the King of Curses: a sorcerer from a thousand years ago so strong his twenty fingers became Special Grade cursed objects.",
+      "Incarnated sorcerer": "A soul from centuries ago reborn in a modern body through a contract with Kenjaku.",
+      "Death Painting": "One of nine half-human, half-curse wombs created 150 years ago by Noritoshi Kamo.",
+      "Cursed corpse": "A doll given a soul by Masamichi Yaga. One that thinks for itself, like Panda, is illegal.",
+      "Kenjaku": "An ancient sorcerer who survives by stealing bodies. He planned the Culling Game.",
+      "Culling Game": "Kenjaku's death game: barriered colonies, points for every kill, and anyone with 100 points can add a rule.",
+      "Kogane": "The talking shikigami that follows every Culling Game player and announces scores and rules.",
+      "Special Grade": "The highest rank for sorcerers and curses. Only a handful exist.",
+      "Grade 4": "The lowest sorcerer rank. Grades go 4, 3, 2, 1, then Special Grade.",
+      "Window": "Jujutsu support staff who find curses and estimate how dangerous they are.",
+      "higher-ups": "The old, conservative leaders of the jujutsu world.",
+      "shikigami": "A summoned familiar that fights for a sorcerer, like Megumi's Divine Dogs.",
+      "Mahoraga": "The most powerful shikigami of the Ten Shadows technique. It adapts to anything. Nobody had tamed it.",
+      "Ten Shadows": "A Zenin clan technique that summons ten shikigami from the user's shadow.",
+      "Zenin clan": "One of the three great jujutsu families. Brutal: anyone without a technique is worthless to them.",
+      "Gojo clan": "One of the three great jujutsu families, home of the Six Eyes and Limitless.",
+      "Kamo clan": "One of the three great jujutsu families, keepers of Blood Manipulation.",
+      "cursed tool": "A weapon soaked with cursed energy, usable even by people without any.",
+      "curse user": "A sorcerer who uses jujutsu to hurt people. The jujutsu world's criminals.",
+      "Jujutsu High": "The two schools (Tokyo and Kyoto) that train young sorcerers and send them on missions.",
+      "Shibuya": "The Shibuya Incident, October 31st: Gojo was sealed and Sukuna took over Yuji's body. Thousands died."
+    };
+  })();
+  // ---------- Hunter x Hunter: the Hunter Exam for humans, the colony for Chimera Ants ----------
+  (() => {
+    const hx = THEMES.hxh;
+    const race = hx.cats.find((c) => c[0] === "Race");
+    race[1] = race[1].filter((r) => r !== "Host of a Dark Continent being");
+    hx.tierStart = 1; // everyone starts as an applicant; the exam makes you a Hunter
+    hx.adapt.push({ when: ["Race", "Chimera Ant"], cat: "Rank", name: "Standing in the colony", opts: ["Grunt", "Soldier", "Squadron leader", "Officer", "Royal Guard", "Equal of the King"] },
+      { when: ["Race", "Reborn Chimera Ant"], cat: "Rank", name: "Standing in the colony", opts: ["Grunt", "Soldier", "Squadron leader", "Officer", "Royal Guard", "Equal of the King"] });
+    hx.evBy = "Race";
+    ["Chimera Ant", "Reborn Chimera Ant"].forEach((r) => hx.adapt.push({ when: ["Race", r], cat: "Origin", opts: ["the NGL jungle"] },
+      { when: ["Race", r], cat: "Rival", opts: ["A Royal Guard who looks down on you", "An ant from the same brood", "A Hunter who killed your squad", "A reborn ant who remembers being your enemy", "Kite's apprentice"] }));
+    hx.stepsByCat = "Race";
+    // the Dark Continent can still find you, later, as a twist
+    hx.journey.twists.push(["Something from the Dark Continent gets inside {first}", { gain: { n: "Dark Continent host", d: "One of the five calamities lives inside them now.", save: { chance: 0.5, uses: 1, text: "Something that isn't {first} opens their eyes. {foe} stops breathing for a second. Then it's over." }, extra: ["Calamity inside", 92] } }]);
+    hx.steps = [
+      { k: "event", ev: "exam1", name: "The Hunter Exam, phase one" }, { k: "event", ev: "exam2", name: "The Hunter Exam, phase two" },
+      { k: "event", ev: "exam3", name: "The Hunter Exam, Trick Tower" }, { k: "event", ev: "exam4", name: "The Hunter Exam, Zevil Island" },
+      { k: "event", ev: "exam5", name: "The Hunter Exam, final phase" },
+      { k: "act", lean: "train", pool: "early", sc: "train", name: "Learning Nen" }, { k: "rival", n: 1, name: "Enter the rival" },
+      { k: "act", lean: "quest", pool: "mid", sc: "mid" }, { k: "act", lean: "explore", pool: "mid", sc: "loot" },
+      { k: "evolve", ch: 3 }, { k: "twist", ch: 4 }, { k: "act", lean: "war", pool: "late", sc: "late", ch: 5 },
+      { k: "rival", n: 2, name: "Rival rematch" }, { k: "battle", pool: "boss", ch: 6 }, { k: "ending", ch: 7 }
+    ];
+    const antSteps = [
+      { k: "event", ev: "hatch", name: "Born from the Queen" }, { k: "event", ev: "hunt", name: "The colony's first hunt" },
+      { k: "act", lean: "fight", pool: "antEarly", sc: "antEarly", acts: "ant", name: "Life in the NGL" }, { k: "act", lean: "train", pool: "antEarly", sc: "antEarly", acts: "ant", name: "Growing stronger" },
+      { k: "rival", n: 1, name: "Enter the rival" }, { k: "event", ev: "nen", name: "The ants learn Nen" },
+      { k: "act", lean: "fight", pool: "antMid", sc: "antMid", acts: "ant", name: "The selection in East Gorteau" },
+      { k: "evolve", name: "Evolution" }, { k: "event", ev: "king", name: "The King is born" },
+      { k: "act", lean: "war", pool: "antLate", sc: "antLate", acts: "ant", name: "The palace invasion" }, { k: "act", lean: "train", pool: "antLate", sc: "antLate", acts: "ant", name: "Before the end" },
+      { k: "rival", n: 2, name: "Rival rematch" }, { k: "battle", pool: "antBoss", name: "The last battle" }, { k: "ending", name: "Epilogue" }
+    ];
+    hx.stepsBy = { "Chimera Ant": antSteps, "Reborn Chimera Ant": antSteps };
+    Object.assign(hx.journey.foes, {
+      antEarly: [["A NGL drug-ring guard", 18], ["Kite's research team", 34], ["Ponzu, a rookie Hunter", 24], ["Pokkle, a rookie Hunter", 26], ["A rival ant squadron", 28]],
+      antMid: [["Knuckle Bine", 54], ["Shoot McMahon", 52], ["Morel Mackernasey", 60], ["Knov", 50], ["Kite, as a reborn ant", 48]],
+      antLate: [["Killua Zoldyck", 70], ["Gon Freecss, grown up in rage", 88], ["Zeno Zoldyck", 80], ["Morel's smoke soldiers", 62]],
+      antBoss: [["Isaac Netero, the Hunter Chairman", 95], ["Meruem, the King", 99], ["Neferpitou", 84]]
+    });
+    Object.assign(hx.scenes, {
+      antEarly: ["The NGL jungle. The Queen needs food for the colony, and the colony needs soldiers.", "A Hunter has been spotted in ant territory."],
+      antMid: ["East Gorteau's capital. The King's selection is gathering five thousand people into a stadium.", "The Royal Guards' Nen fills the palace like a fog."],
+      antLate: ["The extermination team is inside the palace. Netero has taken the King somewhere far away."]
+    });
+    hx.actSets = { ant: [["fight", "Hunt humans for the colony", 2.5], ["fight", "Fight a Hunter", 2.5], ["train", "Train your new body", 3], ["explore", "Explore the jungle", 2], ["ally", "Make an ally among the ants", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Develop a Nen ability", 1.5], ["followers", "Build your own squadron", 1], ["rest", "Rest in the nest", 0.8]] };
+    Object.assign(hx.arcs["Chimera Ant"], {
+      pri: 8, tag: "You're a Chimera Ant. No Hunter Exam for you: you were born in the NGL to feed the King, and humans are food.",
+      allies: [["Meleoron, the chameleon ant", { s: 4, v: 6 }], ["Ikalgo, the octopus ant", { s: 2, v: 6 }], ["Colt, the Queen's loyal guard", { s: 3, v: 6 }], ["Welfin, the wolf ant", { s: 5, v: 6 }], ["Leol, the lion ant", { s: 3, v: 6 }]],
+      endings: { good: ["Lives free in the NGL", "Protects humans, against everything they were born for", "Becomes the leader of the surviving ants", "Joins the Hunters"], bad: ["Killed in the palace invasion", "Dies of the Miniature Rose's poison", "Becomes a hunted monster forever"] }
+    });
+    Object.assign(hx.arcs["Chimera Ant"], {
+      prologue: "{name} is {Race|a|lower}, born in the Queen's nest in the NGL jungle. Their Nen type is {Nen type}, and their Hatsu will become {Hatsu|lower}. They fight with {Weapon}, they're {Personality|lower}, and in the colony they're {Rank|a|lower}.",
+      home: "The Queen's nest, deep in the NGL jungle. Thousands of ants, one Queen, and one purpose: give birth to a King.",
+      scenes: { rival1: ["{Rival} has been watching {first} since the hatching."], rival2: ["{Rival} finds {first} in the chaos of the palace."] }
+    });
+    ["Chimera Ant", "Reborn Chimera Ant"].forEach((r) => hx.adapt.push({ when: ["Race", r], cat: "Age", opts: ["A few days old"] }));
+    hx.lines["A few days old"] = "A few days old. Chimera Ants grow up fast.";
+    Object.assign(hx.arcs["Reborn Chimera Ant"], { prologue: hx.arcs["Chimera Ant"].prologue, home: hx.arcs["Chimera Ant"].home, scenes: hx.arcs["Chimera Ant"].scenes, pri: 8, allies: hx.arcs["Chimera Ant"].allies, endings: hx.arcs["Chimera Ant"].endings });
+    const ev = (title, intro, opts, extra) => Object.assign({ title, intro, opts }, extra || {});
+    Object.assign(hx.events = hx.events || {}, {
+      exam1: ev("How does {first} survive phase one?", "The Hunter Exam: hundreds of applicants, one shot a year. Phase one: follow the examiner, Satotz, through an endless tunnel and the Numere Wetlands, the Swindler's Swamp.", [
+        ["Keeps pace at the front the whole way", 3, { s: 4, v: 6 }, "{first} stays right behind Satotz for eighty kilometers. Half the applicants are gone by the time they hit the swamp."],
+        ["Almost falls for the man-faced ape's trick", 2, { s: 5, v: 6 }, "In the swamp, a creature wearing a man's face claims Satotz is a fake. {first} nearly follows it, then realizes in time."],
+        ["Drinks Tonpa's 'friendly' juice", 1.5, { inj: true, s: 3, v: 6 }, "Tonpa the Rookie Crusher offers {first} a drink. It's a laxative. {first} finishes the phase anyway, furious."],
+        ["Barely makes the cut", 1.5, { gain: { n: "Last one through", d: "They scraped in at the very end.", adapt: 3 } }, "The gate is closing. {first} throws themselves through it with a second to spare."]
+      ], { sub: "Hundreds of applicants. Most won't pass." }),
+      exam2: ev("How does {first} pass the cooking test?", "Phase two: the Gourmet Hunters Menchi and Buhara. Buhara wants a roast Great Stamp, a huge pig with a reinforced nose. Menchi wants sushi, and she fails everyone.", [
+        ["Brings Buhara the first roast Great Stamp", 3, { s: 3, v: 6 }, "{first} hits the Great Stamp on the forehead, its only weak spot, and roasts it whole. Buhara eats it in one bite."],
+        ["Menchi fails everyone; Netero orders the egg test", 2, { s: 4, v: 6 }, "Menchi fails every applicant. The Chairman, Isaac Netero, drops in by airship and orders a new test: jump into Split Mountain's gorge and grab a Spider Eagle egg. {first} jumps."],
+        ["Makes sushi that actually impresses Menchi", 1, { pts: 2 }, "{first} actually knows what sushi is. Menchi takes one bite, pauses, and says nothing. That's a pass."]
+      ]),
+      exam3: ev("How does {first} get down Trick Tower?", "Phase three: Trick Tower. Seventy-two hours to get from the top to the bottom, through traps, puzzles and prisoners who earn time off their sentence by stopping you.", [
+        ["Takes the path of the majority vote", 2.5, { ally: true, s: 5, v: 6 }, "{first} ends up on a five-person path where every door is a vote. They argue the whole way down, and make it with seconds left."],
+        ["Fights a prisoner for time", 2, { s: 3, v: 8 }, "A death-row prisoner offers a deathmatch. {first} wins, and gets 50 hours knocked off everyone's clock."],
+        ["Takes a trap path alone", 1.5, { s: 4, v: 8 }, "{first} drops through a hidden trapdoor and takes the solo path. Blades, pits, and nobody to help."],
+        ["Finds a shortcut nobody else saw", 1, { s: 5, v: 8 }, "{first} studies the walls for an hour, finds a hidden door, and reaches the bottom first."]
+      ]),
+      exam4: ev("How does {first} get through Zevil Island?", "Phase four: Zevil Island. Every applicant has a target, another applicant, and must collect six points' worth of badges in a week. Everyone is hunting someone.", [
+        ["Hunts their target down in the forest", 3, { s: 4, v: 6 }, "{first} tracks their target for three days and takes the badge while they sleep."],
+        ["Their target is Hisoka", 1, { inj: true, all: 5 }, "{first} draws Hisoka's number. They get the badge, somehow, and Hisoka smiles in a way that will haunt them."],
+        ["Someone is hunting them instead", 2, { s: 3, v: 6 }, "Someone is hunting {first}. {first} turns the trap around and takes both badges."],
+        ["Steals three badges in one night", 1, { pts: 2 }, "{first} doesn't waste time on one target. Three badges by morning."]
+      ]),
+      exam5: ev("How does the final phase go?", "The final phase: a one-on-one tournament, set up by Chairman Netero after a short interview. Winning once is enough to pass. Losers keep fighting.", [
+        ["Wins their first match", 3, { s: 3, v: 6 }, "{first} wins their first match cleanly. Chairman Netero hands them a Hunter license."],
+        ["Refuses to give up until the opponent quits", 1.5, { s: 0, v: 8 }, "{first} gets beaten for three hours and never says 'I give up.' The opponent quits first."],
+        ["Fails, comes back next year, and passes", 1, { gain: { n: "Second try", d: "Failed once. Came back stronger.", adapt: 3 } }, "{first} loses their temper and gets disqualified. A year of training later, they walk in again and pass."],
+        ["Passes without throwing a single punch", 1, { s: 5, v: 8 }, "{first} talks their opponent into forfeiting. Netero laughs out loud and stamps the license."]
+      ], { promote: true, after: "{first} is now a Licensed Hunter. Next, they'll learn about Nen." }),
+      "hatch:Chimera Ant": ev("How is {first} born?", "Chimera Ants: insects from the Dark Continent. The Queen eats other creatures and gives birth to ants built from what she ate, sometimes with a human mind.", [
+        ["From the Queen's eggs, built from what she ate", 3, { s: 3, v: 6 }, "The Queen eats, and lays, and eats. {first} crawls out of the nest already able to walk and talk."],
+        ["As a squadron leader, born commanding", 1.5, { pts: 2 }, "{first} is born with soldiers waiting for orders."],
+        ["Small, and the others laugh", 1.5, { gain: { n: "Runt of the colony", d: "Nobody expected anything.", adapt: 3 } }, "{first} comes out smaller than the rest. The other ants laugh."]
+      ]),
+      "hatch:Reborn Chimera Ant": ev("How is {first} reborn?", "A reborn Chimera Ant: a human who was eaten by the Queen and born again as an ant, sometimes with their old memories.", [
+        ["Remembers their human name", 2.5, { s: 5, v: 8 }, "{first} wakes in the nest and remembers a name. Their own. From before."],
+        ["Remembers dying", 1.5, { gain: { n: "Remembers dying", d: "They remember being eaten.", boss: 4 } }, "{first} remembers the Queen's jaws. Every night."],
+        ["Remembers nothing at first", 2, { s: 3, v: 8 }, "{first} remembers nothing. The memories come later, at the worst moments."]
+      ]),
+      "hunt:Chimera Ant": ev("What does {first} do on the colony's first hunt?", "The colony hunts the villages of the NGL, a nature reserve where machines are banned, to feed the Queen.", [
+        ["Hunts like any ant", 2.5, { s: 3, v: 8, gain: { n: "Hunter of humans", d: "They did what ants do.", karma: -1 } }, "{first} hunts. It's what they were made for."],
+        ["Lets a human child escape", 1.5, { gain: { n: "Spared a child", d: "Something human is in there.", karma: 1 } }, "{first} finds a child hiding in a barrel and looks the other way."],
+        ["Fights a Hunter instead", 1.5, { s: 0, v: 8 }, "A Hunter with a scythe is cutting through the colony's soldiers. {first} goes straight at him."]
+      ]),
+      "hunt:Reborn Chimera Ant": ev("What does {first} do on the colony's first hunt?", "The colony hunts the villages of the NGL to feed the Queen. Some of those villagers might be people {first} knew.", [
+        ["Hunts, and hates it", 2, { s: 3, v: 8 }, "{first} hunts. Their human memories scream the whole time."],
+        ["Warns a village to run", 2, { gain: { n: "Warned the village", d: "Saved people from their own colony.", karma: 1 } }, "{first} reaches the village first and tells everyone to run."],
+        ["Recognizes someone they knew", 1.5, { s: 5, v: 8, inj: true }, "In the village is someone {first} knew in their old life. They don't recognize the ant in front of them."]
+      ]),
+      nen: ev("How does {first} awaken Nen?", "Nen: the life energy every living thing gives off, which Hunters train to control. The ants learned it from the Hunters they captured.", [
+        ["Forced open by a Royal Guard", 2.5, { s: 0, v: 10, inj: true }, "Neferpitou forces {first}'s aura nodes open. It hurts. It works."],
+        ["Learned by watching captured Hunters", 2, { s: 1, v: 10 }, "{first} watches the captured Hunters train and copies them."],
+        ["It awakens in the middle of a fight", 1.5, { all: 4 }, "In the middle of a fight, {first}'s aura bursts out on its own."]
+      ]),
+      king: ev("The King is born. What does {first} do?", "Meruem, the Chimera Ant King: born to rule every species, strong enough to kill the Queen on his way out. The colony now answers to him.", [
+        ["Kneels to the King", 2.5, { s: 0, v: 8 }, "{first} kneels with the rest. The King doesn't even look at them."],
+        ["Leaves the colony", 1.5, { gain: { n: "Deserter", d: "Free of the King.", power: 3 } }, "With the Queen dead, the colony falls apart. {first} walks into the jungle and doesn't look back."],
+        ["Joins the ants who want their own kingdom", 1.5, { pts: 2 }, "{first} joins the officers who plan to build kingdoms of their own."],
+        ["Goes to the Hunters", 1, { ally: true, gain: { n: "Turned to the Hunters", d: "Fights for the humans now.", karma: 1 } }, "{first} walks up to the Hunters' camp, alone, with their hands open."]
+      ])
+    });
+    Object.assign(hx.journey, {
+      chapters: ["The Hunter Exam", "Learning Nen", "Heavens Arena", "Hatsu awakening", "Twist of fate", "The Chimera Ant crisis", "Final battle", "Epilogue"]
+    });
+    hx.glossary = {
+      "Nen": "The life energy (aura) every living thing gives off. Hunters train to control it, and a trained user can do almost anything with it.",
+      "aura": "The life energy that Nen users control.",
+      "Hatsu": "A Nen user's personal ability, the way they express their aura. Every Hatsu is unique.",
+      "water divination": "The test for Nen type: hold your hands around a glass of water with a leaf on top, and see what changes.",
+      "Enhancer": "Nen type that strengthens things, especially the user's own body. Simple, direct, and very strong.",
+      "Transmuter": "Nen type that changes the properties of aura, like turning it into electricity or something sticky.",
+      "Emitter": "Nen type that sends aura away from the body, like firing aura bullets.",
+      "Conjurer": "Nen type that makes physical objects out of aura, like chains.",
+      "Manipulator": "Nen type that controls living things or objects, usually through a needle, an antenna or a touch.",
+      "Specialist": "The rarest Nen type: abilities that don't fit any other category.",
+      "Zetsu": "Shutting off your aura completely, to hide or recover.",
+      "Ren": "Pushing out more aura than usual, for power.",
+      "Gyo": "Focusing aura into the eyes to see hidden Nen.",
+      "Ko": "Putting all of your aura into one spot. Massive damage, zero defense everywhere else.",
+      "Ken": "Holding Ren around the whole body for defense.",
+      "En": "Spreading aura in a wide circle to sense everything inside it.",
+      "Hunter Exam": "The yearly test to become a Hunter. Hundreds try, a handful pass, and some die trying.",
+      "Hunter license": "The card that makes you a Hunter. It opens almost every door in the world and sells for a fortune.",
+      "Licensed Hunter": "Someone who passed the Hunter Exam. Stars (single, double, triple) are earned later for great achievements.",
+      "Zodiac": "The twelve top advisors of the Hunter Association, each named after a zodiac animal.",
+      "Chimera Ant": "A giant insect species from the Dark Continent. The Queen eats other creatures and gives birth to ants built from them.",
+      "Royal Guard": "The three strongest Chimera Ants, born to protect the King: Neferpitou, Shaiapouf and Menthuthuyoupi.",
+      "Phantom Troupe": "A gang of thirteen thieves from Meteor City, also called the Spiders. Each member has a numbered spider tattoo.",
+      "Zoldyck": "The world's most famous family of assassins, living on Kukuroo Mountain.",
+      "Kurta": "A clan whose eyes turn scarlet with strong emotion. The Phantom Troupe wiped them out to steal their eyes.",
+      "Scarlet Eyes": "The Kurta clan's eyes, which turn crimson with emotion. Collectors pay fortunes for them.",
+      "Meteor City": "A huge dump where the world throws away its trash, and its people. Officially, nobody there exists.",
+      "Greed Island": "A video game made with real Nen. Players are pulled into a real island, and dying there is real.",
+      "Heavens Arena": "A 251-floor fighting tower. Win to climb; above floor 200, everyone uses Nen.",
+      "Dark Continent": "The vast unexplored world beyond the known map. It's home to five calamities that could end humanity.",
+      "NGL": "Neo-Green Life: a nature reserve country where machines are banned. The Chimera Ant Queen washed up there.",
+      "Kakin": "An Asian empire whose fourteen princes fight to the death for the throne aboard a ship called the Black Whale.",
+      "guardian spirit beast": "A Nen creature bound to each Kakin prince by a ritual. It acts on its own to protect them.",
+      "Emperor Time": "Kurapika's ability: when his eyes are scarlet, he becomes a master of every Nen type. It costs him lifespan.",
+      "Rhythm Echo": "A Zoldyck assassination technique: moving in a rhythm that leaves afterimages.",
+      "Godspeed": "Killua's ability: turning his aura into electricity to move faster than thought.",
+      "Shingen-ryu": "A martial arts school that trains Nen. Its masters include Wing and Biscuit Krueger."
+    };
+  })();
+  // ---------- Fantasy: the world of Aldmoor ----------
+  // an original world in the spirit of Elden Ring, The Lord of the Rings, Game of Thrones and Skyrim
+  (() => {
+    const fa = THEMES.fantasy;
+    fa.tierStart = 4;
+    fa.worldLore = "The world: Aldmoor. In the First Age, dragons ruled the sky. In the Second, the golden Ember Tree grew at the heart of the world and its light became the Ember Crown, the law that keeps order, life and death in their places. Three hundred years ago the Crown shattered into seven Shards, and the god-blooded heirs who took them have been at war ever since. In the south, five kings fight over the Thorn Throne. In the frozen north of Hrothgard, dragons have started to return. Beyond the Northwall, the Pale King's frost-dead are stirring. And in the east, under Mount Cinder, a Dark Lord who was supposed to be dead is looking for the ring he lost.";
+    fa.steps = [
+      { k: "event", ev: "omen", name: "An omen at birth" }, { k: "act", lean: "train", pool: "early", sc: "train", name: "Coming of age" },
+      { k: "event", ev: "call", name: "The call" }, { k: "act", lean: "fight", pool: "early", sc: "early", ch: 2 },
+      { k: "rival", n: 1, name: "Enter the rival" }, { k: "act", lean: "quest", pool: "mid", sc: "mid" }, { k: "act", lean: "explore", pool: "mid", sc: "loot" },
+      { k: "evolve", ch: 3 }, { k: "twist", ch: 4 }, { k: "act", lean: "war", pool: "late", sc: "late", ch: 5 }, { k: "act", lean: "train", pool: "late", sc: "train2" },
+      { k: "rival", n: 2, name: "Rival rematch" }, { k: "battle", pool: "boss", ch: 6 }, { k: "ending", ch: 7 }
+    ];
+    const ev = (title, intro, opts, extra) => Object.assign({ title, intro, opts }, extra || {});
+    fa.events = {
+      omen: ev("What omen marks {first}'s birth?", "In Aldmoor, nobody important is born without a sign.", [
+        ["A comet the color of blood", 2, { s: 0, v: 6 }, "The night {first} is born, a red comet crosses the sky. In the south, the Great Houses read it as a sign of war. They're right."],
+        ["The Ember Tree drops a golden leaf", 1.5, { gain: { n: "Touched by the Ember", d: "A golden leaf fell on the night they were born.", boss: 4 } }, "Hundreds of miles away, the Ember Tree drops a single golden leaf. It hasn't done that since the Crown shattered."],
+        ["Snow falls in summer", 1.5, { s: 3, v: 6 }, "Snow falls in midsummer the night {first} is born. Old people in the village whisper about the Pale King and the Long Night."],
+        ["A dragon is seen for the first time in three hundred years", 1, { all: 3 }, "A dragon passes over the village the night {first} is born, the first anyone has seen in three hundred years."],
+        ["Nothing at all. A nobody, born in a nobody village", 2.5, { gain: { n: "Nobody", d: "No omen, no destiny. Every win is their own.", adapt: 3 } }, "No comet, no dragon, no prophecy. {first} is born on an ordinary night to ordinary people. Nobody expects anything."]
+      ], { sub: "Every life in Aldmoor starts with a sign" }),
+      call: ev("What calls {first} to adventure?", "Every hero in Aldmoor's history answered something. This is {first}'s call.", [
+        ["Summoned as one of the Ashen to claim a Shard", 2, { s: 0, v: 8 }, "A bell rings in a dream, and {first} wakes in a grave-field with ash on their hands. They are Ashen now: called back to gather the Shards of the Ember Crown.", { saga: "shards" }],
+        ["Chosen for a Fellowship of Nine to destroy a ring", 2, { ally: true, s: 5, v: 6 }, "A grey wizard arrives with a gold ring on a chain. The Dark Lord's Binding Ring has been found, and {first} is one of nine chosen to carry it to Mount Cinder and destroy it.", { saga: "fellowship" }],
+        ["Sworn to a Great House in the war for the Thorn Throne", 2, { pts: 2 }, "The king is dead. Five lords claim the Thorn Throne, and the Great Houses are raising banners. {first} kneels and swears a sword to one of them.", { saga: "throne" }],
+        ["A dragon burns their village, and its soul pours into them", 1.5, { s: 3, v: 8 }, "A dragon comes down on the village. {first} kills it somehow, and as it dies, its soul pours into them like fire. The Greybeards on Hollow Summit shout their name across the mountains.", { saga: "dragonsoul" }],
+        ["Takes the black and joins the Wardens of the Northwall", 1.5, { s: 4, v: 8 }, "{first} takes the black cloak and swears the Warden's oath: no land, no family, no crown. Only the Wall, and what's behind it.", { saga: "northwall" }]
+      ])
+    };
+    fa.sagas = {
+      shards: {
+        tag: "Your story is the War of Shards: claim the broken pieces of the Ember Crown and decide what the next age looks like.",
+        lore: "The Ember Crown was the law of the world, until it shattered. Each Shard gives godlike power to whoever holds it, and the demigods who took them went mad fighting each other. Whoever gathers the Shards can make a new Crown and become Ember Lord.",
+        chapters: ["Graceless", "The Ashen awaken", "The first Shard", "Power evolution", "The Ember Tree burns", "The War of Shards", "The Ember Throne", "The age that follows"],
+        scenes: {
+          early: ["The Ashen Fields: grey grass, broken knights, and a golden tree on the horizon.", "A ruined castle holds a Shardbearer's knights, and they don't let Ashen pass."],
+          mid: ["A Shardbearer's castle looms over the marsh. They've grafted a dozen stolen limbs onto their body."], late: ["The Ember Tree is burning. Every Shardbearer left alive is marching on the capital."],
+          boss: ["At the foot of the Ember Tree, someone wears a reforged Crown."], ending: ["A new age begins. Its law is whatever {first} decided."]
+        },
+        foes: {
+          early: [["A Gilded Knight of the old order", 26], ["Grave-wardens of the Ashen Fields", 20], ["An Ember Sentinel on a golden horse", 34], ["Another Ashen hunting the same Shard", 24]],
+          mid: [["Vorrag the Grafted, who sews stolen arms onto himself", 52], ["Radhea, the Red Star general", 58], ["The Rot Saint of the Weeping Marsh", 54]],
+          late: [["Morgrave, Lord of the Blood Moon", 70], ["The Elder Beast beneath the Ember Tree", 76]],
+          boss: [["The Ember Tyrant, wearing the reforged Crown", 95], ["The Mad Flame, a fire that wants to burn the world clean", 92]]
+        },
+        allies: [["A maiden who guides the Ashen", { heal: true, all: 2 }], ["A wandering knight in onion-shaped armor", { s: 3, v: 6 }], ["A spirit-wolf summoned from ashes", { s: 4, v: 6 }], ["A sorceress who studies the stars", { s: 1, v: 6 }]],
+        loot: [["A Shard of the Ember Crown", { all: 6 }], ["A Golden Seed from the Ember Tree", { s: 0, v: 10 }], ["A cracked ash-of-war talisman", { s: 2, v: 8 }]],
+        twists: [["A Shardbearer offers to share their Shard", { pts: 3 }], ["You learn the Crown shattered on purpose", { s: 5, v: 10 }], ["The Mad Flame whispers to you", { gain: { n: "The Mad Flame's mark", d: "A fire that wants to burn everything clean.", power: 6, karma: -2 } }]],
+        endings: { good: ["Crowned Ember Lord, beginning a new age", "Burns the Ember Tree and frees the world from fate", "Reforges the Crown and gives it to no one"], bad: ["Becomes one more mad Shardbearer", "Graceless forever, wandering the Ashen Fields", "Consumed by the Mad Flame"] }
+      },
+      fellowship: {
+        tag: "Your story is the Fellowship of Nine: carry the Dark Lord's Binding Ring across the world and unmake it where it was forged.",
+        lore: "A thousand years ago the Dark Lord Vael'Thorn forged the Binding Ring in the fires of Mount Cinder to rule every free people. It was cut from his hand and lost. Now it's been found, and he is looking for it. It can only be destroyed where it was made.",
+        chapters: ["A ring in the dark", "The Fellowship of Nine", "The mines of Khazad Dun", "Power evolution", "The breaking of the Fellowship", "The siege of the White City", "Mount Cinder", "The Last Ships"],
+        scenes: {
+          early: ["Riders in black, on black horses, are asking about {first} at the inn. The innkeeper says nothing."], mid: ["The doors of Khazad Dun close behind the Fellowship. Something is drumming in the deep."],
+          late: ["The White City is under siege. Every free people has sent what it has left."], boss: ["Mount Cinder. The Eye is looking for the Ring, and the Ring wants to be found."], ending: ["Ships leave from the Grey Havens, sailing west to Evenmere. Some of the Fellowship are on them."]
+        },
+        foes: {
+          early: [["One of the Nine Hollow Kings", 36], ["Orc scouts from the Ashen Peaks", 20], ["A pack of wargs", 24]],
+          mid: [["The Watcher in the deep water", 48], ["A cave troll", 44], ["The traitor wizard Sareth's war-host", 54]],
+          late: [["The Pale Crown, lord of the Hollow Kings", 74], ["A fell beast and its rider", 66], ["The Dark Lord's army at the Black Gate", 70]],
+          boss: [["The Eye of Vael'Thorn", 94], ["Vael'Thorn, the Dark Lord, in his true form", 98]]
+        },
+        allies: [["A ranger who is secretly a king", { s: 2, v: 6 }], ["A grey wizard with a short temper", { s: 1, v: 6 }], ["An elf archer of the Silverwood", { s: 4, v: 6 }], ["A dwarf of Khazad Dun with an axe", { s: 3, v: 6 }], ["A halfling ring-bearer", { s: 5, v: 6 }]],
+        loot: [["A coat of mithril mail", { all: 4 }], ["An elven cloak that hides its wearer", { s: 4, v: 8 }], ["A vial of starlight", { heal: true, s: 0, v: 6 }]],
+        twists: [["The Ring starts whispering to {first}", { gain: { n: "The Ring's whisper", d: "It's always offering.", power: 5, karma: -1 } }], ["The grey wizard falls in the deep", { s: 5, v: 8 }], ["A member of the Fellowship tries to take the Ring", { inj: true, all: 4 }]],
+        endings: { good: ["The Ring is unmade in the fire of Mount Cinder", "Crowned in the White City", "Sails west on the Last Ships"], bad: ["Claimed by the Ring", "Becomes a Hollow King", "Falls at the Black Gate"] }
+      },
+      throne: {
+        tag: "Your story is the War of the Thorn Throne: five kings, seven kingdoms, and a winter that won't wait for any of them.",
+        lore: "The Thorn Throne was forged from a thousand swords of conquered enemies by the dragon kings of House Talgarth. The dragons died out and the Talgarths were driven into exile. Now the king is dead, five claimants have raised armies, and in the north the Wardens say the Pale King is waking.",
+        chapters: ["A house in chaos", "A squire's training", "Five kings", "Power evolution", "The Crimson Wedding", "The Long Night", "The Thorn Throne", "A song of what came after"],
+        scenes: {
+          early: ["Sellswords are working the kingsroad. Every Great House is hiring."], mid: ["A small council meeting in the capital. Every lord at the table has a knife somewhere."],
+          late: ["The Long Night has come. The frost-dead are south of the Wall."], boss: ["The Thorn Throne. Nobody who sits on it sleeps well."], ending: ["The singers are still arguing about how to tell {first}'s story."]
+        },
+        foes: {
+          early: [["Sellswords on the kingsroad", 20], ["A knight of House Varrow", 28], ["Ironborn raiders of House Ashcombe", 24]],
+          mid: [["Ser Gorrund, the Mad Bull of House Varrow", 56], ["A Faceless assassin", 52], ["The boy king's sworn guard", 50]],
+          late: [["The Pale King's frost-dead army", 72], ["A dragon gone wild", 74], ["The Lord of House Varrow's host", 66]],
+          boss: [["The Pale King", 96], ["The usurper on the Thorn Throne", 88]]
+        },
+        allies: [["A sworn shield who never smiles", { s: 3, v: 6 }], ["A bastard of House Dravenmoor", { s: 2, v: 6 }], ["A clever lord who drinks too much", { s: 5, v: 6 }], ["The exiled dragon queen of House Talgarth", { all: 3 }]],
+        loot: [["A Valyr-steel sword, forged with dragon fire", { s: 2, v: 12 }], ["A dragon egg turned to stone", { s: 0, v: 8 }], ["A royal pardon", { pts: 3 }]],
+        twists: [["A wedding feast becomes a massacre: the Crimson Wedding", { inj: true, all: 5 }], ["The last Talgarth hatches three dragons", { s: 0, v: 10 }], ["The king is poisoned at his own feast", { pts: 2 }], ["The Northwall falls", { s: 3, v: 8, inj: true }]],
+        endings: { good: ["Sits on the Thorn Throne", "Breaks the power of the Great Houses forever", "Wins the Long Night at the Wall"], bad: ["Killed at the Crimson Wedding", "Executed by the boy king", "Rises again as one of the frost-dead"] }
+      },
+      dragonsoul: {
+        tag: "Your story is the return of the dragons: you can devour their souls, and the World-Eater knows it.",
+        lore: "Hrothgard, the frozen north. The Dragonblooded are mortals born with a dragon's soul. When they kill a dragon, they absorb its soul and can learn the Tongue, the dragon language, where words become power. The first dragon, Valdrakhar the World-Eater, has returned to devour the world.",
+        chapters: ["Unbound", "The voice wakes", "The Greybeards' summons", "Power evolution", "The civil war", "The return of the dragons", "Valdrakhar", "Legend of the North"],
+        scenes: {
+          early: ["A barrow tomb in the hills. The dead inside haven't stayed dead."], mid: ["Seven thousand steps up to Hollow Summit. The Greybeards are waiting."],
+          late: ["Dragons over every hold in Hrothgard. The civil war stops for a day, then starts again."], boss: ["Valdrakhar the World-Eater lands on the mountain, and the sky turns black."], ending: ["The bards of Hrothgard sing about {first}. Some of the songs are even true."]
+        },
+        foes: {
+          early: [["Draugr in an ancient barrow", 22], ["A frost troll", 28], ["A bandit chief in an old fort", 24]],
+          mid: [["An elder dragon over the hold of Highmere", 58], ["A Hollow Hand assassin", 48], ["A Frostborn war-captain", 50]],
+          late: [["A dragon priest risen from his tomb", 70], ["Valdrakhar's dragon lieutenants", 74]],
+          boss: [["Valdrakhar the World-Eater", 97], ["Morvhal, the first Dragonblooded", 90]]
+        },
+        allies: [["A Greybeard of Hollow Summit", { s: 1, v: 6 }], ["A housecarl sworn to carry your burdens", { s: 3, v: 6 }], ["A wizard from the College at Frosthaven", { s: 0, v: 6 }], ["A thief from the Rat Court", { s: 4, v: 6 }]],
+        loot: [["A Word of Power carved on a wall", { s: 1, v: 10 }], ["A dragon's skull helm", { s: 3, v: 8 }], ["An Outer Prince's artifact", { gain: { n: "Outer Prince's artifact", d: "A gift from something that isn't a god.", power: 6, karma: -1 } }]],
+        twists: [["Both sides of the civil war demand {first}'s support", { pts: 2 }], ["A dragon you killed won't stay dead", { inj: true, all: 4 }], ["The Greybeards teach you a Word of the Tongue", { s: 1, v: 10 }]],
+        endings: { good: ["Devours Valdrakhar's soul and saves the world", "Ends the civil war of Hrothgard", "Becomes Archmage of the College at Frosthaven"], bad: ["Devoured by Valdrakhar", "Lost to an Outer Prince's bargain", "Becomes the next World-Eater"] }
+      },
+      northwall: {
+        tag: "Your story is the Northwall: a wall of ice seven hundred feet high, and the Pale King's dead on the other side.",
+        lore: "The Northwall was raised after the last Long Night to keep the frost-dead out. The Wardens, sworn brothers and sisters in black, guard it. Most of the south has forgotten why it exists. The Wardens haven't.",
+        chapters: ["Taking the black", "The Wall", "Ranging beyond", "Power evolution", "The free folk", "The Long Night", "The Pale King", "The last Warden"],
+        scenes: {
+          early: ["A ranging north of the Wall. The snow is too quiet."], mid: ["The free folk who live beyond the Wall are running south. Something is chasing them."],
+          late: ["The frost-dead reach the Wall. The ice is screaming."], boss: ["The Pale King walks out of the blizzard."]
+        },
+        foes: { early: [["Free-folk raiders", 20], ["A frost-dead scout", 28]], mid: [["A giant beyond the Wall", 52], ["A pack of frost-dead", 48]], late: [["The Pale King's lieutenants", 72]], boss: [["The Pale King", 96]] },
+        allies: [["A Lord Commander of the Wardens", { s: 2, v: 6 }], ["A free-folk spearwife", { s: 4, v: 6 }], ["A white direwolf", { s: 3, v: 6 }]],
+        loot: [["A dragonglass dagger that kills the frost-dead", { s: 2, v: 10 }]],
+        twists: [["The Wardens elect {first} Lord Commander", { pts: 3 }], ["The free folk ask to pass through the Wall", { gain: { n: "Opened the gate", d: "They let the free folk through.", karma: 1 } }]],
+        endings: { good: ["Holds the Wall through the Long Night", "Kills the Pale King", "Makes peace with the free folk"], bad: ["Falls on the Wall", "Rises again as one of the frost-dead"] }
+      }
+    };
+    fa.journey.chapters = ["An omen at birth", "Coming of age", "The road", "Power evolution", "Twist of fate", "War of the realms", "Final battle", "Epilogue"];
+    fa.glossary = {
+      "Human": "The most common people in Aldmoor: short-lived, ambitious, and in charge of most kingdoms.",
+      "Elf": "An ancient, long-lived people who live in forests like the Silverwood. Many are sailing west on the Last Ships, leaving the world.",
+      "Dwarf": "Short, stubborn mountain people. Master smiths and miners who live in underground holds and never forget a grudge.",
+      "Orc": "Strong, tribal warriors from the Ashlands. Humans call them monsters; orcs call humans liars.",
+      "Tiefling": "A human with a devil somewhere in their bloodline. Horns, a tail, and people crossing the street to avoid them.",
+      "Dragonborn": "A proud, scaled people descended from dragons. They can breathe a dragon's element.",
+      "Fae": "Creatures from the Feywild, a magical mirror-world. Beautiful, dangerous, and bound by their promises.",
+      "Gnome": "Small, curious, clever people who love tinkering and illusion magic.",
+      "Halfling": "Small, cheerful country folk who prefer second breakfast to adventure. Surprisingly brave when it counts.",
+      "Vampire": "An undead who survives on blood. Strong and nearly immortal, but sunlight and holy things hurt.",
+      "Undead": "Someone who died and came back: a skeleton, a death knight, or a lich who traded their soul for eternal life.",
+      "Demigod": "The child of a god and a mortal, with a spark of divine power.",
+      "Fallen god": "A god who lost their worshippers or their throne and now walks the world as something less.",
+      "Hybrid": "Someone with parents of two different races, carrying a bit of both.",
+      "Warrior": "A fighter who relies on weapons, armor and training instead of magic.",
+      "Mage": "A wizard who learned magic through study, from books and spellbooks.",
+      "Rogue": "A stealthy specialist: thief, scout or assassin. Strikes from the shadows.",
+      "Cleric": "A priest whose god grants them healing and holy magic.",
+      "Ranger": "A wilderness hunter and tracker, deadly with a bow.",
+      "Paladin": "A holy knight bound by a sacred oath. Their faith powers their magic.",
+      "Necromancer": "A mage who raises and commands the dead.",
+      "Bard": "A musician or storyteller whose songs are literally magic.",
+      "Druid": "A nature priest who draws power from the wild. Many can shapeshift into animals.",
+      "Warlock": "Someone who got magic by making a pact with a powerful being, like a demon or an ancient fae.",
+      "Monk": "A martial artist who channels inner energy (ki) through their body.",
+      "Artificer": "An inventor who puts magic into gadgets, armor and weapons.",
+      "Blood hunter": "A monster hunter who uses their own blood for forbidden magic.",
+      "Lawful good": "Follows the rules and does the right thing: a protector.",
+      "Neutral good": "Does what's right, with or without rules.",
+      "Chaotic good": "Does good, but breaks rules to do it.",
+      "Lawful neutral": "Believes in order, law and tradition above all.",
+      "True neutral": "Keeps the balance; doesn't take sides.",
+      "Chaotic neutral": "Follows their own whims, wherever they lead.",
+      "Lawful evil": "Uses rules and order to get power over others.",
+      "Neutral evil": "Does whatever benefits them, no matter who gets hurt.",
+      "Chaotic evil": "Enjoys destruction and cruelty for its own sake.",
+      "Eldritch Knight": "A warrior who also studies a little magic.",
+      "Battle Master": "A warrior who uses clever combat maneuvers and tactics.",
+      "Arcane Trickster": "A rogue who uses illusion and enchantment magic.",
+      "Swashbuckler": "A dashing, showy rogue who duels with flair.",
+      "Evocation": "The school of magic that creates raw energy: fire, lightning, force.",
+      "Illusion": "Magic that tricks the senses.",
+      "Necromancy": "Magic over life and death.",
+      "Abjuration": "Protective magic: shields, wards and banishing.",
+      "Divination": "Magic that sees the future or hidden things.",
+      "Transmutation": "Magic that changes one thing into another.",
+      "Conjuration": "Magic that summons creatures or objects.",
+      "Enchantment": "Magic that controls minds and emotions.",
+      "archfey": "A powerful ruler of the Feywild.",
+      "fiend": "A demon or devil from the lower planes.",
+      "great old one": "An ancient, alien being from beyond the stars. Its gifts can drive a mind mad.",
+      "Summer Court": "The fae court of light, warmth and passion.",
+      "Winter Court": "The fae court of cold, cruelty and cunning.",
+      "Feywild": "A mirror-world of wild magic where the fae live.",
+      "Pyromancy": "Fire magic.",
+      "Runes": "Magic carved into symbols that keep their power.",
+      "Storm calling": "Magic that commands wind, rain and lightning.",
+      "Blood magic": "Magic fueled by blood, often the caster's own. Forbidden in most kingdoms.",
+      "Aldmoor": "The world of this story.",
+      "Ember Tree": "A colossal golden tree at the center of the world. Its light became the Ember Crown.",
+      "Ember Crown": "The law of the world: the force that kept order, life and death in their places. It shattered three hundred years ago.",
+      "Shard": "One of the seven pieces of the shattered Ember Crown. Each gives godlike power.",
+      "Shardbearer": "A god-blooded heir who holds a Shard of the Ember Crown. Most of them have gone mad.",
+      "Ashen": "Exiles who lost the Ember Tree's blessing long ago, called back from death to gather the Shards.",
+      "Binding Ring": "The ring the Dark Lord Vael'Thorn forged to rule every free people. It can only be destroyed where it was made.",
+      "Vael'Thorn": "The Dark Lord, who forged the Binding Ring under Mount Cinder.",
+      "Mount Cinder": "The volcano where the Binding Ring was forged.",
+      "Hollow Kings": "Nine kings who took the Dark Lord's gifts and became his wraiths.",
+      "Last Ships": "The ships that carry the elves west to Evenmere, a land beyond the sea that mortals can't reach.",
+      "Thorn Throne": "The throne of the Seven Kingdoms, forged from a thousand swords of conquered enemies with dragon fire.",
+      "Great Houses": "The noble families that rule the Seven Kingdoms: Varrow, Dravenmoor, Talgarth, Ashcombe and Merrin.",
+      "House Talgarth": "The exiled dragon kings who forged the Thorn Throne.",
+      "Northwall": "A wall of ice seven hundred feet high, built to keep the frost-dead out after the last Long Night.",
+      "Wardens": "The sworn guardians of the Northwall. They give up land, family and titles to serve.",
+      "Pale King": "The king of the frost-dead, beyond the Northwall.",
+      "frost-dead": "Corpses raised by the Pale King's cold. Only fire and dragonglass stop them.",
+      "Long Night": "A winter that lasts a generation, when the frost-dead march south.",
+      "Hrothgard": "The frozen northern land where dragons have returned and a civil war rages.",
+      "Dragonblooded": "A mortal born with a dragon's soul, who can absorb the souls of slain dragons.",
+      "the Tongue": "The dragon language. Speaking its words, called Shouts, unleashes raw power.",
+      "Greybeards": "Monks on Hollow Summit who have mastered the Tongue.",
+      "Outer Princes": "Powerful beings from outside the world who bargain with mortals. Not gods, but close.",
+      "Silverwood": "The great elven forest.",
+      "Khazad Dun": "The greatest dwarf hold, under the mountains. Something old sleeps in its depths.",
+      "Ashlands": "The volcanic wasteland where the orc warbands live."
+    };
+  })();
+
+  // ---------- glossaries: every series explains its own terms ----------
+  THEMES.blackclover.glossary = {
+    "grimoire": "A magic book every person in the Clover Kingdom receives at fifteen. It holds their spells and grows new pages as they get stronger.",
+    "Three-leaf": "The normal grimoire. Its three leaves stand for faith, hope and love.",
+    "Four-leaf": "A rare grimoire with a fourth leaf for luck, like the first Wizard King's.",
+    "Five-leaf": "A grimoire with a fifth leaf where a devil lives. Feared and hated.",
+    "devil": "A being from the underworld that can live inside a grimoire or a body and lend its power, usually for a price.",
+    "Devil Union": "Merging with your devil to borrow its full power.",
+    "Anti Magic": "The power to cancel magic. It comes from the devil Liebe, who was born without mana.",
+    "mana": "The magic energy that flows through people and the world. More mana means stronger spells.",
+    "Mana Zone": "Turning the mana in the air around you into part of your spell.",
+    "Mana Skin": "A thin layer of mana around the body that works like armor.",
+    "Mana Method": "Moving with the mana of the world around you instead of only your own.",
+    "Ki": "The life force of every living thing. Reading it lets you sense attacks before they come.",
+    "Magic Knights": "The Clover Kingdom's army of mages, split into nine squads led by captains.",
+    "Wizard King": "The strongest Magic Knight and the kingdom's protector. Everyone's dream job.",
+    "Royal Knights": "An elite team made of the best knights from every squad, picked through a selection exam.",
+    "Forsaken Realm": "The poorest part of the Clover Kingdom, ignored by nobles.",
+    "Common Realm": "The middle part of the Clover Kingdom, where ordinary people live.",
+    "Black Bulls": "The Clover Kingdom's rowdiest squad, led by Yami Sukehiro. The worst on paper, a family in practice.",
+    "Golden Dawn": "The Clover Kingdom's top-ranked squad, led by William Vangeance.",
+    "Eye of the Midnight Sun": "A terrorist group of mages, secretly made of reincarnated elves.",
+    "elf": "The elves were a people massacred five hundred years ago. Their souls came back in human bodies.",
+    "Elf reincarnation": "An elf soul from five hundred years ago, reborn inside a modern human body. Elves feel mana like air.",
+    "Witch": "A woman from the Witches' Forest, a hidden land of witches ruled by the Witch Queen. Strong in blood and healing magic.",
+    "Half-dwarf": "Part dwarf. Dwarves can grow huge when their mana surges; Charmy Pappitson is one.",
+    "Royal": "Clover's royal houses (Kira, Vermillion, Silva) are born with huge mana.",
+    "Peasant": "The lowest class in the Clover Kingdom's strict class system. Nobles look down on them.",
+    "Noble": "The ruling class of the Clover Kingdom, born with more mana than commoners.",
+    "Dark Triad": "The three Zogratis siblings (Dante, Vanica, Zenon) who rule the Spade Kingdom with devil power.",
+    "Spade Kingdom": "The northern kingdom ruled by the Dark Triad. It invades the Clover Kingdom.",
+    "Spirit Guardians": "The Heart Kingdom's elite mages, who borrow the power of nature.",
+    "Witch Queen": "The ruler of the Witches' Forest, who can control people through their blood.",
+    "Salamander": "The fire spirit, one of four great elemental spirits.",
+    "Sylph": "The wind spirit, one of four great elemental spirits.",
+    "Undine": "The water spirit, one of four great elemental spirits.",
+    "Gnome": "The earth spirit, one of four great elemental spirits."
+  };
+  THEMES.onepiece.glossary = {
+    "Haki": "Willpower turned into a weapon. Everyone has it, but few awaken it.",
+    "Observation": "Observation Haki: sensing people's presence and predicting their next move.",
+    "Armament": "Armament Haki: hardening your body or weapon with willpower. It can hit Devil Fruit users who'd normally be untouchable.",
+    "Conqueror's": "Conqueror's Haki: the will of a king. Strong enough to knock out weaker people just by being there. One in millions has it.",
+    "Future Sight": "Observation Haki so advanced it sees a few seconds into the future.",
+    "Ryuo": "Wano's name for Armament Haki, especially the advanced kind that hits from inside.",
+    "Devil Fruit": "A cursed fruit that gives one superpower. The user can never swim again.",
+    "Paramecia": "The most common Devil Fruit type: a power over the body or the world, like stretching or barriers.",
+    "Logia": "A rare Devil Fruit type that turns the user into an element, like fire or smoke. Normal attacks pass straight through them.",
+    "Zoan": "A Devil Fruit type that lets the user turn into an animal.",
+    "Mythical Zoan": "The rarest Zoan: turning into a creature of legend, like a phoenix or a dragon.",
+    "Ancient Zoan": "A Zoan that turns the user into a prehistoric animal, like a dinosaur.",
+    "awakening": "A Devil Fruit awakening: the power spreads beyond the user's body into the world around them.",
+    "Seastone": "A stone that gives off the same energy as the sea. It drains Devil Fruit users' power.",
+    "Celestial Dragon": "The World Nobles, descendants of the twenty kings who founded the World Government. They live above the law in Mary Geoise and keep slaves.",
+    "Mary Geoise": "The holy city on top of the Red Line where the Celestial Dragons live.",
+    "Imu": "The secret ruler of the world, sitting on the Empty Throne in Mary Geoise.",
+    "Five Elders": "The five highest officials of the World Government, answering only to Imu.",
+    "World Government": "The alliance of 170+ countries that rules the world, with the Marines as its army.",
+    "Marines": "The World Government's navy. They hunt pirates.",
+    "Revolutionary Army": "Monkey D. Dragon's army, fighting to overthrow the World Government.",
+    "Cipher Pol": "The World Government's secret agents. CP9 and CP0 are the deadliest units.",
+    "Will of D.": "A mysterious initial in some people's names. The World Government fears it.",
+    "Poneglyph": "Indestructible stone blocks carved with the true history of the world. Reading them is a crime.",
+    "Road Poneglyph": "One of four red Poneglyphs that together point to the One Piece.",
+    "Void Century": "A hundred years of history the World Government erased.",
+    "One Piece": "Gol D. Roger's treasure, at the end of the Grand Line. Whoever finds it becomes King of the Pirates.",
+    "Grand Line": "The ocean route around the world, full of strange islands and stronger pirates.",
+    "New World": "The second half of the Grand Line, ruled by the Emperors of the Sea.",
+    "Emperor": "One of the four most powerful pirates in the world.",
+    "Red Line": "The giant continent that circles the world and splits the seas.",
+    "bounty": "The price the World Government puts on someone's head. Higher bounty, bigger threat.",
+    "Fish-Man": "A people who live under the sea, ten times stronger than humans, often treated as less than human.",
+    "Merfolk": "Fish-tailed people of Fish-Man Island. Their tails split into legs at age thirty.",
+    "Mink": "Animal-like people from Zou who can generate electricity (Electro).",
+    "Electro": "The electric charge every Mink can produce.",
+    "Sulong": "A Mink form triggered by the full moon: white fur, huge power, little control.",
+    "Giant": "Huge warriors, mostly from Elbaf, who live by a strict code of honor.",
+    "Lunarian": "An almost extinct race from the Red Line with black wings, fire on their backs and skin that resists heat.",
+    "Buccaneer": "A race of huge humans the World Government has hunted almost to extinction.",
+    "Skypiean": "People of the sky islands, with small wings.",
+    "Three-Eye Tribe": "A rare people whose third eye can awaken and read Poneglyphs or hear the voices of all things.",
+    "Long-Arm Tribe": "People with an extra joint in their arms.",
+    "Long-Leg Tribe": "People with extremely long legs.",
+    "Tontatta": "Tiny dwarves with enormous strength and speed, from Green Bit.",
+    "Mixed-race": "Born of parents from two different races.",
+    "Rokushiki": "The Six Powers: superhuman martial arts used by Marines and Cipher Pol (Soru is super speed, Geppo is air-walking).",
+    "Fish-Man Karate": "A Fish-Man martial art that uses the water inside everything as a weapon.",
+    "Okama Kenpo": "A ballet-based kicking style from Kamabakka Kingdom.",
+    "Santoryu": "Three Sword Style: one sword in each hand and one in the mouth.",
+    "Supernova": "A rookie pirate with a bounty over 100 million.",
+    "Buster Call": "An attack on an island by ten warships and five vice admirals. It erases everything.",
+    "Impel Down": "The World Government's underwater prison for the worst criminals."
+  };
+  THEMES.hero.glossary = {
+    "Hero": "Fights to protect people and follows the law, mostly.",
+    "Villain": "Uses their power for themselves: crime, conquest, revenge.",
+    "Anti-hero": "Fights the bad guys, but with methods the heroes won't use.",
+    "Vigilante": "A masked crime-fighter with no license. The police aren't fans.",
+    "Sidekick": "A hero-in-training who works under a senior hero.",
+    "Mercenary": "Works for whoever pays, hero or villain.",
+    "Mutant": "Born with a genetic mutation that gives powers. Feared by many.",
+    "Android": "A robot built to look and act human.",
+    "Cyborg": "A human whose body is partly machine.",
+    "Lab-made clone": "A copy of someone else, grown in a lab.",
+    "Demigod": "The child of a god and a mortal.",
+    "Magic-born": "Born with magic instead of science-based powers.",
+    "Hybrid": "Born from parents of two different species.",
+    "Healing factor": "The power to heal from injuries incredibly fast.",
+    "Telekinesis": "Moving things with your mind.",
+    "Duplication": "Making copies of yourself.",
+    "Size shifting": "Growing giant or shrinking tiny at will.",
+    "Tech genius": "No natural powers, just a brain that builds incredible gadgets."
+  };
+
   // ================= constants =================
   // talent ladders: 10 tiers per stat, weakest first. Keyed by the series' stat name.
   const TIERS = {
@@ -3739,7 +4390,9 @@
   }
   // 14 chapters. ch = index into the series' own chapter names; name = shared name for the newer chapters.
   // a series can replace the chapter list (Black Clover starts with the grimoire ceremony and the entrance exam)
-  const S = () => (T().steps || STEPS_DEFAULT);
+  const S = () => (T().stepsBy && T().stepsBy[tv(T().stepsByCat)]) || T().steps || STEPS_DEFAULT;
+  // events can have a version per race / being: events["start:Vessel"] beats events["start"]
+  function evDef(key) { const b = T().evBy ? tv(T().evBy) : null; return (b && T().events[key + ":" + b]) || T().events[key]; }
   const STEPS_DEFAULT = [
     { k: "act", lean: "fight", pool: "early", sc: "early", ch: 0 }, { k: "act", lean: "train", pool: "early", sc: "train", ch: 1 },
     { k: "act", lean: "ally", pool: "early", sc: "recruit" }, { k: "act", lean: "quest", pool: "side", sc: "side" },
@@ -3850,7 +4503,7 @@
   function slotWheel(s) {
     if (s.k === "cat") {
       const e = effCat(s.i), isTier = e.base.toLowerCase() === String(T().vis.tier).toLowerCase();
-      const cut = isTier && T().tierStart ? T().tierStart : e.opts.length;
+      const cut = isTier && T().tierStart && e.name === e.base ? T().tierStart : e.opts.length;
       return { title: titleFor(e.name, null, null) === e.name ? titleFor(e.base, null, null) : titleFor(e.name, null, null), label: e.name, opts: e.opts.slice(0, cut), weights: e.opts.slice(0, cut).map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
     }
     if (s.k === "title") { const o = titleOptions(); return { title: "What's your title?", label: "Title", opts: o, weights: o.map((x, i) => i === 0 ? 3 : 1) }; }
@@ -3905,6 +4558,20 @@
     return out;
   }
   const UNDERDOG = { n: "Underdog", d: "Started near the bottom. Training gains are doubled, every defeat adds +3 power, and upsets pay out big.", adapt: 3 };
+  function perkExplain(p) {
+    const st = statNames(), out = [p.d];
+    if (p.power) out.push(`+${p.power} battle power in every fight.`);
+    if (p.boss) out.push(`+${p.boss} battle power in the rival rematch and the final battle.`);
+    if (p.stat) out.push(`+${p.stat[1]} ${st[p.stat[0]]}.`);
+    if (p.all) out.push(`+${p.all} to every stat.`);
+    if (p.adapt) out.push(`Every defeat permanently adds +${p.adapt} battle power.`);
+    if (p.save) out.push(`${Math.round(p.save.chance * 100)}% chance to turn a defeat into a win, ${p.save.uses || 1} time${(p.save.uses || 1) > 1 ? "s" : ""}.`);
+    if (p.minTier) out.push(`Talent wheels start at tier ${p.minTier + 1}, so no low rolls.`);
+    if (p.karma) out.push(`Karma ${p.karma > 0 ? "+" : ""}${p.karma}: good karma adds good endings to the final wheel, bad karma removes them.`);
+    if (p.extra) out.push(`Adds the "${p.extra[0]}" bar to the card.`);
+    if (p.pts) out.push(`+${p.pts} upgrade points.`);
+    return out.join(" ");
+  }
   function perkLine(v) { const p = perkFor(v); return !p ? "" : p.quiet ? p.d : `New perk: ${p.n}. ${p.d}`; }
   function signature() {
     if (run.evolution) return run.evolution;
@@ -3953,6 +4620,8 @@
     out.sort((a, b) => (b.pri || 1) - (a.pri || 1) || b._o - a._o);
     const p = th.paths && th.paths[tv(th.pathCat) || ""];
     if (p) out.unshift(Object.assign({ pri: 9 }, p));
+    // a storyline picked during the journey (a Fantasy saga) sits on top of everything
+    if (run.saga && th.sagas && th.sagas[run.saga]) out.unshift(Object.assign({ pri: 10 }, th.sagas[run.saga]));
     return out;
   }
   function path() {
@@ -3971,7 +4640,7 @@
     };
     Object.entries(LIST_KEYS).forEach(([k, [mn, mx]]) => { out[k] = merge(L.map((l) => l[k]).filter(Boolean), j[k] || th[k] || [], mn, mx); });
     out.foes = {};
-    ["early", "mid", "late", "boss"].forEach((pool) => { out.foes[pool] = merge(L.map((l) => l.foes && l.foes[pool]).filter(Boolean), j.foes[pool], 4, 8); });
+    [...new Set(["early", "mid", "late", "boss"].concat(Object.keys(j.foes), ...L.map((l) => Object.keys(l.foes || {}))))].forEach((pool) => { out.foes[pool] = merge(L.map((l) => l.foes && l.foes[pool]).filter(Boolean), j.foes[pool] || [], 4, 8); });
     out.endings = { good: merge(L.map((l) => l.endings && l.endings.good).filter(Boolean), j.endings.good, 3, 6), bad: merge(L.map((l) => l.endings && l.endings.bad).filter(Boolean), j.endings.bad, 3, 6) };
     out.scenes = {};
     L.slice().reverse().forEach((l) => Object.assign(out.scenes, l.scenes || {}));
@@ -4060,7 +4729,17 @@
   const overall = () => { const s = stats(); return Math.round(s.reduce((a, b) => a + b, 0) / s.length); };
   function rarity() { const f = tierInfo().f; return f >= 1 ? "mythic" : f >= 0.75 ? "legendary" : f >= 0.5 ? "epic" : f >= 0.25 ? "rare" : "common"; }
   const bossFight = () => { const st = S()[run.step]; return !!st && run.phase === "journey" && (st.pool === "boss" || (st.k === "rival" && st.n === 2)); };
-  const playerPower = () => overall() + (run.ally ? 6 : 0) - (run.injured ? 8 : 0) + perkPower(bossFight()) + (run.adaptBonus || 0);
+  // allies fight beside you: the strongest one's bonus, plus +1 for each extra ally (up to +4)
+  const LEGEND_ALLY = /Gojo|Netero|Ging|Garp|Yuta|Julius|Wizard King|Rayleigh|dragon queen|Zeno|Biscuit|Choso|Mereoleona|Fuegoleon|Jinbe|Yamato|grey wizard|Greybeard|Lord Commander/i;
+  function allyInfo(name, e) {
+    e = e || {};
+    const b = LEGEND_ALLY.test(name) ? 10 : (e.all || 0) >= 3 ? 8 : (e.v || 0) >= 6 ? 5 : 3;
+    const tier = b >= 10 ? "Legendary" : b >= 8 ? "Very strong" : b >= 5 ? "Strong" : "Support";
+    const spec = e.heal ? "healing and support" : e.s != null ? statNames()[e.s] : "a bit of everything";
+    return { n: name, b, tier, spec };
+  }
+  const allyPower = () => { const A = run.allyData || []; if (!A.length) return 0; const best = Math.max(...A.map((a) => a.b)); return best + Math.min(4, A.length - 1); };
+  const playerPower = () => overall() + allyPower() + (run.ally ? 6 : 0) - (run.injured ? 8 : 0) + perkPower(bossFight()) + (run.adaptBonus || 0);
   const winChance = () => run.foe ? clamp(0.5 + (playerPower() - run.foe[1]) / 50, 0.1, 0.9) : 0.5;
 
   function look() {
@@ -4559,11 +5238,12 @@
     }
     if (run.phase === "journey") {
       const st = S()[run.step], P = path();
+      if (run.ruleReady && !run.act) return ruleWheel();
       if (run.chance && !run.act) return listWheel(jTitle("chance"), chanceList().map(lbl));
       if (needsCodename() && !run.act) return listWheel("Hero name", codenameOptions());
       if (st.k === "act") return actWheel();
       if (st.k === "event") return eventWheel(st.ev);
-      if (st.k === "battle") return run.foe ? battleWheel() : listWheel(jTitle("foe"), bossPool().map((f) => f[0]));
+      if (st.k === "battle") return run.foe ? battleWheel() : listWheel(jTitle("foe"), battlePool(st.pool).map((f) => f[0]));
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
       if (st.k === "twist") return listWheel(jTitle("twist"), LST.twist().map(lbl));
       if (st.k === "evolve") return listWheel(jTitle("evolve"), evolveOptions());
@@ -4573,12 +5253,29 @@
   }
 
   // ================= game actions =================
-  function setNarr(big, text) { run.narr = { big: cap(String(big)), text: sentenceCase(text) }; run.narrPop = true; }
+  // lore glossary: the first time a term shows up, explain it; every term met is kept in the glossary panel
+  const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  function glossFind(text) {
+    const G = T().glossary || {}, out = [];
+    for (const k of Object.keys(G)) { if (new RegExp("(^|[^A-Za-z])" + reEsc(k) + "($|[^A-Za-z])").test(text)) out.push(k); }
+    return out;
+  }
+  function glossLines(text) {
+    const seen = new Set(run.terms || []), fresh = glossFind(text).filter((k) => !seen.has(k)).slice(0, 2);
+    fresh.forEach((k) => seen.add(k));
+    run.terms = [...seen];
+    return fresh.map((k) => `📖 ${k}: ${T().glossary[k]}`).join(" ");
+  }
+  function setNarr(big, text) {
+    const g = glossLines(`${big} ${text}`);
+    run.narr = { big: cap(String(big)), text: sentenceCase(text) + (g ? "\n" + g : "") }; run.narrPop = true;
+  }
   const sentenceCase = (s) => String(s).replace(/(^|[.!?]["']?\s+)([a-z])/g, (m, a, b) => a + b.toUpperCase());
   function logAdd(h, text, fx, bad) {
     let last = run.log[run.log.length - 1];
     if (!last || last.h !== h) { last = { h, p: [] }; run.log.push(last); }
     last.p.push({ t: sentenceCase(text), fx: fx || "", bad: !!bad });
+    run.logTerms = [...new Set((run.logTerms || []).concat(glossFind(text + " " + (fx || ""))))];
   }
   function describe(e) {
     const st = statNames(), out = [];
@@ -4694,7 +5391,7 @@
 
   async function spinSlot(s) {
     const wh = slotWheel(s);
-    const k = await spin(wh);
+    const k = wh.opts.length === 1 ? 0 : await spin(wh);
     if (s.k === "title") landTitle(wh.opts[k]); else if (s.k === "cat") landCat(s.i, wh.opts[k]); else if (s.k === "tal") landTal(s.i, wh.tierIdx[k]); else landSub(s.i, s.j, wh.opts[k]);
   }
   async function spinNext() {
@@ -4744,6 +5441,7 @@
     const avgTier = run.talent.reduce((a, b) => a + b, 0) / run.talent.length;
     run.underdog = overall() < 48 || avgTier < 3.6;
     bountyStart();
+    if (T().worldLore) logAdd("Prologue", fill(T().worldLore));
     logAdd("Prologue", fill(P.prologue || T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (run.epithet ? ` One day they'll be called ${run.epithet}.` : "") + (P.tag ? " " + P.tag : ""));
     if (run.underdog) logAdd("Prologue", fill("Nobody expects anything from {first}. That's the one advantage they have."), "Underdog: training gains doubled, +3 power after every defeat, and upsets pay out big.");
     if (run.bounty != null) logAdd("Prologue", run.bounty ? fill("The Marines already have a file on {first}.") : fill("Nobody has heard of {first} yet. That's about to change."), `Starting bounty: ${berry(run.bounty)}.`);
@@ -4882,8 +5580,8 @@
     chime([523, 784, 1046]);
     return ` Promoted: ${t0.label} → ${tierInfo().label}.`;
   }
-  function applyTwist(e) { apply(e); (e.gone || []).forEach((n) => { run.gone = (run.gone || []).concat(nameKey(n)); if (run.companion && nameKey(run.companion) === nameKey(n)) run.companion = null; }); }
-  const actList = () => path().acts || T().acts || ACTS_DEFAULT;
+  function applyTwist(e) { apply(e); (e.gone || []).forEach((n) => { run.gone = (run.gone || []).concat(nameKey(n)); if (run.companion && nameKey(run.companion) === nameKey(n)) run.companion = null; run.allyData = (run.allyData || []).filter((a) => nameKey(a.n) !== nameKey(n)); }); }
+  const actList = () => { const st = S()[run.step]; return (st && st.acts && T().actSets && T().actSets[st.acts]) || path().acts || T().acts || ACTS_DEFAULT; };
   const actLabel = (kind) => (actList().find((a) => a[0] === kind) || ACTS_DEFAULT.find((a) => a[0] === kind) || [kind, kind])[1];
   function actOptions() {
     const st = S()[run.step];
@@ -4975,8 +5673,8 @@
     const head = actHead(), s = a.stage;
     if (s === "foe") {
       const pool = a.kind === "war" ? LST.war() : LST.foe(st.pool === "side" ? "side" : st.pool);
-      a.foe = pool[k].slice(0, 2); markUsed("foe", a.foe[0]);
-      logAdd(head, fill(a.kind === "war" ? "The war is against {foe}." : "{first} runs into {foe}.", { foe: a.foe[0] }));
+      a.foe = pool[k].slice(0, 3); markUsed("foe", a.foe[0]);
+      logAdd(head, fill(a.kind === "war" ? "The war is against {foe}." : "{first} runs into {foe}.", { foe: lowArt(a.foe[0]) }));
       setNarr(a.foe[0], fill("Power {fp}. But how strong are they today?", { fp: a.foe[1] }));
       a.stage = a.kind === "war" ? "size" : "form"; return;
     }
@@ -5050,8 +5748,9 @@
     if (s === "ally") {
       const L = LST.ally(), txt = lbl(L[k]); apply(L[k][1]); markUsed("ally", L[k][0]);
       const prev = run.companion; run.companion = txt; run.allies = (run.allies || []).concat(txt);
+      const ai = allyInfo(txt, L[k][1]); run.allyData = (run.allyData || []).concat(ai);
       const t = fill("{a} joins {first}'s side.", { a: txt }) + (prev ? ` ${prev} is still around too.` : "");
-      logAdd(head, t, describe(L[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); react("ally", { v: txt }); endAct(); return;
+      logAdd(head, t, `${describe(L[k][1])}. ${ai.tier} ally: fights beside them for +${ai.b} battle power (specialty: ${ai.spec}). All allies together: +${allyPower()}.`); setNarr(txt, t); sfx.sparkle(); react("ally", { v: txt }); endAct(); return;
     }
     if (s === "loot") {
       const L = LST.loot(), txt = lbl(L[k]); apply(L[k][1]); markUsed("loot", L[k][0]); run.items = (run.items || []).concat(txt);
@@ -5158,6 +5857,12 @@
       run.rivalWins = (run.rivalWins || 0) + 1;
       if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel." + promote(); }
     }
+    // Culling Game: beating a player takes their points; 100 points lets you add a rule
+    if (st.cg && run.cg != null && foe && won) {
+      const pts = foe[2] || 5;
+      run.cg += pts; fx += ` +${pts} Culling Game points (${run.cg} total).`;
+      if (run.cg >= 100 && !run.ruled) { run.ruleReady = true; fx += " 100 points: a new rule can be added!"; }
+    }
     if (run.bounty != null && foe && (won || o === "draw")) {
       const mult = (st.pool === "boss" ? 3 : 1) * (st.k === "rival" ? 1.5 : 1) * (upset ? 1.5 : 1) * (o === "clutch" ? 1.3 : 1) * (o === "draw" ? 0.4 : 1) * ((ctx && ctx.mult) || 1);
       const why = st.pool === "boss" ? `beat ${foe[0]}` : st.k === "rival" ? "beat their rival" : upset ? "a giant-killing upset" : "";
@@ -5179,9 +5884,10 @@
     run.foe = null;
     return { o, won, upset };
   }
+  const lowArt = (s) => String(s).replace(/^(A|An|The) /, (m) => m.toLowerCase());
   function battleVars() {
     const mv = fill(T().move);
-    return { foe: run.foe ? run.foe[0] : "", fp: run.foe ? run.foe[1] : "", move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "") : mv, clutch: T().clutch, sig: signature(),
+    return { foe: run.foe ? lowArt(run.foe[0]) : "", fp: run.foe ? run.foe[1] : "", move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "") : mv, clutch: T().clutch, sig: signature(),
       style: (tv("Fighting style") || "raw instinct").replace(/ \(.*\)$/, ""), weapon: tv("Weapon/Cursed tool/Costume") || "their bare hands", ally: run.companion || "", rival: (tv(T().vis.rival) || "their rival").replace(/^(A|An|The|Your) /, (m) => m.toLowerCase()), Rival: cap(tv(T().vis.rival) || "Their rival") };
   }
   // every chapter opens with a scene from the series' world
@@ -5194,7 +5900,18 @@
     else if (pool.length) { const s = pick(pool); run.usedScenes = (run.usedScenes || []).concat(s); logAdd(head, fill(s, battleVars())); }
   }
 
+  const ruleWheel = () => listWheel(fill("{first} has 100 points. What rule do they add?"), (T().cgRules || []).map(lbl));
+  async function ruleStep() {
+    const L = T().cgRules, k = await spin(ruleWheel()), txt = lbl(L[k]), e = L[k][1];
+    run.ruleReady = false; run.ruled = true; run.cg -= 100;
+    apply(e);
+    const head = `Chapter ${run.step}: ${chapterName(Math.max(0, run.step - 1))}`;
+    logAdd(head, fill("{first} spends 100 points. Kogane announces a new rule: {r}.", { r: txt.charAt(0).toLowerCase() + txt.slice(1) }), describe(e) + ".");
+    setNarr("New rule", txt + ".");
+    sfx.fanfare(); fxFlash("#fff6d0"); react("legend");
+  }
   async function journeyStep() {
+    if (run.ruleReady && !run.act) { await ruleStep(); persist(); render(); return; }
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
     if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
     const st = S()[run.step];
@@ -5212,9 +5929,9 @@
           setNarr(run.foe[0], `${t} Your power: ${playerPower()}. Chance to win: ${Math.round(winChance() * 100)}%.`);
           state.wheel = battleWheel(); state.winner = -1;
         } else {
-          const pool = bossPool();
+          const pool = battlePool(st.pool);
           const k = await spin(listWheel(jTitle("foe"), pool.map((f) => f[0])));
-          run.foe = pool[k];
+          run.foe = pool[k]; markUsed("foe", run.foe[0]);
           sfx.gong(); fxFlash("#5a0010");
           const t = run.nemesis && run.foe[0] === run.nemesis[0] ? fill("{foe} kept their promise. They're back, and they've been waiting for this. Power {fp}.", battleVars()) : fill(pick(MEET), battleVars());
           logAdd(head, t);
@@ -5227,13 +5944,16 @@
         run.step++;
       }
     } else if (st.k === "event") {
-      const ev = T().events[st.ev], w = eventWheel(st.ev), k = await spin(w);
+      const ev = evDef(st.ev), w = eventWheel(st.ev), k = await spin(w);
       const o = ev.opts[k], e = o[2] || {};
       if (ev.intro) logAdd(head, fill(ev.intro, eventVars()));
       apply(e);
+      if (o[4]) Object.assign(run, JSON.parse(JSON.stringify(o[4])));
       let fx = describe(e);
       fx = fx ? fx + "." : "";
       if (ev.after) fx += (fx ? " " : "") + fill(ev.after, eventVars());
+      if (ev.promote) fx += promote();
+      if (o[4] && o[4].saga && T().sagas[o[4].saga].lore) fx += " " + fill(T().sagas[o[4].saga].lore);
       if (st.ev === "exam") (T().laterSubs || []).forEach((n) => { const x = allSubs().find((y) => y.name === n && y.value); if (x) fx += ` ${x.name}: ${x.value}.`; });
       logAdd(head, fill(o[3], eventVars()), fx);
       setNarr(fill(o[0], eventVars()), fill(o[3], eventVars()));
@@ -5269,7 +5989,12 @@
     persist(); render();
   }
   function eventVars() { return Object.assign(battleVars(), { captain: ((T().captains || {})[tv("Squad")] || "the captain") }); }
-  function eventWheel(key) { const ev = T().events[key]; return tw(fill(ev.title, eventVars()), ev.opts.map((o) => fill(o[0], eventVars())), ev.opts.map((o) => o[1]), { label: ev.label || ev.title }); }
+  function eventWheel(key) { const ev = evDef(key); return tw(fill(ev.title, eventVars()), ev.opts.map((o) => fill(o[0], eventVars())), ev.opts.map((o) => o[1]), { label: ev.label || ev.title }); }
+  function battlePool(pool) {
+    if (pool === "boss") return bossPool();
+    if (pool === "colony") return fresh((T().colonyFoes || {})[run.colony] || foePool("mid"), "foe");
+    return fresh(foePool(pool), "foe");
+  }
   function bossPool() {
     const pool = foePool("boss").filter((f) => !used("ally").includes(nameKey(f[0])) && !(run.gone || []).includes(nameKey(f[0])));
     if (run.nemesis && !pool.some((f) => f[0] === run.nemesis[0])) pool.unshift(run.nemesis, run.nemesis);
@@ -5546,6 +6271,27 @@
     if (h) paintEntry(h, $("aiMsg")); else paintRun($("aiMsg"));
   }
 
+  // ================= tooltips =================
+  // anything with data-tip explains itself on hover, keyboard focus or tap
+  const tipEl = document.createElement("div"); tipEl.className = "tip"; tipEl.hidden = true; document.body.append(tipEl);
+  let tipFor = null;
+  function showTip(el) {
+    tipFor = el; tipEl.textContent = el.dataset.tip; tipEl.hidden = false;
+    const r = el.getBoundingClientRect(), w = Math.min(300, window.innerWidth - 24);
+    tipEl.style.maxWidth = w + "px";
+    const tw2 = tipEl.offsetWidth, th2 = tipEl.offsetHeight;
+    let x = r.left + r.width / 2 - tw2 / 2; x = Math.max(12, Math.min(x, window.innerWidth - tw2 - 12));
+    let y = r.top - th2 - 8; if (y < 8) y = r.bottom + 8;
+    tipEl.style.left = x + window.scrollX + "px"; tipEl.style.top = y + window.scrollY + "px";
+  }
+  const hideTip = () => { tipEl.hidden = true; tipFor = null; };
+  document.addEventListener("pointerover", (e) => { const el = e.target.closest && e.target.closest("[data-tip]"); if (el && e.pointerType === "mouse") showTip(el); });
+  document.addEventListener("pointerout", (e) => { const el = e.target.closest && e.target.closest("[data-tip]"); if (el && e.pointerType === "mouse") hideTip(); });
+  document.addEventListener("click", (e) => { const el = e.target.closest && e.target.closest("[data-tip]"); if (el) { if (tipFor === el) hideTip(); else showTip(el); } else if (tipFor) hideTip(); });
+  document.addEventListener("focusin", (e) => { if (e.target.dataset && e.target.dataset.tip) showTip(e.target); });
+  document.addEventListener("focusout", hideTip);
+  window.addEventListener("scroll", () => { if (tipFor) hideTip(); }, { passive: true });
+
   // ================= render =================
   function render() {
     if (run.results.length !== baseCats().length || run.talent.length !== T().stats.length || run.v !== 6) run = newRun();
@@ -5571,18 +6317,19 @@
       else { title = "Ready for the journey"; sub = `${S().length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = S()[run.step];
-      eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "");
-      if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
+      eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "") + (run.cg != null && st.cg ? ` · ${run.cg} Culling Game points` : "");
+      if (run.ruleReady && !run.act) { title = ruleWheel().title; sub = "Kogane is waiting"; }
+      else if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
       else if (needsCodename() && !run.act) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
       else if (st.k === "act") {
         const w = actWheel(); title = w.title;
         const a = run.act;
-        sub = !a ? "Spin to decide what happens next" : a.stage === "battle" && run.foe ? `${cap(run.foe[0])} · power ${run.foe[1]} · your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win` : a.label;
+        sub = !a ? "Spin to decide what happens next" : a.stage === "battle" && run.foe ? `${cap(run.foe[0])} · power ${run.foe[1]} · your power ${playerPower()}${allyPower() ? ` (allies +${allyPower()})` : ""}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win` : a.label;
       } else if (st.k === "battle" || st.k === "rival") {
         if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : jTitle("foe");
-        else { title = `${cap(run.foe[0])} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
+        else { title = `${cap(run.foe[0])} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${allyPower() ? ` (allies +${allyPower()})` : ""}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
       }
-      else if (st.k === "event") { title = eventWheel(st.ev).title; sub = T().events[st.ev].sub || ""; }
+      else if (st.k === "event") { title = eventWheel(st.ev).title; sub = fill(evDef(st.ev).sub || "", eventVars()); }
       else if (st.k === "twist") title = jTitle("twist");
       else if (st.k === "evolve") title = jTitle("evolve");
       else if (st.k === "ending") { title = run.dead ? "The end of the road" : run.retired ? "Retirement" : "Spin your ending"; sub = karma() ? `Every win puts more good endings on the wheel · karma ${karma() > 0 ? "+" : ""}${karma()}` : "Every win puts more good endings on the wheel"; }
@@ -5598,7 +6345,7 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
-      label = run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     p.textContent = label; p.disabled = busy;
@@ -5636,11 +6383,10 @@
   function cardData() {
     const th = T(), complete = isComplete();
     const chipVals = [];
-    th.chips.forEach((n) => { const v = tv(n); if (v) chipVals.push(cap(v)); });
-    allSubs().forEach((x) => { if (x.value && !perkFor(x.value)) chipVals.push(x.value); });
+    // the card keeps only the headline traits; everything else lives in the traits list and the story
+    th.chips.forEach((n) => { const v = tv(n); if (v && !/^(no |none)/i.test(v)) chipVals.push(cap(v)); });
     if (run.evolution) chipVals.push(run.evolution);
-    if (run.companion) chipVals.push("Ally: " + run.companion);
-    (run.items || []).forEach((x) => chipVals.push(x));
+    const allyTip = (run.allyData || []).length ? `Allies fight beside ${run.given || "them"}: +${allyPower()} battle power in every fight (the strongest ally's bonus, +1 for each extra one).\n` + run.allyData.map((a) => `• ${a.n}: ${a.tier}, +${a.b}. Specialty: ${a.spec}.`).join("\n") : "";
     const vals = complete ? stats() : null;
     const rec = [];
     if (run.phase !== "create") rec.push(`${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`);
@@ -5651,11 +6397,11 @@
     return {
       seed: run.seed, theme: state.theme, themeLabel: th.label, name: run.codename || run.name, epithet: run.codename ? `${run.name}${run.epithet ? ", " + run.epithet : ""}` : (run.epithet || ""),
       tier: run.bounty != null && run.phase !== "create" ? berry(run.bounty) : tierInfo().label, rarity: complete ? rarity() : "common", aura: tv(th.vis.aura) || "Unknown power", awakened: run.awakened || "",
-      title: complete ? fill(th.titleTpl) : "A character still taking shape…", chips: chipVals.slice(0, 9), evolution: run.evolution || "",
+      title: complete ? fill(th.titleTpl) : "A character still taking shape…", chips: chipVals.slice(0, 5), evolution: run.evolution || "",
       stats: statNames().map((n, k) => [n, vals ? vals[k] : null, talentLabel(k) || ""]), overall: complete ? overall() : null,
       record: complete ? rec.join(" · ") : `${slots().filter((x) => slotVal(x) != null).length} / ${slots().length} traits`,
       look: look(), ai: run.ai && run.showAI && !mystery ? (run.ai.card || run.ai.src) : null, mystery,
-      perks: perks().filter((p) => !p.quiet).map((p) => [p.n, p.d]), extras: Object.entries(perks().filter((p) => p.extra).reduce((m, p) => (m[p.extra[0]] = Math.max(m[p.extra[0]] || 0, p.extra[1]), m), {})),
+      perks: perks().filter((p) => !p.quiet).map((p) => [p.n, perkExplain(p)]), allies: allyTip ? [`🤝 Allies (${run.allyData.length})`, allyTip] : null, extras: Object.entries(perks().filter((p) => p.extra).reduce((m, p) => (m[p.extra[0]] = Math.max(m[p.extra[0]] || 0, p.extra[1]), m), {})),
       note: run.phase === "create" && !isComplete() ? "Face revealed when the last stat is rolled" : isPainting(run.seed) ? "Painting the AI portrait…" : "",
       ending: run.ending || ""
     };
@@ -5677,8 +6423,9 @@
     if (d.awakened) { q(".tc-awake").hidden = false; q(".tc-awake").textContent = d.awakened; }
     if (d.note) { q(".tc-note").hidden = false; q(".tc-note").textContent = d.note; }
     q(".tc-title").textContent = d.title || "";
-    (d.perks || []).forEach(([n, desc]) => { const sp = document.createElement("span"); sp.className = "chip perk"; sp.textContent = "★ " + n; sp.title = desc; q(".tc-chips").append(sp); });
-    (d.chips || []).forEach((v) => { const sp = document.createElement("span"); sp.className = "chip" + (v === d.evolution ? " new" : ""); sp.textContent = v; q(".tc-chips").append(sp); });
+    (d.perks || []).forEach(([n, desc]) => { const sp = document.createElement("span"); sp.className = "chip perk"; sp.textContent = "★ " + n; sp.dataset.tip = `${n}: ${desc}`; sp.tabIndex = 0; q(".tc-chips").append(sp); });
+    if (d.allies) { const sp = document.createElement("span"); sp.className = "chip ally"; sp.textContent = d.allies[0]; sp.dataset.tip = d.allies[1]; sp.tabIndex = 0; q(".tc-chips").append(sp); }
+    (d.chips || []).forEach((v) => { const sp = document.createElement("span"); sp.className = "chip" + (v === d.evolution ? " new" : ""); sp.textContent = v; const g = glossFind(v); if (g.length) { sp.dataset.tip = g.map((x) => `${x}: ${T().glossary[x]}`).join("\n"); sp.tabIndex = 0; } q(".tc-chips").append(sp); });
     const aura = d.look ? d.look.aura : "#6a5acd";
     (d.stats || []).forEach(([name, val, tierLabel]) => {
       const l = document.createElement("span"); l.className = "sl"; l.textContent = name;
@@ -5690,7 +6437,7 @@
       q(".tc-stats").append(l, bar, v);
     });
     (d.extras || []).forEach(([name, val]) => {
-      const l = document.createElement("span"); l.className = "sl extra"; l.textContent = name;
+      const l = document.createElement("span"); l.className = "sl extra"; l.textContent = name; l.dataset.tip = `${name}: a special stat from one of this character's perks. It shows how strong that gift is, out of 100.`;
       const bar = document.createElement("span"); bar.className = "bar";
       const f = document.createElement("i"); f.style.width = Math.min(100, val) + "%"; f.style.background = "linear-gradient(90deg, #b8860b, #ffe08a)";
       bar.append(f);
@@ -5744,6 +6491,7 @@
       const a = document.createElement("span"); a.className = "k"; a.textContent = k;
       const b = document.createElement("span"); b.className = "v" + (v == null ? " empty" : ""); b.textContent = v == null ? "?" : cap(v);
       li.append(a, b);
+      if (v != null) { const g = glossFind(String(v)).concat(glossFind(k)); if (g.length) li.title = g.map((x) => `${x}: ${T().glossary[x]}`).join("\n"); }
       if (onReroll) { const btn = document.createElement("button"); btn.className = "link"; btn.textContent = "Reroll"; btn.disabled = busy || rerollsLeft() <= 0; btn.setAttribute("aria-label", "Reroll " + k); btn.addEventListener("click", onReroll); li.append(btn); }
       else li.append(document.createElement("span"));
       ul.append(li);
@@ -5765,7 +6513,14 @@
     }
   }
 
+  function renderGlossary() {
+    const G = T().glossary || {}, terms = [...new Set((run.terms || []).concat(run.logTerms || []))].filter((k) => G[k]);
+    $("glossary").hidden = !terms.length;
+    const dl = $("glossList"); dl.innerHTML = "";
+    terms.forEach((k) => { const dt = document.createElement("dt"); dt.textContent = k; const dd = document.createElement("dd"); dd.textContent = G[k]; dl.append(dt, dd); });
+  }
   function renderStory() {
+    renderGlossary();
     const box = $("storyLog"); box.innerHTML = "";
     if (!run.log.length) {
       const p = document.createElement("p"); p.className = "note"; p.style.margin = "0";
