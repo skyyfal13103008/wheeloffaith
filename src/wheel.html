@@ -554,7 +554,7 @@
   </details>
 
   <section class="history" id="historySec" hidden>
-    <h3>Past characters <span class="note" style="font-family: var(--body); font-size: 13px; font-weight: 400">Strongest first · click a card to open it</span></h3>
+    <h3><span id="histName">Past characters</span> <span class="note" style="font-family: var(--body); font-size: 13px; font-weight: 400">Strongest first · click a card to open it</span></h3>
     <ul id="history"></ul>
   </section>
 </div>
@@ -4668,7 +4668,7 @@
   Object.assign(THEMES.onepiece, {
     acts: [["fight", "Pick a fight on the next island", 3], ["hunt", "Hunt a sea monster", 2.5], ["train", "Train", 3], ["quest", "Take a job", 3], ["explore", "Explore an island", 2], ["treasure", "Hunt for treasure", 1.5], ["ally", "Recruit a crewmate", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new technique", 1.5], ["followers", "Grow your crew", 1], ["war", "Go to war", 1], ["rest", "Throw a party", 0.8], ["retire", "Retire to a quiet island", 0.25]],
     monsters: ["A Sea King", "A Kraken", "A Fighting Fish", "A Neptunian", "A Sandora lizard", "A Lapahn pack", "A dinosaur from Little Garden", "A Pacifista", "A Seraphim", "An Island Whale", "A Mythical Zoan user gone wild"],
-    quests: [["Find a Road Poneglyph", 3], ["Free the slaves at Sabaody", 2], ["Steal a Devil Fruit", 2, ["Which fruit?", ["A Paramecia", "A Logia", "A Mythical Zoan"]]], ["Break a crewmate out of Impel Down", 3], ["Escort a princess home", 1], ["Climb Reverse Mountain", 1], ["Break into Enies Lobby", 3], ["Defeat an Emperor", 4, ["Which Emperor?", ["Blackbeard", "Shanks", "Buggy", "Luffy"]]], ["Find the One Piece", 5]],
+    quests: [["Find a Road Poneglyph", 3], ["Free the slaves at Sabaody", 2], ["Steal a Devil Fruit", 2, ["Which fruit?", ["the Kaze Kaze no Mi (wind)", "the Hari Hari no Mi (needle skin)", "the Tori Tori no Mi, Model: Roc", "the Doro Doro no Mi (mud)"]]], ["Break a crewmate out of Impel Down", 3], ["Escort a princess home", 1], ["Climb Reverse Mountain", 1], ["Break into Enies Lobby", 3], ["Defeat an Emperor", 4, ["Which Emperor?", ["Blackbeard", "Shanks", "Buggy", "Luffy"]]], ["Find the One Piece", 5]],
     skills: ["Armament Haki", "Observation Haki", "Future Sight", "Advanced Conqueror's Haki", "Ryuo", "A new fruit technique", "Rokushiki: Soru", "Geppo"]
   });
   Object.assign(THEMES.fantasy, {
@@ -5816,7 +5816,7 @@
     ],
     onepiece: [
       { id: "fruit", need: "No fruit", minStep: 2, title: "A merchant offers an unknown Devil Fruit", text: "A swirling fruit in a velvet box. \"Nobody knows what it does,\" the merchant says. \"Eat it, and you'll never swim again.\"",
-        accept: { text: "{first} eats it. It tastes awful.", wheel: { title: "What kind of fruit was it?", opts: [["A Paramecia", 3, { gain: { n: "New Devil Fruit: Paramecia", d: "A brand-new power. Can't swim.", power: 5 } }, "{first}'s body starts doing something impossible."], ["A Logia", 1, { gain: { n: "New Devil Fruit: Logia", d: "They turn into an element. Can't swim.", power: 8 } }, "{first} dissolves into an element and reforms, laughing."], ["A Zoan", 2, { gain: { n: "New Devil Fruit: Zoan", d: "An animal form. Can't swim.", power: 6 } }, "Fur, claws, or scales: {first} has an animal form now."]] } },
+        accept: { text: "{first} eats it. It tastes awful.", wheel: { title: "What kind of fruit was it?", opts: [["A Paramecia", 3, { fruit: "Paramecia" }, "{first}'s body starts doing something impossible."], ["A Logia", 1, { fruit: "Logia" }, "{first} dissolves into an element and reforms, laughing."], ["A Zoan", 2, { fruit: "Zoan" }, "Fur, claws, or scales: {first} has an animal form now."], ["A Mythical Zoan", 0.5, { fruit: "Mythical Zoan" }, "Something out of a legend is trying to climb out of {first}'s body."]] } },
         refuse: { text: "{first} wants to keep swimming.", e: { pts: 1 } } },
       { id: "emperor-crew", minStep: 4, cond: () => tv("Affiliation") === "Pirate crew", title: "An Emperor offers you a place in their crew", text: "An Emperor of the Sea has noticed {first}. The offer comes with protection, and a leash.",
         accept: { text: "{first} joins an Emperor's crew.", e: { ally: true, all: 4 } },
@@ -6075,6 +6075,27 @@
   }
   const offerW = (o) => (o.accept && o.accept.wheel) || o.wheel;
   const offerWheel = () => { const o = offerDef(run.offer.id), w = offerW(o), v = battleVars(); return tw(fill(w.title, v), w.opts.map((x) => fill(x[0], v)), w.opts.map((x) => typeof x[1] === "function" ? x[1]() : x[1]), { label: o.at ? "Story payoff" : "Offer" }); };
+  // the fruits a series offers for each type, taken from its character-creation lists
+  const FRUIT_POWER = { Paramecia: 5, Logia: 8, Zoan: 6, "Mythical Zoan": 9 };
+  function fruitList(kind) {
+    const fo = T().follow || {}, F = Object.assign({}, fo["Devil fruit"] || {}, fo["Zoan class"] || {}), L = (k) => (F[k] || [])[1] || [];
+    const all = kind === "Zoan" ? L("Regular Zoan").concat(L("Ancient Zoan")) : L(kind);
+    const own = (run.gained || []).map((p) => p.n);
+    return all.filter((f) => !own.includes(f));
+  }
+  async function fruitSpin() {
+    const kind = run.offer.kind, L = fruitList(kind), head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    const k = await spin(listWheel(fill(`Which ${kind} did {first} eat?`), L.map((f) => f.replace(/ \(.*\)$/, ""))));
+    const f = L[k], m = f.match(/^(.*?) \((.*)\)$/), name = m ? m[1] : f;
+    const what = kind === "Logia" ? `turn into ${m ? m[2] : "an element"}` : m ? m[2] : `turn into a ${f.replace(/^.*Model: /, "")}`;
+    const g = { n: name, d: `${kind}: ${what}. Can't swim. +${FRUIT_POWER[kind]} power.`, power: FRUIT_POWER[kind] };
+    apply({ gain: g }); run.fruitEaten = name;
+    const t = fill("It was the {f}: {w}. {first} will never swim again.", { f: name, w: m ? m[2] : what });
+    logAdd(head, t, `New Devil Fruit: ${name} (${kind}), +${FRUIT_POWER[kind]} power.`);
+    setNarr(name, t);
+    run.offer = null;
+    sfx.fanfare(); fxFlash("#fff6d0"); react("rare", { v: name });
+  }
   async function offerSpin() {
     const o = offerDef(run.offer.id), W = offerW(o), v = battleVars(), k = await spin(offerWheel()), [label, , e, text] = W.opts[k];
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
@@ -6083,6 +6104,7 @@
     logAdd(head, fill(text, v), fx ? fx + "." : "", bad);
     setNarr(fill(label, v), fill(text, v) + (fx ? " " + fx + "." : ""));
     run.offer = null;
+    if (e.fruit) { run.offer = { id: o.id, stage: "fruit", kind: e.fruit }; sfx.sparkle(); return; }
     if (e.die) { sfx.womp(); fxShake(2); react("dead"); }
     else if (!bad && (k === 0 || !o.at)) { sfx.fanfare(); fxFlash("#fff6d0"); react("rare", { v: fill(label, v) }); }
     else if (bad) { sfx.thunder(); fxShake(2); }
@@ -6498,6 +6520,7 @@
   }
   async function journeyStep() {
     if (run.offer && run.offer.stage === "spin") { await offerSpin(); persist(); render(); return; }
+    if (run.offer && run.offer.stage === "fruit") { await fruitSpin(); persist(); render(); return; }
     if (run.bossSurvive) { await bossSurvivalStep(); persist(); render(); return; }
     if (run.ruleReady && !run.act) { await ruleStep(); persist(); render(); return; }
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
@@ -6739,8 +6762,9 @@
     const d = cardData();
     d.mystery = false; d.note = ""; d.ai = run.ai ? (run.ai.card || run.ai.src) : null;
     state.history.unshift({ seed: run.seed, name: run.codename || run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null, card: d, log: run.log, prompt: aiPrompt() });
-    // keep the 30 strongest characters ever made (the newest one always stays)
-    if (state.history.length > 30) { const keep = state.history.slice(1).sort((x, y) => (y.overall || 0) - (x.overall || 0)).slice(0, 29); state.history = [state.history[0]].concat(state.history.filter((h) => keep.includes(h))); }
+    // keep the 30 strongest characters per series (the newest one always stays)
+    const mine = state.history.filter((h) => h.theme === T().label);
+    if (mine.length > 30) { const drop = mine.slice(1).sort((x, y) => (y.overall || 0) - (x.overall || 0)).slice(29); state.history = state.history.filter((h) => !drop.includes(h)); }
   }
 
   function newCharacter(force) {
@@ -7284,10 +7308,12 @@
   function fillEditForm() { const c = baseCats()[state.editIdx]; $("wheelName").value = c.name; $("wheelOpts").value = c.opts.join("\n"); }
 
   function renderHistory() {
-    $("historySec").hidden = state.history.length === 0;
+    // only this series' cards, strongest first: the list reads like a hall of fame
+    const mine = state.history.map((h, idx) => [h, idx]).filter(([h]) => seriesKey(h) === state.theme);
+    $("historySec").hidden = mine.length === 0;
+    $("histName").textContent = `Past ${T().label} characters`;
     const ul = $("history"); ul.innerHTML = "";
-    // strongest first: the list reads like a hall of fame
-    state.history.map((h, idx) => [h, idx]).sort((x, y) => (y[0].overall || 0) - (x[0].overall || 0)).forEach(([h, idx], rank) => {
+    mine.sort((x, y) => (y[0].overall || 0) - (x[0].overall || 0)).forEach(([h, idx], rank) => {
       const li = document.createElement("li");
       li.tabIndex = 0; li.setAttribute("role", "button"); li.setAttribute("aria-label", "Open card for " + h.name);
       li.addEventListener("click", () => openCard(idx));
@@ -7297,7 +7323,7 @@
       else if (h.look) { const c = document.createElement("canvas"); th.append(c); drawPortrait(c, h.look, 64); }
       const txt = document.createElement("div"); txt.style.minWidth = "0";
       const s = document.createElement("strong"); s.textContent = h.name + (h.card && h.card.epithet ? `, ${h.card.epithet}` : "");
-      const a = document.createElement("span"); a.textContent = `#${rank + 1} · Power ${h.overall} · ${h.theme} · ${h.tier}`;
+      const a = document.createElement("span"); a.textContent = `#${rank + 1} · Power ${h.overall} · ${h.tier}`;
       const b = document.createElement("span"); b.textContent = (h.ending || "") + (isPainting(h.seed) ? " · painting…" : h.card && h.card.ai ? "" : " · no AI face yet");
       txt.append(s, a, b); li.append(th, txt); ul.append(li);
     });
