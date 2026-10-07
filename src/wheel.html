@@ -632,7 +632,7 @@
       "Water": "Water Magic. Gentle, until it isn't.",
       "Dark": "Dark Magic, like Captain Yami's: it cuts through magic and space.",
       "Spatial": "Spatial Magic. Doors anywhere.",
-      "Star": "Star Magic, from the Spade Kingdom's stars.",
+      "Star": "Star Magic: power drawn from the night sky.",
       "Mirror": "Mirror Magic. Two of them, three, ten.",
       "Copy": "Copy Magic. Whatever they see, they can use.",
       "Mana Zone controller": "Mana Zone: the mana around them becomes part of their spell.",
@@ -662,7 +662,7 @@
     follow: {
       "Contract": { "*": ["What your devil wants", ["Your body", "A door into the human world", "Revenge on another devil", "Something it won't say"]] },
       "What your devil wants": { "*": ["Do you trust it?", ["Never", "Sometimes", "Completely"]] },
-      "Witch rank": { "*": ["The Witch Queen's hold on you", ["Loyal to her", "Under her blood control", "Escaped her forest"]] },
+      "Witch bloodline": { "*": ["The Witch Queen's hold on you", ["Loyal to her", "Under her blood control", "Escaped her forest"]] },
       "Your master": { "*": ["Why you serve", ["Fear", "Belief in the Zogratis siblings", "Your family is a hostage"]] },
       "Black Bulls life": { "*": ["Your captain thinks you're", ["A liability", "Promising", "The future of the squad"], true] },
       "Golden Dawn rank": { "*": ["Your captain thinks you're", ["A liability", "Promising", "The future of the squad"], true] },
@@ -670,14 +670,14 @@
       Race: {
         "Human": ["Social class", ["Peasant", "Peasant", "Commoner", "Noble", "Royal"], true],
         "Elf reincarnation": ["Original elf", ["A warrior of Licht's tribe", "An elf sage", "Patolli's comrade"]],
-        "Witch": ["Witch rank", ["Witch apprentice", "Witch of the Forest", "The Witch Queen's daughter"], true],
+        "Witch": ["Witch bloodline", ["A runaway witch's child", "Raised in the forest, then left", "Of the Witch Queen's own bloodline"], true],
         "Half-dwarf": ["Dwarf form", ["Can't control the transformation", "Transforms when starving", "Full control of giant form"], true]
       },
       "Social class": { "Royal": ["Royal house", ["House Kira (the royal family)", "House Vermillion", "House Silva"]], "Noble": ["How you treat commoners", ["With contempt, like most nobles", "Politely, from a distance", "As equals, which scandalizes your family"]], "Peasant": ["How nobles treat you", ["They mock your village", "They pretend you don't exist", "One noble took your side"]], "Commoner": ["How nobles treat you", ["They mock your village", "They pretend you don't exist", "One noble took your side"]] },
       "Royal house": { "*": ["How you treat commoners", ["With contempt, like most nobles", "Politely, from a distance", "As equals, which scandalizes your family"]] },
       "Original elf": { "*": ["Reincarnation control", ["The elf has full control", "Shared body", "The host fought back"]] },
       Origin: {
-        "a noble house": ["House", ["House Vaude", "House Roselei", "House Faust", "A minor house nobody respects"]],
+        "a noble house": ["House", ["House Vaude", "House Roselei", "House Boismortier", "A minor house nobody respects"]],
         "the Witches' Forest": ["Coven role", ["Witch Queen's apprentice", "Runaway witch", "Forest guardian"]],
         "the Heart Kingdom": ["Spirit Guardian path", ["No spirit, yet", "Trained by Queen Loropechika's guardians", "One of the Spirit Guardians"], true],
         "the Forsaken Realm": ["Street past", ["Church orphan", "Pickpocket", "Gang runner"]],
@@ -703,7 +703,7 @@
         "Four-leaf": ["Clover blessing", ["Faith", "Hope", "Love", "Luck"]]
       },
       "Devil rank": {
-        "Lower-rank devil": ["Devil", ["Walgner", "Gimodelo", "Plumede", "Slothtar", "Liebe, the anti-magic devil"]],
+        "Lower-rank devil": ["Devil", ["A nameless lower-rank devil", "A lower-rank devil with a grudge", "Liebe, the anti-magic devil"]],
         "Mid-rank devil": ["Devil", ["An ice devil", "A fire devil", "An unnamed devil of the Qliphoth"]],
         "High-rank devil": ["Devil", ["Zagred", "Megicula"]],
         "Supreme devil": ["Devil", ["Lucifero", "Beelzebub", "Astaroth"]]
@@ -727,6 +727,7 @@
       { when: ["Origin", "the Spade Kingdom"], cat: "Magic", opts: ["Gravity", "Dark", "Body", "Iron", "Spatial", "Curse", "Anti Magic"] },
       { when: ["Origin", "the Heart Kingdom"], cat: "Magic", opts: ["Water", "Earth", "Wind", "Fire", "Sealing", "Light"] },
       { when: ["Race", "Witch"], cat: "Magic", opts: ["Blood", "Thorn", "Healing", "Curse", "Star"] },
+      { when: ["Gender", "Male"], cat: "Race", opts: ["Human", "Human", "Human", "Human", "Elf reincarnation", "Half-dwarf"] },
       { when: ["Race", "Elf reincarnation"], cat: "Magic", opts: ["Sword", "Light", "Mirror", "Star", "Earth", "Wind"] },
       { when: ["Origin", "the Spade Kingdom"], cat: "Squad", name: "Allegiance", opts: ["Dark Triad's army", "Spade resistance", "Spade royal guard", "Dark Disciples"] },
       { when: ["Origin", "the Heart Kingdom"], cat: "Squad", name: "Allegiance", opts: ["Heart royal guard", "Spirit Guardians", "Heart war mages"] },
@@ -762,7 +763,7 @@
       "House Silva": { n: "Silva pride", d: "The royal house of water and mercury. +4 power.", power: 4 },
       "Elf reincarnation": { n: "Elf mana sense", d: "Talent wheels start at tier 4. Elves feel mana like air. +10 Mana.", stat: [0, 10], minTier: 3 },
       "Shared body": { n: "Two souls", d: "When one falls, the other takes over.", save: { chance: 0.35, uses: 1, text: "{first} collapses, and the elf inside opens their eyes. {foe} is now fighting someone else." } },
-      "The Witch Queen's daughter": { n: "Witch Queen's blood", d: "Talent wheels start at tier 4. Blood magic runs in the family. +4 power.", power: 4, extra: ["Witch Queen's blood", 90], minTier: 3 },
+      "Of the Witch Queen's own bloodline": { n: "Witch Queen's blood", d: "Talent wheels start at tier 4. Related by blood to the Witch Queen: huge inherited mana, but her Blood Magic has a stronger grip on them than on anyone. +4 power.", power: 4, extra: ["Witch Queen's blood", 90], minTier: 3 },
       "Half-dwarf": { n: "Dwarf giant form", d: "Half-dwarves can grow huge. +12 Strength.", stat: [3, 12], extra: ["Giant form", 85] },
       "Full control of giant form": { n: "Giant form mastery", d: "+4 power.", power: 4 },
       "Salamander chose you": { n: "Salamander", d: "The fire spirit's contractor. +6 power.", power: 6, extra: ["Spirit: Salamander", 90] },
@@ -781,7 +782,7 @@
       "Lucifero": { n: "Lucifero", d: "Talent wheels start at tier 5. A ruler of the underworld. Gravity Magic that flattens mountains. +8 power.", power: 8, extra: ["Devil: Lucifero", 99], minTier: 4 },
       "Beelzebub": { n: "Beelzebub", d: "Talent wheels start at tier 5. A ruler of the underworld. Spatial Magic. +7 power.", power: 7, extra: ["Devil: Beelzebub", 98], minTier: 4 },
       "Astaroth": { n: "Astaroth", d: "Talent wheels start at tier 5. The strongest ruler of the underworld. Time Magic undoes one defeat.", save: { chance: 0.5, uses: 1, text: "Time folds backwards. The blow that beat {first} never happened. Astaroth has rewound the fight, and this time {foe} loses." }, extra: ["Devil: Astaroth", 99], minTier: 4 },
-      "Walgner": { n: "Lower devil", d: "+2 power.", power: 2 }, "Gimodelo": { n: "Lower devil", d: "+2 power.", power: 2 }, "Plumede": { n: "Lower devil", d: "+2 power.", power: 2 }, "Slothtar": { n: "Lower devil", d: "+2 power.", power: 2 },
+      "A nameless lower-rank devil": { n: "Lower devil", d: "+2 power.", power: 2 }, "A lower-rank devil with a grudge": { n: "Lower devil", d: "+2 power.", power: 2 },
       "Full Devil Union": { n: "Full Devil Union", d: "Body and devil as one. +8 power.", power: 8 },
       "The devil owns your heart": { n: "Owned heart", d: "Enormous power, borrowed. +10 power.", power: 10 },
       "Black Bulls": { n: "Surpass your limits", d: "Black Bulls get stronger every time they lose. +3 power after each defeat.", adapt: 3 },
@@ -822,8 +823,8 @@
       chapters: ["First mission", "Training arc", "Magic Knight exam", "Power evolution", "Twist of fate", "Kingdom war", "Final battle", "Epilogue"],
       foes: {
         early: [["A gang of bandit mages", 18], ["Mars of the Diamond Kingdom", 30], ["A dungeon guardian golem", 26], ["Eye of the Midnight Sun grunt", 24], ["An arrogant noble rival", 22], ["Heath Grice", 28]],
-        mid: [["Vetto, the Despair", 50], ["Fana, the Hatred", 46], ["Rades the Spirit", 44], ["Ladros", 48], ["Valtos", 42], ["Rhya the Disloyal", 52], ["Fuegoleon's reincarnated elf body", 54]],
-        late: [["Patry, reborn as an elf", 68], ["Dante Zogratis", 74], ["Vanica Zogratis", 72], ["Zenon Zogratis", 70], ["Megicula", 76], ["Licht, leader of the elves", 72]],
+        mid: [["Vetto, the Despair", 50], ["Fana, the Hatred", 46], ["Rades Spirito", 44], ["Ladros", 48], ["Valtos", 42], ["Rhya the Disloyal", 52], ["A Magic Knight possessed by an elf", 54]],
+        late: [["Patolli, in William Vangeance's body", 68], ["Dante Zogratis", 74], ["Vanica Zogratis", 72], ["Zenon Zogratis", 70], ["Megicula", 76], ["Lira, the elf of Combination Magic", 72]],
         boss: [["Lucifero", 97], ["Lucius Zogratis", 98], ["Dante Zogratis in Devil Union", 88], ["Your own grimoire's devil", 82]]
       },
       training: [["Ki training with Captain Yami", { s: 4, v: 10 }], ["Mana Zone training with Mereoleona inside a volcano", { s: 0, v: 10 }], ["Studied ancient spells in the Royal Library", { s: 1, v: 10 }], ["Sword drills with the Black Bulls", { s: 2, v: 10 }], ["Training under the Heart Kingdom's Spirit Guardians", { s: 1, v: 8 }], ["Survived a month in the Forsaken Realm", { s: 5, v: 10 }], ["Learned a brand-new spell", { all: 3 }], ["Slacked off and ate a lot", { pts: 2 }]],
@@ -2231,7 +2232,7 @@
       "How nobles treat you": { Peasant: "How do the nobles look at a peasant?", Commoner: "How do the nobles look at a commoner?" },
       "Original elf": "Who were you five hundred years ago?",
       "Reincarnation control": "Who is really in control of this body?",
-      "Witch rank": "Where does the Witch Queen rank you?",
+      "Witch bloodline": "Where does {first}'s witch blood come from?",
       "The Witch Queen's hold on you": "How tight is the Witch Queen's grip on your blood?",
       "Dwarf form": "What happens when the giant form wakes up?",
       "Coven role": "What do the witches of the forest call you?",
@@ -2333,7 +2334,7 @@
         foes: {
           early: [["Another numbered experiment child", 22], ["A failed mage stone subject", 20], ["Clover Magic Knights at the border dungeon", 28], ["Lab guards", 18]],
           mid: [["Mars", 50], ["Ladros", 48], ["Fana and Salamander", 46], ["A Clover captain at the border", 52]],
-          late: [["Ladros, rebuilt with more stones", 66], ["Feremena, host of the earth spirit", 70], ["A Shining General", 66], ["The Eye of the Midnight Sun", 64]],
+          late: [["Ladros, rebuilt with more stones", 66], ["Rambo, a Shining General", 70], ["A Shining General", 66], ["The Eye of the Midnight Sun", 64]],
           boss: [["Moris Libardirt", 88], ["Mars, after he turns on the kingdom", 86]]
         },
         training: [["Another mage stone embedded", { s: 0, v: 10 }], ["Crystal combat drills", { s: 2, v: 8 }], ["Reconstructive surgery by the Mage Scholars", { s: 3, v: 12, inj: true }], ["Studied captured Clover spell records", { s: 5, v: 8 }], ["Survived the yearly cull of weak experiments", { all: 3 }]],
@@ -2359,12 +2360,12 @@
         foes: {
           early: [["A witch who wants your rank", 22], ["A lost Diamond Kingdom soldier", 20], ["A forest beast", 24]],
           mid: [["Fana and Salamander", 46], ["Ladros", 48], ["A Diamond Kingdom invasion squad", 44], ["A witch under the Queen's blood control", 42]],
-          late: [["Vetto, the Despair", 60], ["Rades the Spirit", 58], ["The Witch Queen's blood puppets", 64]],
+          late: [["Vetto, the Despair", 60], ["Rades Spirito", 58], ["The Witch Queen's blood puppets", 64]],
           boss: [["The Witch Queen", 92], ["Vanica Zogratis", 88]]
         },
         training: [["Blood magic lessons at the Queen's castle", { s: 1, v: 10 }], ["Healing magic at the forest spring", { heal: true, s: 0, v: 6 }], ["Learned to resist blood control", { s: 5, v: 10 }], ["Thread magic with Vanessa's old teacher", { s: 1, v: 8 }]],
         twists: [["The Queen takes control of your blood", { inj: true, all: 3 }], ["Vanessa Enoteca comes home to free the witches", { ally: true }], ["Asta's sword cuts the Queen's control", { heal: true, all: 2 }], ["The Queen offers you Vanessa's empty cage", { pts: 3 }]],
-        allies: [["Vanessa Enoteca", { s: 1, v: 6 }], ["Dorothy Unsworth", { s: 5, v: 6 }], ["A runaway witch", { s: 4, v: 6 }]],
+        allies: [["Vanessa Enoteca", { s: 1, v: 6 }], ["A witch who taught Vanessa to sew", { s: 5, v: 6 }], ["A runaway witch", { s: 4, v: 6 }]],
         chances: [["The Witch Queen heals {first}, for a price", { heal: true, all: 4, gain: { n: "Debt to the Queen", d: "She healed them once. She'll want it back. Bad karma.", karma: -1 } }], ["A red thread of fate ties itself to {first}'s finger", { gain: { n: "Red thread of fate", d: "Fate rewrites one defeat.", save: { chance: 0.5, uses: 1, text: "A red thread pulls tight. Fate rewrites the moment, and {foe}'s spell misses by an inch." } } }]],
         endings: { good: ["Becomes the next Witch Queen", "Leaves the forest a free witch", "Breaks the Queen's blood control over every witch"], bad: ["A blood puppet for the rest of their life", "Caged in the Queen's castle", "Falls in the siege of the forest"] }
       },
@@ -2456,7 +2457,7 @@
       },
       "Golden Dawn": {
         pri: 1.2, allies: [["Yuno", { s: 0, v: 6 }], ["Mimosa Vermillion", { heal: true, all: 2 }], ["Klaus Lunettes", { s: 5, v: 6 }], ["Langris Vaude", { s: 1, v: 6 }]],
-        twists: [["William Vangeance is revealed as Patri's host", { s: 5, v: 8 }]]
+        twists: [["William Vangeance is revealed as Patolli's host", { s: 5, v: 8 }]]
       },
       "Crimson Lion Kings": { pri: 1.2, allies: [["Leopold Vermillion", { s: 1, v: 6 }], ["Randall Luftgang", { s: 4, v: 6 }]] },
       "Supreme devil": {
@@ -3667,7 +3668,7 @@
     bc.prologue = "{name}, {Race|a|lower}, grew up in {Origin}. {first} is {Personality|lower}, and the dream is simple: {Dream}. In the Clover Kingdom, every fifteen-year-old goes to the grimoire tower to receive a grimoire. Today it's {first}'s turn.";
     bc.say = Object.assign(bc.say, { Origin: "Grew up in {v}.", Magic: "The grimoire will answer with {v} magic.", Grimoire: "A {v} grimoire is waiting in the tower.", Squad: "At the entrance exam, the {v} will claim them.", Rank: "They'll start out as {v|a}." });
     Object.assign(bc.lines, {
-      "Witch": "Witch blood. Their mother fled the Witches' Forest for the Clover Kingdom, and the Witch Queen never forgets a runaway.",
+      "Witch": "A witch: born to the women of the Witches' Forest, with the strong mana that runs in witch families. The Witch Queen rules every witch through their blood.",
       "a Common Realm village": "A village in the Common Realm. Not poor enough to be pitied, not rich enough to be noticed.",
       "Kiten, in the Common Realm": "Kiten, the big Common Realm city near the Diamond Kingdom border. Raids are part of life there.",
       "Saussy village, in the Common Realm": "Saussy village, a small Common Realm village with a forest full of wild boars.",
@@ -4326,7 +4327,11 @@
     "Eye of the Midnight Sun": "A terrorist group of mages, secretly made of reincarnated elves.",
     "elf": "The elves were a people massacred five hundred years ago. Their souls came back in human bodies.",
     "Elf reincarnation": "An elf soul from five hundred years ago, reborn inside a modern human body. Elves feel mana like air.",
-    "Witch": "A woman from the Witches' Forest, a hidden land of witches ruled by the Witch Queen. Strong in blood and healing magic.",
+    "Witch": "A woman born of the Witches' Forest, a hidden land between the Clover and Diamond Kingdoms. Witches inherit unusually strong mana, and every witch answers to the Witch Queen. Vanessa Enoteca of the Black Bulls is one.",
+    "Witch bloodline": "Where a witch's blood comes from. The closer to the Witch Queen's own line, the stronger the mana, and the stronger her hold on them.",
+    "Witch Queen's blood": "Being related by blood to the Witch Queen. It means enormous inherited mana, but her Blood Magic can grip that blood more easily than anyone else's.",
+    "Blood Magic": "Magic that controls blood. The Witch Queen uses it to heal, to fight, and to move other people's bodies like puppets through their blood.",
+    "Witches' Forest": "A hidden forest between the Clover and Diamond Kingdoms, home to the witches and ruled by the Witch Queen. Leaving without her permission is treated as betrayal.",
     "Half-dwarf": "Part dwarf. Dwarves can grow huge when their mana surges; Charmy Pappitson is one.",
     "Royal": "Clover's royal houses (Kira, Vermillion, Silva) are born with huge mana.",
     "Peasant": "The lowest class in the Clover Kingdom's strict class system. Nobles look down on them.",
@@ -4334,7 +4339,7 @@
     "Dark Triad": "The three Zogratis siblings (Dante, Vanica, Zenon) who rule the Spade Kingdom with devil power.",
     "Spade Kingdom": "The northern kingdom ruled by the Dark Triad. It invades the Clover Kingdom.",
     "Spirit Guardians": "The Heart Kingdom's elite mages, who borrow the power of nature.",
-    "Witch Queen": "The ruler of the Witches' Forest, who can control people through their blood.",
+    "Witch Queen": "The ruler of the Witches' Forest. Her Blood Magic can heal any wound, and it can also take control of a person's body through their blood. It's how she keeps the witches from leaving.",
     "Salamander": "The fire spirit, one of four great elemental spirits.",
     "Sylph": "The wind spirit, one of four great elemental spirits.",
     "Undine": "The water spirit, one of four great elemental spirits.",
@@ -4504,6 +4509,39 @@
     "Raw power": ["Barely powered", "Party trick", "Street level", "Above street level", "City level", "Multi-city", "Country level", "Continental", "Planetary", "Cosmic"],
     "Power control": ["Can't control it", "Random bursts", "On/off only", "Basic control", "Precise", "Creative uses", "Expert control", "Masterful", "Total mastery", "Rewrites the rules"],
     "Gadgets & weapons": ["Can't work a phone", "Basic tools", "Utility belt", "Custom gear", "Tech suit", "Advanced arsenal", "Prototype tech", "Military-grade", "Alien tech", "Reality-bending tech"]
+  };
+  // each series describes the shared stats in its own world's terms
+  const SERIES_TIERS = {
+    blackclover: {
+      "Weapon skill": ["Swings like a farmhand", "Village stick-fighter", "Squire drills", "Knight-trained", "Junior Knight standard", "Imbues the blade with mana", "Reads Ki mid-swing", "Vice captain's blade", "Captain-class swordsman", "Cuts through spells and space"],
+      "Strength": ["Weaker than the church kids", "Farm-chore strong", "Village strong", "Knight-fit", "Mana-reinforced body", "Trains like a Black Bull", "Shatters castle walls", "Breaks through Mana Skin", "Mereoleona-level brute force", "Devil-grade strength"],
+      "Speed": ["Late to every ceremony", "Village runner", "Fast on a broom", "Knight's sprint", "Mana-boosted dash", "Wind-magic quick", "Gone before you sense their mana", "Lightning step, like Luck", "Light Magic speed", "Moves while time is stopped"],
+      "IQ": ["Can't read their own grimoire", "Skipped church lessons", "Street smart", "Passed the entrance exam", "Studies spell theory", "Squad strategist", "Reads the enemy's mana flow", "Captain-level tactics", "Royal Knights strategist", "Wizard King-level insight"]
+    },
+    jjk: {
+      "Weapon skill": ["Can't hold a cursed tool", "Practice swings", "Kendo club level", "Trained with cursed tools", "Grade 2 tool user", "Channels cursed energy through a blade", "New Shadow Style master", "Grade 1 tool specialist", "Special Grade tool wielder", "Toji-level"],
+      "Strength": ["Weaker than a non-sorcerer", "Average student", "Athletic", "Reinforced with cursed energy", "Punches out Grade 3 curses", "Black Flash range", "Grade 1 physique", "Todo-level power", "Heavenly Restriction strength", "King of Curses tier"],
+      "Speed": ["Too slow to dodge a Grade 4", "Average student", "School track team", "Reinforced sprint", "Outpaces cursed spirits", "Hard for sorcerers to follow", "Blurs past Grade 1s", "Gone before the curse turns", "Projection Sorcery speed", "Toji-level speed"],
+      "IQ": ["Doesn't get how curses work", "Failing jujutsu theory", "Street smart", "Reads a technique mid-fight", "Exploits technique rules", "Binding vow tactician", "Grade 1 strategist", "Thinks like Gojo", "Special Grade mind", "Kenjaku-level schemer"]
+    },
+    hxh: {
+      "Weapon skill": ["Fumbles a fishing rod", "Basic weapon drills", "Exam-ready", "Trained fighter", "Rookie Hunter standard", "Coats weapons with Shu", "Shu master", "Phantom Troupe-level", "Zoldyck-level killer", "Netero-tier"],
+      "Strength": ["Can't budge the Testing Gate", "Average civilian", "Exam-ready athlete", "Opens Testing Gate 1", "Opens Testing Gate 3", "Enhancer-level punch", "Breaks Nen-reinforced walls", "Uvogin-level", "Royal Guard-level", "Rivals the King"],
+      "Speed": ["Falls behind in the exam marathon", "Average civilian", "Finishes the exam marathon", "Shadow-step quick", "Rhythm Echo afterimages", "Hard to see without Gyo", "Godspeed, like Killua", "Royal Guard reflexes", "Faster than a Zoldyck", "Faster than Netero's prayer"],
+      "IQ": ["Fails the trick questions", "Gullible applicant", "Street smart", "Passes the written phase", "Reads Nen abilities", "Gyo-reading tactician", "Greed Island strategist", "Gungi champion", "Thinks like Ging", "Out-thinks Chrollo"]
+    },
+    onepiece: {
+      "Weapon skill": ["Drops their cutlass", "Swabbie with a sword", "Dojo student", "East Blue rookie", "Grand Line swordsman", "Coats the blade in Armament", "Can cut steel", "Supernova-level", "Commander-level blade", "World's Strongest Swordsman contender"],
+      "Strength": ["Weaker than a cabin boy", "Deckhand", "Barrel hauler", "Brawls with Marines", "Lifts an anchor", "Grand Line strength", "Commander-level", "Giant-level", "Emperor-level", "Shakes the world, like Whitebeard"],
+      "Speed": ["Seasick and slow", "Deckhand pace", "Outruns Marines", "Learning Soru", "Soru master", "Hard to track without Observation", "Commander-level speed", "Blurs past Vice Admirals", "Admiral-level speed", "Speed of light, like Kizaru"],
+      "IQ": ["Can't read a map", "Believes every rumor", "Street smart", "Reads a Log Pose", "Navigator-grade", "Crew strategist", "Plans a Grand Line heist", "Warlord-level schemer", "Commander-level tactician", "Vegapunk-level genius"]
+    },
+    fantasy: {
+      "Strength": ["Weaker than a kobold", "Scrawny", "Farmhand", "Town guard", "Hauls a plow", "Wrestles a troll", "Breaks castle gates", "Giant-strength", "Shakes mountains", "Strength of the old gods"],
+      "Agility": ["Trips over their own cloak", "Clumsy", "Average", "Nimble", "Acrobat", "Shadow-quick", "Untouchable", "Elf-swift", "Wind-step", "Faster than an arrow"],
+      "IQ": ["Can't read runes", "Easily fooled", "Street smart", "Literate", "Scholar", "Court advisor", "Battle tactician", "Archmage-level intellect", "Sage", "Oracle's foresight"],
+      "Spell mastery": ["Can't cast yet", "Cantrips", "Hedge charms", "Combat spells", "Ritual casting", "Wardcraft", "Battle sorcery", "Spell weaving", "Words of power", "Reality-bending"]
+    }
   };
   // talent slice sizes, weakest to strongest: the extremes are slivers
   const TAL_WEIGHT = [3, 5, 8, 11, 13, 13, 11, 8, 5, 3];
@@ -4861,7 +4899,7 @@
     return null;
   }
   const statNames = () => T().stats.map((n, k) => { const a = statAdapt(k); return a ? a.name : n; });
-  const tiersFor = (k) => { const a = statAdapt(k); return a ? a.tiers : (TIERS[T().stats[k]] || TIERS["Strength"]); };
+  const tiersFor = (k) => { const a = statAdapt(k); return a ? a.tiers : ((SERIES_TIERS[state.theme] || {})[T().stats[k]] || TIERS[T().stats[k]] || TIERS["Strength"]); };
   const talentLabel = (k) => run.talent[k] == null ? null : tiersFor(k)[run.talent[k]];
   const tv = (name) => { if (!name) return null; const m = traitMap(); return String(name).split("/").map((x) => m[x.trim().toLowerCase()]).find((x) => x != null) ?? null; };
 
