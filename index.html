@@ -377,7 +377,7 @@
   </details>
 
   <section class="history" id="historySec" hidden>
-    <h3>Past characters <span class="note" style="font-family: var(--body); font-size: 13px; font-weight: 400">Click a card to open it</span></h3>
+    <h3>Past characters <span class="note" style="font-family: var(--body); font-size: 13px; font-weight: 400">Strongest first · click a card to open it</span></h3>
     <ul id="history"></ul>
   </section>
 </div>
@@ -4827,8 +4827,8 @@
     return { n: name, b, tier, spec };
   }
   const allyPower = () => { const A = run.allyData || []; if (!A.length) return 0; const best = Math.max(...A.map((a) => a.b)); return best + Math.min(4, A.length - 1); };
-  const playerPower = () => overall() + allyPower() + (run.ally ? 6 : 0) - (run.injured ? 8 : 0) + perkPower(bossFight()) + (run.adaptBonus || 0);
-  const winChance = () => run.foe ? clamp(0.5 + (playerPower() - run.foe[1]) / 50, 0.1, 0.9) : 0.5;
+  const playerPower = () => overall() + allyPower() + (run.ally ? 6 : 0) - (run.injured ? 10 : 0) + perkPower(bossFight()) + (run.adaptBonus || 0);
+  const winChance = () => run.foe ? clamp(0.5 + (playerPower() - run.foe[1]) / 45, 0.06, 0.92) : 0.5;
 
   function look() {
     const r = rng(run.seed + 7);
@@ -5301,13 +5301,13 @@
   }
   function rivalFoe(n) {
     const r = tv(T().vis.rival) || "Your rival";
-    const p = clamp(overall() + (n === 1 ? (hash(run.seed + "rival") % 9) - 4 : 10), 10, 99);
+    const p = clamp(playerPower() + (n === 1 ? (hash(run.seed + "rival") % 9) - 6 : 6), 10, 99);
     return [r.replace(/^(A|An|The) /, (m) => m.toLowerCase()), p, true];
   }
   function endingWheel() {
     const P0 = path(), dream = T().dreamEnd && T().dreamEnd[tv("Dream")];
     const P = dream ? Object.assign({}, P0, { endings: { good: [dream].concat(P0.endings.good.filter((x) => x !== dream)), bad: ["Never reaches their dream"].concat(P0.endings.bad) } }) : P0;
-    const g = clamp(run.w + (run.bossWin ? 1 : 0) + (run.rivalBeaten ? 1 : 0) + karma(), 1, 7);
+    const g = clamp(Math.round(1 + run.w * 0.6 - run.l * 0.8 + (run.bossWin ? 2 : 0) + (run.rivalBeaten ? 1 : 0) + karma()), 1, 7);
     let gi = 0, bi = 0;
     const segs = spread(g, 8).map((isG) => isG ? { good: true, t: fill(P.endings.good[gi++ % P.endings.good.length]) } : { good: false, t: fill(P.endings.bad[bi++ % P.endings.bad.length]) });
     return { title: "Ending", segs, opts: segs.map((s) => s.t), colors: segs.map((s, i) => s.good ? (i % 2 ? "#c9902a" : "#3c8a58") : (i % 2 ? "#5a2a3a" : "#3b2a4a")) };
@@ -5326,6 +5326,7 @@
     }
     if (run.phase === "journey") {
       const st = S()[run.step], P = path();
+      if (run.bossSurvive) return survivalWheel();
       if (run.ruleReady && !run.act) return ruleWheel();
       if (run.chance && !run.act) return listWheel(jTitle("chance"), chanceList().map(lbl));
       if (needsCodename() && !run.act) return listWheel("Hero name", codenameOptions());
@@ -5622,7 +5623,7 @@
   const MONSTERS_DEFAULT = ["A troll", "An ogre", "A wyvern", "A giant serpent", "A pack of wolves", "A golem", "A dragon"];
   const QUESTS_DEFAULT = [["Protect a village", 1], ["Rescue a prisoner", 2], ["Clear a dungeon", 2], ["Defeat a villain", 3], ["Save a kingdom", 4]];
   const HOW_MANY = [["Just one", 0, 5], ["A few", 6, 3], ["A pack", 12, 2], ["A horde", 20, 1], ["An army", 30, 0.4]];
-  const HOW_STRONG = [["A pushover", -15, 2], ["A fair fight", -2, 3], ["Stronger than {first}", 10, 2], ["A nightmare", 22, 0.8]];
+  const HOW_STRONG = [["A pushover", -10, 1.2], ["A fair fight", 0, 3], ["Stronger than {first}", 10, 3], ["A nightmare", 22, 1.2]];
   const FOE_FORM = [["Weaker than the rumors", -8, 2], ["As strong as the rumors", 0, 4], ["Stronger than the rumors", 8, 2], ["Holding back until now", 16, 1]];
   const WAR_SIZE = [["A skirmish", 0, 3, 1], ["A real battle", 8, 3, 1], ["A full-scale war", 16, 2, 2], ["The end of the world", 28, 0.6, 3]];
   const FOLLOW_COUNT = [["Just one loyal friend", 1, 4], ["A handful", 2, 4], ["Dozens", 3, 3], ["Hundreds", 5, 2], ["Thousands", 7, 1], ["A whole nation", 10, 0.35]];
@@ -5761,6 +5762,9 @@
     if (s === "foe") {
       const pool = a.kind === "war" ? LST.war() : LST.foe(st.pool === "side" ? "side" : st.pool);
       a.foe = pool[k].slice(0, 3); markUsed("foe", a.foe[0]);
+      // canon enemies keep up: their power drifts toward the player's, so late fights stay dangerous
+      const drift = { early: -10, side: -6, mid: 0, late: 6, culling: 2, antEarly: -10, antMid: 0, antLate: 6 }[a.kind === "war" ? "late" : st.pool] ?? 0;
+      a.foe[1] = Math.round((a.foe[1] + clamp(playerPower() + drift, 5, 99)) / 2);
       logAdd(head, fill(a.kind === "war" ? "The war is against {foe}." : "{first} runs into {foe}.", { foe: lowArt(a.foe[0]) }));
       setNarr(a.foe[0], fill("Power {fp}. But how strong are they today?", { fp: a.foe[1] }));
       a.stage = a.kind === "war" ? "size" : "form"; return;
@@ -5927,7 +5931,7 @@
     else if (o === "clutch") { run.w++; run.points += 3; run.injured = false; run.bonus = run.bonus.map((b) => b + 4); t = fill(pick(lines("clutch", CLUTCH)), v); fx = `${T().clutch}! Victory, +4 to every stat, +3 upgrade points.`; }
     else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(lines("draw", DRAW)), v); fx = "Draw. +1 upgrade point."; }
     else {
-      run.l++; run.points += 1; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured for the next fight, +1 upgrade point."; bad = true;
+      run.l++; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured (−10 power) until they win or heal, and one fewer good ending on the final wheel."; bad = true;
       const ad = perks().find((p) => p.adapt);
       if (ad) { run.adaptBonus = (run.adaptBonus || 0) + ad.adapt; fx += ` ${ad.n}: +${ad.adapt} power from now on.`; }
       if (run.step < S().length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
@@ -5997,7 +6001,16 @@
     setNarr("New rule", txt + ".");
     sfx.fanfare(); fxFlash("#fff6d0"); react("legend");
   }
+  const survivalWheel = () => tw(fill("{first} lost the final battle. Do they survive?"), ["Yes", "Barely", "No"], [0.4, 0.25, 0.35], { label: "Do you survive?", colors: ["#3c8a58", "#c9902a", "#5a0010"] });
+  async function bossSurvivalStep() {
+    const k = await spin(survivalWheel()), head = `Chapter ${run.step}: ${chapterName(run.step - 1)}`;
+    const foe = run.bossSurvive; run.bossSurvive = null;
+    if (k === 2) { run.dead = foe; logAdd(head, fill("{first} doesn't get up this time."), "", true); setNarr("Dead", fill("{first} falls to {f}.", { f: lowArt(foe) })); sfx.womp(); react("dead"); return; }
+    logAdd(head, k === 0 ? fill("{first} survives, somehow, and lives to see the ending.") : fill("{first} barely survives. Nobody is sure how."), k === 1 ? "Scars that never fade." : "", k === 1);
+    setNarr(k === 0 ? "Survived" : "Barely", fill("{first} is still breathing."));
+  }
   async function journeyStep() {
+    if (run.bossSurvive) { await bossSurvivalStep(); persist(); render(); return; }
     if (run.ruleReady && !run.act) { await ruleStep(); persist(); render(); return; }
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
     if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
@@ -6018,7 +6031,9 @@
         } else {
           const pool = battlePool(st.pool);
           const k = await spin(listWheel(jTitle("foe"), pool.map((f) => f[0])));
-          run.foe = pool[k]; markUsed("foe", run.foe[0]);
+          run.foe = pool[k].slice(0, 3); markUsed("foe", run.foe[0]);
+          if (st.pool === "boss") { run.foe[1] = Math.max(run.foe[1], clamp(playerPower() + 4, 10, 99)); fxShake(); react("boss"); }
+          else if (st.pool === "colony") run.foe[1] = Math.max(run.foe[1], clamp(playerPower() - 2, 10, 99));
           sfx.gong(); fxFlash("#5a0010");
           const t = run.nemesis && run.foe[0] === run.nemesis[0] ? fill("{foe} kept their promise. They're back, and they've been waiting for this. Power {fp}.", battleVars()) : fill(pick(MEET), battleVars());
           logAdd(head, t);
@@ -6026,8 +6041,10 @@
         }
       } else {
         const bw = battleWheel(), k = await spin(bw);
+        const foeName = run.foe ? run.foe[0] : "the enemy";
         const r = resolveBattle(bw, k, head, { pool: st.pool });
-        if (st.k === "battle" && r.o === "loss" && !run.chance) { /* the final battle is lost: the ending wheel decides the rest */ }
+        // losing the final battle can be fatal
+        if (st.pool === "boss" && r.o === "loss") { run.bossSurvive = foeName; run.chance = false; }
         run.step++;
       }
     } else if (st.k === "event") {
@@ -6141,16 +6158,17 @@
     legend: ["That's a legendary quest done", "History books material"],
     evolve: ["The evolution is evolving", "{v} goes hard"],
     retire: ["Retiring at the peak. Respect.", "Knew when to walk away"],
+    boss: ["Final boss energy.", "Oh this is going to hurt", "The music just changed", "Nah, they're cooked"],
     bounty: ["A billion-berry bounty?? Emperor energy", "The World Government is sweating", "That poster is going on every wall"],
     goodEnd: ["What a story", "Main character ending", "Peak"],
     badEnd: ["Not the ending we wanted..", "Pain.", "The wheel was cruel"]
   };
-  const REACT_FACE = { rare: "😳", godly: "🤯", low: "😬", combo: "🔥", upset: "😭", clutch: "😤", choke: "💀", saved: "😇", scary: "😨", lucky: "😮‍💨", nothing: "🗿", dead: "💀", barely: "😰", ally: "🤝", enemy: "😈", followers: "👑", legend: "🏆", evolve: "⚡", retire: "🫡", bounty: "💰", goodEnd: "🥹", badEnd: "😔" };
+  const REACT_FACE = { rare: "😳", godly: "🤯", low: "😬", combo: "🔥", upset: "😭", clutch: "😤", choke: "💀", saved: "😇", scary: "😨", lucky: "😮‍💨", nothing: "🗿", dead: "💀", barely: "😰", ally: "🤝", enemy: "😈", followers: "👑", legend: "🏆", evolve: "⚡", retire: "🫡", bounty: "💰", boss: "😨", goodEnd: "🥹", badEnd: "😔" };
   let reactTimer = 0, lastReact = 0;
   function react(kind, vars) {
     if ((turbo && !window.__showReact) || !REACT[kind]) return;
     const now = Date.now();
-    if (now - lastReact < 1200 && !/dead|clutch|upset|goodEnd|badEnd/.test(kind)) return;
+    if (now - lastReact < 1200 && !/dead|clutch|upset|goodEnd|badEnd|boss/.test(kind)) return;
     lastReact = now;
     const el = $("reaction");
     if (!el) return;
@@ -6199,7 +6217,8 @@
     const d = cardData();
     d.mystery = false; d.note = ""; d.ai = run.ai ? (run.ai.card || run.ai.src) : null;
     state.history.unshift({ seed: run.seed, name: run.codename || run.name, theme: T().label, ending: run.ending, overall: overall(), tier: tierInfo().label, look: look(), thumb: run.ai ? run.ai.thumb : null, card: d, log: run.log, prompt: aiPrompt() });
-    state.history = state.history.slice(0, 20);
+    // keep the 30 strongest characters ever made (the newest one always stays)
+    if (state.history.length > 30) { const keep = state.history.slice(1).sort((x, y) => (y.overall || 0) - (x.overall || 0)).slice(0, 29); state.history = [state.history[0]].concat(state.history.filter((h) => keep.includes(h))); }
   }
 
   function newCharacter(force) {
@@ -6408,16 +6427,17 @@
     } else if (run.phase === "journey") {
       const st = S()[run.step];
       eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "") + (run.cg != null && st.cg ? ` · ${run.cg} Culling Game points` : "");
-      if (run.ruleReady && !run.act) { title = ruleWheel().title; sub = "Kogane is waiting"; }
+      if (run.bossSurvive) { title = survivalWheel().title; sub = "Losing the final battle can be fatal"; }
+      else if (run.ruleReady && !run.act) { title = ruleWheel().title; sub = "Kogane is waiting"; }
       else if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
       else if (needsCodename() && !run.act) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
       else if (st.k === "act") {
         const w = actWheel(); title = w.title;
         const a = run.act;
-        sub = !a ? "Spin to decide what happens next" : a.stage === "battle" && run.foe ? `${cap(run.foe[0])} · power ${run.foe[1]} · your power ${playerPower()}${allyPower() ? ` (allies +${allyPower()})` : ""}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win` : a.label;
+        sub = !a ? "Spin to decide what happens next" : a.stage === "battle" && run.foe ? `${cap(run.foe[0])} · power ${run.foe[1]} · your power ${playerPower()}${allyPower() ? ` (allies +${allyPower()})` : ""}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −10)" : ""} · ${Math.round(winChance() * 100)}% to win` : a.label;
       } else if (st.k === "battle" || st.k === "rival") {
         if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : jTitle("foe");
-        else { title = `${cap(run.foe[0])} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${allyPower() ? ` (allies +${allyPower()})` : ""}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −8)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
+        else { title = `${st.pool === "boss" ? "⚠ Final boss: " : ""}${cap(run.foe[0])} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${allyPower() ? ` (allies +${allyPower()})` : ""}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −10)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
       }
       else if (st.k === "event") { title = eventWheel(st.ev).title; sub = fill(evDef(st.ev).sub || "", eventVars()); }
       else if (st.k === "twist") title = jTitle("twist");
@@ -6445,7 +6465,7 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
-      label = run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = run.bossSurvive ? "Do you survive?" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     p.textContent = label; p.disabled = busy;
@@ -6659,7 +6679,8 @@
   function renderHistory() {
     $("historySec").hidden = state.history.length === 0;
     const ul = $("history"); ul.innerHTML = "";
-    state.history.forEach((h, idx) => {
+    // strongest first: the list reads like a hall of fame
+    state.history.map((h, idx) => [h, idx]).sort((x, y) => (y[0].overall || 0) - (x[0].overall || 0)).forEach(([h, idx], rank) => {
       const li = document.createElement("li");
       li.tabIndex = 0; li.setAttribute("role", "button"); li.setAttribute("aria-label", "Open card for " + h.name);
       li.addEventListener("click", () => openCard(idx));
@@ -6669,7 +6690,7 @@
       else if (h.look) { const c = document.createElement("canvas"); th.append(c); drawPortrait(c, h.look, 64); }
       const txt = document.createElement("div"); txt.style.minWidth = "0";
       const s = document.createElement("strong"); s.textContent = h.name + (h.card && h.card.epithet ? `, ${h.card.epithet}` : "");
-      const a = document.createElement("span"); a.textContent = `${h.theme} · ${h.tier} · Overall ${h.overall}`;
+      const a = document.createElement("span"); a.textContent = `#${rank + 1} · Power ${h.overall} · ${h.theme} · ${h.tier}`;
       const b = document.createElement("span"); b.textContent = (h.ending || "") + (isPainting(h.seed) ? " · painting…" : h.card && h.card.ai ? "" : " · no AI face yet");
       txt.append(s, a, b); li.append(th, txt); ul.append(li);
     });
