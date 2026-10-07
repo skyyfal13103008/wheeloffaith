@@ -1274,7 +1274,7 @@
       "Specialist": { n: "Specialist", d: "No one can predict their ability. +3 power.", power: 3 }
     },
     move: "{Hatsu|lower}",
-    prologue: "{name}, {Race|a|lower}, grew up in {Origin}. Water divination marked {first} as {Nen type|a}, and their Hatsu became {Hatsu|lower}. The catch: {Restriction}. They fight with {Weapon}, they're {Personality|lower}, and right now they're {Rank|a} who wants to be a {Hunter type}.",
+    prologue: "{name} grew up in {Origin}. Water divination marked {first} as {Nen type|a}, and their Hatsu became {Hatsu|lower}. The catch: {Restriction}. They fight with {Weapon}, they're {Personality|lower}, and right now they're {Rank|a} who wants to be a {Hunter type}.",
     titleTpl: "{Nen type}, {Rank}",
     chips: ["Race", "Hatsu", "Fighting style", "Weapon"],
     pathCat: "Origin",
@@ -2869,7 +2869,7 @@
         },
         training: [["Survived the jungle with no technology", { s: 4, v: 10 }], ["Nen training with Knuckle and Shoot", { s: 0, v: 10 }], ["Studied Morel's smoke tactics", { s: 5, v: 10 }]],
         twists: [["Neferpitou kills Kite", { s: 0, v: 10, inj: true, gone: ["Kite"] }], ["The ants discover Nen", { all: 4 }], ["Netero takes on the King himself", { ally: true }], ["The Miniature Rose bomb goes off", { gain: { n: "Survived the Rose", d: "Saw what humans will do to win. +4 power.", power: 4 } }]],
-        allies: [["Morel Mackernasey", { s: 1, v: 6 }], ["Knov", { s: 5, v: 6 }], ["Knuckle Bine", { s: 3, v: 6 }], ["Meleoron", { s: 4, v: 6 }], ["Ikalgo", { s: 2, v: 6 }]],
+        allies: [["Morel Mackernasey", { s: 1, v: 6 }], ["Knov", { s: 5, v: 6 }], ["Knuckle Bine", { s: 3, v: 6 }], ["Meleoron, a Chimera Ant who sided with the Hunters", { s: 4, v: 6 }], ["Ikalgo, a Chimera Ant who sided with the Hunters", { s: 2, v: 6 }]],
         chances: [["Knuckle refuses to let {first} die. That's his whole thing", { heal: true, all: 2 }], ["A reborn ant remembers being {first}'s neighbor", { ally: true, s: 5, v: 6 }]],
         endings: { good: ["Survives the Chimera Ant crisis", "Plays gungi with Komugi in the end"], bad: ["Eaten in the selection", "Caught in the Rose's poison"] }
       },
@@ -3919,15 +3919,15 @@
   // ---------- Hunter x Hunter: the Hunter Exam for humans, the colony for Chimera Ants ----------
   (() => {
     const hx = THEMES.hxh;
-    const race = hx.cats.find((c) => c[0] === "Race");
-    race[1] = race[1].filter((r) => r !== "Host of a Dark Continent being");
+    // everyone is a human Hunter; Chimera Ants are enemies (or defectors who side with the Hunters)
+    hx.cats = hx.cats.filter((c) => c[0] !== "Race");
     hx.tierStart = 1; // everyone starts as an applicant; the exam makes you a Hunter
     hx.adapt.push({ when: ["Race", "Chimera Ant"], cat: "Rank", name: "Standing in the colony", opts: ["Grunt", "Soldier", "Squadron leader", "Officer", "Division commander", "Legend of the colony"] },
       { when: ["Race", "Reborn Chimera Ant"], cat: "Rank", name: "Standing in the colony", opts: ["Grunt", "Soldier", "Squadron leader", "Officer", "Division commander", "Legend of the colony"] });
-    hx.evBy = "Race";
+
     ["Chimera Ant", "Reborn Chimera Ant"].forEach((r) => hx.adapt.push({ when: ["Race", r], cat: "Origin", opts: ["the NGL jungle"] },
       { when: ["Race", r], cat: "Rival", opts: ["A Royal Guard who looks down on you", "An ant from the same brood", "A Hunter who killed your squad", "A reborn ant who remembers being your enemy", "Kite's apprentice"] }));
-    hx.stepsByCat = "Race";
+
     // the Dark Continent can still find you, later, as a twist
     hx.journey.twists.push(["Something from the Dark Continent gets inside {first}", { gain: { n: "Dark Continent host", d: "One of the five calamities lives inside them now.", save: { chance: 0.5, uses: 1, text: "Something that isn't {first} opens their eyes. {foe} stops breathing for a second. Then it's over." }, extra: ["Calamity inside", 92] } }]);
     hx.steps = [
@@ -3948,7 +3948,7 @@
       { k: "act", lean: "war", pool: "antLate", sc: "antLate", acts: "ant", name: "The palace invasion" }, { k: "act", lean: "train", pool: "antLate", sc: "antLate", acts: "ant", name: "Before the end" },
       { k: "rival", n: 2, name: "Rival rematch" }, { k: "battle", pool: "antBoss", name: "The last battle" }, { k: "ending", name: "Epilogue" }
     ];
-    hx.stepsBy = { "Chimera Ant": antSteps, "Reborn Chimera Ant": antSteps };
+
     // a Zoldyck's Hunter Exam is a family affair from start to finish
     hx.eventFlavor = {
       "the Zoldyck estate": {
@@ -7230,7 +7230,7 @@
       const lic = document.createElement("div"); lic.className = "lic";
       const b = document.createElement("b"); b.textContent = run.name && run.name !== "???" ? run.name : "Unregistered";
       const s1 = document.createElement("span"); s1.textContent = type ? `${type} · ${tv("Rank") || "Applicant"}` : "Nen type: untested";
-      const s2 = document.createElement("span"); s2.style.color = col; s2.textContent = /ant/i.test(tv("Race") || "") ? "Colony file · not a Hunter" : "License No. " + String(hash(String(run.seed)) % 900000 + 100000);
+      const s2 = document.createElement("span"); s2.style.color = col; s2.textContent = "License No. " + String(hash(String(run.seed)) % 900000 + 100000);
       lic.append(b, s1, s2); d.append(lic); box.append(d);
     } else if (state.theme === "onepiece") {
       const d = document.createElement("div"); d.className = "story-head-op";
