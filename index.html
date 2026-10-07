@@ -5387,8 +5387,11 @@
   }
   function endingWheel() {
     const P0 = path(), dream = T().dreamEnd && T().dreamEnd[tv("Dream")];
-    const P = dream ? Object.assign({}, P0, { endings: { good: [dream].concat(P0.endings.good.filter((x) => x !== dream)), bad: ["Never reaches their dream"].concat(P0.endings.bad) } }) : P0;
-    const g = clamp(Math.round(2 + run.w * 0.6 - run.l * 0.6 + (run.bossWin ? 2 : 0) + (run.rivalBeaten ? 1 : 0) + karma()), 1, 7);
+    const P1 = dream ? Object.assign({}, P0, { endings: { good: [dream].concat(P0.endings.good.filter((x) => x !== dream)), bad: ["Never reaches their dream"].concat(P0.endings.bad) } }) : P0;
+    // story payoffs put their own endings first on the wheel
+    const eg = run.endGood || [], eb = run.endBad || [];
+    const P = { endings: { good: eg.concat(P1.endings.good.filter((x) => !eg.includes(x))), bad: eb.concat(P1.endings.bad.filter((x) => !eb.includes(x))) } };
+    const g = clamp(Math.round(2 + run.w * 0.6 - run.l * 0.6 + (run.bossWin ? 2 : 0) + (run.rivalBeaten ? 1 : 0) + karma() + (run.endShift || 0)), 1, 7);
     let gi = 0, bi = 0;
     const segs = spread(g, 8).map((isG) => isG ? { good: true, t: fill(P.endings.good[gi++ % P.endings.good.length]) } : { good: false, t: fill(P.endings.bad[bi++ % P.endings.bad.length]) });
     return { title: "Ending", segs, opts: segs.map((s) => s.t), colors: segs.map((s, i) => s.good ? (i % 2 ? "#c9902a" : "#3c8a58") : (i % 2 ? "#5a2a3a" : "#3b2a4a")) };
@@ -5811,7 +5814,205 @@
         refuse: { text: "{first} stays off the books.", e: { gain: { n: "Off the books", d: "Nobody knows who they are.", power: 3 } } } }
     ]
   };
-  const offerDef = (id) => (OFFERS[state.theme] || []).concat(OFFERS_COMMON).find((o) => o.id === id);
+  // ================= story-gated payoffs =================
+  // rare picks come back later in the story, but only when the character's picks and journey earn them.
+  // at: "evolve" (before the power evolution), "preboss" (before the final enemy is drawn),
+  // "boss" (final enemy drawn, before the fight), "mid" / "late" (a free moment in that part of the story)
+  const has = (re) => re.test([...activeValues(), ...(run.gained || []).map((p) => p.n), ...(run.items || []), ...(run.allies || []), run.evTag || "", run.saga || ""].join(" | "));
+  const PAYOFFS = {
+    blackclover: [
+      { id: "devil-union", at: "boss", cond: () => has(/Five-leaf/) && tv("Devil rank") === "Supreme devil" && run.w >= 3, yes: "Merge with the devil", no: "Fight as yourself",
+        title: "Full Devil Union", text: "Facing {foe}, the supreme devil in {first}'s grimoire offers everything: \"Let me in all the way. We win this together.\"",
+        accept: { text: "{first} opens the grimoire and lets the devil in.", wheel: { title: "Who controls the Devil Union?", opts: [
+          ["{first} does", 2, { gain: { n: "Devil Union", d: "Merged with their devil for the final battle. +14 against the final enemy.", boss: 14 } }, "Horns, wings and a voice that isn't only theirs. {first} is in control, and {foe} can feel it."],
+          ["The devil does", 1, { gain: { n: "Devil-possessed", d: "The devil has the body now. +10 against the final enemy.", boss: 10, karma: -2 }, bad: 2, endBad: "The devil walks the world in their body" }, "The devil laughs with {first}'s mouth. It fights {foe} for fun."]] } },
+        refuse: { text: "{first} keeps the grimoire shut. Whatever happens, it'll be their own magic.", e: { gain: { n: "Their own magic", d: "Refused the Devil Union. +4 power.", power: 4, karma: 1 } } } },
+      { id: "spirit-dive", at: "evolve", cond: () => /chose you/.test(tv("Elemental spirit") || ""),
+        title: "Spirit Dive", text: "{Elemental spirit}. Now it wants more than a partnership: it wants to merge with {first}.",
+        wheel: { title: "Does the spirit answer?", opts: [
+          ["Full Spirit Dive", 2, { all: 6, gain: { n: "Spirit Dive", d: "Merged with their elemental spirit. +8 power.", power: 8 } }, "{first} and the spirit become one. Their magic turns the color of the spirit's element."],
+          ["A partial merge", 2, { all: 4 }, "Halfway there. The spirit's power leaks into every spell."],
+          ["The spirit isn't ready", 1, {}, "The spirit shakes its head. Not yet."]] } },
+      { id: "peasant-made-it", at: "late", cond: () => (tv("Social class") === "Peasant" || tv("Origin") === "Hage village") && (run.rivalWins || 0) >= 1 && run.w >= 3,
+        title: "The Wizard King is watching", text: "Nobody from where {first} grew up is supposed to get this far. Julius Novachrono asks to meet them.",
+        wheel: { title: "What does the Wizard King say?", opts: [
+          ["\"You're a Wizard King candidate\"", 1, { promote: true, good: 1, endGood: "Becomes the Wizard King" }, "The Wizard King names {first} a candidate in front of the whole Magic Knights. The nobles go silent."],
+          ["\"Keep going. I'm watching\"", 2, { pts: 3 }, "A hand on the shoulder and a grin. It's enough to keep {first} going for years."]] } },
+      { id: "elf-wakes", at: "boss", cond: () => tv("Reincarnation control") === "Shared body",
+        title: "The elf stirs", text: "{first} shares a body with an elf five hundred years dead. Facing {foe}, the elf is listening.",
+        wheel: { title: "Is the elf awake for the final battle?", opts: [
+          ["The elf is ready", 2, { gain: { n: "The elf wakes", d: "If the final battle goes wrong, the elf takes over and turns it.", save: { chance: 0.7, uses: 1, text: "{first}'s eyes change. The elf takes over for one round, and {foe} meets five hundred years of rage." } } }, "Something old behind {first}'s eyes nods."],
+          ["The elf sleeps", 1, {}, "Silence. {first} is on their own for this one."]] } }
+    ],
+    jjk: [
+      { id: "hollow-purple", at: "evolve", cond: () => tv("Origin") === "the Gojo clan" && has(/Limitless/) && run.w >= 3,
+        title: "Blue and Red", text: "{first} has mastered Limitless: Blue pulls, Red pushes. Gojo clan records talk about what happens when you combine them.",
+        wheel: { title: "Can {first} combine Blue and Red?", opts: [
+          ["Hollow Purple", 2, { gain: { n: "Hollow Purple", d: "Blue and Red combined into imaginary mass that erases what it hits. +12 against the final enemy, +4 power.", boss: 12, power: 4 } }, "Blue and Red collide. Everything in a straight line in front of {first} stops existing."],
+          ["Not yet", 1, { s: 1, v: 6 }, "The two forces cancel out and knock {first} flat. Close."]] } },
+      { id: "domain-clash", at: "boss", cond: () => /Full domain|Barrierless domain/.test(tv("Domain") || ""),
+        title: "Domain clash", text: "{foe} expands their domain. {first} answers with their own. Two domains, one space.",
+        wheel: { title: "Whose domain wins?", opts: [
+          ["{first}'s domain", () => tv("Domain") === "Barrierless domain" ? 3 : 2, { nerf: 12 }, "{first}'s domain swallows the other one. Inside it, {first}'s technique always hits."],
+          ["Both shatter", 2, {}, "Both domains break at once. Back to fists and cursed energy."],
+          ["{foe}'s domain", 2, { inj: true }, "{foe}'s domain holds. {first} survives the guaranteed hit, barely."]] } },
+      { id: "vessel-final", at: "boss", cond: () => run.evTag === "Vessel", yes: "Let the curse fight", no: "Keep your body",
+        title: "The curse's last offer", text: "The curse inside {first} speaks one more time: \"You can't beat {foe}. I can. Give me the body for this fight.\"",
+        accept: { text: "{first} closes their eyes and lets go.", wheel: { title: "Does the curse give the body back?", opts: [
+          ["It gives it back", 2, { gain: { n: "The curse fought for them", d: "The curse took the final battle. +12 against the final enemy.", boss: 12, karma: -2 } }, "The curse tears into {foe}, then hands the body back with a laugh. It'll remember this."],
+          ["It keeps it", 1, { gain: { n: "Curse-wearer", d: "The curse has the body now. +15 against the final enemy.", boss: 15, karma: -3 }, bad: 2, endBad: "The curse walks out wearing their body" }, "The curse doesn't give the body back."]] } },
+        refuse: { text: "\"It's my body,\" {first} says, and walks out to face {foe} alone.", e: { gain: { n: "Their own body", d: "Refused the curse at the end. +4 power.", power: 4, karma: 1 } } } },
+      { id: "mahoraga", at: "boss", cond: () => tv("Origin") === "the Zenin clan" && tv("Cursed technique") === "Ten Shadows", yes: "Summon Mahoraga", no: "Don't",
+        title: "The strongest shikigami", text: "{first} knows the Ten Shadows' last summon: Eight-Handled Sword Divergent Sila Divine General Mahoraga. No Zenin has ever tamed it. It kills whoever summoned it.",
+        accept: { text: "\"With this treasure, I summon...\" {first} says it.", wheel: { title: "Can {first} tame Mahoraga?", opts: [
+          ["Tamed", 1, { gain: { n: "Mahoraga tamed", d: "The first Zenin to tame Mahoraga. +16 against the final enemy.", boss: 16 }, good: 1 }, "The wheel on Mahoraga's head turns once, then stops. It kneels."],
+          ["It kills the enemy, then turns on {first}", 2, { nerf: 30, inj: true, bad: 1 }, "Mahoraga crushes {foe} and keeps going. {first} barely cancels the ritual in time."],
+          ["It kills everything", 1, { die: "Mahoraga" }, "Mahoraga adapts to everything. {first} included."]] } },
+        refuse: { text: "{first} leaves Mahoraga in the shadows. Some cards aren't worth playing.", e: { pts: 2 } } }
+    ],
+    hxh: [
+      { id: "emperor-time", at: "boss", cond: () => tv("Origin") === "the Kurta clan", yes: "Use Emperor Time", no: "Hold back",
+        title: "Scarlet Eyes", text: "{first}'s eyes turn scarlet. In this state they could use every Nen type at full strength. Every second costs them lifespan.",
+        accept: { text: "{first} lets the Scarlet Eyes burn.", e: { gain: { n: "Emperor Time", d: "Master of all six Nen types for the final battle. +14 against the final enemy, at a cost in lifespan.", boss: 14 }, bad: 1, endBad: "Their lifespan runs out early" } },
+        refuse: { text: "{first} keeps the eyes calm. They plan to live.", e: { pts: 2 } } },
+      { id: "zoldyck-family", at: "late", cond: () => tv("Origin") === "the Zoldyck estate" || !!tv("Zoldyck role"), yes: "Go home", no: "Cut ties",
+        title: "The family comes for you", text: "Silva and Kikyo Zoldyck are waiting at the end of the road. \"Enough playing Hunter. Come home.\"",
+        accept: { text: "{first} goes home. The family welcomes them back the Zoldyck way.", e: { all: 6, gain: { n: "Zoldyck heir", d: "Back in the family. +6 against the final enemy.", boss: 6, karma: -1 }, endGood: "Becomes head of the Zoldyck family" } },
+        refuse: { text: "{first} tells their parents no, to their faces. Nobody in the family has done that and walked away.", e: { gain: { n: "Cut the family ties", d: "Free of the Zoldycks. +4 power.", power: 4, karma: 1 }, endGood: "Lives free of the Zoldyck name" } } },
+      { id: "life-vow", at: "boss", cond: () => has(/Life-or-death vow/) || tv("Restriction") === "it costs lifespan", yes: "Pour in everything", no: "Fight normally",
+        title: "Everything into one punch", text: "{first} could make the vow Gon made: give up everything they'll ever have, for enough power to beat {foe} right now.",
+        accept: { text: "{first} makes the vow. Their body ages in seconds.", wheel: { title: "Is it enough?", opts: [
+          ["It's enough", 1, { nerf: 25, bad: 1, endBad: "Loses their Nen forever" }, "One punch. {foe} doesn't get up from it."],
+          ["Not quite", 1, { nerf: 10, inj: true, bad: 1 }, "It isn't enough, and the vow still takes its price."]] } },
+        refuse: { text: "{first} doesn't throw their future away. Not even for this.", e: { gain: { n: "Kept their future", d: "Refused the final vow.", karma: 1 } } } },
+      { id: "spiders-debt", at: "late", cond: () => /Joined|Left/.test(tv("Phantom Troupe") || "") || has(/Spider tattoo|Turned down the Spiders/),
+        title: "The Spiders come back", text: "The Phantom Troupe never forgets a face. They show up in Yorknew colors, all at once.",
+        wheel: { title: "Why are the Spiders here?", opts: [
+          ["To fight beside {first}", () => /Joined/.test(tv("Phantom Troupe") || "") || has(/Spider tattoo/) ? 3 : 1, { allyAdd: ["The Phantom Troupe", 10] }, "\"You're still one of us,\" Chrollo says. The Spiders take {first}'s side."],
+          ["To hunt {first}", () => /Left/.test(tv("Phantom Troupe") || "") || has(/Turned down the Spiders/) ? 3 : 1, { inj: true, nemesis: ["The Phantom Troupe", 82] }, "Nobody leaves the Spiders. They'll be at the final battle."]] } }
+    ],
+    onepiece: [
+      { id: "adv-conqueror", at: "boss", cond: () => /Conqueror's|All three/.test(tv("Haki type") || "") && run.w >= 3,
+        title: "Conqueror's coating", text: "{foe} coats their attacks in Conqueror's Haki, the way only Emperors can. {first} feels their own Haki rise to meet it.",
+        wheel: { title: "Can {first} coat their attacks too?", opts: [
+          ["Yes, like an Emperor", 2, { gain: { n: "Advanced Conqueror's Haki", d: "Attacks coated in Conqueror's Haki. +12 against the final enemy.", boss: 12 } }, "Black lightning crackles off every hit. The clouds split."],
+          ["For one blow", 2, { gain: { n: "One Conqueror's blow", d: "+6 against the final enemy.", boss: 6 } }, "Only once. It's enough to make {foe} stop smiling."],
+          ["Not yet", 1, {}, "The Haki rises and fades. Not today."]] } },
+      { id: "zoan-awake", at: "evolve", cond: () => tv("Zoan class") === "Mythical Zoan",
+        title: "Awakening", text: "{first}'s Mythical Zoan is pushing back. Mythical fruits have a will of their own.",
+        wheel: { title: "How far does the fruit go?", opts: [
+          ["Full awakened form", () => tv("Fruit awakening") === "Awakened" ? 3 : 1, { all: 8, gain: { n: "Awakened Mythical form", d: "A creature out of legend, at full size. +8 power.", power: 8 } }, "The sky changes color around {first}. Sailors on three islands see it."],
+          ["Hybrid form only", 2, { all: 4 }, "Half beast, half {first}, fully dangerous."]] } },
+      { id: "d-smile", at: "mid", cond: () => has(/Carries the Will of D\./),
+        title: "The Will of D.", text: "Every D. in history laughed at death. Something in {first}'s blood is waking up.",
+        wheel: { title: "Does the Will of D. stir?", opts: [
+          ["It wakes", 2, { gain: { n: "The D. smile", d: "Once, when a defeat would kill them, they laugh and survive.", cheat: "{first} smiles, the way Roger did on the scaffold. Somehow, that's not where it ends." } }, "{first} catches themself laughing at something that should scare them."],
+          ["It sleeps", 1, {}, "Not yet. The D. waits."]] } },
+      { id: "admiral", at: "late", cond: () => /^(Admiral|Fleet admiral)$/.test(tv("Marine rank") || ""),
+        title: "Admiral codename", text: "Marine admirals give up their names for a color and an animal. Headquarters has picked one for {first}.",
+        wheel: { title: "What's {first}'s codename?", opts: [
+          ["Admiral Black Peacock", 1, { gain: { n: "Admiral Black Peacock", d: "An admiral's codename. +6 power.", power: 6 }, endGood: "Fleet Admiral of the Marines" }, "\"Black Peacock.\" Pirates start whispering it."],
+          ["Admiral White Wolf", 1, { gain: { n: "Admiral White Wolf", d: "An admiral's codename. +6 power.", power: 6 }, endGood: "Fleet Admiral of the Marines" }, "\"White Wolf.\" Pirates start whispering it."],
+          ["Admiral Gold Lion", 1, { gain: { n: "Admiral Gold Lion", d: "An admiral's codename. +6 power.", power: 6 }, endGood: "Fleet Admiral of the Marines" }, "\"Gold Lion.\" Pirates start whispering it."],
+          ["Admiral Silver Hawk", 1, { gain: { n: "Admiral Silver Hawk", d: "An admiral's codename. +6 power.", power: 6 }, endGood: "Fleet Admiral of the Marines" }, "\"Silver Hawk.\" Pirates start whispering it."]] } },
+      { id: "emperor", at: "late", cond: () => run.bounty != null && run.bounty >= 4e9 && run.bounty >= (run.bountyStart || 0) * 1.5,
+        title: "A new Emperor", text: "The World Economy News Paper prints {first}'s face on the front page with a new title.",
+        e: { gain: { n: "Emperor of the Sea", d: "Officially one of the Four Emperors. +8 power.", power: 8 }, good: 1, endGood: "A new Emperor of the Sea" }, after: "Morgans calls {first} the new Emperor of the Sea. The other three take notice." }
+    ],
+    fantasy: [
+      { id: "shards", at: "preboss", cond: () => run.saga === "shards",
+        title: "The Shards", text: "The War of Shards ends at the Ember Throne. Whoever holds the most pieces of the Crown decides the next age.",
+        wheel: { title: "How many Shards does {first} hold?", opts: [
+          ["None", 1, {}, "Empty hands. {first} walks to the throne anyway."],
+          ["One", 2, { all: 4 }, "One Shard, warm in {first}'s fist."],
+          ["Two or more", () => 1 + run.w * 0.5, { all: 6, good: 2, endGood: "Crowned Ember Lord" }, "Two Shards hum in {first}'s pack. The throne room door opens on its own."]] } },
+      { id: "dragonbane", at: "boss", cond: () => run.saga === "dragonsoul",
+        title: "The Dragonbane shout", text: "The Greybeards whisper of a shout that pulls a dragon out of the sky. {first} has only heard it once.",
+        wheel: { title: "Does {first} learn the Dragonbane shout in time?", opts: [
+          ["Yes", 2, { nerf: 15 }, "{first} shouts, and {foe} crashes into the mountain. It has to fight on the ground now."],
+          ["No", 1, {}, "The words won't come. {first} fights {foe} the hard way."]] } },
+      { id: "dragon-hatch", at: "late", cond: () => run.saga === "throne" && has(/dragon egg|dragon queen/i),
+        title: "The stone egg", text: "The dragon egg {first} has carried all this way is warm for the first time.",
+        wheel: { title: "Does the stone egg hatch?", opts: [
+          ["It hatches", 2, { allyAdd: ["Their own dragon", 12] }, "A dragon screams its first breath of fire. It looks at {first} like they're its mother."],
+          ["It stays stone", 1, {}, "Cold again by morning."]] } },
+      { id: "the-ring", at: "boss", cond: () => run.saga === "fellowship",
+        title: "The edge of the fire", text: "Mount Cinder. The Ring is heavier than it's ever been. All {first} has to do is let go.",
+        wheel: { title: "Does {first} let the Ring go?", opts: [
+          ["They let go", () => 2 + Math.max(0, karma()), { nerf: 20, good: 1, endGood: "Unmakes the Binding Ring" }, "The Ring falls into the fire. {foe} screams as their power goes with it."],
+          ["They put it on", () => 1 + (has(/Ring-bound/) ? 2 : 0), { gain: { n: "The Ring's master", d: "Claimed the Binding Ring. +10 against the final enemy.", boss: 10, karma: -3 }, bad: 3, endBad: "Becomes the next Dark Lord" }, "{first} puts the Ring on. {foe} bows."]] } }
+    ],
+    hero: [
+      { id: "redemption", at: "mid", cond: () => tv("Archetype") === "Villain" && (has(/Soft spot/) || karma() >= 1), yes: "Switch sides", no: "Stay a villain",
+        title: "Redemption arc", text: "A hero {first} saved by accident is the only one who stands up for them. The heroes offer {first} a way back.",
+        accept: { text: "{first} switches sides. The city doesn't trust it yet.", e: { gain: { n: "Redeemed", d: "A villain who switched sides. +4 power.", power: 4, karma: 3 }, endGood: "Redeemed, and loved by the city" } },
+        refuse: { text: "{first} laughs and burns the offer.", e: { gain: { n: "Villain to the core", d: "Turned down redemption. +5 power.", power: 5, karma: -1 } } } },
+      { id: "cosmic", at: "boss", cond: () => /Planet|Cosmic/.test((tv("Rank") || "") + (tv("Threat level") || "")) && run.w >= 3,
+        title: "Ascension", text: "{first}'s power has been climbing for years. Facing {foe}, it stops climbing and breaks through.",
+        wheel: { title: "Does {first} ascend?", opts: [
+          ["Ascended form", 2, { gain: { n: "Ascended", d: "A cosmic form for the final battle. +14 against the final enemy.", boss: 14 } }, "{first} glows like a second sun. {foe} has to shield their eyes."],
+          ["Too much power", 1, { inj: true, gain: { n: "Overload", d: "+6 against the final enemy.", boss: 6 } }, "The power tears through {first} on the way out. It still hits."]] } },
+      { id: "unmasked", at: "mid", cond: () => tv("Secret identity") === "Lost it on live TV",
+        title: "Unmasked", text: "Everyone saw {first}'s face on live TV. Today the city decides what it thinks.",
+        wheel: { title: "How does the public react?", opts: [
+          ["They rally behind {first}", 2, { all: 6, gain: { n: "The city's hero", d: "The public has their back. +4 power.", power: 4 } }, "Fans paint {first}'s face on walls. Kids wear the mask."],
+          ["They turn on {first}", 1, { inj: true, pts: 2 }, "Protests outside {first}'s apartment. Nobody feels safe near them now."]] } },
+      { id: "original", at: "preboss", cond: () => tv("Species") === "Lab-made clone",
+        title: "The original", text: "The lab that made {first} had one more secret: the person they were cloned from is alive, and coming.",
+        e: { forceBoss: ["The original you were cloned from", 88] }, after: "{first}'s final battle is against themself." }
+    ]
+  };
+  if (turbo) window.__dbg = () => ({ m: payoffMoment(), d: has(/Carries the Will of D\./), step: run.step, seen: run.payoffs, act: !!run.act, offer: run.offer });
+  const payoffDef = (id) => (PAYOFFS[state.theme] || []).find((o) => o.id === id);
+  function payoffMoment() {
+    const st = S()[run.step]; if (!st || run.act || run.phase !== "journey") return null;
+    if (st.k === "evolve") return "evolve";
+    if (st.k === "battle" && st.pool === "boss") return run.foe ? "boss" : "preboss";
+    if (run.foe || st.k === "ending") return null;
+    if (run.step >= S().length - 4) return "late";
+    if (run.step >= Math.floor(S().length / 2) - 1) return "mid";
+    return null;
+  }
+  // extra effect keys used by payoffs; returns the text that describes them
+  function applyMore(e) {
+    const out = [], foe = run.foe ? run.foe[0] : "the final enemy";
+    if (e.good) { run.endShift = (run.endShift || 0) + e.good; out.push(`+${e.good} good ending${e.good > 1 ? "s" : ""} on the final wheel`); }
+    if (e.bad) { run.endShift = (run.endShift || 0) - e.bad; out.push(`+${e.bad} bad ending${e.bad > 1 ? "s" : ""} on the final wheel`); }
+    if (e.endGood) { run.endGood = (run.endGood || []).filter((x) => x !== e.endGood).concat(e.endGood); out.push(`"${e.endGood}" goes on the ending wheel`); }
+    if (e.endBad) { run.endBad = (run.endBad || []).filter((x) => x !== e.endBad).concat(e.endBad); out.push(`"${e.endBad}" goes on the ending wheel`); }
+    if (e.nerf) { if (run.foe) run.foe[1] = clamp(run.foe[1] - e.nerf, 5, 99); else run.bossNerf = (run.bossNerf || 0) + e.nerf; out.push(`${cap(lowArt(foe))} −${e.nerf} power`); }
+    if (e.allyAdd) { const [n, b] = e.allyAdd; run.allies = (run.allies || []).concat(n); run.companion = n; run.allyData = (run.allyData || []).concat({ n, b, tier: b >= 10 ? "Legendary" : "Very strong", spec: "a bit of everything" }); out.push(`${n} joins: +${b} battle power`); }
+    if (e.nemesis) { run.nemesis = e.nemesis.slice(); out.push(`${e.nemesis[0]} will be waiting at the final battle`); }
+    if (e.forceBoss) { run.forceBoss = e.forceBoss.slice(); out.push(`Final enemy: ${e.forceBoss[0]}`); }
+    let t = out.join(", ");
+    if (e.promote) { const pr = promote(); if (pr) t += (t ? "." : "") + pr; }
+    if (e.die) { run.dead = e.die; run.chance = false; run.act = null; run.foe = null; run.bossSurvive = null; run.step = S().length - 1; }
+    return t;
+  }
+  const fxOf = (e) => { const a = describe(e), b = applyMore(e); return [a, b].filter(Boolean).join(". ").trim(); };
+  function maybePayoff() {
+    if (run.offer) return false;
+    const m = payoffMoment(); if (!m) return false;
+    const seen = run.payoffs || [];
+    const ok = (at) => at === m || (at === "mid" && m === "late");
+    const p = (PAYOFFS[state.theme] || []).find((o) => !seen.includes(o.id) && ok(o.at) && o.cond());
+    if (!p) return false;
+    run.payoffs = seen.concat(p.id);
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`, v = battleVars();
+    logAdd(head, fill(p.text, v));
+    if (p.e) {
+      apply(p.e); const fx = fxOf(p.e);
+      logAdd(head, fill(p.after || "", v), fx ? fx + "." : "");
+      setNarr("★ " + p.title, fill(p.after || p.text, v) + (fx ? " " + fx + "." : ""));
+      sfx.fanfare(); fxFlash("#fff6d0"); react("rare", { v: p.title });
+      return true;
+    }
+    run.offer = { id: p.id, stage: p.accept ? "choose" : "spin" };
+    setNarr("★ " + p.title, fill(p.text, v) + (p.accept ? "" : " Spin to find out."));
+    sfx.riser(); react("fate");
+    return true;
+  }
+  const offerDef = (id) => payoffDef(id) || (OFFERS[state.theme] || []).concat(OFFERS_COMMON).find((o) => o.id === id);
   function pickOffer() {
     const seen = run.offersSeen || [];
     const ok = (OFFERS[state.theme] || []).concat(OFFERS_COMMON).filter((o) => !seen.includes(o.id) && run.step >= (o.minStep || 1) && (!o.need || hasTag(o.need)) && (!o.cond || o.cond()));
@@ -5834,22 +6035,27 @@
     const o = offerDef(run.offer.id), side = yes ? o.accept : o.refuse, e = side.e || {};
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
     apply(e);
-    const fx = describe(e);
-    logAdd(head, fill(side.text), fx ? fx + "." : "", false);
-    setNarr(yes ? "Accepted" : "Refused", fill(side.text) + (fx ? " " + fx + "." : ""));
+    const fx = fxOf(e), v = battleVars();
+    logAdd(head, fill(side.text, v), fx ? fx + "." : "", false);
+    setNarr(yes ? (o.yes || "Accepted") : (o.no || "Refused"), fill(side.text, v) + (fx ? " " + fx + "." : ""));
     if (yes && side.wheel) run.offer.stage = "spin"; else run.offer = null;
     if (yes) { sfx.riser(); fxShake(1); } else sfx.meh();
     persist(); render();
   }
-  const offerWheel = () => { const o = offerDef(run.offer.id), w = o.accept.wheel; return tw(fill(w.title), w.opts.map((x) => fill(x[0])), w.opts.map((x) => x[1]), { label: "Offer" }); };
+  const offerW = (o) => (o.accept && o.accept.wheel) || o.wheel;
+  const offerWheel = () => { const o = offerDef(run.offer.id), w = offerW(o), v = battleVars(); return tw(fill(w.title, v), w.opts.map((x) => fill(x[0], v)), w.opts.map((x) => typeof x[1] === "function" ? x[1]() : x[1]), { label: o.at ? "Story payoff" : "Offer" }); };
   async function offerSpin() {
-    const o = offerDef(run.offer.id), W = o.accept.wheel, k = await spin(offerWheel()), [label, , e, text] = W.opts[k];
+    const o = offerDef(run.offer.id), W = offerW(o), v = battleVars(), k = await spin(offerWheel()), [label, , e, text] = W.opts[k];
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
     apply(e);
-    logAdd(head, fill(text), describe(e) + ".", !!(e.inj || (e.pts && e.pts < 0)));
-    setNarr(fill(label), fill(text) + " " + describe(e) + ".");
+    const fx = fxOf(e), bad = !!(e.inj || e.bad || e.die || e.endBad || (e.pts && e.pts < 0));
+    logAdd(head, fill(text, v), fx ? fx + "." : "", bad);
+    setNarr(fill(label, v), fill(text, v) + (fx ? " " + fx + "." : ""));
     run.offer = null;
-    if (k === 0) { sfx.fanfare(); react("rare", { v: fill(label) }); } else { sfx.thunder(); fxShake(2); }
+    if (e.die) { sfx.womp(); fxShake(2); react("dead"); }
+    else if (!bad && (k === 0 || !o.at)) { sfx.fanfare(); fxFlash("#fff6d0"); react("rare", { v: fill(label, v) }); }
+    else if (bad) { sfx.thunder(); fxShake(2); }
+    else sfx.meh();
   }
 
   // ================= the adventure loop =================
@@ -6050,6 +6256,8 @@
     if (s === "survive") {
       if (k === 0) { logAdd(head, fill("{first} survives. Bruised, angry, alive.")); setNarr("Survived", fill("{first} lives to fight another day.")); endAct(); return; }
       if (k === 1) { run.adaptBonus = (run.adaptBonus || 0) + 3; logAdd(head, fill("{first} barely survives. It leaves scars, and the scars make them harder."), "+3 power from now on.", true); setNarr("Barely", fill("{first} crawls away alive.")); react("barely"); endAct(); return; }
+      const ch = cheatDeath();
+      if (ch) { logAdd(head, fill(ch.cheat), `${ch.n}: they survive.`); setNarr(ch.n, fill(ch.cheat)); sfx.heavenly(); fxFlash("#fff6d0"); react("saved", { v: ch.n }); endAct(); return; }
       run.dead = a.foe[0];
       logAdd(head, fill("{first} doesn't get back up."), "", true);
       setNarr("Dead", fill("{first} falls to {foe}.", { foe: a.foe[0] }));
@@ -6242,9 +6450,17 @@
     sfx.fanfare(); fxFlash("#fff6d0"); react("legend");
   }
   const survivalWheel = () => tw(fill("{first} lost the final battle. Do they survive?"), ["Yes", "Barely", "No"], [0.4, 0.25, 0.35], { label: "Do you survive?", colors: ["#3c8a58", "#c9902a", "#5a0010"] });
+  function cheatDeath() {
+    const p = perks().find((x) => x.cheat && !(run.perkUses || {})[x.n + ":cheat"]);
+    if (!p) return null;
+    run.perkUses = Object.assign(run.perkUses || {}, { [p.n + ":cheat"]: 1 });
+    return p;
+  }
   async function bossSurvivalStep() {
     const k = await spin(survivalWheel()), head = `Chapter ${run.step}: ${chapterName(run.step - 1)}`;
     const foe = run.bossSurvive; run.bossSurvive = null;
+    const ch = k === 2 ? cheatDeath() : null;
+    if (ch) { logAdd(head, fill(ch.cheat), `${ch.n}: they survive.`); setNarr(ch.n, fill(ch.cheat)); sfx.heavenly(); fxFlash("#fff6d0"); react("saved", { v: ch.n }); return; }
     if (k === 2) { run.dead = foe; logAdd(head, fill("{first} doesn't get up this time."), "", true); setNarr("Dead", fill("{first} falls to {f}.", { f: lowArt(foe) })); sfx.womp(); react("dead"); return; }
     logAdd(head, k === 0 ? fill("{first} survives, somehow, and lives to see the ending.") : fill("{first} barely survives. Nobody is sure how."), k === 1 ? "Scars that never fade." : "", k === 1);
     setNarr(k === 0 ? "Survived" : "Barely", fill("{first} is still breathing."));
@@ -6255,6 +6471,7 @@
     if (run.ruleReady && !run.act) { await ruleStep(); persist(); render(); return; }
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
     if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
+    if (maybePayoff()) { persist(); render(); return; }
     if (maybeOffer()) { persist(); render(); return; }
     const st = S()[run.step];
     if (st.k === "act") { await actStep(); persist(); render(); return; }
@@ -6274,7 +6491,7 @@
           const pool = battlePool(st.pool);
           const k = await spin(listWheel(jTitle("foe"), pool.map((f) => f[0])));
           run.foe = pool[k].slice(0, 3); markUsed("foe", run.foe[0]);
-          if (st.pool === "boss") { run.foe[1] = Math.max(run.foe[1], clamp(playerPower() + 4, 10, 99)); fxShake(); react("boss"); }
+          if (st.pool === "boss") { run.foe[1] = clamp(Math.max(run.foe[1], clamp(playerPower() + 4, 10, 99)) - (run.bossNerf || 0), 5, 99); fxShake(); react("boss"); }
           else if (st.pool === "colony") run.foe[1] = Math.max(run.foe[1], clamp(playerPower() - 2, 10, 99));
           sfx.gong(); fxFlash("#5a0010");
           const t = run.nemesis && run.foe[0] === run.nemesis[0] ? fill("{foe} kept their promise. They're back, and they've been waiting for this. Power {fp}.", battleVars()) : fill(pick(MEET), battleVars());
@@ -6345,6 +6562,7 @@
     return fresh(foePool(pool), "foe");
   }
   function bossPool() {
+    if (run.forceBoss) return [run.forceBoss];
     const pool = foePool("boss").filter((f) => !used("ally").includes(nameKey(f[0])) && !(run.gone || []).includes(nameKey(f[0])));
     if (run.nemesis && !pool.some((f) => f[0] === run.nemesis[0])) pool.unshift(run.nemesis, run.nemesis);
     return pool;
@@ -6740,13 +6958,14 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
-      label = run.offer && run.offer.stage === "choose" ? "Accept" : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     p.textContent = label; p.disabled = busy;
     $("spinAll").hidden = run.phase !== "create" || isComplete();
     const offering = run.phase === "journey" && run.offer && run.offer.stage === "choose";
     $("refuse").hidden = !offering; $("refuse").disabled = busy;
+    if (offering) $("refuse").textContent = offerDef(run.offer.id).no || "Refuse";
     $("bendFate").hidden = run.phase !== "journey" || !run.fate || offering || !!run.bend;
     $("bendFate").textContent = `✦ Bend fate (${run.fate || 0})`; $("bendFate").disabled = busy;
     $("spinAll").disabled = busy;
