@@ -5038,7 +5038,7 @@
     const ai = idxOf(th.vis.aura);
     const auraT = [...(ai >= 0 ? (run.subs[ai] || []).map((x) => x.value).filter(Boolean).reverse() : []), tv(th.vis.aura)].filter(Boolean).join(" ") || null;
     return {
-      seed: run.seed, hair, tips, eyes,
+      seed: run.seed, name: run.name && run.name !== "???" ? run.name : "", hair, tips, eyes,
       patch: eyesT.includes("patch"), hollow: eyesT.includes("hollow"),
       style: hairT.includes("spiky") ? 0 : isFemale() ? (run.seed % 4 === 0 ? 2 : 1) : (run.seed % 3),
       female: isFemale(), scene: state.theme,
@@ -5127,164 +5127,28 @@
       skyline("#080a18", "rgba(120,220,255,.55)", 70, 200);
     }
   }
-  // the card art before the AI portrait exists: a backlit anime silhouette in front of the series backdrop.
-  // While stats are still rolling it stays fully in shadow; once the character is complete the hair,
-  // outfit and eye colors come through the shadow. No drawn face, so it never looks like clip art.
-  function heroParts(L) {
-    const R = rng(L.seed + 11), hair = [], back = [], lines = [], body = [], skin = [], extra = [];
-    // a tapered strand of hair from (x0,y0) to (x1,y1), bent sideways by `bend`
-    const lock = (x0, y0, x1, y1, w, bend) => {
-      const dx = x1 - x0, dy = y1 - y0, len = Math.hypot(dx, dy) || 1, nx = -dy / len, ny = dx / len, b = bend || 0;
-      const mx = x0 + dx * 0.5 + nx * b, my = y0 + dy * 0.5 + ny * b;
-      const p = new Path2D();
-      p.moveTo(x0 + nx * w / 2, y0 + ny * w / 2);
-      p.quadraticCurveTo(mx + nx * w * 0.32, my + ny * w * 0.32, x1, y1);
-      p.quadraticCurveTo(mx - nx * w * 0.32, my - ny * w * 0.32, x0 - nx * w / 2, y0 - ny * w / 2);
-      p.closePath();
-      lines.push([x0, y0, mx, my, x1, y1]);
-      return p;
-    };
-    const bodyP = new Path2D();
-    bodyP.moveTo(-12, 302); bodyP.lineTo(-12, 286); bodyP.bezierCurveTo(8, 250, 66, 236, 118, 230); bodyP.lineTo(184, 230); bodyP.bezierCurveTo(236, 236, 292, 250, 312, 286); bodyP.lineTo(312, 302); bodyP.closePath();
-    body.push(bodyP);
-    const neck = new Path2D(); neck.moveTo(137, 182); neck.lineTo(133, 240); neck.lineTo(171, 240); neck.lineTo(167, 182); neck.closePath();
-    const head = new Path2D();
-    head.moveTo(151, 60); head.bezierCurveTo(196, 60, 208, 98, 203, 130); head.quadraticCurveTo(200, 168, 158, 206);
-    head.quadraticCurveTo(150, 210, 143, 204); head.quadraticCurveTo(110, 180, 104, 146); head.bezierCurveTo(96, 96, 112, 60, 151, 60); head.closePath();
-    skin.push(neck, head);
-    if (L.ears === "pointy") extra.push(lock(108, 150, 70, 116, 16, -4), lock(198, 146, 232, 112, 16, 4));
-    if (L.horns) extra.push(lock(124, 80, 104, 30, 14, 10), lock(178, 78, 200, 28, 14, -10));
-    // the cap of hair over the skull, with a hairline over the forehead
-    const cap = new Path2D(); cap.moveTo(98, 142); cap.bezierCurveTo(84, 40, 218, 36, 206, 140); cap.quadraticCurveTo(190, 96, 152, 94); cap.quadraticCurveTo(112, 96, 98, 142); cap.closePath();
-    hair.push(cap);
-    if (L.ears === "animal") hair.push(lock(120, 82, 98, 28, 30, 6), lock(182, 80, 202, 26, 30, -6));
-    if (L.style === 0) { // spiky
-      const n = 9;
-      for (let k = 0; k < n; k++) {
-        const a = (-168 + k * (156 / (n - 1)) + (R() - 0.5) * 6) * Math.PI / 180, r = 80 + R() * 18 + (k === 3 || k === 5 ? 10 : 0);
-        hair.push(lock(151 + Math.cos(a) * 30, 112 + Math.sin(a) * 30, 151 + Math.cos(a) * r, 112 + Math.sin(a) * r, 32 + R() * 8, 7 + R() * 6));
-      }
-    } else if (L.style === 1) { // long: one mass behind the head and shoulders, ending in pointed strands
-      const m = new Path2D(), hem = [];
-      for (let x = 64; x <= 238; x += 14.5) hem.push([x, Math.round((x - 64) / 14.5) % 2 === 0 ? 262 + R() * 22 : 242 + R() * 8]);
-      m.moveTo(112, 88); m.bezierCurveTo(84, 130, 74, 210, 64, hem[0][1]);
-      hem.forEach(([x, y]) => m.lineTo(x, y));
-      m.bezierCurveTo(228, 210, 218, 130, 190, 88); m.closePath();
-      back.push(m);
-      [[96, 140, 84, 262], [206, 140, 220, 258]].forEach(([a, b2, e, f]) => hair.push(lock(a, b2 - 30, e, f, 22, a < 150 ? -8 : 8)));
-    } else { // short and swept
-      hair.push(lock(104, 104, 100, 184, 26, -6), lock(198, 104, 200, 178, 26, 6));
-      for (let k = 0; k < 5; k++) hair.push(lock(116 + k * 18, 70, 92 + k * 22 + R() * 8, 34 + R() * 14, 30, -6));
-    }
-    // bangs, swept a little toward the viewer's left (three-quarter view)
-    const nb = 6;
-    for (let k = 0; k < nb; k++) {
-      const x = 112 + k * (84 / (nb - 1));
-      hair.push(lock(x + 6, 86, x - 8 - R() * 8, 122 + R() * 24 + (k === 1 || k === 4 ? 12 : 0), 22 + R() * 6, (R() - 0.5) * 8));
-    }
-    return { hair, back, lines, body, skin, extra };
-  }
+  // the card art before the AI portrait exists: the series backdrop, a soft glow in the power's color and the character's initials
   function drawHero(canvas, L, cssSize, mystery) {
     const W = 300, H = 300, d = window.devicePixelRatio || 1;
     const px = Math.max(1, Math.round((cssSize || canvas.clientWidth || 300) * d)), k = px / W;
     if (canvas.width !== px) { canvas.width = px; canvas.height = px; }
-    const c = canvas.getContext("2d"), R = rng(L.seed + 5);
-    const layer = () => { const e = document.createElement("canvas"); e.width = px; e.height = px; const x = e.getContext("2d"); x.setTransform(k, 0, 0, k, 0, 0); return [e, x]; };
-    const only = (x, mask, dx, dy) => { x.save(); x.setTransform(1, 0, 0, 1, 0, 0); x.globalCompositeOperation = "destination-in"; x.drawImage(mask, (dx || 0) * k, (dy || 0) * k); x.restore(); };
-    const aura = L.aura, glow = shade(aura, 0.45);
-    c.setTransform(k, 0, 0, k, 0, 0); c.clearRect(0, 0, W, H);
-
-    // backdrop: the series scene, softened like a lens focused on the character, then graded dark
-    const [sc, sx] = layer(); drawScene(sx, L);
-    c.save(); c.filter = `blur(${(1.6 * k).toFixed(1)}px) saturate(1.15) brightness(.78)`; c.setTransform(1, 0, 0, 1, 0, 0); c.drawImage(sc, 0, 0); c.restore();
-    let g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "rgba(6,5,14,.15)"); g.addColorStop(1, "rgba(6,5,14,.6)"); c.fillStyle = g; c.fillRect(0, 0, W, H);
-    // backlight bloom and soft rays behind the head
-    c.save(); c.globalCompositeOperation = "lighter";
-    g = c.createRadialGradient(150, 120, 6, 150, 130, 150); g.addColorStop(0, rgba(glow, 0.75)); g.addColorStop(0.35, rgba(aura, 0.32)); g.addColorStop(1, rgba(aura, 0)); c.fillStyle = g; c.fillRect(0, 0, W, H);
-    for (let i = 0; i < 16; i++) {
-      const a = R() * TAU, w = 0.03 + R() * 0.05;
-      c.fillStyle = rgba(glow, 0.04 + R() * 0.05); c.beginPath(); c.moveTo(150, 118); c.arc(150, 118, 260, a - w, a + w); c.closePath(); c.fill();
-    }
-    // aura rising off the body like heat
-    const wisps = L.awakened ? 16 : 9;
-    for (let i = 0; i < wisps; i++) {
-      const x = 40 + R() * 220, top = 40 + R() * 120, sway = (R() - 0.5) * 60, w = 10 + R() * 16;
-      g = c.createLinearGradient(0, H, 0, top); g.addColorStop(0, rgba(aura, L.awakened ? 0.4 : 0.22)); g.addColorStop(1, rgba(aura, 0));
-      c.fillStyle = g; c.beginPath(); c.moveTo(x - w, H); c.bezierCurveTo(x - w, H - 80, x + sway - 4, top + 50, x + sway, top); c.bezierCurveTo(x + sway + 4, top + 50, x + w, H - 80, x + w, H); c.closePath(); c.fill();
-    }
-    c.restore();
-
-    // the figure: build masks, then light it from behind with a rim on each side
-    const P = heroParts(L);
-    const [mk, mx] = layer(); mx.fillStyle = "#fff";
-    [...P.back, ...P.body, ...P.skin, ...P.extra, ...P.hair].forEach((p) => mx.fill(p));
-    const [hk, hx] = layer(); hx.fillStyle = "#fff"; P.hair.forEach((p) => hx.fill(p)); if (L.horns) P.extra.forEach((p) => hx.fill(p));
-    const [ak, ax] = layer(); ax.fillStyle = "#fff"; P.back.forEach((p) => ax.fill(p));
-    const [sk, sx2] = layer(); sx2.fillStyle = "#fff"; P.skin.forEach((p) => sx2.fill(p)); if (!L.horns) P.extra.forEach((p) => sx2.fill(p));
-    const [bk, bx] = layer(); bx.fillStyle = "#fff"; P.body.forEach((p) => bx.fill(p));
-    const rimA = mystery ? glow : shade(L.hair === "#16141d" ? aura : L.hair, 0.55), rimB = mystery ? shade(aura, 0.2) : shade(L.costume, 0.5);
-    const [fk, fx] = layer();
-    fx.fillStyle = rimA; fx.fillRect(0, 0, W, H); only(fx, mk);
-    const [rk, rx] = layer(); rx.fillStyle = rimB; rx.fillRect(0, 0, W, H); only(rx, mk); only(rx, mk, 3.5, 2.5);
-    fx.drawImage(rk, 0, 0, W, H);
-    // the shadowed inside: near-black while the character is unknown; once it's complete, colors show through
-    const [ik, ix] = layer();
-    ix.fillStyle = "#0b0a12"; ix.fillRect(0, 0, W, H);
-    if (mystery) {
-      const [tk, tx] = layer(); tx.fillStyle = "#1a1726"; tx.fillRect(0, 0, W, H); only(tx, sk); ix.drawImage(tk, 0, 0, W, H);
-      const [hk2, hx2] = layer(); hx2.fillStyle = "#0b0a12"; hx2.fillRect(0, 0, W, H); only(hx2, hk); ix.drawImage(hk2, 0, 0, W, H);
-      const [lk, lx] = layer(); lx.strokeStyle = rgba(glow, 0.18); lx.lineWidth = 1.1; lx.lineCap = "round";
-      P.lines.forEach(([a, b, m1, m2, e, f]) => { lx.beginPath(); lx.moveTo(a, b); lx.quadraticCurveTo(m1, m2, (m1 + e) / 2, (m2 + f) / 2); lx.stroke(); });
-      only(lx, hk); ix.drawImage(lk, 0, 0, W, H);
-    } else {
-      const tint = (mask, fill) => { const [tk, tx] = layer(); tx.fillStyle = fill; tx.fillRect(0, 0, W, H); only(tx, mask); ix.drawImage(tk, 0, 0, W, H); };
-      const hairG = () => { const gg = ix.createLinearGradient(0, 30, 0, 290); gg.addColorStop(0, shade(L.hair, -0.18)); gg.addColorStop(0.5, shade(L.hair, -0.45)); gg.addColorStop(1, shade(L.tips || L.hair, -0.5)); return gg; };
-      g = ix.createLinearGradient(0, 220, 0, 300); g.addColorStop(0, shade(L.costume, -0.35)); g.addColorStop(1, shade(L.costume, -0.7)); tint(bk, g);
-      tint(ak, hairG());
-      tint(sk, shade(L.skin, -0.68));
-      tint(hk, hairG());
-      // strand lines catch a little of the backlight
-      const [lk, lx] = layer(); lx.strokeStyle = rgba(rimA, 0.35); lx.lineWidth = 1.1; lx.lineCap = "round";
-      P.lines.forEach(([a, b, m1, m2, e, f]) => { lx.beginPath(); lx.moveTo(a, b); lx.quadraticCurveTo(m1, m2, (m1 + e) / 2, (m2 + f) / 2); lx.stroke(); });
-      only(lx, hk); ix.drawImage(lk, 0, 0, W, H);
-    }
-    // shade toward the lower right, away from the light
-    g = ix.createLinearGradient(80, 60, 230, 300); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(0,0,0,.5)"); ix.fillStyle = g; ix.fillRect(0, 0, W, H);
-    only(ix, mk); only(ix, mk, 3.5, 2.5); only(ix, mk, -2.2, 2);
-    fx.drawImage(ik, 0, 0, W, H);
-    c.save(); c.shadowColor = rgba(aura, 0.9); c.shadowBlur = 22 * k; c.drawImage(fk, 0, 0, W, H); c.restore();
-    c.drawImage(fk, 0, 0, W, H);
-
-    // eyes: the only lit feature on the face
-    const eyeAt = (cx, cy, w, h, col, tilt) => {
-      c.save(); c.globalCompositeOperation = "lighter"; c.shadowColor = col; c.shadowBlur = 12 * k;
-      c.fillStyle = shade(col, 0.25);
-      c.beginPath(); c.moveTo(cx - w, cy + tilt); c.quadraticCurveTo(cx - w * 0.2, cy - h * 1.3, cx + w, cy - tilt); c.quadraticCurveTo(cx + w * 0.1, cy + h, cx - w, cy + tilt); c.closePath(); c.fill();
-      c.shadowBlur = 0; c.fillStyle = "rgba(255,255,255,.9)"; c.beginPath(); c.arc(cx - w * 0.25, cy - h * 0.15, Math.max(0.9, h * 0.28), 0, TAU); c.fill();
-      c.restore();
-    };
-    const tilt = L.brow === "angry" ? 2.5 : L.brow === "soft" ? -1.5 : 0.5;
-    const e0 = mystery ? glow : L.hollow ? "#d8d8e0" : L.eyes[0], e1 = mystery ? glow : L.hollow ? "#d8d8e0" : L.eyes[1];
-    if (!L.patch || mystery) eyeAt(130, 152, 10, 4.2, e0, tilt);
-    else { c.strokeStyle = rgba(rimA, 0.6); c.lineWidth = 1.4; c.beginPath(); c.moveTo(108, 138); c.lineTo(200, 124); c.stroke(); }
-    eyeAt(176, 150, 8, 3.6, e1, -tilt);
-
-    // embers drifting up, then a lens fade at the bottom, grain and a vignette
-    c.save(); c.globalCompositeOperation = "lighter";
-    for (let i = 0; i < (L.awakened ? 46 : 26); i++) {
-      const x = R() * W, y = 40 + R() * 260, r = 0.6 + R() * 1.8;
-      c.fillStyle = rgba(glow, 0.25 + R() * 0.5); c.shadowColor = aura; c.shadowBlur = 6 * k;
-      c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill();
-    }
-    c.restore();
-    g = c.createLinearGradient(0, 220, 0, 300); g.addColorStop(0, "rgba(4,3,10,0)"); g.addColorStop(1, "rgba(4,3,10,.6)"); c.fillStyle = g; c.fillRect(0, 0, W, H);
-    g = c.createRadialGradient(150, 140, 90, 150, 150, 230); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(0,0,0,.6)"); c.fillStyle = g; c.fillRect(0, 0, W, H);
-    if (px >= 200) {
-      const G = rng(L.seed + 21); c.fillStyle = "rgba(255,255,255,.035)";
-      for (let i = 0; i < 900; i++) c.fillRect(G() * W, G() * H, 0.7, 0.7);
-      c.fillStyle = "rgba(0,0,0,.05)";
-      for (let i = 0; i < 900; i++) c.fillRect(G() * W, G() * H, 0.7, 0.7);
-    }
+    const c = canvas.getContext("2d"), aura = mystery ? "#8a86a8" : L.aura;
+    const sc = document.createElement("canvas"); sc.width = px; sc.height = px;
+    const sx = sc.getContext("2d"); sx.setTransform(k, 0, 0, k, 0, 0); drawScene(sx, L);
+    c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, px, px);
+    c.save(); c.filter = `blur(${(2.5 * k).toFixed(1)}px) brightness(.6) saturate(${mystery ? 0.4 : 1.1})`; c.drawImage(sc, 0, 0); c.restore();
+    c.setTransform(k, 0, 0, k, 0, 0);
+    let g = c.createRadialGradient(150, 150, 10, 150, 150, 160); g.addColorStop(0, rgba(aura, 0.45)); g.addColorStop(1, rgba(aura, 0));
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+    const ini = String(L.name || "").split(/\s+/).filter((w) => /^[A-Za-z]/.test(w)).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+    if (!ini) return;
+    c.strokeStyle = rgba(shade(aura, 0.5), 0.7); c.lineWidth = 1.5;
+    c.beginPath(); c.arc(150, 150, 74, 0, TAU); c.stroke();
+    c.textAlign = "center"; c.textBaseline = "middle"; c.fillStyle = "#fff";
+    c.shadowColor = aura; c.shadowBlur = 18 * k;
+    c.font = `600 ${ini.length > 1 ? 64 : 76}px Cinzel, Georgia, serif`;
+    c.fillText(ini, 150, 154);
+    c.shadowBlur = 0;
   }
   function drawMystery(canvas, L) { drawHero(canvas, L, 0, true); }
   const isPainting = (seed) => state.aiBusySeeds.has(seed);
@@ -6932,13 +6796,13 @@
     const mystery = showMystery();
     return {
       seed: run.seed, theme: state.theme, themeLabel: th.label, name: run.codename || run.name, epithet: run.codename ? `${run.name}${run.epithet ? ", " + run.epithet : ""}` : (run.epithet || ""),
-      tier: run.bounty != null && run.phase !== "create" ? berry(run.bounty) : tierInfo().label, rarity: complete ? rarity() : "common", aura: tv(th.vis.aura) || "Unknown power", awakened: run.awakened || "",
+      tier: run.bounty != null && run.phase !== "create" ? berry(run.bounty) : tierInfo().label, rarity: complete ? rarity() : "common", aura: tv(th.vis.aura) || "", awakened: run.awakened || "",
       title: complete ? fill(th.titleTpl) : "A character still taking shape…", chips: chipVals.slice(0, 5), evolution: run.evolution || "",
       stats: statNames().map((n, k) => [n, vals ? vals[k] : null, talentLabel(k) || ""]), overall: complete ? overall() : null,
       record: complete ? rec.join(" · ") : `${slots().filter((x) => slotVal(x) != null).length} / ${slots().length} traits`,
       look: look(), ai: run.ai && run.showAI && !mystery ? (run.ai.card || run.ai.src) : null, mystery,
       perks: perks().filter((p) => !p.quiet).map((p) => [p.n, perkExplain(p)]), allies: allyTip ? [`🤝 Allies (${run.allyData.length})`, allyTip] : null, extras: Object.entries(perks().filter((p) => p.extra).reduce((m, p) => (m[p.extra[0]] = Math.max(m[p.extra[0]] || 0, p.extra[1]), m), {})),
-      note: run.phase === "create" && !isComplete() ? "Colors revealed when the last stat is rolled" : isPainting(run.seed) ? "Painting the AI portrait…" : "",
+      note: isPainting(run.seed) ? "Painting the AI portrait…" : "",
       ending: run.ending || ""
     };
   }
@@ -6955,7 +6819,7 @@
     q(".tc-epi").textContent = !d.epithet ? "" : /^the /i.test(d.epithet) ? `“${cap(d.epithet)}”` : d.epithet.replace(/, (the .*)$/, (m, e) => ` · “${cap(e)}”`);
     q(".tc-epi").hidden = !d.epithet;
     q(".tc-tier").textContent = d.tier || "";
-    q(".tc-badge").textContent = d.aura || "";
+    q(".tc-badge").textContent = d.aura || ""; q(".tc-badge").hidden = !d.aura;
     if (d.awakened) { q(".tc-awake").hidden = false; q(".tc-awake").textContent = d.awakened; }
     if (d.note) { q(".tc-note").hidden = false; q(".tc-note").textContent = d.note; }
     q(".tc-title").textContent = d.title || "";
