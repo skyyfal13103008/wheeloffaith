@@ -6329,6 +6329,16 @@
     } else {
       eb = "The end"; title = run.ending || ""; sub = `${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`;
     }
+    // the title always belongs to the wheel on screen: it only moves on when the next wheel appears
+    if (run.phase !== "done" && state.wheel && (state.spinning || state.winner >= 0)) {
+      const next = title;
+      title = state.wheel.title || title;
+      if (state.spinning) sub = "Spinning…";
+      else {
+        const landed = state.wheel.opts[state.winner];
+        sub = `Landed on: ${cap(String(landed))}` + (next && next !== title ? ` · Next: ${next}` : "");
+      }
+    }
     $("promptEyebrow").textContent = eb; $("promptTitle").textContent = title; $("promptSub").textContent = sub;
   }
 
