@@ -614,10 +614,10 @@
       ["Gender", ["Male", "Female"]],
       ["Race", ["Human", "Human", "Human", "Human", "Elf reincarnation", "Witch", "Half-dwarf"]],
       ["Origin", ["Hage village", "a noble house", "the royal capital", "the Forsaken Realm", "the Witches' Forest", "the Spade Kingdom", "the Heart Kingdom", "the Diamond Kingdom"]],
-      ["Magic", ["Fire", "Water", "Wind", "Lightning", "Dark", "Light", "Spatial", "Blood", "Thorn", "Sealing", "Star", "Ice", "Earth", "Mirror", "Copy"]],
+      ["Magic", ["Fire", "Water", "Wind", "Lightning", "Dark", "Light", "Spatial", "Blood", "Thorn", "Sealing", "Star", "Ice", "Earth", "Mirror", "Copy", "Anti Magic"]],
       ["Grimoire", ["Three-leaf", "Three-leaf", "Four-leaf", "Three-leaf", "Three-leaf", "Five-leaf"]],
       ["Squad", ["Black Bulls", "Golden Dawn", "Silver Eagles", "Crimson Lion Kings", "Blue Rose Knights", "Green Praying Mantis", "Coral Peacocks", "Purple Orcas", "Aqua Deer"]],
-      ["Fighting style", ["Pure caster", "Spell-sword", "Ki-reading swordsman", "Mana Zone controller", "Mana Method brawler", "Healer and support", "Sealing and trap tactician", "Creation magic summoner", "Long-range artillery mage", "Mana Skin defender", "Spatial ambusher"]],
+      ["Fighting style", ["Pure caster", "Spell-sword", "Ki-reading swordsman", "Mana Zone controller", "Mana Method brawler", "Healer and support", "Sealing and trap tactician", "Creation magic summoner", "Anti-magic swordsman", "Long-range artillery mage", "Mana Skin defender", "Spatial ambusher"]],
       ["Weapon", ["Sword", "Staff", "Spear", "Twin blades", "Gauntlets", "Bow", "Scythe", "Grimoire only"]],
       ["Personality", PERS],
       ["Rival", ["A noble prodigy", "Your childhood best friend", "A Golden Dawn elite", "A peasant with no magic", "A Spade Kingdom spy", "A royal with something to prove", "A witch's apprentice", "Your own mirror double"]],
@@ -692,10 +692,10 @@
         "the Diamond Kingdom": ["Diamond upbringing", ["Magic-enhancement experiment", "Shining General's apprentice", "Deserter"]]
       },
       Magic: {
-        "Fire": ["Elemental spirit", ["No spirit", "No spirit", "A fire spirit chose you"]],
-        "Wind": ["Elemental spirit", ["No spirit", "No spirit", "A wind spirit chose you"]],
-        "Water": ["Elemental spirit", ["No spirit", "No spirit", "A water spirit chose you"]],
-        "Earth": ["Elemental spirit", ["No spirit", "No spirit", "An earth spirit chose you"]],
+        "Fire": ["Elemental spirit", ["No spirit", "No spirit", "Salamander chose you"]],
+        "Wind": ["Elemental spirit", ["No spirit", "No spirit", "Sylph chose you"]],
+        "Water": ["Elemental spirit", ["No spirit", "No spirit", "Undine chose you"]],
+        "Earth": ["Elemental spirit", ["No spirit", "No spirit", "Gnome chose you"]],
         "Dark": ["Dark Magic depth", ["Dark Cloak", "Dimension Slash", "Dimension Slash: Equinox"], true],
         "Anti Magic": ["Anti Magic sword", ["Demon-Slayer Sword", "Demon-Dweller Sword", "Demon-Destroyer Sword", "Demon-Dweller and Slayer"]],
         "Spatial": ["Spatial style", ["Portals", "Teleport strikes", "Spatial cuts"]],
@@ -709,7 +709,7 @@
         "Four-leaf": ["Clover blessing", ["Faith", "Hope", "Love", "Luck"]]
       },
       "Devil rank": {
-        "Lower-rank devil": ["Devil", ["A nameless lower-rank devil", "A lower-rank devil with a grudge", "A lower-rank devil exiled from the underworld"]],
+        "Lower-rank devil": ["Devil", ["A nameless lower-rank devil", "A lower-rank devil with a grudge", "Liebe, the anti-magic devil"]],
         "Mid-rank devil": ["Devil", ["An ice devil", "A fire devil", "An unnamed devil of the Qliphoth"]],
         "High-rank devil": ["Devil", ["Zagred", "Megicula"]],
         "Supreme devil": ["Devil", ["Lucifero", "Beelzebub", "Astaroth"]]
@@ -772,10 +772,10 @@
       "Of the Witch Queen's own bloodline": { n: "Witch Queen's blood", d: "Talent wheels start at tier 4. Related by blood to the Witch Queen: huge inherited mana, but her Blood Magic has a stronger grip on them than on anyone. +4 power.", power: 4, extra: ["Witch Queen's blood", 90], minTier: 3 },
       "Half-dwarf": { n: "Dwarf giant form", d: "Half-dwarves can grow huge. +12 Strength.", stat: [3, 12], extra: ["Giant form", 85] },
       "Full control of giant form": { n: "Giant form mastery", d: "+4 power.", power: 4 },
-      "A fire spirit chose you": { n: "Fire spirit", d: "A fire spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: fire", 90] },
-      "A wind spirit chose you": { n: "Wind spirit", d: "A wind spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: wind", 90] },
-      "A water spirit chose you": { n: "Water spirit", d: "A water spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: water", 90] },
-      "An earth spirit chose you": { n: "Earth spirit", d: "An earth spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: earth", 90] },
+      "Salamander chose you": { n: "Salamander", d: "The fire spirit's contractor. +6 power.", power: 6, extra: ["Spirit: Salamander", 90] },
+      "Sylph chose you": { n: "Sylph", d: "The wind spirit's contractor. +6 power.", power: 6, extra: ["Spirit: Sylph", 90] },
+      "Undine chose you": { n: "Undine", d: "The water spirit's contractor. +6 power.", power: 6, extra: ["Spirit: Undine", 90] },
+      "Gnome chose you": { n: "Gnome", d: "The earth spirit's contractor. +6 power.", power: 6, extra: ["Spirit: Gnome", 90] },
       "Dimension Slash: Equinox": { n: "Equinox", d: "A slash that cuts dimensions. +6 power.", power: 6 },
       "Anti Magic": { n: "Anti Magic", d: "No mana, so magic can't touch them. +6 power in the biggest fights.", boss: 6 },
       "Demon-Dweller and Slayer": { n: "Two demon swords", d: "+4 power.", power: 4 },
@@ -853,7 +853,7 @@
     evolve: {
       cat: "Magic",
       byValue: {
-        Fire: ["Fire spirit bond", "Black flames", "Solar flames"], Water: ["Water spirit bond", "Sea Dragon's roar", "Holy water"], Wind: ["Wind spirit bond", "Hurricane form", "Storm blades"],
+        Fire: ["Salamander spirit bond", "Black flames", "Solar flames"], Water: ["Undine spirit bond", "Sea Dragon's roar", "Holy water"], Wind: ["Sylph spirit bond", "Hurricane form", "Storm blades"],
         Lightning: ["Lightning God form", "Black lightning", "Thunder Fiend armor"], Light: ["Light Sword of Judgment", "Light-speed body"], Shadow: ["Shadow realm gate", "Dark Cloak"],
         "Anti Magic": ["Black Form", "Anti Magic Union", "Black Meteorite"], Dark: ["Dark Cloak: Avidya Slash", "Dimension Slash: Equinox"], Gravity: ["Gravity singularity", "Planet crush"], Blood: ["Blood golem", "Crimson armor"]
       },
@@ -1253,7 +1253,7 @@
       "A calamity sealed in your body": { n: "Sealed calamity", d: "+6 power.", power: 6 },
       "Heir to the family": { n: "Zoldyck conditioning", d: "Poison and electricity barely hurt them. +6 Speed.", stat: [4, 6], extra: ["Poison immunity", 90] },
       "A needle in your head": { n: "Illumi's needle", d: "A needle that makes them flee from stronger opponents. -4 power.", power: -4 },
-      "Eyes awaken in rage": { n: "Scarlet fury", d: "When their eyes turn scarlet, their aura surges. +8 power.", power: 8, extra: ["Scarlet Eyes", 95] },
+      "Eyes awaken in rage": { n: "Emperor Time", d: "While their eyes are scarlet they become a Specialist. Costs lifespan. +8 power.", power: 8, extra: ["Scarlet Eyes", 95] },
       "A beast that kills for you": { n: "Guardian Spirit Beast", d: "A beast born from the Kakin succession ritual. +5 power.", power: 5 },
       "A protective beast": { n: "Guardian Spirit Beast", d: "It guards you.", save: { chance: 0.35, uses: 1, text: "A Guardian Spirit Beast uncoils behind {first} and takes the hit. {foe} doesn't get a second chance." } },
       "Childhood friend of the Troupe": { n: "Phantom Troupe ties", d: "+2 upgrade points.", pts: 2 },
@@ -2318,7 +2318,7 @@
       "Why you serve": "Why do you still serve them?",
       "Hage upbringing": "What was childhood like in Hage?",
       "Diamond upbringing": "What did the Diamond Kingdom make of you?",
-      "Elemental spirit": { Fire: "Does a fire spirit come for {first}?", Wind: "Does a wind spirit choose {first}?", Water: "Does a water spirit answer {first}?", Earth: "Does an earth spirit stir for {first}?" },
+      "Elemental spirit": { Fire: "Does Salamander come for {first}?", Wind: "Does Sylph choose {first}?", Water: "Does Undine answer {first}?", Earth: "Does Gnome stir for {first}?" },
       "Dark Magic depth": "How deep into the dark can {first} cut?",
       "Anti Magic sword": "Which demon sword comes out of the grimoire?",
       "Spatial style": "How does {first} bend space?",
@@ -2888,7 +2888,7 @@
       "the Kurta clan": {
         pri: 2, tag: "Your story is the Kurta clan's: a massacre, stolen eyes, and a list of Spiders.",
         home: "The Kurta village is gone. The Phantom Troupe killed everyone and took their eyes. {first} buried who they could and swore to find the rest.",
-        chapters: ["Leaving the ruins", "Chains of resolve", "The Hunter Exam", "Scarlet awakening", "The Nostrade bodyguard job", "The Yorknew auction", "The Spiders", "Epilogue"],
+        chapters: ["Leaving the ruins", "Chains of resolve", "The Hunter Exam", "Emperor Time", "The Nostrade bodyguard job", "The Yorknew auction", "The Spiders", "Epilogue"],
         scenes: {
           early: ["{first} keeps their contacts in. If anyone sees their eyes turn scarlet, they're dead."],
           mid: ["A pair of Scarlet Eyes is up for auction in Yorknew. The bidding starts at a billion."],
@@ -4887,6 +4887,44 @@
     });
   })();
 
+  // ---------- rival taunts in each series' own voice ----------
+  THEMES.blackclover.rivalLines = {
+    win1: ["{Rival} wipes the blood off their grimoire. \"Next time I won't hold back,\" they say, and they mean it.", "{Rival} laughs, grimoire smoking. \"Fine. I'll surpass my limits too.\""],
+    win2: ["{Rival} closes their grimoire and bows. \"Go be the Wizard King, then. Somebody has to.\"", "{Rival} lies on the cracked stone, out of mana, grinning. The rivalry ends here, and they both know it."],
+    loss1: ["{Rival} doesn't even open their grimoire to finish it. \"Come back when you can make me.\"", "\"That's your magic?\" {rival} turns away. \"Train harder.\""],
+    loss2: ["{Rival} flies off on their broom without looking back. {first} will hear that silence for years.", "{Rival}'s spell is still glowing when they say it: \"I'm the one who'll be Wizard King.\""]
+  };
+  THEMES.jjk.rivalLines = {
+    win1: ["{Rival} spits blood and laughs. \"Your technique's interesting. I'll figure it out next time.\"", "{Rival} backs off, cursed energy flickering. \"Don't get cocky, it was one fight.\""],
+    win2: ["{Rival} sits down in the rubble. \"You're the stronger sorcerer. Satisfied?\" It's the most honest thing they've ever said.", "{Rival}'s technique sputters out. They don't get up, and they don't need to say it."],
+    loss1: ["{Rival} doesn't bother with a finishing move. \"Come back when you understand your own technique.\"", "\"Grade 4 energy,\" {rival} says, walking away. It isn't true, but it hurts."],
+    loss2: ["{Rival} leaves {first} in the wreckage and doesn't look back. Some losses stay in the body like a curse.", "\"You're not ready for what's coming,\" {rival} says. \"I am.\""]
+  };
+  THEMES.hxh.rivalLines = {
+    win1: ["{Rival} wipes their mouth and grins. \"Your Nen's getting good. That makes this fun.\"", "{Rival} raises a hand. \"I give up. This time.\""],
+    win2: ["{Rival} sits in the dirt, aura spent, and laughs. \"Fine. You're stronger. Want to grab food?\"", "{Rival}'s aura goes quiet. It's over, and it was the best fight either of them ever had."],
+    loss1: ["{Rival} doesn't even use their Hatsu. \"Come back when you've learned Gyo.\"", "{Rival} pats {first} on the head on the way out. That's worse than losing."],
+    loss2: ["{Rival} walks off without a word. {first} replays every second of it for years.", "\"You're a Hunter on paper,\" {rival} says. \"Not where it counts.\""]
+  };
+  THEMES.onepiece.rivalLines = {
+    win1: ["{Rival} spits blood into the sea and grins. \"Next island, then. I'll be waiting.\"", "{Rival} laughs from the wreck of their ship. \"Your bounty's going up after that.\""],
+    win2: ["{Rival} lowers their weapon. \"Go on, then. Chase your dream.\" They mean it.", "{Rival} lies on the deck, out of Haki, and laughs at the sky. The rivalry ends here."],
+    loss1: ["{Rival} doesn't even draw. \"Weak. Come back when the sea has taught you something.\"", "{Rival} sails off laughing. Someone has to fish {first} out of the water."],
+    loss2: ["{Rival}'s Haki pins {first} to the deck. \"The New World isn't for people like you.\"", "{Rival} leaves without a word. {first} watches their sails disappear and doesn't forget."]
+  };
+  THEMES.fantasy.rivalLines = {
+    win1: ["{Rival} sheathes their blade and bows, just slightly. \"The bards will sing of a rematch.\"", "{Rival} vanishes in a swirl of smoke. A note on the ground says: next time."],
+    win2: ["{Rival} kneels in the mud. \"The songs were about you after all.\"", "{Rival} offers a gauntleted hand. The feud that began on the road ends here."],
+    loss1: ["{Rival} doesn't finish it. \"Go home. This road isn't yours.\"", "{Rival} rides off without looking back. Their laughter carries over the hills."],
+    loss2: ["{Rival} takes {first}'s banner as a trophy. The taverns will be talking about it for a year.", "\"There is no song about you,\" {rival} says, and leaves."]
+  };
+  THEMES.hero.rivalLines = {
+    win1: ["{Rival} retreats into the smoke. \"This isn't over. I know where you live.\"", "{Rival} laughs through a cracked mask. \"Round one to you.\""],
+    win2: ["{Rival} is led away in power-dampening cuffs. They don't fight it this time.", "{Rival} goes quiet in the rubble. The city finally gets some sleep."],
+    loss1: ["{Rival} leaves {first} dangling from a billboard for the news cameras.", "\"Cute costume,\" {rival} says, and is gone before the sirens arrive."],
+    loss2: ["{Rival} wins on live TV, and the whole city watches it happen.", "{Rival} walks away from the wreck, already planning the next one. {first} is still face-down in the street."]
+  };
+
   // ================= free-turn content per series =================
   Object.assign(THEMES.blackclover, {
     acts: [["fight", "Take a Magic Knight mission", 3], ["hunt", "Hunt a dungeon beast", 2.5], ["train", "Train", 3], ["quest", "Accept a royal request", 3], ["explore", "Explore a dungeon", 2], ["treasure", "Raid a dungeon vault", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new spell", 1.5], ["followers", "Gather followers", 1], ["war", "Join the war", 1], ["rest", "Rest at the squad base", 0.8], ["retire", "Retire from the Magic Knights", 0.25]],
@@ -5174,7 +5212,7 @@
       v = String(v);
       filters.split("|").filter(Boolean).forEach((f) => { if (f === "lower") v = v.toLowerCase(); else if (f === "a") v = article(v); else if (f === "cap") v = cap(v); else if (f === "lc") v = v.charAt(0).toLowerCase() + v.slice(1); });
       return v;
-    }).replace(/(\w)s's\b/g, "$1s'");
+    }).replace(/(\w)s's\b/g, "$1s'").replace(/\bMagic magic\b/g, "Magic");
   }
 
   // The story is built in layers: the series' base journey, then an arc for every landed pick that has one
@@ -5728,7 +5766,7 @@
   function evolveOptions() {
     const ev = T().evolve, val = tv(ev.cat);
     const out = [...((ev.byValue || {})[val] || [])];
-    for (const g of ev.generic) { if (out.length >= 6) break; const f = fill(g); if (!out.includes(f) && !/\bno (fruit|powers?|magic)\b|\bnone\b|\?\?\?/i.test(f)) out.push(f); }
+    for (const g of (val === "Anti Magic" ? [] : ev.generic)) { if (out.length >= 6) break; const f = fill(g); if (!out.includes(f) && !/\bno (fruit|powers?|magic)\b|\bnone\b|\?\?\?/i.test(f)) out.push(f); }
     if (!out.length) out.push("Haki mastery", "A fighting style all their own", "Pure willpower");
     return out;
   }
@@ -6210,7 +6248,7 @@
     hxh: [
       { id: "emperor-time", at: "boss", cond: () => tv("Origin") === "the Kurta clan", yes: "Use Emperor Time", no: "Hold back",
         title: "Scarlet Eyes", text: "{first}'s eyes turn scarlet. Their aura has never burned this hot, and every second of it costs them lifespan.",
-        accept: { text: "{first} lets the Scarlet Eyes burn.", e: { gain: { n: "Scarlet Eyes unleashed", d: "Their aura at its absolute peak for the final battle. +14 against the final enemy, at a cost in lifespan.", boss: 14 }, bad: 1, endBad: "Their lifespan runs out early" } },
+        accept: { text: "{first} lets the Scarlet Eyes burn.", e: { gain: { n: "Emperor Time", d: "Master of all six Nen types for the final battle. +14 against the final enemy, at a cost in lifespan.", boss: 14 }, bad: 1, endBad: "Their lifespan runs out early" } },
         refuse: { text: "{first} keeps the eyes calm. They plan to live.", e: { pts: 2 } } },
       { id: "zoldyck-family", at: "late", cond: () => tv("Origin") === "the Zoldyck estate" || !!tv("Zoldyck role"), yes: "Go home", no: "Cut ties",
         title: "The family comes for you", text: "Silva and Kikyo Zoldyck are waiting at the end of the road. \"Enough playing Hunter. Come home.\"",
@@ -6773,8 +6811,11 @@
       fx += " " + bountyBump(foe[1], mult, why);
     }
     run.ally = false;
-    if (st.k === "rival") t += " " + fill(won ? (st.n === 2 ? "{Rival} finally admits it: {first} is stronger. The rivalry ends here." : "{Rival} spits blood, grins, and swears the next round will be different.")
-      : (st.n === 2 ? "{Rival} walks away without a word. {first} will think about this fight for the rest of their life." : "{Rival} looks down at {first} and leaves. That stings more than the wounds."), v);
+    if (st.k === "rival") {
+      const RL = T().rivalLines || {}, key = (won ? "win" : "loss") + (st.n === 2 ? 2 : 1);
+      const base = { win1: "{Rival} spits blood, grins, and swears the next round will be different.", win2: "{Rival} finally admits it: {first} is stronger. The rivalry ends here.", loss1: "{Rival} looks down at {first} and leaves. That stings more than the wounds.", loss2: "{Rival} walks away without a word. {first} will think about this fight for the rest of their life." };
+      t += " " + fill(RL[key] ? pick(RL[key]) : base[key], v);
+    }
     else if (run.companion && Math.random() < 0.45) t += " " + fill(pick(won ? ["{ally} was watching their back the whole time.", "{ally} hauls {first} to their feet and laughs.", "Afterwards, {ally} patches them up and doesn't say a word."] : ["{ally} drags {first} out before it gets worse.", "{ally} sits with them that night. Nobody talks."]), v);
     if (!won && o === "loss" && Math.random() < 0.3 && tv("Weakness") && !/^no /i.test(tv("Weakness"))) t += " " + fill("Their weakness, {Weakness|lower}, didn't help.");
     logAdd(head, t, fx, bad);
