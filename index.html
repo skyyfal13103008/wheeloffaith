@@ -93,10 +93,17 @@
   .wheel-wrap::before { content: ""; position: absolute; inset: -10px; border-radius: 50%; background: radial-gradient(closest-side, rgba(234,181,77,.18), transparent); }
   #wheel { position: relative; z-index: 1; width: 100%; height: 100%; display: block; }
   .reaction { position: absolute; z-index: 4; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.6); width: min(92%, 380px); padding: 14px 16px; border-radius: 16px; background: rgba(8,6,16,.88); border: 1px solid rgba(255,255,255,.18); box-shadow: 0 12px 40px rgba(0,0,0,.6); text-align: center; opacity: 0; pointer-events: none; }
-  .reaction.show { animation: rxpop 2.3s ease forwards; }
+  .reaction.show { animation: rxpop 2.6s ease forwards; }
   .reaction .rx-face { display: block; font-size: 52px; line-height: 1.1; }
-  .reaction .rx-text { display: block; margin-top: 6px; font: 800 20px/1.25 Figtree, "Segoe UI", sans-serif; color: #fff; text-shadow: 0 2px 0 #000, 0 0 2px #000; }
-  @keyframes rxpop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.6); } 10% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); } 18% { transform: translate(-50%, -50%) scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); } }
+  .reaction .rx-text { display: block; margin-top: 6px; font: 900 23px/1.2 Figtree, "Segoe UI", sans-serif; color: #fff; text-shadow: 0 2px 0 #000, 0 0 2px #000; letter-spacing: .01em; }
+  .reaction.tone-good { border-color: #ffd27a; box-shadow: 0 0 40px rgba(255,200,90,.55), 0 12px 40px rgba(0,0,0,.6); }
+  .reaction.tone-epic { border-color: #c9a4ff; box-shadow: 0 0 50px rgba(170,120,255,.7), 0 12px 40px rgba(0,0,0,.6); background: rgba(20,8,40,.92); }
+  .reaction.tone-bad { border-color: #ff5a6e; box-shadow: 0 0 40px rgba(255,40,70,.55), 0 12px 40px rgba(0,0,0,.6); background: rgba(30,4,10,.92); }
+  .reaction.show .rx-face { animation: rxface .7s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes rxface { 0% { transform: scale(.2) rotate(-20deg); } 100% { transform: scale(1) rotate(0); } }
+  .spark { position: absolute; left: 50%; top: 50%; z-index: 5; font-size: 22px; pointer-events: none; animation: spark 1.2s ease-out forwards; }
+  @keyframes spark { 0% { transform: translate(-50%, -50%) scale(.4); opacity: 1; } 100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1); opacity: 0; } }
+  @keyframes rxpop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.3); } 8% { opacity: 1; transform: translate(-50%, -50%) scale(1.18); } 14% { transform: translate(-50%, -50%) scale(.96); } 20% { transform: translate(-50%, -50%) scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); } }
   @media (prefers-reduced-motion: reduce) { .reaction.show { animation: none; opacity: 1; transform: translate(-50%, -50%); } }
   .pointer { position: absolute; z-index: 2; top: -6px; left: 50%; width: 30px; height: 40px; transform: translateX(-50%); transform-origin: 50% 20%; background: var(--gold); clip-path: polygon(0 0, 100% 0, 50% 100%); filter: drop-shadow(0 3px 4px rgba(0,0,0,.5)); }
   .pointer.tick { animation: tick .09s ease-out; }
@@ -165,6 +172,11 @@
   .story { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
   .story h2 { margin: 0; font-size: 18px; }
   .story > h2 { margin: 0; font-family: var(--display); font-size: 22px; }
+  .fate { border-color: #b88cff; color: #e2d0ff; }
+  .bend-box { width: 100%; max-width: 520px; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 10px; border: 1px solid #b88cff; border-radius: 12px; background: rgba(40,20,70,.5); }
+  .bend-h { width: 100%; margin: 0 0 4px; text-align: center; font-size: 13px; color: #e2d0ff; }
+  .chip-btn { padding: 5px 10px; font-size: 13px; border-radius: 999px; background: var(--panel-2); color: var(--fg); border: 1px solid var(--line); }
+  .chip-btn:hover { border-color: #b88cff; }
   .tip { position: absolute; z-index: 50; padding: 9px 11px; border-radius: 10px; background: #0d0a18; color: #fff; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 10px 30px rgba(0,0,0,.5); font: 500 13px/1.45 Figtree, "Segoe UI", sans-serif; white-space: pre-line; pointer-events: none; }
   [data-tip] { cursor: help; }
   .chip.ally { background: rgba(60,138,88,.35); border-color: rgba(120,220,150,.5); }
@@ -223,6 +235,8 @@
   .fx-flash.on { animation: flash .7s ease-out; }
   @keyframes flash { 0% { opacity: .55; } 100% { opacity: 0; } }
   body.shake .app { animation: shake .5s cubic-bezier(.36,.07,.19,.97); }
+  body.shake-big .app { animation: shakeBig .8s cubic-bezier(.36,.07,.19,.97); }
+  @keyframes shakeBig { 10%, 90% { transform: translate(-4px, 2px) rotate(-.4deg); } 20%, 80% { transform: translate(9px, -5px) rotate(.5deg); } 30%, 50%, 70% { transform: translate(-13px, 6px) rotate(-.6deg); } 40%, 60% { transform: translate(13px, -6px) rotate(.6deg); } }
   @keyframes shake { 10%, 90% { transform: translate(-2px, 1px); } 20%, 80% { transform: translate(4px, -2px); } 30%, 50%, 70% { transform: translate(-6px, 3px); } 40%, 60% { transform: translate(6px, -3px); } }
   .chip.perk { background: var(--gold-soft); border-color: var(--gold); color: var(--fg); font-weight: 600; }
   .tc-stats .sl.extra { color: var(--gold); }
@@ -266,8 +280,11 @@
       <div class="actions">
         <button id="primary" class="primary">Spin</button>
         <button id="spinAll" class="secondary">Spin all</button>
+        <button id="refuse" class="secondary" hidden>Refuse</button>
+        <button id="bendFate" class="secondary fate" hidden>✦ Bend fate</button>
         <button id="newChar" class="ghost">New character</button>
       </div>
+      <div class="bend-box" id="bendBox" hidden></div>
       <div class="rerolls" id="rerollRow">
         <span class="tokens" id="rerollInfo"></span>
         <label for="rerollLimit">Allowed per character</label>
@@ -5160,13 +5177,35 @@
     fanfare() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; [[523.25, 0], [659.25, 0.12], [783.99, 0.24], [1046.5, 0.4]].forEach(([f, d], i) => { tone(a, "square", f, t + d, i === 3 ? 0.7 : 0.16, 0.06); tone(a, "sawtooth", f / 2, t + d, i === 3 ? 0.7 : 0.16, 0.03); }); },
     gong() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; [110, 164.8, 233.1, 311.1, 415.3].forEach((f, i) => tone(a, "sine", f, t, 3.2 - i * 0.3, 0.12 / (i + 1))); },
     sparkle() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; [1318.5, 1567.98, 2093, 2637].forEach((f, i) => tone(a, "triangle", f, t + i * 0.06, 0.35, 0.04)); },
+    coin() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; tone(a, "square", 988, t, 0.08, 0.05); tone(a, "square", 1319, t + 0.08, 0.35, 0.05); },
+    riser() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; tone(a, "sawtooth", 180, t, 0.9, 0.05, 1400); tone(a, "sine", 360, t, 0.9, 0.06, 2800); },
+    offer() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; [220, 261.6, 311.1, 370].forEach((f, i) => tone(a, "triangle", f, t + i * 0.18, 0.9, 0.05)); },
+    thunder() {
+      const a = ensureAudio(); if (!a) return;
+      const t = a.currentTime, src = a.createBufferSource(), lp = a.createBiquadFilter(), g = a.createGain();
+      src.buffer = noiseBuf(a, 2.5); lp.type = "lowpass"; lp.frequency.setValueAtTime(600, t); lp.frequency.exponentialRampToValueAtTime(60, t + 2.3);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.6, t + 0.05); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
+      src.connect(lp).connect(g).connect(a.destination); src.start(t);
+    },
+    crowd() {
+      const a = ensureAudio(); if (!a) return;
+      const t = a.currentTime, src = a.createBufferSource(), bp = a.createBiquadFilter(), g = a.createGain();
+      src.buffer = noiseBuf(a, 2); bp.type = "bandpass"; bp.frequency.value = 1200; bp.Q.value = 0.6;
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.18, t + 0.25); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.9);
+      src.connect(bp).connect(g).connect(a.destination); src.start(t);
+    },
+    shatter() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; for (let i = 0; i < 10; i++) tone(a, "triangle", 2000 + Math.random() * 3000, t + i * 0.025, 0.25, 0.025); const s = a.createBufferSource(), g = a.createGain(); s.buffer = noiseBuf(a, 0.4); g.gain.setValueAtTime(0.25, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35); s.connect(g).connect(a.destination); s.start(t); },
+    heartbeat() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; [0, 0.18, 0.8, 0.98].forEach((d) => tone(a, "sine", 58, t + d, 0.16, 0.5, 40)); },
+    scratch() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; tone(a, "sawtooth", 900, t, 0.25, 0.08, 120); tone(a, "sawtooth", 700, t + 0.12, 0.2, 0.06, 1400); },
+    whoosh() { const a = ensureAudio(); if (!a) return; const t = a.currentTime, s = a.createBufferSource(), bp = a.createBiquadFilter(), g = a.createGain(); s.buffer = noiseBuf(a, 0.6); bp.type = "bandpass"; bp.frequency.setValueAtTime(400, t); bp.frequency.exponentialRampToValueAtTime(3000, t + 0.5); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.15, t + 0.2); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.55); s.connect(bp).connect(g).connect(a.destination); s.start(t); },
+    drumroll(secs) { const a = ensureAudio(); if (!a) return; const t = a.currentTime, n = Math.floor((secs || 3) * 14); for (let i = 0; i < n; i++) { const s = a.createBufferSource(), g = a.createGain(), v = 0.04 + 0.1 * (i / n); s.buffer = noiseBuf(a, 0.05); g.gain.setValueAtTime(v, t + i / 14); g.gain.exponentialRampToValueAtTime(0.0001, t + i / 14 + 0.05); s.connect(g).connect(a.destination); s.start(t + i / 14); } },
     meh() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; tone(a, "triangle", 330, t, 0.25, 0.08); tone(a, "triangle", 311, t + 0.28, 0.4, 0.08); }
   };
   function fxFlash(color) {
     if (reduceMotion) return;
     const el = $("fxFlash"); el.style.background = color; el.classList.remove("on"); void el.offsetWidth; el.classList.add("on");
   }
-  function fxShake() { if (reduceMotion) return; const b = document.body; b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); }
+  function fxShake(level) { if (reduceMotion) return; const b = document.body, c = level >= 2 ? "shake-big" : "shake"; b.classList.remove("shake", "shake-big"); void b.offsetWidth; b.classList.add(c); }
   // sound for a landed pick: rare or perk = heavenly, bottom tier = womp, bonus wheel = sparkle
   function landSfx(v, follow, perk) {
     const p = perkFor(v);
@@ -5225,6 +5264,7 @@
       ctx.fillStyle = state.wheel.colors ? state.wheel.colors[i] : (T().palette || SEG_COLORS)[col];
       ctx.fill();
       if (i === state.winner) { ctx.fillStyle = "rgba(255,240,200,0.3)"; ctx.fill(); }
+      if (state.wheel.bent === i) { ctx.save(); ctx.strokeStyle = "#c9a4ff"; ctx.lineWidth = 5; ctx.shadowColor = "#b88cff"; ctx.shadowBlur = 14; ctx.stroke(); ctx.restore(); }
       else if (state.winner >= 0 && !state.spinning) { ctx.fillStyle = "rgba(0,0,0,0.55)"; ctx.fill(); }
       ctx.strokeStyle = INK; ctx.lineWidth = n > 60 ? 0.6 : n > 24 ? 1.2 : 2; ctx.stroke();
       if (R * 0.8 * a < 5.5) continue;
@@ -5252,6 +5292,9 @@
   }
 
   function spin(wheel) {
+    wheel = applyBend(wheel);
+    if (wheel.bent != null) run.bend = null;
+    if (!turbo) { if (wheel.segs || wheel.label === "Battle") sfx.drumroll(3.6); else sfx.whoosh(); }
     return new Promise((resolve) => {
       state.wheel = wheel; state.winner = -1; state.spinning = true;
       render();
@@ -5307,7 +5350,7 @@
   function endingWheel() {
     const P0 = path(), dream = T().dreamEnd && T().dreamEnd[tv("Dream")];
     const P = dream ? Object.assign({}, P0, { endings: { good: [dream].concat(P0.endings.good.filter((x) => x !== dream)), bad: ["Never reaches their dream"].concat(P0.endings.bad) } }) : P0;
-    const g = clamp(Math.round(1 + run.w * 0.6 - run.l * 0.8 + (run.bossWin ? 2 : 0) + (run.rivalBeaten ? 1 : 0) + karma()), 1, 7);
+    const g = clamp(Math.round(2 + run.w * 0.6 - run.l * 0.6 + (run.bossWin ? 2 : 0) + (run.rivalBeaten ? 1 : 0) + karma()), 1, 7);
     let gi = 0, bi = 0;
     const segs = spread(g, 8).map((isG) => isG ? { good: true, t: fill(P.endings.good[gi++ % P.endings.good.length]) } : { good: false, t: fill(P.endings.bad[bi++ % P.endings.bad.length]) });
     return { title: "Ending", segs, opts: segs.map((s) => s.t), colors: segs.map((s, i) => s.good ? (i % 2 ? "#c9902a" : "#3c8a58") : (i % 2 ? "#5a2a3a" : "#3b2a4a")) };
@@ -5326,6 +5369,8 @@
     }
     if (run.phase === "journey") {
       const st = S()[run.step], P = path();
+      if (run.offer && run.offer.stage === "spin") return offerWheel();
+      if (run.offer) return state.wheel;
       if (run.bossSurvive) return survivalWheel();
       if (run.ruleReady && !run.act) return ruleWheel();
       if (run.chance && !run.act) return listWheel(jTitle("chance"), chanceList().map(lbl));
@@ -5370,7 +5415,7 @@
     const st = statNames(), out = [];
     if (e.s != null) out.push(`${e.v > 0 ? "+" : ""}${e.v} ${st[e.s]}`);
     if (e.all) out.push(`+${e.all} to every stat`);
-    if (e.pts) out.push(`+${e.pts} upgrade point${e.pts > 1 ? "s" : ""}`);
+    if (e.pts) out.push(`${e.pts > 0 ? "+" : ""}${e.pts} upgrade point${Math.abs(e.pts) > 1 ? "s" : ""}`);
     if (e.inj) out.push("injured for the next fight");
     if (e.heal) out.push("injuries healed");
     if (e.ally) out.push("an ally joins the next fight");
@@ -5380,7 +5425,7 @@
   function apply(e) {
     if (e.s != null) run.bonus[e.s] += e.v;
     if (e.all) run.bonus = run.bonus.map((b) => b + e.all);
-    if (e.pts) run.points += e.pts;
+    if (e.pts) run.points = Math.max(0, run.points + e.pts);
     if (e.inj) run.injured = true;
     if (e.heal) run.injured = false;
     if (e.ally) run.ally = true;
@@ -5529,6 +5574,7 @@
     const avgTier = run.talent.reduce((a, b) => a + b, 0) / run.talent.length;
     run.underdog = overall() < 48 || avgTier < 3.6;
     bountyStart();
+    run.fate = 1;
     if (T().worldLore) logAdd("Prologue", fill(T().worldLore));
     logAdd("Prologue", fill(P.prologue || T().prologue) + (subsLine ? " " + subsLine : "") + " " + talentLine + (run.epithet ? ` One day they'll be called ${run.epithet}.` : "") + (P.tag ? " " + P.tag : ""));
     if (run.underdog) logAdd("Prologue", fill("Nobody expects anything from {first}. That's the one advantage they have."), "Underdog: training gains doubled, +3 power after every defeat, and upsets pay out big.");
@@ -5610,6 +5656,155 @@
     if (before === 0) return `The World Government prints ${run.name}'s first wanted poster: ${berry(run.bounty)}.`;
     if (before < 1e9 && run.bounty >= 1e9) { react("bounty"); sfx.gong(); }
     return `New wanted poster${why ? ` (${why})` : ""}: ${berry(before)} → ${berry(run.bounty)}.`;
+  }
+
+  // ================= fate tokens: bend a wheel before you spin it =================
+  // earned from upsets, clutch wins and legendary quests; spend one to make one slice three times bigger
+  function applyBend(w) {
+    if (!w || !run || !run.bend || w.title !== run.bend.title) return w;
+    const i = w.opts.indexOf(run.bend.opt);
+    if (i < 0) return w;
+    const ws = (w.weights && w.weights.length === w.opts.length ? w.weights : w.opts.map(() => 1)).slice();
+    ws[i] *= 3;
+    if (w.segs) w.segs = w.segs.map((s, j) => Object.assign({}, s, { w: ws[j] }));
+    return Object.assign({}, w, { weights: ws, bent: i, _g: null });
+  }
+  function bendPicker() {
+    const box = $("bendBox"), w = state.wheel;
+    box.innerHTML = "";
+    const h = document.createElement("p"); h.className = "bend-h"; h.textContent = `Bend fate: pick one slice of "${w.title}" to make 3× bigger (${run.fate} token${run.fate === 1 ? "" : "s"} left)`;
+    box.append(h);
+    w.opts.forEach((o) => {
+      const b = document.createElement("button"); b.className = "chip-btn"; b.textContent = cap(String(o));
+      b.addEventListener("click", () => {
+        run.fate--; run.bend = { title: w.title, opt: o }; box.hidden = true;
+        sfx.riser(); fxFlash("#d9c2ff"); react("fate", { v: o });
+        persist(); render();
+      });
+      box.append(b);
+    });
+    const c = document.createElement("button"); c.className = "link"; c.textContent = "Cancel";
+    c.addEventListener("click", () => { box.hidden = true; });
+    box.append(c);
+    box.hidden = false;
+  }
+  function gainFate(why) { run.fate = (run.fate || 0) + 1; sfx.coin(); return ` +1 Fate token (${why}).`; }
+
+  // ================= offers: accept or refuse =================
+  // devils, curses, crews and strangers make offers; the player clicks Accept or Refuse, and accepting can open its own wheel
+  const hasTag = (v) => activeValues().includes(v) || (run.gained || []).some((p) => p.n === v) || run.evTag === v || run.saga === v;
+  const OFFERS_COMMON = [
+    { id: "stranger", title: "A hooded stranger offers a deal", text: "\"Power now,\" the stranger says. \"Payment later. Don't worry about what.\"",
+      accept: { text: "{first} shakes the stranger's hand. It's cold.", wheel: { title: "What does the stranger want later?", opts: [["Nothing. They were just kind", 1, { all: 4 }, "The stranger never comes back. Some people are just kind."], ["A favor, someday", 2, { all: 4, gain: { n: "Owes a favor", d: "Someone will come to collect.", karma: -1 } }, "\"I'll be in touch,\" says a note under the door."], ["Their shadow", 1, { all: 7, inj: true }, "That night, {first}'s shadow stops following them."]] } },
+      refuse: { text: "{first} keeps walking. Some deals aren't worth it.", e: { pts: 1 } } },
+    { id: "bet", minStep: 3, title: "A gambler offers a double-or-nothing bet", text: "\"Two upgrade points,\" the gambler grins. \"Win and you get four. Lose and you get nothing.\"", cond: () => run.points >= 2,
+      accept: { text: "{first} puts two points on the table.", wheel: { title: "Double or nothing?", opts: [["Double!", 1, { pts: 2 }, "The dice come up perfect. {first} walks away with double."], ["Nothing", 1, { pts: -2 }, "The gambler laughs and sweeps the table."]] } },
+      refuse: { text: "{first} doesn't gamble. Not with this.", e: {} } },
+    { id: "shortcut", minStep: 2, title: "A shortcut through dangerous ground", text: "A shortcut could save days. Everyone who knows about it says don't take it.",
+      accept: { text: "{first} takes the shortcut.", wheel: { title: "How does the shortcut go?", opts: [["It works", 2, { pts: 2 }, "Days saved. Nobody believes {first} made it through."], ["It's a trap", 1, { inj: true, s: 3, v: 6 }, "It's a trap. {first} fights their way out, hurt but harder."]] } },
+      refuse: { text: "{first} takes the long road and arrives rested.", e: { heal: true } } }
+  ];
+  const OFFERS = {
+    blackclover: [
+      { id: "devil-out", need: "Five-leaf", title: "Your devil wants out for one fight", text: "The devil in your grimoire speaks: \"Let me out. Just for one fight. I'll win it for you.\"",
+        accept: { text: "{first} lets the devil out.", wheel: { title: "Does the devil go back in?", opts: [["It wins the fight and goes back", 2, { all: 6 }, "The devil tears through everything in sight, then slinks back into the grimoire, laughing."], ["It doesn't want to go back", 1, { all: 8, gain: { n: "Devil-touched", d: "The devil has a grip on their body now.", power: 4, karma: -1 } }, "It takes {first} three days to push the devil back in. Something stays behind."]] } },
+        refuse: { text: "{first} slams the grimoire shut. The devil sulks.", e: { gain: { n: "Held the devil back", d: "Refused the devil's offer.", karma: 1 } } } },
+      { id: "eye", minStep: 3, title: "The Eye of the Midnight Sun wants you", text: "A masked mage finds {first} alone: \"The kingdom spits on people like you. Join us.\"",
+        accept: { text: "{first} takes the mask.", e: { all: 5, gain: { n: "Eye of the Midnight Sun", d: "A traitor's power.", power: 4, karma: -2 } } },
+        refuse: { text: "{first} reports the meeting to headquarters. The captain notices.", e: { pts: 2 } } },
+      { id: "transfer", minStep: 4, title: "Another squad's captain offers a transfer", text: "The Golden Dawn's vice captain offers {first} a place in the kingdom's top squad.",
+        accept: { text: "{first} transfers. Better equipment, colder people.", e: { s: 0, v: 8 } },
+        refuse: { text: "{first} stays with the {Squad}. The squad never forgets it.", e: { gain: { n: "Loyal to the squad", d: "Turned down the top squad.", power: 3 } } } }
+    ],
+    jjk: [
+      { id: "vow", minStep: 2, title: "A binding vow is offered", text: "{first} can make a binding vow: give something up, and their technique gets stronger.",
+        accept: { text: "{first} makes the vow.", wheel: { title: "What does the vow cost?", opts: [["Reveal the technique before every fight", 2, { s: 1, v: 10 }, "{first} has to explain their technique to every enemy. It hits much harder for it."], ["Never fight non-sorcerers", 2, { s: 0, v: 8 }, "{first} can never raise a hand to a non-sorcerer. In exchange, their cursed energy surges."], ["Years off their life", 1, { all: 8, gain: { n: "Shortened life", d: "Traded years for power.", boss: 4 } }, "{first} trades years of their life for power, right now."]] } },
+        refuse: { text: "{first} doesn't make deals with their own soul.", e: {} } },
+      { id: "curse-deal", cond: () => run.evTag === "Vessel", title: "The curse inside offers a deal", text: "The curse inside {first} speaks: \"Let me have one minute, whenever I choose, and I'll keep you alive.\"",
+        accept: { text: "{first} agrees. The curse laughs.", e: { all: 6, gain: { n: "The curse's bargain", d: "The curse can take over once, when it chooses.", karma: -2, save: { chance: 0.6, uses: 1, text: "The curse takes its minute. {foe} doesn't survive it." } } } },
+        refuse: { text: "{first} refuses. The curse goes quiet, which is worse.", e: { gain: { n: "Refused the curse", d: "They kept their body their own.", karma: 1 } } } },
+      { id: "cult", minStep: 3, title: "A curse user cult offers sanctuary", text: "\"The jujutsu world will use you and throw you away,\" says the cult's preacher. \"We won't.\"",
+        accept: { text: "{first} goes with them.", e: { all: 5, gain: { n: "Curse user", d: "Turned their back on Jujutsu High.", power: 4, karma: -2 } } },
+        refuse: { text: "{first} reports the cult to the higher-ups.", e: { pts: 2 } } }
+    ],
+    hxh: [
+      { id: "spider", minStep: 4, cond: () => !hasTag("Chimera Ant"), title: "The Phantom Troupe offers a spider tattoo", text: "Chrollo Lucilfer smiles: \"A seat just opened up. Number 4.\"",
+        accept: { text: "{first} gets the tattoo.", e: { all: 6, gain: { n: "Spider tattoo", d: "A member of the Phantom Troupe.", power: 5, karma: -2 } } },
+        refuse: { text: "{first} walks away. The Spiders remember faces.", e: { gain: { n: "Turned down the Spiders", d: "The Troupe remembers.", karma: 1 } } } },
+      { id: "nen-vow", minStep: 3, title: "Make a Nen vow?", text: "A heavier condition makes a Hatsu stronger. A broken vow can cost everything.",
+        accept: { text: "{first} swears the vow.", wheel: { title: "How heavy is the vow?", opts: [["A light condition", 2, { s: 1, v: 8 }, "A small price. A real boost."], ["A heavy condition", 2, { s: 1, v: 12 }, "A serious restriction. A serious upgrade."], ["Life or death", 1, { all: 8, gain: { n: "Life-or-death vow", d: "Breaking it means dying.", boss: 6 } }, "If {first} ever breaks this vow, they die. Their aura has never been stronger."]] } },
+        refuse: { text: "{first} keeps their Nen flexible.", e: {} } }
+    ],
+    onepiece: [
+      { id: "fruit", need: "No fruit", minStep: 2, title: "A merchant offers an unknown Devil Fruit", text: "A swirling fruit in a velvet box. \"Nobody knows what it does,\" the merchant says. \"Eat it, and you'll never swim again.\"",
+        accept: { text: "{first} eats it. It tastes awful.", wheel: { title: "What kind of fruit was it?", opts: [["A Paramecia", 3, { gain: { n: "New Devil Fruit: Paramecia", d: "A brand-new power. Can't swim.", power: 5 } }, "{first}'s body starts doing something impossible."], ["A Logia", 1, { gain: { n: "New Devil Fruit: Logia", d: "They turn into an element. Can't swim.", power: 8 } }, "{first} dissolves into an element and reforms, laughing."], ["A Zoan", 2, { gain: { n: "New Devil Fruit: Zoan", d: "An animal form. Can't swim.", power: 6 } }, "Fur, claws, or scales: {first} has an animal form now."]] } },
+        refuse: { text: "{first} wants to keep swimming.", e: { pts: 1 } } },
+      { id: "emperor-crew", minStep: 4, cond: () => tv("Affiliation") === "Pirate crew", title: "An Emperor offers you a place in their crew", text: "An Emperor of the Sea has noticed {first}. The offer comes with protection, and a leash.",
+        accept: { text: "{first} joins an Emperor's crew.", e: { ally: true, all: 4 } },
+        refuse: { text: "{first} stays their own captain.", e: { gain: { n: "Nobody's subordinate", d: "Refused an Emperor.", power: 4 } } } },
+      { id: "warlord", minStep: 5, cond: () => run.bounty != null && run.bounty >= 1e8, title: "The World Government offers a Warlord seat", text: "A government envoy offers a pardon: become a Warlord of the Sea and hunt other pirates.",
+        accept: { text: "{first} becomes a government-sanctioned pirate.", e: { pts: 3, gain: { n: "Warlord of the Sea", d: "A pirate with a government license.", karma: -1, power: 3 } } },
+        refuse: { text: "{first} tears up the offer in front of the envoy.", e: { gain: { n: "Refused the government", d: "Pirates don't take pardons.", karma: 1 } } } }
+    ],
+    fantasy: [
+      { id: "ring", cond: () => run.saga === "fellowship", minStep: 5, title: "The Ring offers you its power", text: "The Binding Ring whispers: \"Put me on. Just once. You could end this war yourself.\"",
+        accept: { text: "{first} slips the Ring on.", wheel: { title: "Can {first} take it off again?", opts: [["Yes, barely", 2, { all: 6 }, "{first} tears it off, shaking. They saw everything the Dark Lord sees."], ["No", 1, { all: 10, gain: { n: "Ring-bound", d: "The Ring is changing them.", karma: -3, power: 6 } }, "{first} doesn't take it off for a long time."]] } },
+        refuse: { text: "{first} keeps the Ring on its chain.", e: { gain: { n: "Ring-refuser", d: "Resisted the Ring.", karma: 1 } } } },
+      { id: "outer-prince", minStep: 3, title: "An Outer Prince offers a gift", text: "A voice from outside the world offers {first} an artifact. The voice is very polite.",
+        accept: { text: "{first} takes the artifact.", e: { all: 6, gain: { n: "Outer Prince's gift", d: "A gift from something that isn't a god.", power: 5, karma: -2 } } },
+        refuse: { text: "{first} refuses. The voice laughs and goes away.", e: { pts: 1 } } },
+      { id: "marriage", cond: () => run.saga === "throne", title: "A Great House offers a marriage alliance", text: "A Great House offers {first} a marriage, an army, and a claim to the Thorn Throne.",
+        accept: { text: "{first} accepts. The wedding is planned.", e: { ally: true, all: 4 } },
+        refuse: { text: "{first} refuses, and the House takes it personally.", e: { gain: { n: "Spurned a Great House", d: "They'll remember.", power: 2 } } } }
+    ],
+    hero: [
+      { id: "league", minStep: 3, title: "The villain league offers you a seat", text: "\"Heroes are paid in thank-you notes,\" the league's boss says. \"We pay in cash.\"",
+        accept: { text: "{first} takes the seat.", e: { pts: 3, gain: { n: "Villain league member", d: "Paid well, trusted by nobody.", karma: -2, power: 3 } } },
+        refuse: { text: "{first} walks out.", e: { gain: { n: "Not for sale", d: "Turned down the villain league.", karma: 1 } } } },
+      { id: "register", minStep: 2, title: "The government wants you to register", text: "Register your secret identity with the government and get funding, gear, and a leash.",
+        accept: { text: "{first} registers.", e: { s: 2, v: 10 } },
+        refuse: { text: "{first} stays off the books.", e: { gain: { n: "Off the books", d: "Nobody knows who they are.", power: 3 } } } }
+    ]
+  };
+  const offerDef = (id) => (OFFERS[state.theme] || []).concat(OFFERS_COMMON).find((o) => o.id === id);
+  function pickOffer() {
+    const seen = run.offersSeen || [];
+    const ok = (OFFERS[state.theme] || []).concat(OFFERS_COMMON).filter((o) => !seen.includes(o.id) && run.step >= (o.minStep || 1) && (!o.need || hasTag(o.need)) && (!o.cond || o.cond()));
+    const series = ok.filter((o) => !OFFERS_COMMON.includes(o));
+    return pick(series.length && Math.random() < 0.75 ? series : ok) || null;
+  }
+  function maybeOffer() {
+    if (run.offer || run.act || run.offerChecked === run.step || run.step < 1 || run.step >= S().length - 2 || (run.offersSeen || []).length >= 3) return false;
+    run.offerChecked = run.step;
+    if (!(turbo && window.__force && window.__force.offerAlways) && Math.random() > 0.3) return false;
+    const o = pickOffer(); if (!o) return false;
+    run.offer = { id: o.id, stage: "choose" }; run.offersSeen = (run.offersSeen || []).concat(o.id);
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    logAdd(head, fill(o.text));
+    setNarr(o.title, fill(o.text) + " Accept or refuse?");
+    sfx.offer(); react("offer");
+    return true;
+  }
+  function decideOffer(yes) {
+    const o = offerDef(run.offer.id), side = yes ? o.accept : o.refuse, e = side.e || {};
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    apply(e);
+    const fx = describe(e);
+    logAdd(head, fill(side.text), fx ? fx + "." : "", false);
+    setNarr(yes ? "Accepted" : "Refused", fill(side.text) + (fx ? " " + fx + "." : ""));
+    if (yes && side.wheel) run.offer.stage = "spin"; else run.offer = null;
+    if (yes) { sfx.riser(); fxShake(1); } else sfx.meh();
+    persist(); render();
+  }
+  const offerWheel = () => { const o = offerDef(run.offer.id), w = o.accept.wheel; return tw(fill(w.title), w.opts.map((x) => fill(x[0])), w.opts.map((x) => x[1]), { label: "Offer" }); };
+  async function offerSpin() {
+    const o = offerDef(run.offer.id), W = o.accept.wheel, k = await spin(offerWheel()), [label, , e, text] = W.opts[k];
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    apply(e);
+    logAdd(head, fill(text), describe(e) + ".", !!(e.inj || (e.pts && e.pts < 0)));
+    setNarr(fill(label), fill(text) + " " + describe(e) + ".");
+    run.offer = null;
+    if (k === 0) { sfx.fanfare(); react("rare", { v: fill(label) }); } else { sfx.thunder(); fxShake(2); }
   }
 
   // ================= the adventure loop =================
@@ -5885,7 +6080,7 @@
         run.w++; run.points += 1 + d; markUsed("quest", a.quest[0]);
         let fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
         if (run.bounty != null) fx += " " + bountyBump(questPower(d), 0.6 * d, q.toLowerCase());
-        if (d >= 3) fx += promote();
+        if (d >= 3) fx += promote() + gainFate("legendary quest");
         if (d >= 4) run.gained = (run.gained || []).concat({ n: cap(q), d: "A legendary deed. +5 power.", power: 5 });
         logAdd(head, fill("{first} pulls it off.", {}), fx); setNarr("Quest complete", fx);
         sfx.fanfare(); if (d >= 3) { fxFlash("#fff6d0"); react("legend"); }
@@ -5928,7 +6123,7 @@
     let t, fx, bad = false;
     if (saved) { run.w++; run.points += 2; run.injured = false; t = fill(saved.save.text, v); fx = `${saved.n}! The defeat is undone. Victory, +2 upgrade points.`; }
     else if (o === "win") { run.w++; run.points += 2; run.injured = false; t = fill(pick(lines("win", WIN)), v); fx = "Victory. +2 upgrade points."; }
-    else if (o === "clutch") { run.w++; run.points += 3; run.injured = false; run.bonus = run.bonus.map((b) => b + 4); t = fill(pick(lines("clutch", CLUTCH)), v); fx = `${T().clutch}! Victory, +4 to every stat, +3 upgrade points.`; }
+    else if (o === "clutch") { run.w++; run.points += 3; run.injured = false; run.bonus = run.bonus.map((b) => b + 4); t = fill(pick(lines("clutch", CLUTCH)), v); fx = `${T().clutch}! Victory, +4 to every stat, +3 upgrade points.` + gainFate("clutch"); }
     else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(lines("draw", DRAW)), v); fx = "Draw. +1 upgrade point."; }
     else {
       run.l++; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured (−10 power) until they win or heal, and one fewer good ending on the final wheel."; bad = true;
@@ -5941,7 +6136,7 @@
     if (upset) {
       const up = odds < 0.25 ? 6 : 4;
       run.bonus = run.bonus.map((b) => b + up); run.points += 1;
-      fx += ` Upset! Nobody gave them a chance. +${up} to every stat, +1 upgrade point.`;
+      fx += ` Upset! Nobody gave them a chance. +${up} to every stat, +1 upgrade point.` + gainFate("upset");
     }
     if (st.pool === "boss" && won) { run.bossWin = true; fx += promote(); }
     if (st.k === "rival" && won) {
@@ -6010,10 +6205,12 @@
     setNarr(k === 0 ? "Survived" : "Barely", fill("{first} is still breathing."));
   }
   async function journeyStep() {
+    if (run.offer && run.offer.stage === "spin") { await offerSpin(); persist(); render(); return; }
     if (run.bossSurvive) { await bossSurvivalStep(); persist(); render(); return; }
     if (run.ruleReady && !run.act) { await ruleStep(); persist(); render(); return; }
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
     if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
+    if (maybeOffer()) { persist(); render(); return; }
     const st = S()[run.step];
     if (st.k === "act") { await actStep(); persist(); render(); return; }
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
@@ -6146,6 +6343,8 @@
     upset: ["Oh what a comeback ngl..", "NOBODY gave them a chance", "Underdog story fr", "The odds were lying"],
     clutch: ["THAT'S WHAT I'M TALKING ABOUT", "Clutch of the century", "They really said not today"],
     choke: ["How did they lose that??", "Fumbled the bag", "The wheel has a sense of humor"],
+    offer: ["Ooh, an offer. Think carefully", "This feels like a trap", "Big decision incoming"],
+    fate: ["Fate just got bent", "Rigging the wheel? Respect", "{v}, please"],
     saved: ["{v} saved them. Plot armor is real", "Not like this... wait, it IS like this"],
     scary: ["Oh no.", "Unlucky spin..", "This is not looking good", "Run."],
     lucky: ["Lucky it wasn't the whole army", "Phew."],
@@ -6163,7 +6362,7 @@
     goodEnd: ["What a story", "Main character ending", "Peak"],
     badEnd: ["Not the ending we wanted..", "Pain.", "The wheel was cruel"]
   };
-  const REACT_FACE = { rare: "😳", godly: "🤯", low: "😬", combo: "🔥", upset: "😭", clutch: "😤", choke: "💀", saved: "😇", scary: "😨", lucky: "😮‍💨", nothing: "🗿", dead: "💀", barely: "😰", ally: "🤝", enemy: "😈", followers: "👑", legend: "🏆", evolve: "⚡", retire: "🫡", bounty: "💰", boss: "😨", goodEnd: "🥹", badEnd: "😔" };
+  const REACT_FACE = { rare: "😳", godly: "🤯", low: "😬", combo: "🔥", upset: "😭", clutch: "😤", choke: "💀", saved: "😇", scary: "😨", lucky: "😮‍💨", nothing: "🗿", dead: "💀", barely: "😰", ally: "🤝", enemy: "😈", followers: "👑", legend: "🏆", evolve: "⚡", retire: "🫡", bounty: "💰", boss: "😨", offer: "🤔", fate: "🔮", goodEnd: "🥹", badEnd: "😔" };
   let reactTimer = 0, lastReact = 0;
   function react(kind, vars) {
     if ((turbo && !window.__showReact) || !REACT[kind]) return;
@@ -6174,8 +6373,36 @@
     if (!el) return;
     el.querySelector(".rx-face").textContent = REACT_FACE[kind] || "😳";
     el.querySelector(".rx-text").textContent = fill(pick(REACT[kind]), vars || {});
-    el.hidden = false; el.classList.remove("show"); void el.offsetWidth; el.classList.add("show");
-    clearTimeout(reactTimer); reactTimer = setTimeout(() => { el.classList.remove("show"); el.hidden = true; }, 2300);
+    // every reaction has a tone (color, burst, shake and sound) that matches the moment
+    const fx = REACT_FX[kind] || { tone: "good" };
+    el.className = "reaction tone-" + fx.tone;
+    el.hidden = false; void el.offsetWidth; el.classList.add("show");
+    if (fx.sound && sfx[fx.sound]) setTimeout(() => sfx[fx.sound](), 120);
+    if (fx.shake) fxShake(fx.shake);
+    if (fx.flash) fxFlash(fx.flash);
+    burst(fx.tone);
+    clearTimeout(reactTimer); reactTimer = setTimeout(() => { el.classList.remove("show"); el.hidden = true; }, 2600);
+  }
+  const REACT_FX = {
+    rare: { tone: "epic", sound: "crowd" }, godly: { tone: "epic", sound: "riser", flash: "#e6d4ff" }, combo: { tone: "epic", sound: "crowd", shake: 1 },
+    low: { tone: "bad" }, upset: { tone: "good", sound: "crowd", shake: 1, flash: "#ffe7a3" }, clutch: { tone: "good", sound: "crowd", shake: 2, flash: "#ffd27a" },
+    choke: { tone: "bad", sound: "scratch" }, saved: { tone: "epic", flash: "#fff6d0" }, scary: { tone: "bad", sound: "heartbeat", shake: 1 },
+    lucky: { tone: "good" }, nothing: { tone: "bad" }, dead: { tone: "bad", sound: "shatter", shake: 2, flash: "#5a0010" }, barely: { tone: "bad", sound: "heartbeat" },
+    ally: { tone: "good", sound: "coin" }, enemy: { tone: "bad", sound: "thunder" }, followers: { tone: "good", sound: "crowd" }, legend: { tone: "epic", sound: "crowd", shake: 1 },
+    evolve: { tone: "epic", sound: "riser", shake: 1 }, retire: { tone: "good" }, goodEnd: { tone: "epic", sound: "crowd" }, badEnd: { tone: "bad", sound: "shatter" },
+    boss: { tone: "bad", sound: "thunder", shake: 2, flash: "#3a0008" }, bounty: { tone: "epic", sound: "coin", shake: 1 }, offer: { tone: "epic" }, fate: { tone: "epic" }
+  };
+  const BURST = { good: ["✨", "🔥", "⭐", "💥"], epic: ["✨", "💫", "🌟", "👑"], bad: ["💀", "🩸", "💢", "⚡"] };
+  function burst(tone) {
+    if (reduceMotion) return;
+    const wrap = document.querySelector(".wheel-wrap"); if (!wrap) return;
+    for (let i = 0; i < 16; i++) {
+      const s = document.createElement("span"), ang = Math.random() * Math.PI * 2, d = 120 + Math.random() * 140;
+      s.className = "spark"; s.textContent = pick(BURST[tone] || BURST.good);
+      s.style.setProperty("--dx", Math.cos(ang) * d + "px"); s.style.setProperty("--dy", Math.sin(ang) * d + "px");
+      s.style.animationDelay = Math.random() * 0.15 + "s";
+      wrap.append(s); setTimeout(() => s.remove(), 1500);
+    }
   }
 
   async function primary() {
@@ -6183,7 +6410,7 @@
     ensureAudio();
     state.winner = -1;
     if (run.phase === "create") { if (isComplete()) startJourney(); else await spinNext(); }
-    else if (run.phase === "journey") await journeyStep();
+    else if (run.phase === "journey") { if (run.offer && run.offer.stage === "choose") decideOffer(true); else await journeyStep(); }
     else newCharacter(true);
   }
 
@@ -6407,7 +6634,7 @@
     const busy = state.spinning || state.auto;
     if (document.documentElement.dataset.series !== state.theme) document.documentElement.dataset.series = state.theme;
     $("tagline").textContent = T().tagline || "Spin the wheels, accept your fate";
-    if (!busy && state.winner === -1) state.wheel = upcomingWheel();
+    if (!busy && state.winner === -1) state.wheel = applyBend(upcomingWheel());
     renderPrompt(); renderButtons(busy); renderNarr(); renderCard(); renderUpgrades(); renderTraits(busy); renderStory(); renderEditor(); renderHistory();
     $("aiWhere").textContent = inClaude ? "You're viewing this inside claude.ai, which blocks outside services. AI portraits work when the page is opened from GitHub Pages or from index.html on your computer." : "Paste your own OpenAI API key. Each character gets an AI portrait, painted automatically as soon as their stats are rolled.";
     $("aiSaved").textContent = state.ai.key ? "Key saved in this browser." : "No key saved.";
@@ -6426,8 +6653,10 @@
       else { title = "Ready for the journey"; sub = `${S().length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = S()[run.step];
-      eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "") + (run.cg != null && st.cg ? ` · ${run.cg} Culling Game points` : "");
-      if (run.bossSurvive) { title = survivalWheel().title; sub = "Losing the final battle can be fatal"; }
+      eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "") + (run.cg != null && st.cg ? ` · ${run.cg} Culling Game points` : "") + (run.fate ? ` · ✦ ${run.fate} fate` : "");
+      if (run.offer && run.offer.stage === "choose") { const o = offerDef(run.offer.id); title = o.title; sub = "Accept or refuse: your call, not the wheel's"; }
+      else if (run.offer) { title = offerWheel().title; sub = "You accepted. Now the wheel decides what it costs"; }
+      else if (run.bossSurvive) { title = survivalWheel().title; sub = "Losing the final battle can be fatal"; }
       else if (run.ruleReady && !run.act) { title = ruleWheel().title; sub = "Kogane is waiting"; }
       else if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
       else if (needsCodename() && !run.act) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = "Spin your hero name"; }
@@ -6465,11 +6694,15 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
-      label = run.bossSurvive ? "Do you survive?" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = run.offer && run.offer.stage === "choose" ? "Accept" : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     p.textContent = label; p.disabled = busy;
     $("spinAll").hidden = run.phase !== "create" || isComplete();
+    const offering = run.phase === "journey" && run.offer && run.offer.stage === "choose";
+    $("refuse").hidden = !offering; $("refuse").disabled = busy;
+    $("bendFate").hidden = run.phase !== "journey" || !run.fate || offering || !!run.bend;
+    $("bendFate").textContent = `✦ Bend fate (${run.fate || 0})`; $("bendFate").disabled = busy;
     $("spinAll").disabled = busy;
     const nc = $("newChar");
     nc.hidden = run.phase === "done";
@@ -6801,6 +7034,8 @@
   $("rename").addEventListener("click", () => { run.name = makeName(true); persist(); render(); });
   $("rerollLimit").addEventListener("change", () => { state.rerollLimit = Number($("rerollLimit").value); persist(); render(); });
   $("aiGen").addEventListener("click", genAI);
+  $("refuse").addEventListener("click", () => { if (run.offer && run.offer.stage === "choose" && !state.spinning) decideOffer(false); });
+  $("bendFate").addEventListener("click", () => { if (state.spinning || !run.fate) return; state.winner = -1; render(); bendPicker(); });
   $("saveCard").addEventListener("click", () => saveCardImage($("cardSlot").querySelector(".tcard"), run.name, $("aiMsg")));
   $("modalClose").addEventListener("click", closeModal);
   $("modal").addEventListener("click", (e) => { if (e.target === $("modal")) closeModal(); });
