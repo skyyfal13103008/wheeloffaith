@@ -7377,7 +7377,7 @@
   function renderButtons(busy) {
     const p = $("primary");
     let label = "Spin";
-    if (run.phase === "create") label = isComplete() ? "Begin the journey" : "Spin";
+    if (run.phase === "create") label = isComplete() ? "Begin the journey" : run.results.every((x) => x == null) ? "Start" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
       label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
@@ -7866,7 +7866,7 @@
   // ================= boot =================
   try {
     const r = JSON.parse(localStorage.getItem(RUNSTORE));
-    if (r && r.theme === state.theme && Array.isArray(r.results) && r.results.length === baseCats().length && r.subs && r.hidden && r.narr && Array.isArray(r.talent) && r.talent.length === T().stats.length && r.bonus.length === T().stats.length && r.v === 5) run = r;
+    if (r && r.theme === state.theme && Array.isArray(r.results) && r.results.length === baseCats().length && r.subs && r.hidden && r.narr && Array.isArray(r.talent) && r.talent.length === T().stats.length && r.bonus.length === T().stats.length && r.v === 6) run = r;
   } catch (e) { /* no saved run */ }
   if (!run) run = newRun();
 
