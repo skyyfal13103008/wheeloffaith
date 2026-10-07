@@ -5693,7 +5693,7 @@
     if (wheel.bent != null) run.bend = null;
     if (!turbo) { if (wheel.segs || wheel.label === "Battle") sfx.tension(3.6); else sfx.whoosh(); }
     return new Promise((resolve) => {
-      state.wheel = wheel; state.winner = -1; state.spinning = true;
+      state.wheel = wheel; state.winner = -1; state.spinning = true; state.hold = null; state.spinCount = (state.spinCount || 0) + 1;
       render();
       // land anywhere on the ring: a slice's odds equal its size
       const G = geom(wheel);
@@ -7085,10 +7085,14 @@
   async function primary() {
     if (state.spinning || state.auto) return;
     ensureAudio();
+    if (state.hold) { state.hold = null; state.winner = -1; render(); return; }
+    const shown = { eb: $("promptEyebrow").textContent, title: $("promptTitle").textContent, sub: $("promptSub").textContent }, spins = state.spinCount || 0;
     state.winner = -1;
     if (run.phase === "create") { if (isComplete()) startJourney(); else await spinNext(); }
     else if (run.phase === "journey") { if (run.offer && run.offer.stage === "choose") decideOffer(true); else await journeyStep(); }
-    else newCharacter(true);
+    else { newCharacter(true); return; }
+    // hold the landed wheel and its title until Next (not in test mode, and not once the story is over)
+    if (!turbo && (state.spinCount || 0) > spins && run.phase !== "done" && state.winner >= 0) { state.hold = shown; render(); }
   }
 
   // series with an entrance exam don't let you buy rank or awaken before you've passed it
@@ -7365,6 +7369,8 @@
         sub = `Landed on: ${cap(String(landed))}`;
       }
     }
+    // after a spin, the wheel and its title stay up until the player presses Next
+    if (state.hold) ({ eb, title, sub } = state.hold);
     $("promptEyebrow").textContent = eb; $("promptTitle").textContent = title; $("promptSub").textContent = sub;
   }
 
@@ -7377,9 +7383,10 @@
       label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
+    if (state.hold && !busy) label = "Next";
     p.textContent = label; p.disabled = busy;
     $("spinAll").hidden = run.phase !== "create" || isComplete();
-    const offering = run.phase === "journey" && run.offer && run.offer.stage === "choose";
+    const offering = !state.hold && run.phase === "journey" && run.offer && run.offer.stage === "choose";
     $("refuse").hidden = !offering; $("refuse").disabled = busy;
     if (offering) $("refuse").textContent = offerDef(run.offer.id).no || "Refuse";
     $("bendFate").hidden = run.phase !== "journey" || !run.fate || offering || !!run.bend;
@@ -7774,27 +7781,27 @@
 
   function commitCats(cs) {
     state.custom[state.theme] = cs;
-    run = newRun(); state.winner = -1;
+    run = newRun(); state.winner = -1; state.hold = null;
     persist(); render();
   }
 
   // ================= events =================
   Object.entries(THEMES).forEach(([k, t]) => { const o = document.createElement("option"); o.value = k; o.textContent = t.label; $("theme").append(o); });
   $("theme").value = state.theme;
-  $("theme").addEventListener("change", () => { state.theme = $("theme").value; state.editIdx = 0; run = newRun(); state.winner = -1; $("aiMsg").textContent = ""; persist(); fillEditForm(); render(); });
+  $("theme").addEventListener("change", () => { state.theme = $("theme").value; state.editIdx = 0; run = newRun(); state.winner = -1; state.hold = null; $("aiMsg").textContent = ""; persist(); fillEditForm(); render(); });
 
   const setMute = () => { $("mute").textContent = state.muted ? "Sound off" : "Sound on"; $("mute").setAttribute("aria-pressed", String(state.muted)); };
   $("mute").addEventListener("click", () => { state.muted = !state.muted; setMute(); persist(); });
   setMute();
 
   $("primary").addEventListener("click", primary);
-  $("spinAll").addEventListener("click", () => { ensureAudio(); state.winner = -1; spinAll(); });
+  $("spinAll").addEventListener("click", () => { ensureAudio(); state.winner = -1; state.hold = null; spinAll(); });
   $("newChar").addEventListener("click", () => newCharacter(false));
   $("rename").addEventListener("click", () => { run.name = makeName(true); persist(); render(); });
   $("rerollLimit").addEventListener("change", () => { state.rerollLimit = Number($("rerollLimit").value); persist(); render(); });
   $("aiGen").addEventListener("click", genAI);
   $("refuse").addEventListener("click", () => { if (run.offer && run.offer.stage === "choose" && !state.spinning) decideOffer(false); });
-  $("bendFate").addEventListener("click", () => { if (state.spinning || !run.fate) return; state.winner = -1; render(); bendPicker(); });
+  $("bendFate").addEventListener("click", () => { if (state.spinning || !run.fate) return; state.winner = -1; state.hold = null; render(); bendPicker(); });
   $("saveCard").addEventListener("click", () => saveCardImage($("cardSlot").querySelector(".tcard"), run.name, $("aiMsg")));
   $("modalClose").addEventListener("click", closeModal);
   $("modal").addEventListener("click", (e) => { if (e.target === $("modal")) closeModal(); });
@@ -7853,7 +7860,7 @@
     }
     resetArmed = false; $("resetTheme").textContent = "Reset series"; $("resetConfirm").textContent = "";
     delete state.custom[state.theme]; state.editIdx = 0;
-    run = newRun(); state.winner = -1; persist(); fillEditForm(); render();
+    run = newRun(); state.winner = -1; state.hold = null; persist(); fillEditForm(); render();
   });
 
   // ================= boot =================
