@@ -688,7 +688,7 @@
         "Fire": ["Elemental spirit", ["No spirit", "No spirit", "A fire spirit chose you"]],
         "Wind": ["Elemental spirit", ["No spirit", "No spirit", "A wind spirit chose you"]],
         "Water": ["Elemental spirit", ["No spirit", "No spirit", "A water spirit chose you"]],
-        "Earth": ["Elemental spirit", ["No spirit", "No spirit", "A earth spirit chose you"]],
+        "Earth": ["Elemental spirit", ["No spirit", "No spirit", "An earth spirit chose you"]],
         "Dark": ["Dark Magic depth", ["Dark Cloak", "Dimension Slash", "Dimension Slash: Equinox"], true],
         "Anti Magic": ["Anti Magic sword", ["Demon-Slayer Sword", "Demon-Dweller Sword", "Demon-Destroyer Sword", "Demon-Dweller and Slayer"]],
         "Spatial": ["Spatial style", ["Portals", "Teleport strikes", "Spatial cuts"]],
@@ -768,7 +768,7 @@
       "A fire spirit chose you": { n: "Fire spirit", d: "A fire spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: fire", 90] },
       "A wind spirit chose you": { n: "Wind spirit", d: "A wind spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: wind", 90] },
       "A water spirit chose you": { n: "Water spirit", d: "A water spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: water", 90] },
-      "A earth spirit chose you": { n: "Earth spirit", d: "A earth spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: earth", 90] },
+      "An earth spirit chose you": { n: "Earth spirit", d: "An earth spirit chose them as its partner. +6 power.", power: 6, extra: ["Spirit: earth", 90] },
       "Dimension Slash: Equinox": { n: "Equinox", d: "A slash that cuts dimensions. +6 power.", power: 6 },
       "Anti Magic": { n: "Anti Magic", d: "No mana, so magic can't touch them. +6 power in the biggest fights.", boss: 6 },
       "Demon-Dweller and Slayer": { n: "Two demon swords", d: "+4 power.", power: 4 },
@@ -813,7 +813,7 @@
       ending: ["When it's over, the Clover Kingdom remembers."]
     },
     battle: {
-      win: ["{first} pours everything into {sig}. {foe} is blasted out of the battlefield.", "{foe} sneers at a {Rank}. {style} and {sig} change their mind fast.", "A long, ugly fight. {first} surpasses their limits and outlasts {foe}."],
+      win: ["{first} pours everything into {sig}. {foe} is blasted out of the battlefield.", "{foe} sneers at {Rank|a}. One taste of {sig} changes their mind fast.", "A long, ugly fight. {first} surpasses their limits and outlasts {foe}."],
       loss: ["{foe}'s mana is overwhelming. {first} wakes up in the infirmary.", "{first} charges in with {sig}. {foe} saw it coming."],
       clutch: ["{first} is on the ground, grimoire torn. Then they surpass their limits right here, right now. {sig} lands, and {foe} goes down."],
       draw: ["Both mages run dry of mana at the same moment."]
@@ -1070,7 +1070,7 @@
       ending: ["When it's over, the jujutsu world counts its dead and its survivors."]
     },
     battle: {
-      win: ["{first} closes the distance with {style} and finishes it with {sig}. {foe} disintegrates.", "{foe} expected a {Grade} sorcerer. They got {sig}.", "Cursed energy flares around {weapon}. One clean hit, and {foe} is exorcised."],
+      win: ["{first} closes the distance with {style} and finishes it with {sig}. {foe} goes down and stays down.", "{foe} expected a {Grade} sorcerer. They got {sig}.", "Cursed energy flares around {weapon}. One clean hit, and {foe} is finished."],
       loss: ["{foe}'s cursed energy is overwhelming. {first} wakes up in Shoko's infirmary.", "{first} commits to {sig} too early. {foe} reads it and punishes them hard."],
       clutch: ["The distortion hits within a millionth of a second. {clutch}. Cursed energy sparks black, and {foe} flies through three walls."],
       draw: ["Both sides run out of cursed energy at once. {first} and {foe} stagger apart."]
@@ -1264,7 +1264,7 @@
       "Specialist": { n: "Specialist", d: "No one can predict their ability. +3 power.", power: 3 }
     },
     move: "{Hatsu|lower}",
-    prologue: "{name} grew up in {Origin}. They don't know Nen yet, but when they learn it, water divination will mark {first} as {Nen type|a}, and their Hatsu will become {Hatsu|lower}. The catch: {Restriction}. They fight with {Weapon}, they're {Personality|lower}, and right now they're {Rank|a} who wants to be a {Hunter type}.",
+    prologue: "{name} grew up in {Origin}. They don't know Nen yet, but when they learn it, water divination will mark {first} as {Nen type|a}, and their Hatsu will become {Hatsu|lower}. The catch: {Restriction}. They fight with {Weapon}, they're {Personality|lower}, and right now they're {Rank|a} who wants to be {Hunter type|a}.",
     titleTpl: "{Nen type}, {Rank}",
     chips: ["Race", "Hatsu", "Fighting style", "Weapon"],
     pathCat: "Origin",
@@ -1523,7 +1523,7 @@
       { when: ["Race", "Buccaneer"], cat: "Birthplace", opts: ["Sorbet Kingdom, South Blue", "Mary Geoise (as a slave)", "God Valley"] },
       { when: ["Age", "Kid (10-14)"], cat: "Haki type", opts: ["None yet", "None yet", "None yet", "Observation", "Armament", "Conqueror's"] },
       { when: ["Age", "Kid (10-14)"], cat: "Bounty", opts: ["0 berries", "0 berries", "30 million"] },
-      { when: ["Affiliation", "Marines"], cat: "Bounty", name: "Marine rank", opts: ["Seaman recruit", "Lieutenant", "Captain", "Vice admiral", "Admiral", "Fleet admiral"] },
+      { when: ["Affiliation", "Marines"], cat: "Bounty", name: "Marine rank", opts: ["Seaman recruit", "Lieutenant", "Captain", "Vice admiral", "Admiral"] },
       { when: ["Affiliation", "World Government agent"], cat: "Bounty", name: "Clearance", opts: ["Field agent", "Senior agent", "CP0 elite", "Agent of the Five Elders"] },
       { when: ["Affiliation", "Celestial Dragon"], cat: "Bounty", name: "Standing in Mary Geoise", opts: ["Minor noble", "Respected noble", "Elite of the Holy Land", "Holy Land legend"] },
       { when: ["Affiliation", "Revolutionary Army"], cat: "Bounty", opts: ["100 million", "600 million", "2 billion"] },
@@ -1743,7 +1743,7 @@
         boss: [["Kaido of the Beasts", 95], ["Marshall D. Teach", 94], ["Fleet Admiral Akainu", 92], ["Charlotte Linlin", 93], ["Imu", 99], ["Saint Figarland Garling", 90]]
       },
       training: [["Two years on Rusukaina with Silvers Rayleigh", { s: 0, v: 10 }], ["Sword training on Kuraigana Island with Mihawk", { s: 2, v: 10 }], ["Black Leg and Okama Kenpo on Kamabakka", { s: 3, v: 10 }], ["Weather science lessons on Weatheria", { s: 5, v: 10 }], ["Ryuo lessons from old Hyogoro in Udon prison", { s: 0, v: 8 }], ["Soru and Geppo drills on a Marine base", { s: 4, v: 10 }], ["Pushing their body and Haki to the limit", { s: 1, v: 10 }], ["Got lost at sea for a month", { pts: 2 }], ["Feasted with the crew for three days", { heal: true, all: 2 }]],
-      twists: [["The morning paper prints your face and the whole world learns it", { pts: 2 }], ["A Seraphim scatters your crew across the world with a paw-shaped blast", { s: 3, v: 6 }], ["A Buster Call is ordered on the island you're on", { inj: true, pts: 2 }], ["Vegapunk's broadcast reveals the truth of the Void Century", { s: 5, v: 10 }], ["An Emperor offers you a place in their crew", { ally: true }], ["You find a Road Poneglyph", { pts: 3 }], ["Your crewmate is captured and sent to Impel Down", { inj: true, s: 0, v: 8 }], ["You awaken Conqueror's Haki in a moment of rage", { s: 0, v: 12 }], ["The Five Elders mark you as a threat to the world", { all: 5 }]],
+      twists: [["The morning paper prints your face and the whole world learns it", { pts: 2 }], ["A Seraphim scatters your crew across the world with a paw-shaped blast", { s: 3, v: 6 }], ["A Buster Call is ordered on the island you're on", { inj: true, pts: 2 }], ["Vegapunk's broadcast reveals the truth of the Void Century", { s: 5, v: 10 }], ["An Emperor offers you a place in their crew", { ally: true }], ["You find a Road Poneglyph", { pts: 3 }], ["Your crewmate is captured and sent to Impel Down", { inj: true, s: 0, v: 8 }], ["You awaken Conqueror's Haki in a moment of rage", { s: 0, v: 12, not: ["Conqueror's", "All three"] }], ["The Five Elders mark you as a threat to the world", { all: 5 }]],
       endings: { good: ["Becomes King of the Pirates", "A new Emperor of the Sea", "Achieves their dream", "Retires to a quiet island with a legendary bounty"], bad: ["Executed in public", "Locked in Impel Down Level 6", "Sunk at sea", "Captured and made a Marine dog"] }
     },
     paths: {
@@ -3477,7 +3477,7 @@
         scenes: { early: ["Trolls on the road, arguing about how to cook {first}."] },
         foes: { early: [["Three hungry trolls", 26], ["Wargs", 22]] },
         twists: [["You find an elven brooch in a troll hoard", { gain: { n: "Troll-hoard brooch", d: "Hides its wearer when it matters. +4 power.", power: 4 } }]],
-        chances: [["{first} is too small for {foe} to notice", { s: 4, v: 10 }]],
+        chances: [["{first} is too small for anyone to notice", { s: 4, v: 10 }]],
         endings: { good: ["Goes home, plants a garden, writes a book"], bad: ["Never sees the Hearthdowns again"] }
       },
       "Vampire": {
@@ -3687,6 +3687,8 @@
     allies: [["Killua Zoldyck", { s: 4, v: 6 }], ["Gotoh, the head butler", { s: 2, v: 6 }], ["Canary", { s: 2, v: 6 }], ["Alluka Zoldyck", { all: 3 }]]
   });
   Object.assign(THEMES.onepiece.paths["Marines"], {
+    acts: [["fight", "Arrest a pirate crew", 3], ["hunt", "Hunt a sea monster", 2.5], ["train", "Train", 3], ["quest", "Take orders from HQ", 3], ["explore", "Patrol the sea lanes", 2], ["treasure", "Raid a pirate stash", 1.5], ["ally", "Make a friend in the ranks", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new technique", 1.5], ["followers", "Earn command of your own unit", 1], ["war", "Go to war", 1], ["rest", "Take shore leave", 0.8], ["retire", "Retire from the Marines", 0.25]],
+    quests: [["Escort a World Noble's ship", 1], ["Hunt down a Revolutionary cell", 2], ["Guard a prisoner transfer to Impel Down", 2], ["Recover a stolen Devil Fruit", 2], ["Arrest a Supernova", 3], ["Defend a Marine base from a pirate fleet", 3], ["Bring in a rogue Warlord", 4], ["Capture an Emperor's commander", 4]],
     scenes: {
       early: ["A Marine outpost in the East Blue. The captain is corrupt and the townspeople are scared of the uniform."], train: ["Garp's training camp. Cannonballs are thrown by hand."], mid: ["G-5, the Marines' roughest base. Nobody follows orders here."],
       twist: ["Orders from HQ: a Buster Call. The island is full of civilians."], late: ["Hachinosu, Pirate Island. Blackbeard's fleet is in the bay."], boss: ["The last enemy is on the other side of the battlefield, and the whole Navy is watching."], ending: ["The Marine coat with {first}'s justice on the back still hangs in HQ."]
@@ -3697,6 +3699,8 @@
     chances: [["Garp visits {first} in the infirmary with rice crackers", { heal: true, all: 3 }], ["{first} picks a justice of their own", { gain: { n: "Own justice", d: "+4 power.", power: 4 } }], ["A Marine medic stitches {first} up on the deck of a warship", { heal: true, all: 2 }], ["Koby drags {first} out of the rubble", { heal: true, all: 3 }], ["Headquarters gives {first} a second chance and a new posting", { pts: 2 }]]
   });
   Object.assign(THEMES.onepiece.paths["World Government agent"], {
+    acts: [["fight", "Take out a target", 3], ["hunt", "Hunt a sea monster", 2.5], ["train", "Train", 3], ["quest", "Take a mission from Mary Geoise", 3], ["explore", "Infiltrate an island", 2], ["treasure", "Seize a forbidden artifact", 1.5], ["ally", "Recruit an asset", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new technique", 1.5], ["followers", "Build a cell of agents", 1], ["war", "Go to war", 1], ["rest", "Lie low for a while", 0.8], ["retire", "Disappear for good", 0.25]],
+    quests: [["Silence a journalist who knows too much", 1], ["Steal a Poneglyph rubbing", 2], ["Assassinate a Revolutionary officer", 2], ["Infiltrate a pirate crew", 2], ["Erase an island from the records", 3], ["Capture a scholar of the Void Century", 3], ["Bring in a runaway Celestial Dragon", 3], ["Retrieve a weapon from Vegapunk's lab", 4]],
     scenes: {
       early: ["A target in a quiet town. The file says 'eliminate'. It doesn't say why."], train: ["Rokushiki training in the dark. CP agents learn to kill before they learn to read."], mid: ["Enies Lobby, the island of judicial power. The sun never sets there."],
       twist: ["The Five Elders want someone erased. The name on the file is someone {first} trusts."], late: ["Egghead Island. Vegapunk has been marked for death, and {first} has the order."], boss: ["The one person the World Government can't control."], ending: ["The file on {first} is still classified."]
@@ -3707,6 +3711,7 @@
     chances: [["The World Government patches {first} up and sends them back out", { heal: true, all: 2 }], ["A CP0 mask hides the bruises", { pts: 2 }], ["A World Government doctor stitches {first} up with no questions", { heal: true, all: 2 }], ["{first} fakes their own death and walks out of the hospital", { pts: 2 }], ["A sealed order arrives: the mission continues", { s: 5, v: 8 }]]
   });
   [THEMES.fantasy.paths["Lawful evil"]].forEach((d) => Object.assign(d, {
+    quests: [["Collect tribute from a defiant village", 1], ["Steal a holy relic", 2], ["Assassinate a paladin", 2], ["Raise the dead from an old battlefield", 2], ["Corrupt a royal heir", 3], ["Break a siege for the Dark Lord", 3], ["Topple a kingdom", 4], ["Kill the Chosen Hero's mentor", 4]],
     acts: [["fight", "Crush a rival warlord", 3], ["hunt", "Bind a monster to your will", 2.5], ["train", "Study forbidden magic", 3], ["quest", "Carry out the Dark Lord's orders", 3], ["explore", "Raid a crypt", 2], ["treasure", "Plunder a temple", 1.5], ["ally", "Make a dark pact", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a forbidden spell", 1.5], ["followers", "Raise an army", 1], ["followers", "Build a dark kingdom", 0.6], ["war", "Go to war", 1], ["rest", "Feast in your fortress", 0.8], ["retire", "Vanish into legend", 0.25]],
     scenes: {
       early: ["A village refuses to pay tribute. {first} has been sent to change their minds."], train: ["The Dark Lord's war college. The weak are fed to the hounds."], mid: ["The Black Tournament. Losers don't leave the arena."],
@@ -3718,6 +3723,7 @@
     chances: [["The Dark Lord's healers stitch {first} back together", { heal: true, all: 3 }], ["{first} drinks a demon's blood", { gain: { n: "Demon's blood", d: "+5 power, bad karma.", power: 5, karma: -1 } }]]
   }));
   Object.assign(THEMES.hero.paths["Villain"], {
+    quests: [["Rob the city's biggest bank", 1], ["Kidnap a billionaire for ransom", 2], ["Break a partner out of the super-prison", 2], ["Steal a prototype from a hero lab", 2], ["Blackmail the mayor", 3], ["Hold the city hostage", 3], ["Unmask a famous hero on live TV", 4], ["Take over the city", 5]],
     jt: { foe: ["{chapter}: who's in {first}'s way?", "Which hero shows up tonight?", "Who's on {first}'s tail?"], recruit: ["Who joins {first}'s crew?", "Who signs up as a henchman?"], loot: ["What does {first} steal?", "What's in the vault?"] },
     acts: [["fight", "Take down a hero", 3], ["hunt", "Capture a monster for the lair", 2], ["train", "Train in the lair", 3], ["quest", "Pull off a heist", 3], ["explore", "Scout the city", 2], ["treasure", "Rob a vault", 1.5], ["ally", "Hire a henchman", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Invent a new trick", 1.5], ["followers", "Build a villain league", 1], ["war", "Declare war on the city", 1], ["rest", "Lay low", 0.8], ["retire", "Retire to a private island", 0.25]],
     scenes: {
@@ -4555,6 +4561,7 @@
       { before: "shibuya", re: /Hanami|Dagon|Haruta|Shigemo/i }
     ];
     jj.arcs["Heavenly Restriction"] = Object.assign(jj.arcs["Heavenly Restriction"] || {}, { pri: 3, prologue: "{name} was born into {Origin} under a Heavenly Restriction: the heavens took something at birth and paid it back in something else. Now {first} is a student at {School}, carrying {Cursed tool} and fighting in the {Fighting style} style. {first} is {Personality|lower}. Binding vow: {Binding vow}. The higher-ups have them listed as {Grade}." });
+    jj.talMax = [{ stat: 1, max: 7, test: () => !/Full domain|Barrierless domain/.test(tv("Domain") || "") }];
     jj.prologue = "{name} was born into {Origin}. At fifteen, {first}'s cursed technique woke up: {Cursed technique}. Now {first} is a student at {School}, carrying {Cursed tool} and fighting in the {Fighting style} style. {first} is {Personality|lower}. Binding vow: {Binding vow}. The higher-ups have them listed as {Grade}.";
     jj.chips = ["Origin", "Domain name/Domain", "Fighting style"];
     jj.evBy = "Origin";
@@ -4800,6 +4807,58 @@
     fa.sagas.fellowship.drop = (fa.sagas.fellowship.drop || []).concat("The Dark Lord");
   })();
 
+  // ---------- One Piece: crews, ranks and powers that fit each other ----------
+  (() => {
+    const op = THEMES.onepiece, cat = (n) => (op.cats.find((c) => c[0] === n) || [])[1] || [];
+    const roles = cat("Role").length ? cat("Role") : ((op.hidden.find((h) => h[0] === "Role") || [])[1] || []);
+    op.adapt.push(
+      // a captain is the captain; nobody else is
+      { when: ["Crew status", "Captain of their own crew"], cat: "Role", opts: ["captain"] },
+      ...["First mate", "New recruit", "Stowaway"].map((st) => ({ when: ["Crew status", st], cat: "Role", opts: roles.filter((r) => r !== "captain") })),
+      // the bounty fits the crew
+      { when: ["Crew status", "Stowaway"], cat: "Bounty", opts: ["0 berries", "0 berries", "30 million"] },
+      { when: ["Crew status", "New recruit"], cat: "Bounty", opts: ["0 berries", "30 million"] },
+      { when: ["Crew status", "First mate"], cat: "Bounty", opts: ["30 million", "300 million", "1 billion"] },
+      { when: ["Crew size", "A rowboat and a dream"], cat: "Bounty", opts: ["0 berries", "0 berries", "30 million"] },
+      { when: ["Crew size", "A small crew"], cat: "Bounty", opts: ["0 berries", "30 million", "300 million"] },
+      { when: ["Crew size", "A famous crew"], cat: "Bounty", opts: ["300 million", "1 billion", "3 billion"] },
+      { when: ["Crew size", "An Emperor-level fleet"], cat: "Bounty", opts: ["1 billion", "3 billion", "5 billion, Emperor level"] },
+      // Marine rank fits the post and the age
+      { when: ["Marine post", "An admiral's aide"], cat: "Bounty", name: "Marine rank", opts: ["Lieutenant", "Captain"] },
+      { when: ["Age", "Kid (10-14)"], and: ["Affiliation", "Marines"], cat: "Bounty", name: "Marine rank", opts: ["Seaman recruit"] },
+      { when: ["Age", "Teen (15-19)"], and: ["Affiliation", "Marines"], cat: "Bounty", name: "Marine rank", opts: ["Seaman recruit", "Lieutenant"] },
+      { when: ["Age", "Young adult (20-29)"], and: ["Affiliation", "Marines"], cat: "Bounty", name: "Marine rank", opts: ["Seaman recruit", "Lieutenant", "Captain"] },
+      // no Devil Fruit, no fear of the sea
+      { when: ["Devil fruit", "No fruit"], cat: "Weakness", opts: cat("Weakness").filter((w) => w !== "The sea (Devil Fruit user)") },
+      // World Nobles are human descendants of the twenty kings
+      ...["Long-Arm Tribe", "Long-Leg Tribe", "Mixed-race"].map((r) => ({ when: ["Race", r], cat: "Birthplace", opts: cat("Birthplace").filter((b) => !/Mary Geoise/.test(b)) }))
+    );
+    // no fruit means no Fruit mastery: that stat becomes body conditioning
+    op.statAdapt = (op.statAdapt || []).concat({ stat: 1, when: ["Devil fruit", "No fruit"], name: "Body conditioning", tiers: ["Couch potato", "Deckhand", "Dock worker", "Brawler", "Marine-trained", "Rokushiki basics", "Iron body", "Commander-level body", "Monster physique", "Garp-level"] });
+    // Haki talent can't outrun the Haki they actually have
+    op.talMax = [
+      { stat: 0, when: ["Haki type", "None yet"], max: 1 },
+      { stat: 0, when: ["Haki type", "Observation"], max: 6 },
+      { stat: 0, when: ["Haki type", "Armament"], max: 7 },
+      { stat: 0, when: ["Haki type", "Observation and Armament"], max: 7 }
+    ];
+    op.titleTpl = "{Race} · {Affiliation}";
+    // Marines, government agents and runaways don't spend free turns like pirates
+    const P = op.paths || {};
+    if (P.Marines) Object.assign(P.Marines, {
+      acts: [["fight", "Take a Marine assignment", 3], ["hunt", "Hunt a Sea King", 2], ["train", "Train at Marine HQ", 3], ["quest", "Accept an order from HQ", 3], ["explore", "Patrol an uncharted island", 2], ["ally", "Request a new subordinate", 1.5], ["enemy", "Make an enemy of a pirate crew", 1], ["rest", "Shore leave", 1]],
+      quests: [["Arrest a Supernova", 3], ["Escort a Celestial Dragon", 2], ["Guard Impel Down's Level 6", 3], ["Free a village from a pirate crew", 1], ["Shut down a slave auction", 2], ["Bring in a Cross Guild bounty", 3]]
+    });
+    if (P["World Government agent"]) Object.assign(P["World Government agent"], {
+      acts: [["fight", "Carry out a CP mission", 3], ["train", "Rokushiki drills", 3], ["quest", "Take a secret order", 3], ["explore", "Infiltrate an island", 2], ["ally", "Recruit an informant", 1.5], ["enemy", "Make an enemy in the Revolutionary Army", 1], ["rest", "Lie low", 1]],
+      quests: [["Recover a stolen Poneglyph rubbing", 2], ["Guard a Reverie delegate", 2], ["Infiltrate a pirate crew", 2], ["Arrest a revolutionary officer", 3], ["Steal research from a rogue scientist", 2]]
+    });
+    if (P["Celestial Dragon runaway"]) Object.assign(P["Celestial Dragon runaway"], {
+      quests: [["Escape God's Knights at the border", 3], ["Buy back a slave you once owned", 2], ["Hide from CP0 on a quiet island", 2], ["Forge a commoner's papers", 1], ["Pay off a debt to the underworld", 2]],
+      chances: [["A slave {first} once freed throws themself in front of the blow", { heal: true, all: 3 }], ["An old family physician sneaks out of Pangaea Castle to patch {first} up", { heal: true, all: 2 }], ["{first} pawns the last jewel from the Holy Land", { pts: 3 }], ["A fisherman who doesn't know who {first} is takes them in", { heal: true, gain: { n: "Treated like a person", d: "Somebody was kind without knowing. Good karma.", karma: 1 } }]]
+    });
+  })();
+
   // ================= free-turn content per series =================
   Object.assign(THEMES.blackclover, {
     acts: [["fight", "Take a Magic Knight mission", 3], ["hunt", "Hunt a dungeon beast", 2.5], ["train", "Train", 3], ["quest", "Accept a royal request", 3], ["explore", "Explore a dungeon", 2], ["treasure", "Raid a dungeon vault", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new spell", 1.5], ["followers", "Gather followers", 1], ["war", "Join the war", 1], ["rest", "Rest at the squad base", 0.8], ["retire", "Retire from the Magic Knights", 0.25]],
@@ -4816,19 +4875,19 @@
   Object.assign(THEMES.hxh, {
     acts: [["fight", "Take a Hunter job", 3], ["hunt", "Hunt a beast", 2.5], ["train", "Train", 3], ["quest", "Accept a Hunter contract", 3], ["explore", "Explore uncharted land", 2], ["treasure", "Hunt for treasure", 1.5], ["ally", "Make an ally", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Develop your Hatsu", 1.5], ["followers", "Build a team", 1], ["war", "Answer the Association's call to fight", 1], ["rest", "Rest at a hotel", 0.8], ["retire", "Retire from hunting", 0.25]],
     monsters: ["A Great Stamp", "A Kiriko", "A Lord of the Forest fox-bear", "A Zevil Island predator", "A Greed Island monster", "A Chimera Ant soldier", "A Chimera Ant squadron leader", "A Nen beast", "A Dark Continent calamity", "A swarm of Hellbell carriers"],
-    quests: [["Serve as an examiner at the next Hunter Exam", 2], ["Win a Greed Island card", 2], ["Guard the Southernpiece auction", 2], ["Capture a Phantom Troupe member", 3], ["Exterminate a Chimera Ant colony", 3], ["Recover a pair of Scarlet Eyes", 2], ["Find a missing Hunter", 1], ["Survive the Dark Continent", 4, ["Which calamity?", ["Ai", "Zobae", "Hellbell", "Brion", "Pap"]]]],
+    quests: [["Serve as an examiner at the next Hunter Exam", 2], ["Win a Greed Island card", 2], ["Guard the Southernpiece auction", 2], ["Capture a Phantom Troupe member", 3, null, { not: ["Joined the Phantom Troupe", "Spider tattoo"] }], ["Exterminate a Chimera Ant colony", 3], ["Recover a pair of Scarlet Eyes", 2], ["Find a missing Hunter", 1], ["Survive the Dark Continent", 4, ["Which calamity?", ["Ai", "Zobae", "Hellbell", "Brion", "Pap"]]]],
     skills: ["A new Hatsu", "Ko", "Ken", "Ryu", "En", "Shu", "A heavier vow", "A second ability"]
   });
   Object.assign(THEMES.onepiece, {
     acts: [["fight", "Pick a fight on the next island", 3], ["hunt", "Hunt a sea monster", 2.5], ["train", "Train", 3], ["quest", "Take a job", 3], ["explore", "Explore an island", 2], ["treasure", "Hunt for treasure", 1.5], ["ally", "Recruit a crewmate", 1.5], ["enemy", "Make an enemy", 1], ["learn", "Learn a new technique", 1.5], ["followers", "Grow your crew", 1], ["war", "Go to war", 1], ["rest", "Throw a party", 0.8], ["retire", "Retire to a quiet island", 0.25]],
     monsters: ["A Sea King", "A Kraken", "A Fighting Fish", "A Neptunian", "A Sandora lizard", "A Lapahn pack", "A dinosaur from Little Garden", "A Pacifista", "A Seraphim", "An Island Whale", "A Mythical Zoan user gone wild"],
-    quests: [["Find a Road Poneglyph", 3], ["Free the slaves at Sabaody", 2], ["Steal a Devil Fruit", 2, ["Which fruit?", ["the Kaze Kaze no Mi (wind)", "the Hari Hari no Mi (needle skin)", "the Tori Tori no Mi, Model: Roc", "the Doro Doro no Mi (mud)"]]], ["Break a crewmate out of Impel Down", 3], ["Escort a princess home", 1], ["Climb Reverse Mountain", 1], ["Break into Enies Lobby", 3], ["Defeat an Emperor", 4, ["Which Emperor?", ["Blackbeard", "Shanks", "Buggy", "Luffy"]]], ["Find the One Piece", 5]],
+    quests: [["Find a Road Poneglyph", 3], ["Free the slaves at Sabaody", 2], ["Steal a Devil Fruit", 2, ["Which fruit?", ["the Kaze Kaze no Mi (wind)", "the Hari Hari no Mi (needle skin)", "the Tori Tori no Mi, Model: Roc", "the Doro Doro no Mi (mud)"]]], ["Break a crewmate out of Impel Down", 3], ["Escort a princess home", 1], ["Ride out a Grand Line storm", 1], ["Break into Enies Lobby", 3], ["Defeat an Emperor", 4, ["Which Emperor?", ["Blackbeard", "Shanks", "Buggy", "Luffy"]]], ["Survive a Buster Call", 4]],
     skills: ["Armament Haki", "Observation Haki", "Future Sight", "Advanced Conqueror's Haki", "Ryuo", "A new fruit technique", "Rokushiki: Soru", "Geppo"]
   });
   Object.assign(THEMES.fantasy, {
-    acts: [["fight", "Take a contract", 3], ["hunt", "Fight a monster", 2.5], ["train", "Train", 3], ["quest", "Complete a quest", 3], ["explore", "Explore", 2], ["treasure", "Find a treasure", 1.5], ["ally", "Make an ally", 1.2], ["ally", "Tame a beast", 0.8], ["enemy", "Make an enemy", 1], ["learn", "Learn a new spell", 1.5], ["followers", "Recruit followers", 1], ["followers", "Build a kingdom", 0.6], ["war", "Go to war", 1], ["rest", "Start a business", 0.6], ["rest", "Rest at the tavern", 0.6], ["retire", "You retire", 0.25]],
+    acts: [["fight", "Take a contract", 3], ["hunt", "Fight a monster", 2.5], ["train", "Train", 3], ["quest", "Complete a quest", 3], ["explore", "Explore", 2], ["treasure", "Find a treasure", 1.5], ["ally", "Make an ally", 1.2], ["enemy", "Make an enemy", 1], ["learn", "Learn a new spell", 1.5], ["followers", "Recruit followers", 1], ["followers", "Found an adventuring company", 0.6], ["war", "Go to war", 1], ["rest", "Rest at the tavern", 0.6], ["retire", "You retire", 0.25]],
     monsters: ["Hydra", "Minotaur", "Cyclops", "Troll", "Ogre", "Goblin", "Frost giant", "Titan", "Dragon", "Behemoth", "Leviathan", "Sea Serpent", "Wyvern", "Griffin", "Dire wolf", "Hellhound", "Chimera", "Manticore", "Cockatrice", "Basilisk", "Kraken"],
-    quests: [["Escort a Royal", 1], ["Retrieve a Cursed Item", 2], ["Hunt a Legendary Beast", 3], ["Protect a Village", 1], ["Find a Lost Artifact", 2], ["Rescue a Prisoner", 2], ["Capture a Criminal", 1], ["Find a Hidden City", 2], ["Recover a Lost Treasure", 2], ["Survive a Deadly Realm", 3], ["Stop an Invasion", 3], ["Destroy a Powerful Artifact", 3], ["Save a Kingdom", 3], ["Clear a Dungeon", 2], ["Defeat a Villain", 2], ["Explore Ancient Ruins", 1], ["Conquer a Realm", 4], ["Prevent the End of the World", 5], ["Kill a God", 5, ["Which god?", ["The god of war", "The god of the underworld", "A god of chaos"]]]],
+    quests: [["Escort a royal", 1], ["Retrieve a cursed item", 2], ["Hunt a legendary beast", 3], ["Protect a village", 1], ["Find a lost artifact", 2], ["Rescue a prisoner", 2], ["Capture a criminal", 1], ["Find a hidden city", 2], ["Recover a lost treasure", 2], ["Survive a deadly realm", 3], ["Stop an invasion", 3], ["Destroy a powerful artifact", 3], ["Save a kingdom", 3], ["Clear a dungeon", 2], ["Defeat a villain", 2], ["Explore ancient ruins", 1], ["Conquer a realm", 4], ["Prevent the end of the world", 5], ["Kill a God", 5, ["Which god?", ["The god of war", "The god of the underworld", "A god of chaos"]]]],
     skills: ["A new {Magic|lower} spell", "A fireball", "Teleportation", "A healing word", "Summon familiar", "Time stop", "A shield spell", "Wild shape"]
   });
   Object.assign(THEMES.hero, {
@@ -4955,9 +5014,9 @@
     let name = b.name, opts = b.opts;
     for (const r of (T().adapt || [])) {
       if (r.cat.toLowerCase() !== b.name.toLowerCase()) continue;
-      const wi = idxOf(r.when[0]);
       // bonus-wheel values are read straight from run.subs (tv() would call back into effCat)
-      const hit = wi >= 0 ? wi < i && run.results[wi] === r.when[1] : Object.values(run.subs || {}).flat().some((x) => x && x.name === r.when[0] && x.value === r.when[1]);
+      const has = (c, v) => { const w = idxOf(c); return w >= 0 ? w < i && run.results[w] === v : Object.values(run.subs || {}).flat().some((x) => x && x.name === c && x.value === v); };
+      const hit = has(r.when[0], r.when[1]) && (!r.and || has(r.and[0], r.and[1]));
       if (hit) { opts = r.opts; if (r.name) name = r.name; }
     }
     const u = uniqWeighted(opts);
@@ -4982,7 +5041,9 @@
     if (s.k === "title") { const o = titleOptions(); return { title: "What's your title?", label: "Title", opts: o, weights: o.map((x, i) => i === 0 ? 3 : 1) }; }
     if (s.k === "tal") {
       const tl = tiersFor(s.i), m = minTier();
-      return { title: talTitle(s.i), label: statNames()[s.i], opts: tl.slice(m), colors: TAL_COL.slice(m), weights: TAL_WEIGHT.slice(m), tierIdx: tl.map((x, j) => j).slice(m) };
+      const cap = (T().talMax || []).filter((r) => r.stat === s.i && (r.test ? r.test() : tv(r.when[0]) === r.when[1])).reduce((a, r) => Math.min(a, r.max), 9);
+      const e = Math.max(m, cap) + 1;
+      return { title: talTitle(s.i), label: statNames()[s.i], opts: tl.slice(m, e), colors: TAL_COL.slice(m, e), weights: TAL_WEIGHT.slice(m, e), tierIdx: tl.map((x, j) => j).slice(m, e) };
     }
     const sub = run.subs[s.i][s.j], u = uniqWeighted(sub.opts);
     return { title: sub.title || sub.name, label: sub.name, opts: u.opts, weights: u.opts.map((o, j) => u.weights[j] * (RARE[o] || 1) * (sub.tiered ? tierWeight(j, u.opts.length) : 1)) };
@@ -5007,7 +5068,10 @@
     });
     Object.entries(run.hidden).forEach(([k, v]) => { m[k.toLowerCase()] = v; });
     if (run.evolution) m.evolution = run.evolution;
+    if (run.fruitEaten) { m.fruit = run.fruitEaten; m["devil fruit"] = run.fruitKind; }
     if (run.awakened) m.awakening = run.awakened;
+    // after a promotion, {Rank} in story text is the current rank, not the starting one
+    if (run.tierUp && run.phase !== "create") { const ti = idxOf(T().vis.tier); if (ti >= 0 && run.results[ti] != null) { const e = effCat(ti), t = tierInfo().label; m[e.name.toLowerCase()] = t; m[e.base.toLowerCase()] = t; } }
     return m;
   }
   const allSubs = () => Object.values(run.subs).flat();
@@ -5049,7 +5113,8 @@
   function signature() {
     if (run.evolution) return run.evolution;
     const ai = idxOf(T().vis.aura);
-    const chain = ai >= 0 ? (run.subs[ai] || []).map((x) => x.value).filter((x) => x && !/^(not awakened|no |basic|none)/i.test(x)) : [];
+    const chain = ai >= 0 ? (run.subs[ai] || []).filter((x) => x.value && !x.tiered && !/awakening|spirit|limit|tier|control|contract|class|rank|level|depth|mastery/i.test(x.name))
+      .map((x) => x.value.replace(/ \(.*\)$/, "")).filter((x) => !/^(not awakened|awakened|no |basic|none)|chose you$/i.test(x)) : [];
     if (chain.length) return chain[chain.length - 1];
     const mv = fill(T().move);
     return /^(no |none|\?\?\?)/i.test(mv) ? ((tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "")) : mv;
@@ -5610,7 +5675,7 @@
     const col = { win: "#3c8a58", clutch: "#c9902a", draw: "#55598a", loss: "#a8323f" };
     return { title: run.foe ? jTitle("battle") : "Battle", label: "Battle", segs, opts: segs.map((s) => label[s.k]), colors: segs.map((s) => col[s.k]), weights: segs.map((s) => s.w) };
   }
-  const chapterName = (i) => { const st = S()[i]; return st.ch != null ? path().chapters[st.ch] : st.name || (run.names || {})[i] || "What now?"; };
+  const chapterName = (i) => { const st = S()[i], off = (run.offLean || {})[i]; return st.ch != null && !off ? path().chapters[st.ch] : (off ? (run.names || {})[i] : null) || st.name || (run.names || {})[i] || "What now?"; };
   function foePool(pool) {
     const F = path().foes;
     if (pool === "side") return F.early.slice(-3).concat(F.mid.slice(0, 3)).map(([n, p]) => [n, p + 6]);
@@ -5619,7 +5684,7 @@
   function rivalFoe(n) {
     const r = tv(T().vis.rival) || "Your rival";
     const p = clamp(playerPower() + (n === 1 ? (hash(run.seed + "rival") % 9) - 6 : 6), 10, 99);
-    return [r.replace(/^(A|An|The) /, (m) => m.toLowerCase()), p, true];
+    return [r.replace(/^(A|An|The|Your) /, (m) => m.toLowerCase()), p, true];
   }
   function endingWheel() {
     const P0 = path(), dream = T().dreamEnd && T().dreamEnd[tv("Dream")];
@@ -5658,7 +5723,7 @@
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
       if (st.k === "twist") return listWheel(jTitle("twist"), LST.twist().map(lbl));
       if (st.k === "evolve") return listWheel(jTitle("evolve"), evolveOptions());
-      if (st.k === "ending") return run.dead ? listWheel("Ending", [`Killed by ${run.dead}`]) : endingWheel();
+      if (st.k === "ending") return run.dead ? listWheel("Ending", [`Killed by ${lowArt(run.dead)}`]) : endingWheel();
     }
     return state.wheel;
   }
@@ -6001,11 +6066,11 @@
       { id: "devil-out", need: "Five-leaf", title: "Your devil wants out for one fight", text: "The devil in your grimoire speaks: \"Let me out. Just for one fight. I'll win it for you.\"",
         accept: { text: "{first} lets the devil out.", wheel: { title: "Does the devil go back in?", opts: [["It wins the fight and goes back", 2, { all: 6 }, "The devil tears through everything in sight, then slinks back into the grimoire, laughing."], ["It doesn't want to go back", 1, { all: 8, gain: { n: "Devil-touched", d: "The devil has a grip on their body now.", power: 4, karma: -1 } }, "It takes {first} three days to push the devil back in. Something stays behind."]] } },
         refuse: { text: "{first} slams the grimoire shut. The devil sulks.", e: { gain: { n: "Held the devil back", d: "Refused the devil's offer.", karma: 1 } } } },
-      { id: "eye", minStep: 3, title: "The Eye of the Midnight Sun wants you", text: "A masked mage finds {first} alone: \"The kingdom spits on people like you. Join us.\"",
-        accept: { text: "{first} takes the mask.", e: { all: 5, gain: { n: "Eye of the Midnight Sun", d: "A traitor's power.", power: 4, karma: -2 } } },
+      { id: "eye", minStep: 3, cond: () => !/Noble|Royal/.test(tv("Social class") || ""), title: "The Eye of the Midnight Sun wants you", text: "A masked mage finds {first} alone: \"The kingdom spits on people like you. Join us.\"",
+        accept: { text: "{first} takes the mask, and keeps wearing the Magic Knight robe over it. A spy inside their own squad now.", e: { all: 5, gain: { n: "Eye of the Midnight Sun", d: "A secret traitor inside the Magic Knights.", power: 4, karma: -2 } } },
         refuse: { text: "{first} reports the meeting to headquarters. The captain notices.", e: { pts: 2 } } },
       { id: "transfer", minStep: 4, cond: () => tv("Squad") !== "Golden Dawn", title: "Another squad's captain offers a transfer", text: "The Golden Dawn's vice captain offers {first} a place in the kingdom's top squad.",
-        accept: { text: "{first} transfers. Better equipment, colder people.", e: { s: 0, v: 8 } },
+        accept: { text: "{first} spends a season on loan to the Golden Dawn. Better equipment, colder people.", e: { s: 0, v: 8 } },
         refuse: { text: "{first} stays with the {Squad}. The squad never forgets it.", e: { gain: { n: "Loyal to the squad", d: "Turned down the top squad.", power: 3 } } } }
     ],
     jjk: [
@@ -6016,7 +6081,7 @@
         accept: { text: "{first} agrees. The curse laughs.", e: { all: 6, gain: { n: "The curse's bargain", d: "The curse can take over once, when it chooses.", karma: -2, save: { chance: 0.6, uses: 1, text: "The curse takes its minute. {foe} doesn't survive it." } } } },
         refuse: { text: "{first} refuses. The curse goes quiet, which is worse.", e: { gain: { n: "Refused the curse", d: "They kept their body their own.", karma: 1 } } } },
       { id: "cult", minStep: 3, title: "A curse user cult offers sanctuary", text: "\"The jujutsu world will use you and throw you away,\" says the cult's preacher. \"We won't.\"",
-        accept: { text: "{first} goes with them.", e: { all: 5, gain: { n: "Curse user", d: "Turned their back on Jujutsu High.", power: 4, karma: -2 } } },
+        accept: { text: "{first} goes with them in secret, and keeps showing up to class. Nobody at Jujutsu High knows. Yet.", e: { all: 5, gain: { n: "Curse user", d: "Secretly working with a curse user cult.", power: 4, karma: -2 } } },
         refuse: { text: "{first} reports the cult to the higher-ups.", e: { pts: 2 } } }
     ],
     hxh: [
@@ -6110,7 +6175,7 @@
         title: "The strongest shikigami", text: "{first} knows the Ten Shadows' last summon: Eight-Handled Sword Divergent Sila Divine General Mahoraga. No Zenin has ever tamed it. It kills whoever summoned it.",
         accept: { text: "\"With this treasure, I summon...\" {first} says it.", wheel: { title: "Can {first} tame Mahoraga?", opts: [
           ["Tamed", 1, { gain: { n: "Mahoraga tamed", d: "The first Zenin to tame Mahoraga. +16 against the final enemy.", boss: 16 }, good: 1 }, "The wheel on Mahoraga's head turns once, then stops. It kneels."],
-          ["It kills the enemy, then turns on {first}", 2, { nerf: 30, inj: true, bad: 1 }, "Mahoraga crushes {foe} and keeps going. {first} barely cancels the ritual in time."],
+          ["It kills the enemy, then turns on {first}", 2, { nerf: 30, inj: true, bad: 1 }, "Mahoraga mauls {foe}, then turns on {first}. {first} barely cancels the ritual in time, and {foe} is left half-broken."],
           ["It kills everything", 1, { die: "Mahoraga" }, "Mahoraga adapts to everything. {first} included."]] } },
         refuse: { text: "{first} leaves Mahoraga in the shadows. Some cards aren't worth playing.", e: { pts: 2 } } }
     ],
@@ -6126,18 +6191,18 @@
       { id: "life-vow", at: "boss", cond: () => has(/Life-or-death vow/) || tv("Restriction") === "it costs lifespan", yes: "Pour in everything", no: "Fight normally",
         title: "Everything into one punch", text: "{first} could make the vow Gon made: give up everything they'll ever have, for enough power to beat {foe} right now.",
         accept: { text: "{first} makes the vow. Their body ages in seconds.", wheel: { title: "Is it enough?", opts: [
-          ["It's enough", 1, { nerf: 25, bad: 1, endBad: "Loses their Nen forever" }, "One punch. {foe} doesn't get up from it."],
+          ["It's enough", 1, { nerf: 25, bad: 1, endBad: "Loses their Nen forever" }, "One punch, with everything {first} will ever have behind it. {foe} is barely standing."],
           ["Not quite", 1, { nerf: 10, inj: true, bad: 1 }, "It isn't enough, and the vow still takes its price."]] } },
         refuse: { text: "{first} doesn't throw their future away. Not even for this.", e: { gain: { n: "Kept their future", d: "Refused the final vow.", karma: 1 } } } },
       { id: "spiders-debt", at: "late", cond: () => /Joined|Left/.test(tv("Phantom Troupe") || "") || has(/Spider tattoo|Turned down the Spiders/),
         title: "The Spiders come back", text: "The Phantom Troupe never forgets a face. They show up in Yorknew colors, all at once.",
         wheel: { title: "Why are the Spiders here?", opts: [
           ["To fight beside {first}", () => /Joined/.test(tv("Phantom Troupe") || "") || has(/Spider tattoo/) ? 3 : 1, { allyAdd: ["The Phantom Troupe", 10] }, "\"You're still one of us,\" Chrollo says. The Spiders take {first}'s side."],
-          ["To hunt {first}", () => /Left/.test(tv("Phantom Troupe") || "") || has(/Turned down the Spiders/) ? 3 : 1, { inj: true, nemesis: ["The Phantom Troupe", 82] }, "Nobody leaves the Spiders. They'll be at the final battle."]] } }
+          ["To hunt {first}", () => /Left/.test(tv("Phantom Troupe") || "") || has(/Turned down the Spiders/) ? 3 : 1, { inj: true, nemesis: ["The Phantom Troupe", 82] }, "The Spiders have decided {first} is a problem. They'll be waiting at the end."]] } }
     ],
     onepiece: [
       { id: "adv-conqueror", at: "boss", cond: () => /Conqueror's|All three/.test(tv("Haki type") || "") && run.w >= 3,
-        title: "Conqueror's coating", text: "{foe} coats their attacks in Conqueror's Haki, the way only Emperors can. {first} feels their own Haki rise to meet it.",
+        title: "Conqueror's coating", text: "Facing {foe}, {first} feels their Conqueror's Haki rise higher than it ever has.",
         wheel: { title: "Can {first} coat their attacks too?", opts: [
           ["Yes, like an Emperor", 2, { gain: { n: "Advanced Conqueror's Haki", d: "Attacks coated in Conqueror's Haki. +12 against the final enemy.", boss: 12 } }, "Black lightning crackles off every hit. The clouds split."],
           ["For one blow", 2, { gain: { n: "One Conqueror's blow", d: "+6 against the final enemy.", boss: 6 } }, "Only once. It's enough to make {foe} stop smiling."],
@@ -6225,7 +6290,7 @@
     if (e.endGood) { run.endGood = (run.endGood || []).filter((x) => x !== e.endGood).concat(e.endGood); out.push(`"${e.endGood}" goes on the ending wheel`); }
     if (e.endBad) { run.endBad = (run.endBad || []).filter((x) => x !== e.endBad).concat(e.endBad); out.push(`"${e.endBad}" goes on the ending wheel`); }
     if (e.nerf) { if (run.foe) run.foe[1] = clamp(run.foe[1] - e.nerf, 5, 99); else run.bossNerf = (run.bossNerf || 0) + e.nerf; out.push(`${cap(lowArt(foe))} −${e.nerf} power`); }
-    if (e.allyAdd) { const [n, b] = e.allyAdd; run.allies = (run.allies || []).concat(n); run.companion = n; run.allyData = (run.allyData || []).concat({ n, b, tier: b >= 10 ? "Legendary" : "Very strong", spec: "a bit of everything" }); out.push(`${n} joins: +${b} battle power`); }
+    if (e.allyAdd) { const [n, b] = e.allyAdd; markUsed("ally", n); run.allies = (run.allies || []).concat(n); run.companion = n; run.allyData = (run.allyData || []).concat({ n, b, tier: b >= 10 ? "Legendary" : "Very strong", spec: "a bit of everything" }); out.push(`${n} joins: +${b} battle power`); }
     if (e.nemesis) { run.nemesis = e.nemesis.slice(); out.push(`${e.nemesis[0]} will be waiting at the final battle`); }
     if (e.forceBoss) { run.forceBoss = e.forceBoss.slice(); out.push(`Final enemy: ${e.forceBoss[0]}`); }
     let t = out.join(", ");
@@ -6302,7 +6367,7 @@
     const f = L[k], m = f.match(/^(.*?) \((.*)\)$/), name = m ? m[1] : f;
     const what = kind === "Logia" ? `turn into ${m ? m[2] : "an element"}` : m ? m[2] : `turn into a ${f.replace(/^.*Model: /, "")}`;
     const g = { n: name, d: `${kind}: ${what}. Can't swim. +${FRUIT_POWER[kind]} power.`, power: FRUIT_POWER[kind] };
-    apply({ gain: g }); run.fruitEaten = name;
+    apply({ gain: g }); run.fruitEaten = name; run.fruitKind = kind;
     const t = fill("It was the {f}: {w}. {first} will never swim again.", { f: name, w: m ? m[2] : what });
     logAdd(head, t, `New Devil Fruit: ${name} (${kind}), +${FRUIT_POWER[kind]} power.`);
     setNarr(name, t);
@@ -6343,7 +6408,7 @@
   const DOOR = [["Treasure", 2], ["A monster", 2], ["A sleeping legend", 1], ["A secret nobody was meant to find", 1]];
   const ACT_LINES = {
     nothing: ["{first} searches for hours. There is nothing there. Not even a rock worth keeping.", "Three days of exploring. {first} finds a nice view and a sunburn."],
-    rest: ["{first} takes a break. Good food, real sleep, and nobody trying to kill them for once.", "A day off. {first} wakes up feeling like a new person."]
+    rest: ["Good food, real sleep, and nobody trying to kill {first} for once.", "A day off. {first} wakes up feeling like a new person."]
   };
 
   // ---- no contradictions: nobody is recruited twice, defeated foes stay down, treasure and quests don't repeat ----
@@ -6459,9 +6524,14 @@
       run.kinds = Object.assign(run.kinds || {}, { [run.step]: o.k });
       const n = Object.entries(run.kinds).filter(([i, k]) => k === o.k && S()[i].ch == null).length;
       const nm = (CH[o.k] || o.label) + (["", "", ", part two", ", part three", ", part four", ", part five"][n] || "");
+      const before = actHead();
       run.names = Object.assign(run.names || {}, { [run.step]: nm });
-      const pk = st.pool === "side" ? "side" : st.pool;
-      sceneFor(actHead(), st.ch != null ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: run.step > 2 ? "train2" : "train", learn: run.step > 2 ? "train2" : "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
+      // a fixed chapter ("Training arc") is renamed when the spin went somewhere else
+      if (st.ch != null && st.lean && o.k !== st.lean && !(o.k === "hunt" && st.lean === "fight")) run.offLean = Object.assign(run.offLean || {}, { [run.step]: true });
+      const after = actHead();
+      if (before !== after) run.log.forEach((b) => { if (b.h === before) b.h = after; });
+      const pk = st.pool === "side" ? "side" : st.pool, late = st.pool === "late";
+      sceneFor(actHead(), st.ch != null && !run.offLean?.[run.step] ? st.sc : { fight: pk, hunt: pk, enemy: pk, war: "late", train: late ? "train2" : "train", learn: late ? "train2" : "train", ally: "recruit", followers: "recruit", quest: "side", rest: "side", explore: "loot", treasure: "loot", retire: "ending" }[o.k] || st.sc);
       const intro = { fight: "{first} goes looking for trouble.", hunt: "Something big has been spotted nearby. {first} goes after it.", train: "{first} decides it's time to get stronger.", quest: "{first} takes on a quest.", explore: "{first} sets off into the unknown.", treasure: "{first} goes treasure hunting.", ally: "{first} could use a friend.", enemy: "{first} is about to make an enemy.", learn: "{first} wants a new technique.", followers: "{first} starts gathering people.", war: "War is coming, and {first} walks straight into it.", rest: "{first} takes a break.", retire: "{first} looks at everything they've done and decides it's enough." }[o.k];
       logAdd(actHead(), fill(intro));
       setNarr(o.label, fill(intro));
@@ -6490,7 +6560,7 @@
       if (k === 3) { sfx.gong(); fxShake(); react("scary"); }
       a.stage = "battle"; return;
     }
-    if (s === "beast") { a.foe = [v, 0]; logAdd(head, fill("{first} tracks down {m}.", { m: v.charAt(0).toLowerCase() + v.slice(1) })); setNarr(v, "How many of them are there?"); a.stage = "count"; return; }
+    if (s === "beast") { a.foe = [v, 0]; logAdd(head, fill("{first} tracks down {m}.", { m: lowNoun(v) })); setNarr(v, "How many of them are there?"); a.stage = "count"; return; }
     if (s === "count") {
       a.count = v; a.extra = HOW_MANY[k][1];
       if (k >= 3) { sfx.gong(); react("scary"); } else if (k === 0) react("lucky");
@@ -6533,7 +6603,7 @@
     }
     if (s === "improve") {
       if (k === 0) { setNarr("Yes", "What improves?"); a.stage = "what"; return; }
-      logAdd(head, fill("{first} wins, but doesn't learn anything new from it."), ""); setNarr("No", "Not this time."); sfx.meh(); endAct(); return;
+      logAdd(head, fill(a.kind === "train" ? "The training doesn't stick this time. {first} feels exactly the same." : a.kind === "quest" ? "{first} gets it done, but doesn't learn anything new from it." : "{first} wins, but doesn't learn anything new from it."), ""); setNarr("No", "Not this time."); sfx.meh(); endAct(); return;
     }
     if (s === "what") {
       const fx = improveStat(k);
@@ -6560,7 +6630,7 @@
     }
     if (s === "loot") {
       const L = LST.loot(), txt = lbl(L[k]); apply(L[k][1]); markUsed("loot", L[k][0]); run.items = (run.items || []).concat(txt);
-      const t = fill("{first} finds {a}.", { a: txt.charAt(0).toLowerCase() + txt.slice(1) });
+      const t = fill("{first} finds {a}.", { a: lowNoun(txt) });
       logAdd(head, t, describe(L[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); endAct(); return;
     }
     if (s === "twist") {
@@ -6575,7 +6645,7 @@
     }
     if (s === "skill") {
       run.skills = (run.skills || []).concat(v);
-      const t = fill("{first} learns {s}.", { s: v });
+      const t = fill("{first} learns {s}.", { s: lowArt(v) });
       logAdd(head, t); setNarr(v, "What improves?"); chime([523, 659, 784]); a.stage = "what"; return;
     }
     if (s === "followers") {
@@ -6588,10 +6658,10 @@
     }
     if (s === "quest") {
       const q = LST.quest()[k]; a.quest = q;
-      logAdd(head, fill("The quest: {q}.", { q: q[0].charAt(0).toLowerCase() + q[0].slice(1) }), `Difficulty ${"★".repeat(q[1])}.`);
-      setNarr(q[0], q[2] ? q[2][0] : "Do you succeed?");
+      logAdd(head, fill("The quest: {q}.", { q: lowNoun(q[0]) }), `Difficulty ${"★".repeat(q[1])}.`);
+      setNarr(q[0], Array.isArray(q[2]) ? q[2][0] : "Do you succeed?");
       if (q[1] >= 4) react("scary");
-      a.stage = q[2] ? "qsub" : "succeed"; return;
+      a.stage = Array.isArray(q[2]) ? "qsub" : "succeed"; return;
     }
     if (s === "qsub") { a.target = v; logAdd(head, `${a.quest[2][0]} ${v}.`); setNarr(v, "Do you succeed?"); a.stage = "succeed"; return; }
     if (s === "succeed") {
@@ -6599,14 +6669,14 @@
       if (k === 0) {
         run.w++; run.points += 1 + d; markUsed("quest", a.quest[0]);
         let fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
-        if (run.bounty != null) fx += " " + bountyBump(questPower(d), 0.6 * d, q.toLowerCase());
+        if (run.bounty != null) fx += " " + bountyBump(questPower(d), 0.6 * d, lowNoun(q));
         if (d >= 3) fx += promote() + gainFate("legendary quest");
         if (d >= 4) run.gained = (run.gained || []).concat({ n: cap(q), d: "A legendary deed. +5 power.", power: 5 });
         logAdd(head, fill("{first} pulls it off.", {}), fx); setNarr("Quest complete", fx);
         sfx.fanfare(); if (d >= 3) { fxFlash("#fff6d0"); react("legend"); }
         a.times = d >= 3 ? 2 : 1; a.stage = "what"; return;
       }
-      run.l++; run.injured = true; run.points += 1;
+      run.l++; run.injured = true; run.points += 1; markUsed("quest", a.quest[0]);
       logAdd(head, fill("The quest fails. {first} limps home with nothing."), "Injured for the next fight, +1 upgrade point.", true);
       setNarr("Failed", fill("{first} comes back empty-handed.")); sfx.womp();
       if (run.step < S().length - 2 && chanceList().length) run.chance = true;
@@ -6675,7 +6745,7 @@
       fx += " " + bountyBump(foe[1], mult, why);
     }
     run.ally = false;
-    if (st.k === "rival") t += " " + fill(won ? (st.n === 2 ? "{Rival} finally admits it: {first} is stronger. The rivalry that started on the road ends here." : "{Rival} spits blood, grins, and swears the next round will be different.")
+    if (st.k === "rival") t += " " + fill(won ? (st.n === 2 ? "{Rival} finally admits it: {first} is stronger. The rivalry ends here." : "{Rival} spits blood, grins, and swears the next round will be different.")
       : (st.n === 2 ? "{Rival} walks away without a word. {first} will think about this fight for the rest of their life." : "{Rival} looks down at {first} and leaves. That stings more than the wounds."), v);
     else if (run.companion && Math.random() < 0.45) t += " " + fill(pick(won ? ["{ally} was watching their back the whole time.", "{ally} hauls {first} to their feet and laughs.", "Afterwards, {ally} patches them up and doesn't say a word."] : ["{ally} drags {first} out before it gets worse.", "{ally} sits with them that night. Nobody talks."]), v);
     if (!won && o === "loss" && Math.random() < 0.3 && tv("Weakness") && !/^no /i.test(tv("Weakness"))) t += " " + fill("Their weakness, {Weakness|lower}, didn't help.");
@@ -6691,9 +6761,11 @@
     return { o, won, upset };
   }
   const lowArt = (s) => String(s).replace(/^(A|An|The) /, (m) => m.toLowerCase());
+  // mid-sentence: lower a leading article or a plain common noun ("Boots of speed"), never a proper noun ("Greed Island card", "Toji's old Playful Cloud", "Enma, ...")
+  const lowNoun = (s) => lowArt(s).replace(/^([A-Z])([a-z]*)(?= [a-z])/, (m, a, b) => a.toLowerCase() + b);
   function battleVars() {
     const mv = fill(T().move);
-    return { foe: run.foe ? lowArt(run.foe[0]) : "", fp: run.foe ? run.foe[1] : "", move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "") : mv, clutch: T().clutch, sig: signature(),
+    return { foe: run.foe ? lowArt(run.foe[0]) : "", fp: run.foe ? run.foe[1] : "", move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "") : mv.replace(/ \(.*\)$/, ""), clutch: T().clutch, sig: signature(),
       style: (tv("Fighting style") || "raw instinct").replace(/ \(.*\)$/, ""), weapon: tv("Weapon/Cursed tool/Costume") || "their bare hands", ally: run.companion || "", rival: (tv(T().vis.rival) || "their rival").replace(/^(A|An|The|Your) /, (m) => m.toLowerCase()), Rival: cap(tv(T().vis.rival) || "Their rival") };
   }
   // every chapter opens with a scene from the series' world
@@ -6712,7 +6784,7 @@
     run.ruleReady = false; run.ruled = true; run.cg -= 100;
     apply(e);
     const head = `Chapter ${run.step}: ${chapterName(Math.max(0, run.step - 1))}`;
-    logAdd(head, fill("{first} spends 100 points. Kogane announces a new rule: {r}.", { r: txt.charAt(0).toLowerCase() + txt.slice(1) }), describe(e) + ".");
+    logAdd(head, fill("{first} spends 100 points. Kogane announces a new rule: {r}.", { r: lowNoun(txt) }), describe(e) + ".");
     setNarr("New rule", txt + ".");
     sfx.fanfare(); fxFlash("#fff6d0"); react("legend");
   }
@@ -6748,9 +6820,9 @@
     if (st.k === "battle" || st.k === "rival") {
       if (!run.foe) {
         if (st.k === "rival") {
-          run.foe = rivalFoe(st.n);
+          run.foe = rivalFoe(st.n); run.rivalMet = true;
           const t = st.n === 1
-            ? fill("{foe} blocks the road. They've heard about {first}, and they want to see if the stories are true. Power {fp}.", battleVars())
+            ? fill("{foe} steps into {first}'s path. Sooner or later, this fight was always going to happen. Power {fp}.", battleVars())
             : fill("{foe} is back, stronger, and this time it's personal. Power {fp}.", battleVars());
           logAdd(head, t);
           setNarr(run.foe[0], `${t} Your power: ${playerPower()}. Chance to win: ${Math.round(winChance() * 100)}%.`);
@@ -6804,11 +6876,11 @@
       setNarr(txt, describe(e) + ".");
       run.step++;
     } else if (st.k === "evolve") {
-      const opts = evolveOptions();
+      const opts0 = evolveOptions(), opts = opts0.filter((x) => !(run.skills || []).includes(x)).length ? opts0.filter((x) => !(run.skills || []).includes(x)) : opts0;
       const k = await spin(listWheel(jTitle("evolve"), opts));
       run.evolution = opts[k];
       apply({ s: 1, v: 8, all: 2 });
-      const mv = fill(T().move), t = fill("{first}'s {move} evolves: {evo}.", { move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "fighting style").replace(/ \(.*\)$/, "") : mv, evo: run.evolution });
+      const mv = fill(T().move), t = fill("{first} takes {move} to the next level: {evo}.", { move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "fighting style").replace(/ \(.*\)$/, "") : mv.replace(/ \(.*\)$/, ""), evo: run.evolution });
       const fx = `+8 ${statNames()[1]}, +2 to every stat.`;
       logAdd(head, t, fx);
       setNarr(run.evolution, t + " " + fx);
@@ -6816,7 +6888,12 @@
       run.step++;
     } else if (st.k === "ending") {
       let seg;
-      if (run.dead) seg = { good: false, t: `Killed by ${run.dead}` };
+      if (run.dead) seg = { good: false, t: `Killed by ${lowArt(run.dead)}` };
+      else if (run.retired) {
+        const R = T().retireEndings || { good: ["Lives out their days in peace", "Trains the next generation", "Comes out of retirement once, when it matters most"], bad: ["Regrets walking away", "Old enemies find them anyway"] };
+        const g = clamp(Math.round(2 + run.w * 0.5 - run.l * 0.5 + karma()), 1, 6), segs = spread(g, 6).map((isG, i) => ({ good: isG, t: fill(isG ? R.good[i % R.good.length] : R.bad[i % R.bad.length]) }));
+        const ew = { title: "How does retirement go?", segs, opts: segs.map((x) => x.t), colors: segs.map((x) => x.good ? "#3c8a58" : "#5a2a3a") }, k = await spin(ew); seg = ew.segs[k];
+      }
       else { const ew = endingWheel(), k = await spin(ew); seg = ew.segs[k]; }
       finishRun(head, seg);
       return;
@@ -6832,7 +6909,10 @@
   }
   function bossPool() {
     if (run.forceBoss) return [run.forceBoss];
-    const pool = foePool("boss").filter((f) => !used("ally").includes(nameKey(f[0])) && !(run.gone || []).includes(nameKey(f[0])));
+    const beaten = new Set(used("foe").map(nameKey));
+    const all = foePool("boss").filter((f) => !used("ally").includes(nameKey(f[0])) && !(run.gone || []).includes(nameKey(f[0])));
+    const fresh0 = all.filter((f) => !beaten.has(nameKey(f[0])));
+    const pool = fresh0.length ? fresh0 : all;
     if (run.nemesis && !pool.some((f) => f[0] === run.nemesis[0])) pool.unshift(run.nemesis, run.nemesis);
     return pool;
   }
@@ -6840,19 +6920,21 @@
     run.ending = seg.t; run.phase = "done";
     const rec = `Final record: ${run.w} win${run.w === 1 ? "" : "s"}, ${run.l} loss${run.l === 1 ? "" : "es"}${run.d ? `, ${run.d} draw${run.d > 1 ? "s" : ""}` : ""}.`
       + (run.bounty != null ? ` Final bounty: ${berry(run.bounty)} (started at ${berry(run.bountyStart || 0)}).` : "");
-    const legacy = (run.dead ? fill("{first} died young, {Personality|lower} to the very end.") : run.retired ? fill("{first} walked away on their own terms.") : seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end."))
+    const legacy = (run.dead ? fill("{first} fell in battle, {Personality|lower} to the very end.") : run.retired ? fill("{first} walked away on their own terms.") : seg.good ? fill("People still tell stories about {first}, {Personality|lower} to the very end.") : fill("Some say {first} could have been the greatest. They stayed {Personality|lower} to the very end."))
       + (run.epithet ? ` History remembers them as ${run.name}, ${run.epithet}.` : "");
     const after = [];
-    if ((run.allies || []).length > 1) after.push(`${run.allies.slice(0, -1).join(", ")} and ${run.allies[run.allies.length - 1]} stayed by their side to the very end.`);
-    else if (run.companion) after.push(fill("{a} stayed by their side to the very end.", { a: run.companion }));
+    const gone = new Set(run.gone || []), A = [...new Set(run.allies || [])].filter((n) => !gone.has(nameKey(n))).map((n, i) => i ? lowArt(n) : n);
+    if (A.length > 1) after.push(`${A.slice(0, -1).join(", ")} and ${A[A.length - 1]} stayed by their side to the very end.`);
+    else if (A.length === 1) after.push(`${A[0]} stayed by their side to the very end.`);
+    else if (run.companion && !gone.has(nameKey(run.companion))) after.push(fill("{a} stayed by their side to the very end.", { a: run.companion }));
     const rv = cap(tv(T().vis.rival) || "Their rival");
-    after.push(run.rivalBeaten ? `${rv} never beat them again, though they never stopped trying.` : `${rv} remained the one opponent they could never quite put away.`);
+    if (run.rivalMet) after.push(run.rivalBeaten ? `${rv} never beat them again, though they never stopped trying.` : `${rv} remained the one opponent they could never quite put away.`);
     if (run.nemesis && !run.dead) after.push(`${cap(run.nemesis[0])} never forgave them.`);
-    if ((run.items || []).length) after.push(`They kept ${run.items[0].charAt(0).toLowerCase() + run.items[0].slice(1)} until their last day.`);
+    if ((run.items || []).length) after.push(`They kept ${lowNoun(run.items[0])} until their last day.`);
     if (run.evolution) after.push(`Students would one day try to copy ${run.evolution}. None of them managed it.`);
     const km = karma();
-    if (km <= -3) after.push(fill("The people who served {first} remember them too, and not kindly. Some of them still wake up screaming.", {}));
-    else if (km >= 3) after.push(fill("Years later, the people {first} freed still tell their children about the noble who knelt down and unlocked their chains.", {}));
+    if (km <= -3) after.push(fill("The people {first} hurt along the way remember them too, and not kindly.", {}));
+    else if (km >= 3) after.push(fill("Years later, the people {first} saved still tell their children about them.", {}));
     const pk = perks().filter((p) => !p.quiet && (p.save || p.extra))[0];
     if (pk) after.push(`And the stories about ${pk.n} never died.`);
     logAdd(head, `${seg.t}.`, `${rec} ${legacy}`, !seg.good);
