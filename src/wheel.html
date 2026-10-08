@@ -1141,7 +1141,7 @@
       ["Restriction", ["no restriction at all", "it only works on one target", "it costs lifespan", "they must touch the target", "it only works in one place", "they must explain the ability first"]],
       ["Hair", HAIR], ["Eyes", EYES]
     ],
-    say: { Origin: "They grew up in {v}.", "Nen type": "Water divination will say: {v}.", Hatsu: "Their Hatsu, once they learn Nen: {v|lower}.", Personality: "Personality: {v|lower}.", Rank: "Current standing: {v}.", "Assassin rank": "Family rank: {v}." },
+    say: { Origin: "They grew up in {v}.", "Nen type": "The water answers: {v}.", Hatsu: "Their Hatsu takes shape: {v|lower}.", Personality: "Personality: {v|lower}.", Rank: "Current standing: {v}.", "Assassin rank": "Family rank: {v}." },
     lines: {
       "Human": "Human. Most Hunters are.",
       "Reborn Chimera Ant": "A Chimera Ant reborn with human memories. Two lives, one body.",
@@ -1264,8 +1264,8 @@
       "Specialist": { n: "Specialist", d: "No one can predict their ability. +3 power.", power: 3 }
     },
     move: "{Hatsu|lower}",
-    prologue: "{name} grew up in {Origin}. They don't know Nen yet, but when they learn it, water divination will mark {first} as {Nen type|a}, and their Hatsu will become {Hatsu|lower}. The catch: {Restriction}. They fight with {Weapon}, they're {Personality|lower}, and right now they're {Rank|a} who wants to be {Hunter type|a}.",
-    titleTpl: "{Nen type}, {Rank}",
+    prologue: "{name} grew up in {Origin}. They fight with {Weapon}, they're {Personality|lower}, and right now they're {Rank|a} who wants to be {Hunter type|a}. They've never heard the word Nen. That comes after the exam, if they survive it.",
+    titleTpl: "{Rank} from {Origin}",
     chips: ["Race", "Hatsu", "Fighting style", "Weapon"],
     pathCat: "Origin",
     scenes: {
@@ -2784,7 +2784,7 @@
       Race: "Human, or something else?",
       Origin: "Where does {first}'s story start?",
       "Nen type": "What happens when {first} does water divination?",
-      Hatsu: "What will {first}'s Hatsu be?",
+      Hatsu: "What shape does {first}'s Hatsu take?",
       "Fighting style": "How does {first} fight?",
       Weapon: "What does {first} carry into a fight?",
       Personality: "What kind of person is {first}?",
@@ -4011,6 +4011,8 @@
     // everyone is a human Hunter; Chimera Ants are enemies (or defectors who side with the Hunters)
     hx.cats = hx.cats.filter((c) => c[0] !== "Race");
     if (hx.follow.Race && hx.follow.Race.Human && !hx.follow.Gender) hx.follow.Gender = { "*": hx.follow.Race.Human };
+    hx.deferCats = ["Nen type", "Hatsu"]; hx.deferTal = [0, 1];
+    hx.unlock = { sub: "Learning Nen: one wheel at a time", intro: "A licensed Hunter has one more test, and nobody tells you about it until you pass. A teacher opens {first}'s aura nodes, sets a glass of water with a leaf on it in front of them, and says: put your hands around it.", after: "{first} knows what their Nen is now. The catch, the price every Hatsu pays: {Restriction}." };
     hx.upgradeLock = 5; hx.upgradeLockName = "the Hunter Exam";
     hx.adapt.push({ when: ["Phantom Troupe", "Joined the Phantom Troupe"], cat: "Rival", opts: ["A Zoldyck assassin", "A Heavens Arena champion", "A Kakin prince", "A bounty hunter after you", "A Hunter sent to bring in the Spiders"] });
     hx.tierStart = 1; // everyone starts as an applicant; the exam makes you a Hunter
@@ -4025,7 +4027,7 @@
     hx.steps = [
       { k: "event", ev: "exam1", name: "The Hunter Exam, phase one" }, { k: "event", ev: "exam2", name: "The Hunter Exam, phase two" },
       { k: "event", ev: "exam3", name: "The Hunter Exam, Trick Tower" }, { k: "event", ev: "exam4", name: "The Hunter Exam, Zevil Island" },
-      { k: "event", ev: "exam5", name: "The Hunter Exam, final phase" },
+      { k: "event", ev: "exam5", name: "The Hunter Exam, final phase" }, { k: "unlock", name: "Water divination" },
       { k: "act", lean: "train", pool: "early", sc: "train", name: "Learning Nen" }, { k: "rival", n: 1, name: "Enter the rival" },
       { k: "act", lean: "quest", pool: "mid", sc: "mid" }, { k: "act", lean: "explore", pool: "mid", sc: "loot" },
       { k: "evolve", ch: 3 }, { k: "twist", ch: 4 }, { k: "act", lean: "war", pool: "late", sc: "late", ch: 5 },
@@ -5081,10 +5083,13 @@
     const u = uniqWeighted(opts);
     return { base: b.name, name, opts: u.opts, weights: u.weights };
   }
+  // a series can hold some wheels back until a story moment (HxH: Nen is learned after the exam)
+  const heldCat = (c) => !run.unlocked && (T().deferCats || []).includes(c.name);
+  const heldTal = (i) => !run.unlocked && (T().deferTal || []).includes(i);
   function slots() {
     const out = [];
-    baseCats().forEach((c, i) => { out.push({ k: "cat", i }); (run.subs[i] || []).forEach((x, j) => out.push({ k: "sub", i, j })); });
-    T().stats.forEach((n, i) => out.push({ k: "tal", i }));
+    baseCats().forEach((c, i) => { if (heldCat(c)) return; out.push({ k: "cat", i }); (run.subs[i] || []).forEach((x, j) => out.push({ k: "sub", i, j })); });
+    T().stats.forEach((n, i) => { if (!heldTal(i)) out.push({ k: "tal", i }); });
     out.push({ k: "title" });
     return out;
   }
@@ -5188,7 +5193,7 @@
   }
   const statNames = () => T().stats.map((n, k) => { const a = statAdapt(k); return a ? a.name : n; });
   const tiersFor = (k) => { const a = statAdapt(k); return a ? a.tiers : ((SERIES_TIERS[state.theme] || {})[T().stats[k]] || TIERS[T().stats[k]] || TIERS["Strength"]); };
-  const talentLabel = (k) => run.talent[k] == null ? null : tiersFor(k)[run.talent[k]];
+  const talentLabel = (k) => run.talent[k] == null ? ((T().deferTal || []).includes(k) && isComplete() ? "Not unlocked yet" : null) : tiersFor(k)[run.talent[k]];
   const tv = (name) => { if (!name) return null; const m = traitMap(); return String(name).split("/").map((x) => m[x.trim().toLowerCase()]).find((x) => x != null) ?? null; };
 
   function fill(tpl, extra) {
@@ -5294,7 +5299,7 @@
     const key = run.seed + "|" + run.results.join("|");
     return T().stats.map((_, k) => {
       const g = run.talent[k];
-      const base = g != null ? tierVal(g) : 44;
+      const base = g != null ? tierVal(g) : (T().deferTal || []).includes(k) && isComplete() ? tierVal(0) : 44;
       const pb = perks().reduce((a, p) => a + (p.all || 0) + (p.stat && p.stat[0] === k ? p.stat[1] : 0), 0);
       return clamp(Math.round(base + rankBonus + (hash(key + "|" + k) % 7) - 3 + run.bonus[k] + pb + (run.awakened ? 12 : 0)), 1, 99);
     });
@@ -5302,7 +5307,9 @@
   function bestWorst() {
     const st = statNames(), g = run.talent;
     let hi = 0, lo = 0;
-    g.forEach((x, k) => { if (x > g[hi]) hi = k; if (x < g[lo]) lo = k; });
+    const ks = g.map((x, k) => k).filter((k) => g[k] != null);
+    hi = lo = ks[0] || 0;
+    ks.forEach((k) => { if (g[k] > g[hi]) hi = k; if (g[k] < g[lo]) lo = k; });
     return { best: `${st[hi]}, ${talentLabel(hi).toLowerCase()}`, worst: `${st[lo]}, ${talentLabel(lo).toLowerCase()}`, bestName: st[hi], bestTier: talentLabel(hi) };
   }
   function isFemale() {
@@ -5773,10 +5780,12 @@
       if (run.offer && run.offer.stage === "spin") return offerWheel();
       if (run.offer) return state.wheel;
       if (run.bossSurvive) return survivalWheel();
+      if (run.rebirth) return rebirthWheel();
       if (run.ruleReady && !run.act) return ruleWheel();
       if (run.chance && !run.act) return listWheel(jTitle("chance"), chanceList().map(lbl));
       if (needsCodename() && !run.act) return listWheel("Hero name", codenameOptions());
       if (st.k === "act") return actWheel();
+      if (st.k === "unlock") { run.unlocked = true; const s = nextSlot(); return s ? slotWheel(s) : state.wheel; }
       if (st.k === "event") return eventWheel(st.ev);
       if (st.k === "battle") return run.foe ? battleWheel() : listWheel(jTitle("foe"), battlePool(st.pool).map((f) => f[0]));
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
@@ -6556,6 +6565,7 @@
   function improveStat(k, n) {
     n = n || 1;
     const before = talentLabel(k), name = statNames()[k];
+    if (run.talent[k] == null) { run.bonus[k] += 6; return `+6 ${name}.`; }
     if (run.talent[k] >= 9) { run.bonus[k] += 6; return `${name} is already maxed: +6 ${name}.`; }
     run.talent[k] = Math.min(9, run.talent[k] + n);
     const after = talentLabel(k);
@@ -6654,6 +6664,7 @@
       if (k === 1) { run.adaptBonus = (run.adaptBonus || 0) + 3; logAdd(head, fill("{first} barely survives. It leaves scars, and the scars make them harder."), "+3 power from now on.", true); setNarr("Barely", fill("{first} crawls away alive.")); react("barely"); endAct(); return; }
       const ch = cheatDeath();
       if (ch) { logAdd(head, fill(ch.cheat), `${ch.n}: they survive.`); setNarr(ch.n, fill(ch.cheat)); sfx.heavenly(); fxFlash("#fff6d0"); react("saved", { v: ch.n }); endAct(); return; }
+      if (antFoe(a.foe[0])) { takenToQueen(head, a.foe[0]); endAct(); return; }
       run.dead = a.foe[0];
       logAdd(head, fill("{first} doesn't get back up."), "", true);
       setNarr("Dead", fill("{first} falls to {foe}.", { foe: a.foe[0] }));
@@ -6857,19 +6868,60 @@
     run.perkUses = Object.assign(run.perkUses || {}, { [p.n + ":cheat"]: 1 });
     return p;
   }
+  // Hunter x Hunter: a Hunter killed by Chimera Ants can be carried to the Queen and reborn as an ant, like Kite
+  const antFoe = (n) => state.theme === "hxh" && !run.reborn && /Chimera|\bants?\b|Rammot|Zazan|Leol|Cheetu|Shaiapouf|Menthuthuyoupi|Neferpitou|Meruem|Royal Guard|Queen/i.test(String(n || ""));
+  function takenToQueen(head, foe) {
+    run.rebirth = foe; run.chance = false;
+    logAdd(head, fill("{first} doesn't get back up. The ants drag the body away, toward the Queen's nest."), "", true);
+    setNarr("Taken to the Queen", fill("{first} falls to {f}. The ants carry the body off to feed the Queen.", { f: lowArt(foe) }));
+    sfx.womp(); react("dead");
+  }
+  const rebirthWheel = () => tw(fill("The Queen eats {first}. Does anything come back?"), ["Reborn as a Chimera Ant, memories intact", "Reborn as an ant, memories in pieces", "Nothing comes back"], [3, 1.5, 1.5], { label: "Rebirth", colors: ["#3c8a58", "#c9902a", "#5a0010"] });
+  async function rebirthStep() {
+    const k = await spin(rebirthWheel()), foe = run.rebirth, head = `Chapter ${Math.max(1, run.step)}: ${chapterName(Math.max(0, run.step - 1))}`;
+    run.rebirth = null;
+    if (k === 2) {
+      run.dead = foe; run.act = null; run.foe = null; run.step = S().length - 1;
+      logAdd(head, fill("The Queen's nest keeps what it eats. {first} is gone."), "", true); setNarr("Gone", fill("{first} doesn't come back.")); sfx.womp(); return;
+    }
+    run.reborn = true; run.evTag = "Reborn Chimera Ant"; run.injured = false;
+    const full = k === 0, g = full
+      ? { n: "Reborn Chimera Ant", d: "Eaten by the Queen and reborn as an ant with all their memories. Ant body, Hunter's heart. +8 power, +8 Strength.", power: 8, stat: [3, 8] }
+      : { n: "Reborn Chimera Ant", d: "Reborn as an ant. The memories come back a piece at a time. +5 power, +6 Strength.", power: 5, stat: [3, 6] };
+    run.gained = (run.gained || []).concat(g);
+    const t = full ? fill("Weeks later, a cocoon in the Queen's nest splits open. What climbs out has an exoskeleton, too many joints, and every one of {first}'s memories. Like Kite before them, {first} knows exactly whose side they're on: the Hunters'.")
+      : fill("A cocoon splits open in the Queen's nest. The thing inside has {first}'s face, mostly, and a few of their memories. It's enough. It walks out of the nest and back toward the Hunters.");
+    logAdd(head, t, `${g.n}: ${g.d}`);
+    logAdd(head, "", "", false, { lore: "Chimera Ants eat other creatures and give birth to ants built from them. Sometimes, a human eaten by the Queen is reborn as an ant who remembers being human. Most choose a side. Kite, Meleoron and Ikalgo chose the Hunters.", loreTitle: "Reborn ants" });
+    setNarr("Reborn", t); sfx.heavenly(); fxFlash("#d8ffd0"); react("saved", { v: "Reborn as a Chimera Ant" });
+  }
   async function bossSurvivalStep() {
     const k = await spin(survivalWheel()), head = `Chapter ${run.step}: ${chapterName(run.step - 1)}`;
     const foe = run.bossSurvive; run.bossSurvive = null;
     const ch = k === 2 ? cheatDeath() : null;
     if (ch) { logAdd(head, fill(ch.cheat), `${ch.n}: they survive.`); setNarr(ch.n, fill(ch.cheat)); sfx.heavenly(); fxFlash("#fff6d0"); react("saved", { v: ch.n }); return; }
+    if (k === 2 && antFoe(foe)) { takenToQueen(head, foe); return; }
     if (k === 2) { run.dead = foe; logAdd(head, fill("{first} doesn't get up this time."), "", true); setNarr("Dead", fill("{first} falls to {f}.", { f: lowArt(foe) })); sfx.womp(); react("dead"); return; }
     logAdd(head, k === 0 ? fill("{first} survives, somehow, and lives to see the ending.") : fill("{first} barely survives. Nobody is sure how."), k === 1 ? "Scars that never fade." : "", k === 1);
     setNarr(k === 0 ? "Survived" : "Barely", fill("{first} is still breathing."));
+  }
+  async function unlockStep() {
+    run.unlocked = true;
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`, U = T().unlock || {};
+    if (!run.log.some((b) => b.h === head) && U.intro) logAdd(head, fill(U.intro));
+    const s = nextSlot();
+    if (s) { await spinSlot(s); logAdd(head, run.narr.text || ""); }
+    if (!nextSlot()) {
+      if (U.after) logAdd(head, fill(U.after), "", false);
+      chime([392, 523, 659, 784]);
+      run.step++;
+    }
   }
   async function journeyStep() {
     if (run.offer && run.offer.stage === "spin") { await offerSpin(); persist(); render(); return; }
     if (run.offer && run.offer.stage === "fruit") { await fruitSpin(); persist(); render(); return; }
     if (run.bossSurvive) { await bossSurvivalStep(); persist(); render(); return; }
+    if (run.rebirth) { await rebirthStep(); persist(); render(); return; }
     if (run.ruleReady && !run.act) { await ruleStep(); persist(); render(); return; }
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
     if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
@@ -6877,6 +6929,7 @@
     if (maybeOffer()) { persist(); render(); return; }
     const st = S()[run.step];
     if (st.k === "act") { await actStep(); persist(); render(); return; }
+    if (st.k === "unlock") { await unlockStep(); persist(); render(); return; }
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
     sceneFor(head, st.k === "rival" ? "rival" + st.n : st.k === "battle" ? st.pool : st.k);
     if (st.k === "battle" || st.k === "rival") {
@@ -7341,6 +7394,7 @@
       if (run.offer && run.offer.stage === "choose") { const o = offerDef(run.offer.id); title = o.title; sub = "Accept or refuse: your call, not the wheel's"; }
       else if (run.offer) { title = offerWheel().title; sub = "You accepted. Now the wheel decides what it costs"; }
       else if (run.bossSurvive) { title = survivalWheel().title; sub = "Losing the final battle can be fatal"; }
+      else if (run.rebirth) { title = rebirthWheel().title; sub = "Chimera Ants are born from what the Queen eats"; }
       else if (run.ruleReady && !run.act) { title = ruleWheel().title; sub = "Kogane is waiting"; }
       else if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
       else if (needsCodename() && !run.act) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = /villain/i.test(tv("Archetype") || "") ? "Spin your villain name" : "Spin your hero name"; }
@@ -7352,6 +7406,7 @@
         if (!run.foe) title = st.k === "rival" ? `Your rival: ${cap(tv(T().vis.rival) || "unknown")}` : jTitle("foe");
         else { title = `${st.pool === "boss" ? "⚠ Final boss: " : ""}${cap(run.foe[0])} · power ${run.foe[1]}`; sub = `Your power ${playerPower()}${allyPower() ? ` (allies +${allyPower()})` : ""}${run.ally ? " (ally +6)" : ""}${run.injured ? " (injured −10)" : ""} · ${Math.round(winChance() * 100)}% to win`; }
       }
+      else if (st.k === "unlock") { run.unlocked = true; const s0 = nextSlot(); title = s0 ? slotWheel(s0).title : chapterName(run.step); sub = (T().unlock || {}).sub || ""; }
       else if (st.k === "event") { title = eventWheel(st.ev).title; sub = fill(evDef(st.ev).sub || "", eventVars()); }
       else if (st.k === "twist") title = jTitle("twist");
       else if (st.k === "evolve") title = jTitle("evolve");
@@ -7380,7 +7435,7 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : run.results.every((x) => x == null) ? "Start" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
-      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.rebirth ? "Spin" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     if (state.hold && !busy) label = "Next";
