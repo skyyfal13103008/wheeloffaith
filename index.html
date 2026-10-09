@@ -6879,7 +6879,10 @@
     const side = (p) => p.y >= 75 && p.y < 90 ? 10 : -6;
     const labels = pts.map((p, i) => {
       if (i === pts.length - 1) return lbl(p, side(p), true);
-      if (!p.home) return "";
+      // home stays labeled, and so does headquarters for anyone who reports to one
+      const hq = (seaPath() === "Marines" && /Marineford/.test(p.n)) || (seaPath() === "World Government agent" && p.n === "Enies Lobby");
+      if (!p.home && !hq) return "";
+      if (hq) p = Object.assign({}, p, { n: p.n === "Enies Lobby" ? "Enies Lobby (CP HQ)" : p.n === "Marineford" ? "Marineford (Marine HQ)" : "New Marineford (Marine HQ)" });
       // rough label boxes: does the home name run into the current island's name or its identifier?
       const span = (q, w) => { const a = q.x > 230 ? "end" : q.x < 70 ? "start" : "middle"; return a === "end" ? [q.x + 4 - w, q.x + 4] : a === "start" ? [q.x - 4, q.x - 4 + w] : [q.x - w / 2, q.x + w / 2]; };
       const A = span(p, p.n.length * 3.5), B = cur ? span(cur, Math.max(cur.n.length * 3.5, placeTag(cur.n).length * 2.9)) : [0, 0];
