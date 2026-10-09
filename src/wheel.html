@@ -1790,7 +1790,7 @@
       ending: ["When the dust settles, the whole world reads about it in the morning paper."]
     },
     battle: {
-      win: ["{first} plants their feet and goes all in with {style}. {foe} hits the deck and doesn't get up.", "{foe} laughs at {first}'s bounty. {sig} wipes the smile off.", "The fight tears the whole deck apart. {first} finishes it with {weapon} and pure stubbornness.", "Haki-coated and grinning, {first} lands {sig} square on {foe}'s jaw."],
+      win: ["{first} plants their feet and goes all in with {style}. {foe} hits the deck and doesn't get up.", "{foe} laughs at {first}'s {rep}. {sig} wipes the smile off.", "The fight tears the whole deck apart. {first} finishes it with {weapon} and pure stubbornness.", "Haki-coated and grinning, {first} lands {sig} square on {foe}'s jaw."],
       loss: ["{foe} is on another level. {first} wakes up on a beach, bandaged, with seagulls staring at them.", "{first} goes for {sig} too early. {foe} saw it coming from a whole sea away."],
       clutch: ["{first} is down. Then the air cracks. {clutch}! {first} gets up and {sig} hits {foe} like a cannonball."],
       draw: ["{first} and {foe} fight until the island itself gives out. Neither falls. The papers call it a draw."]
@@ -4964,7 +4964,7 @@
     loss2: ["{Rival} walks off without a word. {first} replays every second of it for years.", "\"You're a Hunter on paper,\" {rival} says. \"Not where it counts.\""]
   };
   THEMES.onepiece.rivalLines = {
-    win1: ["{Rival} spits blood into the sea and grins. \"Next island, then. I'll be waiting.\"", "{Rival} laughs from the wreck of their ship. \"Your bounty's going up after that.\""],
+    win1: ["{Rival} spits blood into the sea and grins. \"Next island, then. I'll be waiting.\"", "{Rival} laughs from the wreck of their ship. \"{repUp}\""],
     win2: ["{Rival} lowers their weapon. \"Go on, then. Chase your dream.\" They mean it.", "{Rival} lies on the deck, out of Haki, and laughs at the sky. The rivalry ends here."],
     loss1: ["{Rival} doesn't even draw. \"Weak. Come back when the sea has taught you something.\"", "{Rival} sails off laughing. Someone has to fish {first} out of the water."],
     loss2: ["{Rival}'s Haki pins {first} to the deck. \"The New World isn't for people like you.\"", "{Rival} leaves without a word. {first} watches their sails disappear and doesn't forget."]
@@ -5564,6 +5564,7 @@
     "Egghead": "Vegapunk's island of the future",
     "Elbaf": "land of the giants",
     "Laugh Tale": "Roger's final island",
+    "Marineford": "Marine Headquarters",
     "Cacao Island": "Big Mom's chocolate town",
     "Onigashima": "Kaido's skull fortress",
     "Sphinx": "Whitebeard's homeland",
@@ -5623,12 +5624,15 @@
     drop: ["Axe-Hand Morgan", "Buggy the Clown", "Kuro of a Hundred Plans", "Don Krieg", "Arlong", "Captain Nezumi's Marines", "Alvida", "Mr. 1, Daz Bonez", "Crocodile", "Enel", "Rob Lucci", "Gecko Moria", "Hody Jones", "Magellan",
       "East Blue pirate captain", "Clown pirate", "Buggy's crew deserters", "A Baroque Works agent", "Slave traders at Sabaody", "Sabaody rookie"]
   };
+  // the World Government's own people: never an enemy for a Marine or an agent
+  const GOV_SIDE = ["Captain Nezumi's Marines", "Vice Admiral Smoker", "Admiral Kizaru", "Admiral Ryokugyu", "Admiral Fujitora", "Fleet Admiral Akainu", "Rob Lucci", "A G-5 Marine squad", "Magellan", "Find a Road Poneglyph's guardian"];
   function arcLayers() {
     const th = T(), A = th.arcs || {}, out = [];
     const seenArc = new Set();
     activeValues().concat(run.evTag ? [run.evTag] : []).forEach((v, i) => { const a = A[v]; if (a && !seenArc.has(a)) { seenArc.add(a); out.push(Object.assign({ _o: i }, a)); } });
     out.sort((a, b) => (b.pri || 1) - (a.pri || 1) || b._o - a._o);
     if (state.theme === "onepiece" && nwNative()) { out.push(NW_ARC); out.sort((a, b) => (b.pri || 1) - (a.pri || 1)); }
+    if (state.theme === "onepiece" && /^(Marines|World Government agent)$/.test(tv("Affiliation") || "")) out.push({ pri: 0, drop: GOV_SIDE });
     const p = th.paths && th.paths[tv(th.pathCat) || ""];
     if (p) out.unshift(Object.assign({ pri: 9 }, p));
     // a storyline picked during the journey (a Fantasy saga) sits on top of everything
@@ -6117,6 +6121,7 @@
   function spin(wheel) {
     wheel = applyBend(wheel);
     if (wheel.bent != null) run.bend = null;
+    if (turbo) (window.__spun = window.__spun || []).push(wheel.title); // test hook: which wheel actually spun
     if (!turbo) { if (wheel.segs || wheel.label === "Battle") sfx.tension(3.6); else sfx.whoosh(); }
     return new Promise((resolve) => {
       state.wheel = wheel; state.winner = -1; state.spinning = true; state.hold = null; state.spinCount = (state.spinCount || 0) + 1;
@@ -6197,6 +6202,7 @@
     if (run.phase === "journey") {
       const st = S()[run.step], P = path();
       if (run.offer && run.offer.stage === "spin") return offerWheel();
+      if (run.offer && run.offer.stage === "fruit") return fruitWheel();
       if (run.offer) return state.wheel;
       if (run.bossSurvive) return survivalWheel();
       if (run.rebirth) return rebirthWheel();
@@ -6521,7 +6527,9 @@
       "Reverse Mountain": [160, 75, "The currents of all four seas climb a mountain, meet at the top, and crash down into the Grand Line."],
       "Sabaody Archipelago": [295, 71, "Giant mangroves, floating bubbles, slave auctions. The last stop before the New World."],
       "Fish-Man Island": [299, 86, "Ten thousand meters under the sea, inside a bubble, at the foot of the Red Line."],
-      "Laugh Tale": [139, 75, "The final island. Only someone who has read all four Road Poneglyphs can find it."]
+      "Laugh Tale": [139, 75, "The final island. Only someone who has read all four Road Poneglyphs can find it."],
+      "Marineford": [276, 66, "Marine Headquarters at the edge of Paradise. Every Marine passes through its gates."],
+      "Mary Geoise": [313, 58, "The Holy Land on top of the Red Line. Government ships ride the Bondola over it instead of diving to Fish-Man Island."]
     },
     paradise: [["Whisky Peak", 181, 73, "A town that welcomes every pirate with a party, then robs them in their sleep."], ["Little Garden", 191, 82, "A prehistoric island where two giants have been dueling for a hundred years."], ["Drum Island", 200, 70, "A winter island with no king and the best doctors in the Grand Line."], ["Alabasta", 210, 80, "A desert kingdom that nearly tore itself apart over the rain."], ["Jaya", 221, 77, "A lawless island where everyone laughs at people who believe in sky islands."], ["Skypiea", 223, 64, "An island in the clouds, ten thousand meters up. Getting there takes a Knock Up Stream."], ["Water 7", 236, 80, "The city of shipwrights. If a ship can be saved, it gets saved here."], ["Enies Lobby", 249, 71, "The judicial island, where the sun never sets and nobody walks out."], ["Thriller Bark", 264, 81, "A ghost ship the size of an island, drifting through the Florian Triangle."]],
     newWorld: [["Punk Hazard", 25, 71, "Half fire, half ice, and a laboratory that should have stayed abandoned."], ["Green Bit", 32, 84, "A forest island next to Dressrosa, full of fighting fish and tiny Tontatta warriors."], ["Dressrosa", 40, 75, "A kingdom of love, passion and toys, ruled by a Warlord in a bird cage of strings."], ["New Marineford", 47, 85, "The Marines' headquarters, moved into the New World after the Paramount War."], ["Zou", 54, 67, "A whole country on the back of a thousand-year-old elephant. The Minks keep a Road Poneglyph here."], ["Cacao Island", 61, 84, "Totto Land's chocolate island, where the Charlotte family's ships come and go."], ["Whole Cake Island", 69, 74, "Big Mom's candy kingdom. One of her Road Poneglyphs sits in a vault here."], ["Wano Country", 78, 68, "A closed samurai country behind waterfalls. Kaido's Road Poneglyph is somewhere inside."], ["Onigashima", 85, 81, "Kaido's skull-shaped fortress island off the coast of Wano."], ["Sphinx", 93, 70, "Whitebeard's home island, still guarded by the people he protected."], ["Hachinosu", 100, 83, "Pirate Island. Rocks D. Xebec ran it once; now it's Blackbeard's nest."], ["Egghead", 108, 72, "Vegapunk's island of the future. The World Government doesn't want anyone leaving it alive."], ["Elbaf", 115, 81, "The island of giants, under the branches of the Treasure Tree Adam."], ["Lodestar Island", 123, 69, "The last island a Log Pose can find. Past it, only the Road Poneglyphs point the way."]]
@@ -6531,6 +6539,17 @@
   const seaPath = () => tv("Affiliation") || "Pirate crew";
   // born in the New World: no Reverse Mountain, no Paradise, no Sabaody. The voyage starts at the deep end
   const NW_HOME = /^(Dressrosa|Wano Country|Zou|Mokomo Dukedom|Whole Cake Island|Totto Land|Elbaf|Green Bit|Tontatta Kingdom)/;
+  // Marines and government agents serve the World Government: they never climb Reverse Mountain or hunt Road Poneglyphs
+  const lawPath = () => /^(Marines|World Government agent)$/.test(seaPath());
+  const poneQuest = () => !/^(Marines|World Government agent|Bounty hunter|Celestial Dragon)$/.test(seaPath());
+  // what they collect instead of Road Poneglyphs: [panel label, the ending it unlocks, what one slot is called]
+  const CAREER = {
+    "Marines": ["Most Wanted arrested", "Makes Admiral after emptying the Most Wanted board", "arrested and off the Most Wanted board"],
+    "World Government agent": ["Classified files closed", "Retires into CP0 legend with every file closed", "file closed"],
+    "Bounty hunter": ["Big bounties collected", "Collects the biggest bounty in history", "bounty collected"]
+  };
+  // monsters can't be arrested, and nobody puts the World Government's own people on a wanted board
+  const NOT_A_TARGET = /Sea King|Kraken|Fighting Fish|Neptunian|Sandora|Lapahn|dinosaur|Pacifista|Seraphim|Island Whale|gone wild|dragon|Smiley|monster|beast|Cipher Pol|CP\d|CP0|CP9|Marine|Admiral|Five Elders|God's Knights|Holy Knight|World Noble|Celestial|Saint |Imu|Your own/i;
   const nwNative = () => state.theme === "onepiece" && NW_HOME.test(tv("Birthplace") || "");
   function buildRoute() {
     const R = rng(run.seed + 77), home = tv("Birthplace") || "Somewhere at sea";
@@ -6540,27 +6559,36 @@
     const nw = nwNative(), stops = [stop(home.replace(/, (East|West|North|South) Blue$/, ""), homeXY(home), "Where it all starts.", { home: true, sea: !!blue || nw })];
     if (nw) {
       // the Log Pose has three needles out here: sail out toward the near edge of the New World first, then all the way across toward Laugh Tale
-      const hx = stops[0].x, k = Math.max(2, S().length - 1 - stops.length), must = ["Zou", "Whole Cake Island", "Wano Country"];
+      const hx = stops[0].x, k = Math.max(2, S().length - 1 - stops.length), must = mustNW();
       const pool = SEA.newWorld.filter((x) => !stops[0].n.includes(x[0]) && !x[0].includes(stops[0].n.split(",")[0]));
       const chosen = pool.filter((x) => must.includes(x[0])), rest = pool.filter((x) => !chosen.includes(x));
       while (chosen.length < k && rest.length) chosen.push(rest.splice(Math.floor(R() * rest.length), 1)[0]);
       const west = chosen.filter((x) => x[1] < hx).sort((a, b) => b[1] - a[1]), east = chosen.filter((x) => x[1] >= hx).sort((a, b) => a[1] - b[1]);
       const out = (west.length <= east.length ? west.concat(east) : east.slice().reverse().concat(west.slice().reverse())).sort((a, b) => (a[0] === "Lodestar Island") - (b[0] === "Lodestar Island"));
+      // a New World Marine reports to headquarters before anything else
+      if (seaPath() === "Marines") out.sort((a, b) => (b[0] === "New Marineford") - (a[0] === "New Marineford"));
       stops.push(...out.map((x) => stop(x[0], [x[1], x[2]], x[3])));
       return stops;
     }
     if (blue === "East Blue" && !/Loguetown/.test(home)) stops.push(fx("Loguetown"));
-    if (blue) stops.push(fx("Reverse Mountain"));
-    const tail = [fx("Sabaody Archipelago"), fx("Fish-Man Island")];
+    const law = lawPath(), para = (n) => { const x = SEA.paradise.find((y) => y[0] === n); return stop(x[0], [x[1], x[2]], x[3]); };
+    // pirates climb Reverse Mountain; government ships cut straight across the Calm Belt on seastone hulls, to headquarters
+    if (law) stops.push(seaPath() === "Marines" ? fx("Marineford") : para("Enies Lobby"));
+    else if (blue) stops.push(fx("Reverse Mountain"));
+    // and they cross the Red Line by the Bondola at Mary Geoise, not under it at Fish-Man Island
+    const tail = [fx("Sabaody Archipelago"), law && !/Mary Geoise/.test(home) ? fx("Mary Geoise") : fx("Fish-Man Island")];
     const free = Math.max(2, S().length - 1 - stops.length - tail.length), nP = Math.ceil(free / 2), nN = free - nP;
     const pick = (list, k, must) => {
-      const out = list.filter((x) => (must || []).includes(x[0]) && x[0] !== stops[0].n).slice(0, k), rest = list.filter((x) => !out.includes(x) && x[0] !== stops[0].n);
+      const taken = (x) => stops.some((s) => s.n === x[0]);
+      const out = list.filter((x) => (must || []).includes(x[0]) && !taken(x)).slice(0, k), rest = list.filter((x) => !out.includes(x) && !taken(x));
       while (out.length < k && rest.length) out.push(rest.splice(Math.floor(R() * rest.length), 1)[0]);
       return out.sort((a, b) => list.indexOf(a) - list.indexOf(b)).map((x) => stop(x[0], [x[1], x[2]], x[3]));
     };
-    stops.push(...pick(SEA.paradise, nP), ...tail, ...pick(SEA.newWorld, nN, ["Zou", "Whole Cake Island", "Wano Country"]));
+    stops.push(...pick(SEA.paradise, nP), ...tail, ...pick(SEA.newWorld, nN, mustNW()));
     return stops;
   }
+  // islands every voyage of this kind has to reach in the New World
+  const mustNW = () => poneQuest() ? ["Zou", "Whole Cake Island", "Wano Country"] : seaPath() === "Marines" ? ["New Marineford", "Hachinosu"] : seaPath() === "World Government agent" ? ["Egghead"] : [];
   function homeXY(home) {
     const blue = Object.keys(SEA.blue).find((b) => home.includes(b));
     return blue ? SEA.blue[blue] : (SEA.homes[home] || (SEA.homeRe.find(([re]) => re.test(home)) || [0, [112, 112]])[1]);
@@ -6620,6 +6648,7 @@
   // --- the four Road Poneglyphs ---
   const PONES = ["Zou", "Whole Cake Island", "Wano Country", "the hidden fourth"];
   function givePone(where) {
+    if (!poneQuest()) return ""; // Marines, agents, bounty hunters and World Nobles aren't racing for Laugh Tale
     run.pone = run.pone || [];
     const p = where && !run.pone.includes(where) ? where : PONES.find((x) => !run.pone.includes(x));
     if (!p) return "";
@@ -6652,6 +6681,14 @@
       return { title, opts: q.cands.map((c, i) => [`${c.n}, ${CREW_ROLES[c.role][1].toLowerCase()}`, 2, { join: i }, c.desc || `On ${q.where}, {first} meets ${c.n}, who ${c.hook || crewHook(c.role)}.`]).concat([[`Nobody here fits`, 1.5, {}, `Nobody on ${q.where} is right for the ${w}. {first} keeps sailing.`]]) };
     }
     if (q.kind === "defector") return { title: `${q.who} saw the fight. Do they join {first}?`, opts: [[`${q.who} joins`, 2, { defect: true }, q.why ? `${q.why} ${q.who} finds {first} after the fight and asks to come along.` : `After the fight, ${q.who} walks up to {first}: "That crew's finished. Yours isn't."`], [`${q.who} sails alone`, 1.5, {}, `${q.who} nods at {first}, once, and walks off alone.`]] };
+    if (q.kind === "calm") return { title: "Crossing the Calm Belt on a seastone hull", opts: [
+      ["The Sea Kings never notice", 3, { dmg: 0 }, "Seastone on the hull, no wind in the sails, and the Sea Kings sleep right under the keel. The ship rows across the Calm Belt in silence."],
+      ["A Sea King surfaces anyway", 1.5, { dmg: 25 }, "A Sea King the size of an island surfaces beside the ship, curious. One flick of its tail and the hull caves in."],
+      ["Becalmed for a week", 1.5, { all: 2 }, "No wind, for a week. The crew rows in shifts and {first} trains on deck until they can barely stand."]] };
+    if (q.kind === "bondola") return { title: "The Bondola lifts the ship over the Red Line", opts: [
+      ["A smooth crossing", 3, { dmg: 0 }, "The Bondola hauls the warship up ten thousand meters of red rock and lowers it into the New World. Nobody looks at Mary Geoise for too long."],
+      ["A Celestial Dragon wants a word", 1.5, { gain: { n: "Saw the Holy Land", d: "Saw how the World Nobles really live. +3 IQ.", stat: [5, 3] } }, "A World Noble stops the crossing to inspect the crew. {first} keeps their head down and their mouth shut, and doesn't forget a single thing they see."],
+      ["Held over for the Reverie", 1.5, { pts: 2 }, "The crossing is delayed for the Reverie. {first} spends a week guarding kings and learns who in the world really holds the power."]] };
     if (q.kind === "tribute") {
       const law = /Marines|World Government agent/.test(seaPath());
       return { title: `An Emperor's collectors are waiting on the ${q.where} docks`, opts: law ? [
@@ -6704,7 +6741,8 @@
     state.sail = true;
     const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
     const first = run.given || run.name.split(" ")[0];
-    const p = seaPath(), verb = p === "Marines" ? "is posted to" : p === "World Government agent" ? "is quietly reassigned to" : "is sighted at";
+    const p = seaPath(), gov = /Marineford|Enies Lobby|Loguetown|Sabaody|Mary Geoise/.test(stop.n), hostile = /Whole Cake|Cacao|Wano|Onigashima|Hachinosu|Punk Hazard|Egghead/.test(stop.n);
+    const verb = p === "Marines" ? (gov ? "reports to" : hostile ? "leads a raid on" : "is deployed to") : p === "World Government agent" ? (gov ? "reports to" : hostile ? "infiltrates" : "is quietly reassigned to") : "is sighted at";
     const news = stop.home ? `📰 The World Economy News Paper has never heard of ${run.name}. ${first} sets out from ${placeFull(stop.n)}.` : stop.n === "Laugh Tale" ? `📰 EXTRA EDITION: ${run.name} has found Laugh Tale.` : `📰 World Economy News: ${run.name} ${verb} ${placeFull(stop.n)}. ${stop.d}`;
     let fx = "";
     if (stop.n === "Water 7" && run.ship && run.ship.hp < run.ship.max) { repairShip(999); fx = "The shipwrights of Water 7 repair the ship completely."; }
@@ -6715,17 +6753,19 @@
     const q = run.seaQ = run.seaQ || [];
     if (stop.n === "Reverse Mountain") q.push({ kind: "climb" });
     if (stop.n === "Fish-Man Island") q.push({ kind: "descent" });
+    if (stop.n === "Mary Geoise" && !stop.home) q.push({ kind: "bondola" });
+    if (lawPath() && /^(Marineford|Enies Lobby)$/.test(stop.n) && run.route[0].sea && !run.calmDone) { run.calmDone = true; q.push({ kind: "calm" }); }
     if (SEA.newWorld.some((x) => x[0] === stop.n) && !run.nwStorm && (!nwNative() || run.here >= 3)) { run.nwStorm = true; q.push({ kind: "storm" }); }
     if (nwNative() && !stop.home && stop.n !== "Laugh Tale") {
       if (!run.nwTribute) { run.nwTribute = true; q.push({ kind: "tribute", where: stop.n }); }
       else if (!run.nwFlag && run.step >= Math.floor(S().length / 2) - 1) { run.nwFlag = true; q.push({ kind: "flag", where: stop.n }); }
     }
     // a home like "Mokomo Dukedom, Zou" still has Zou's stone
-    const poneAt = PONE_AT[stop.n] || (stop.home ? Object.keys(PONE_AT).find((k) => stop.n.includes(k)) : null);
+    const poneAt = !poneQuest() ? null : PONE_AT[stop.n] || (stop.home ? Object.keys(PONE_AT).find((k) => stop.n.includes(k)) : null);
     if (poneAt && !(run.pone || []).includes(poneAt)) q.push({ kind: "pone", where: poneAt });
     // someone new is worth meeting every couple of islands, not at every port
-    if (!stop.home && stop.n !== "Laugh Tale" && (run.crew || []).length < crewCap() && openRoles().length && run.step - (run.lastRecruit ?? -9) >= 2 && Math.random() < 0.55) { run.lastRecruit = run.step; q.push({ kind: "recruit", where: stop.n, cands: recruitCands(stop.n) }); }
-    if ((run.pone || []).length === 3 && !run.pone4 && run.step >= S().length - 5) { run.pone4 = true; q.push({ kind: "pone4" }); }
+    if (!stop.home && !/Laugh Tale|Reverse Mountain|Mary Geoise/.test(stop.n) && !(lawPath() && hostile) && (run.crew || []).length < crewCap() && openRoles().length && run.step - (run.lastRecruit ?? -9) >= 2 && Math.random() < 0.55) { run.lastRecruit = run.step; q.push({ kind: "recruit", where: stop.n, cands: recruitCands(stop.n) }); }
+    if (poneQuest() && (run.pone || []).length === 3 && !run.pone4 && run.step >= S().length - 5) { run.pone4 = true; q.push({ kind: "pone4" }); }
   }
   // returns true when it used up the click (a wheel was spun, or a wheel was queued for the next click)
   async function seaStep() {
@@ -6815,7 +6855,7 @@
     pts.forEach((p, i) => {
       if (i === 0 && !p.sea) return;
       const last = segs[segs.length - 1], lp = last[last.length - 1];
-      if (lp && wraps(lp, p)) { const ym = (lp.y + p.y) / 2; last.push({ x: RE[0], y: ym }); segs.push([{ x: LE[1], y: ym }]); }
+      if (lp && wraps(lp, p)) { const ym = (lp.y + p.y) / 2; if (lp.x < RE[0]) last.push({ x: RE[0], y: ym }); segs.push([{ x: LE[1], y: ym }]); }
       if (lp && p.n === "Reverse Mountain") last.push(canal(lp));
       segs[segs.length - 1].push(p);
     });
@@ -7090,7 +7130,9 @@
       shipLine.classList.toggle("low", pct <= 35);
     } else shipLine.textContent = "⚓ No ship yet.";
     const pone = document.createElement("div"); pone.className = "pone-line";
-    pone.innerHTML = `<span>Road Poneglyphs</span>` + [0, 1, 2, 3].map((i) => `<i class="${i < (run.pone || []).length ? "got" : ""}" title="${(run.pone || [])[i] || "Not found"}"></i>`).join("");
+    const job = CAREER[seaPath()], got = job ? run.wanted || [] : run.pone || [];
+    pone.innerHTML = `<span>${job ? job[0] : "Road Poneglyphs"}</span>` + [0, 1, 2, 3].map((i) => `<i class="${i < got.length ? "got" : ""}" title="${String(got[i] || (job ? "Still out there" : "Not found")).replace(/"/g, "&quot;")}"></i>`).join("");
+    if (!job && !poneQuest()) pone.hidden = true;
     info.append(shipLine, pone); d.append(info, crewRow());
     return d;
   }
@@ -7441,9 +7483,10 @@
     const own = (run.gained || []).map((p) => p.n);
     return all.filter((f) => !own.includes(f));
   }
+  const fruitWheel = () => listWheel(fill(`Which ${run.offer.kind} did {first} eat?`), fruitList(run.offer.kind).map((f) => f.replace(/ \(.*\)$/, "")));
   async function fruitSpin() {
     const kind = run.offer.kind, L = fruitList(kind), head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
-    const k = await spin(listWheel(fill(`Which ${kind} did {first} eat?`), L.map((f) => f.replace(/ \(.*\)$/, ""))));
+    const k = await spin(fruitWheel());
     const f = L[k], m = f.match(/^(.*?) \((.*)\)$/), name = m ? m[1] : f;
     const what = kind === "Logia" ? `turn into ${m ? m[2] : "an element"}` : m ? m[2] : `turn into a ${f.replace(/^.*Model: /, "")}`;
     const g = { n: name, d: `${kind}: ${what}. Can't swim. +${FRUIT_POWER[kind]} power.`, power: FRUIT_POWER[kind] };
@@ -7819,6 +7862,12 @@
     }
     // in JJK, people who fight with cursed tools leave them behind
     if (isJJ() && won && foe && st.k !== "rival" && (jjTrack() !== "tools" || /curse user|sorcerer|player|Zenin|Kamo|cult|Hei|assassin|hunter|Q |Jogo|Uraume|Naoya|Ogi|Choso|Death Painting|tool/i.test(foe[0])) && Math.random() < (jjTrack() === "tools" ? 0.4 : 0.3)) fx += jjFind("drop", { foe: lowArt(foe[0]) });
+    const job = isOP() && CAREER[seaPath()];
+    if (job && won && foe && foe[1] >= 45 && !NOT_A_TARGET.test(foe[0]) && (run.wanted || []).length < 4 && !(run.wanted || []).includes(foe[0])) {
+      run.wanted = (run.wanted || []).concat(foe[0]);
+      fx += ` ${cap(lowArt(foe[0]))}: ${job[2]} (${run.wanted.length} of 4).`;
+      if (run.wanted.length === 4) { applyMore({ good: 2, endGood: job[1] }); fx += " All four. HQ takes notice: two more good endings on the final wheel."; setTimeout(() => { sfx.fanfare(); fxFlash("#fff6d0"); react("legend"); }, turbo ? 0 : 400); }
+    }
     const upset = won && odds < 0.42;
     if (upset) {
       const up = odds < 0.25 ? 6 : 4;
@@ -7864,9 +7913,11 @@
   const lowArt = (s) => String(s).replace(/^(A|An|The) /, (m) => m.toLowerCase());
   // mid-sentence: lower a leading article or a plain common noun ("Boots of speed"), never a proper noun ("Greed Island card", "Toji's old Playful Cloud", "Enma, ...")
   const lowNoun = (s) => lowArt(s).replace(/^([A-Z])([a-z]*)(?= [a-z])/, (m, a, b) => a.toLowerCase() + b);
+  // what a beaten enemy mocks, and what a rival says after losing, depends on who you work for
+  const REP = { "Marines": ["Marine coat", "HQ's going to promote you for that."], "World Government agent": ["government badge", "Your file just got a lot thicker."], "Bounty hunter": ["price list", "Every pirate on the sea just heard your name."], "Celestial Dragon": ["bubble helmet", "So a World Noble can bleed after all."] };
   function battleVars() {
-    const mv = fill(T().move);
-    return { foe: run.foe ? lowArt(run.foe[0]) : "", fp: run.foe ? run.foe[1] : "", move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "") : mv.replace(/ \(.*\)$/, ""), clutch: T().clutch, sig: signature(),
+    const mv = fill(T().move), rp = REP[tv("Affiliation") || ""] || ["bounty", "Your bounty's going up after that."];
+    return { rep: rp[0], repUp: rp[1], foe: run.foe ? lowArt(run.foe[0]) : "", fp: run.foe ? run.foe[1] : "", move: /^(no |none|\?\?\?)/i.test(mv) ? (tv("Fighting style") || "their fists").replace(/ \(.*\)$/, "") : mv.replace(/ \(.*\)$/, ""), clutch: T().clutch, sig: signature(),
       style: (tv("Fighting style") || "raw instinct").replace(/ \(.*\)$/, ""), weapon: tv("Weapon/Cursed tool/Costume") || "their bare hands", ally: run.companion || "", rival: (tv(T().vis.rival) || "their rival").replace(/^(A|An|The|Your) /, (m) => m.toLowerCase()), Rival: cap(tv(T().vis.rival) || "Their rival") };
   }
   // every chapter opens with a scene from the series' world
@@ -8173,7 +8224,7 @@
   async function primary() {
     if (state.spinning || state.auto) return;
     ensureAudio();
-    if (state.hold) { state.hold = null; state.winner = -1; run.narr = { big: "", text: "", gloss: "" }; persist(); render(); return; }
+    if (state.hold) { state.hold = null; state.winner = -1; run.narr = { big: "", text: "", gloss: "" }; settle(); persist(); render(); return; }
     const shown = { eb: $("promptEyebrow").textContent, title: $("promptTitle").textContent, sub: $("promptSub").textContent }, spins = state.spinCount || 0;
     state.winner = -1;
     if (run.phase === "create") { if (isComplete()) startJourney(); else await spinNext(); }
@@ -8181,6 +8232,21 @@
     else { newCharacter(true); return; }
     // hold the landed wheel and its title until Next (not in test mode, and not once the story is over)
     if (!turbo && (state.spinCount || 0) > spins && run.phase !== "done" && state.winner >= 0) { state.hold = shown; render(); }
+    else { settle(); persist(); render(); }
+  }
+  // Story beats that don't need a spin (a new island's news, a payoff, a surprise offer) happen as the next wheel comes up,
+  // never on the click meant for the wheel already on screen: whatever wheel is showing is the one that spins.
+  function settle() {
+    // during creation, a wheel with only one possible answer (a giant is born in Elbaf) fills itself in instead of showing up
+    if (run.phase === "create") {
+      for (let i = 0, s; i < 20 && (s = nextSlot()) && slotWheel(s).opts.length === 1; i++) { spinSlot(s); afterCreateSpin(); }
+      return;
+    }
+    if (run.phase !== "journey" || state.spinning || run.offer || run.bossSurvive || run.rebirth) return;
+    if (isOP() && run.ship && !run.stranded && !(run.seaQ || []).length && run.atStep !== run.step && !run.act && !run.foe) arrive();
+    if ((isOP() && seaNext()) || toolNext() || (run.ruleReady && !run.act) || (run.chance && !run.act) || (needsCodename() && !run.act)) return;
+    for (let i = 0; i < 3 && !run.offer && maybePayoff(); i++);
+    if (!run.offer && !(isOP() && seaNext())) maybeOffer();
   }
 
   // series with an entrance exam don't let you buy rank or awaken before you've passed it
@@ -8427,6 +8493,7 @@
       const st = S()[run.step];
       eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (isOP() && run.route && run.here != null && run.route[run.here] ? ` · ${placeFull(run.route[run.here].n)}` : "") + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "") + (run.cg != null && st.cg ? ` · ${run.cg} Culling Game points` : "") + (run.fate ? ` · ✦ ${run.fate} fate` : "");
       if (run.offer && run.offer.stage === "choose") { const o = offerDef(run.offer.id); title = o.title; sub = "Accept or refuse: your call, not the wheel's"; }
+      else if (run.offer && run.offer.stage === "fruit") { title = fruitWheel().title; sub = "Every Devil Fruit is one of a kind"; }
       else if (run.offer) { title = offerWheel().title; sub = "You accepted. Now the wheel decides what it costs"; }
       else if (run.bossSurvive) { title = survivalWheel().title; sub = "Losing the final battle can be fatal"; }
       else if (run.rebirth) { title = rebirthWheel().title; sub = "Chimera Ants are born from what the Queen eats"; }
@@ -8451,6 +8518,7 @@
     } else {
       eb = "The end"; title = run.ending || ""; sub = `${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`;
     }
+    if (turbo) window.__upTitle = title; // test hook: the title the player sees once they press Next
     // the title always belongs to the wheel on screen: it only moves on when the next wheel appears
     if (run.phase !== "done" && state.wheel && (state.spinning || state.winner >= 0)) {
       const next = title;
