@@ -6537,7 +6537,7 @@
     }
     if (q.kind === "recruit") {
       const w = crewWord();
-      return { title: `Who on ${q.where} wants to join the ${w}?`, opts: q.cands.map((c, i) => [`${c.n}, ${CREW_ROLES[c.role][1].toLowerCase()}`, 2, { join: i }, `On ${q.where}, {first} meets ${c.n}, who ${crewHook(c.role)}.`]).concat([[`Nobody here fits`, 1.5, {}, `Nobody on ${q.where} is right for the ${w}. {first} keeps sailing.`]]) };
+      return { title: `Who on ${q.where} wants to join the ${w}?`, opts: q.cands.map((c, i) => [`${c.n}, ${CREW_ROLES[c.role][1].toLowerCase()}`, 2, { join: i }, `On ${q.where}, {first} meets ${c.n}, who ${c.hook || crewHook(c.role)}.`]).concat([[`Nobody here fits`, 1.5, {}, `Nobody on ${q.where} is right for the ${w}. {first} keeps sailing.`]]) };
     }
     if (q.kind === "defector") return { title: `${q.who} saw the fight. Do they join {first}?`, opts: [[`${q.who} joins`, 2, { defect: true }, `After the fight, ${q.who} walks up to {first}: "That crew's finished. Yours isn't."`], [`${q.who} sails alone`, 1.5, {}, `${q.who} nods at {first}, once, and walks off alone.`]] };
     if (q.kind === "pone4") return { title: "The last Road Poneglyph", opts: [["Track it down with an ally's help", 2, { ok: true }, "An old friend knows where the fourth stone is hidden. {first} gets there first."], ["Win the rubbing from a rival crew", 1.5, { ok: true, inj: true }, "Another crew already has the rubbing. {first} takes it from them, at a price."], ["The trail goes cold", 2, { ok: false }, "Every lead on the fourth stone dies. Maybe next time."]] };
@@ -6690,20 +6690,66 @@
     doctor: ["✚", "Doctor", "Treats injuries when the ship reaches a new island.", 1], shipwright: ["🔧", "Shipwright", "Repairs the hull at every island.", 1],
     sniper: ["🎯", "Sniper", "+2 power.", 2], musician: ["🎻", "Musician", "+2 power after every defeat.", 1], fighter: ["👊", "Fighter", "+3 power.", 3]
   };
-  const CREW_FIRST = ["Brine", "Hollis", "Okra", "Tamsin", "Pike", "Wren", "Bosk", "Marigold", "Fennec", "Ash", "Juniper", "Mako", "Sorrel", "Tully"];
-  const CREW_LAST = ["Kettle", "Saltwood", "Barnacle", "Reed", "Copper", "Gull", "Finch", "Rook", "Harrow", "Pell"];
-  const CREW_HOOK = { swordsman: "lost a duel on the docks and wants a rematch with the whole world", navigator: "can read the Grand Line's weather like a book", cook: "has been fired from every kitchen in town", doctor: "is a doctor nobody else would hire", shipwright: "builds boats in a shed behind the harbor", sniper: "has never missed the same target twice", musician: "plays for anyone who'll listen, for free", fighter: "picked a fight with {first} and lost" };
-  const CREW_DREAMS = ["to taste every fish in the four seas", "to play a song every island knows", "to clear their family's name", "to find the island where their parents vanished", "to build a ship that never sinks", "to write the history the Government erased", "to be the strongest fighter in the New World", "to open a clinic on every island"];
-  const DEFECTORS = [[/Kuro/, "Jango, the hypnotist", "fighter", 5], [/Don Krieg/, "Gin, the Man-Demon", "fighter", 6], [/Arlong/, "Hatchan, the six-sword octopus", "cook", 5], [/Buggy/, "Cabaji, the acrobat swordsman", "swordsman", 4],
-    [/Daz Bonez|Crocodile/, "Mr. 2 Bon Clay", "fighter", 6], [/Rob Lucci/, "Kaku, the giraffe swordsman", "swordsman", 6], [/Gecko Moria/, "Perona, the Ghost Princess", "fighter", 5], [/Enel/, "Wiper, the Shandian warrior", "fighter", 6],
-    [/Doflamingo/, "Bellamy the Hyena", "fighter", 5], [/Katakuri|Linlin/, "Charlotte Pudding", "cook", 6], [/King the Wildfire|Jack the Drought|Kaido/, "X Drake", "fighter", 7]];
+  const CREW_FIRST = ["Brine", "Hollis", "Okra", "Tamsin", "Pike", "Wren", "Bosk", "Marigold", "Fennec", "Ash", "Juniper", "Mako", "Sorrel", "Tully", "Barley", "Cove", "Dory", "Ember", "Flint", "Gully", "Hattie", "Ivo", "Kelp", "Lark", "Moss", "Nell", "Otto", "Pip", "Quill", "Rusk", "Sage", "Tide", "Umber", "Vale"];
+  const CREW_LAST = ["Kettle", "Saltwood", "Barnacle", "Reed", "Copper", "Gull", "Finch", "Rook", "Harrow", "Pell", "Anchorly", "Brinewater", "Driftwood", "Fathom", "Gale", "Hook", "Keel", "Lantern", "Marlin", "Netley", "Oarsby", "Plank", "Riggs", "Shoal", "Tackle", "Wake"];
+  const CREW_HOOK = {
+    swordsman: ["lost a duel on the docks and wants a rematch with the whole world", "carries a sword that belonged to their dead teacher", "has cut every training post on the island in half"],
+    navigator: ["can read the Grand Line's weather like a book", "stole a Log Pose and never gave it back", "has drawn maps of islands nobody else has found"],
+    cook: ["has been fired from every kitchen in town", "runs a floating food stall and is bored of the harbor", "won a cooking contest and lost the prize money the same night"],
+    doctor: ["is a doctor nobody else would hire", "treats pirates and Marines alike, and charges both", "is looking for a cure for a disease that killed their village"],
+    shipwright: ["builds boats in a shed behind the harbor", "was kicked out of a shipyard for building something too fast", "can fix a hull with driftwood and spit"],
+    sniper: ["has never missed the same target twice", "hunts sea birds with a slingshot for a living", "guards the harbor from a lighthouse with a rifle"],
+    musician: ["plays for anyone who'll listen, for free", "plays a fiddle so sad the bar goes quiet", "drums on barrels and gets a whole port dancing"],
+    fighter: ["picked a fight with {first} and lost", "is the undefeated champion of the island's back-alley fights", "ran away from a strict dojo and wants to see the sea"]
+  };
+  const CREW_DREAMS = ["to taste every fish in the four seas", "to play a song every island knows", "to clear their family's name", "to find the island where their parents vanished", "to build a ship that never sinks", "to write the history the Government erased", "to be the strongest fighter in the New World", "to open a clinic on every island", "to see a sky island with their own eyes", "to win back their hometown from a tyrant", "to find a sword that's never been drawn", "to sail past the Red Line", "to be on a wanted poster their family can be proud of", "to cook for a whole kingdom", "to find their older brother, lost at sea", "to map the bottom of the ocean"];
+  // named people who might sign on when the route reaches their island
+  const ISLAND_NAMED = {
+    "Drum Island": [["Dalton, the bison guard", "fighter", 5]], "Alabasta": [["Kohza, the rebel leader", "fighter", 4], ["Pell, the falcon guard", "navigator", 5]],
+    "Jaya": [["Montblanc Cricket, the treasure diver", "navigator", 4]], "Skypiea": [["Conis, a Skypiean guide", "navigator", 3], ["Pagaya, a Skypiean engineer", "shipwright", 3]],
+    "Water 7": [["Paulie, the rope foreman", "shipwright", 5], ["Tilestone, the loud shipwright", "shipwright", 4]], "Thriller Bark": [["Lola, the giant-hearted pirate", "fighter", 4]],
+    "Sabaody Archipelago": [["Duval, the Flying Fish Rider", "navigator", 4], ["Hatchan, the takoyaki chef", "cook", 5]], "Fish-Man Island": [["Den, the Fish-Man shipwright", "shipwright", 4]],
+    "Punk Hazard": [["Brownbeard, the centaur captain", "navigator", 3]], "Dressrosa": [["Cavendish of the White Horse", "swordsman", 6], ["Bartolomeo the Cannibal", "fighter", 6], ["Leo of the Tontatta", "fighter", 4], ["Kyros, the one-legged soldier", "swordsman", 7]],
+    "Zou": [["Carrot, the Mink warrior", "fighter", 5], ["Wanda, the Mink warrior", "fighter", 5]], "Whole Cake Island": [["Pekoms, the turtle Mink", "fighter", 5]],
+    "Wano Country": [["Hyogoro the Flower", "fighter", 6], ["Kawamatsu the Kappa", "swordsman", 6], ["Shinobu the kunoichi", "navigator", 5]], "Elbaf": [["Gerd, the giant archer", "sniper", 5], ["Hajrudin, the giant captain", "fighter", 6]]
+  };
+  // beat a crew, and one of its fighters may decide to sail with you instead
+  const DEFECTORS = [
+    [/Buggy/, [["Cabaji, the acrobat swordsman", "swordsman", 4], ["Mohji, the beast tamer", "fighter", 4], ["Alvida, the iron mace", "fighter", 5]]],
+    [/Alvida/, [["Alvida, the iron mace", "fighter", 5]]],
+    [/Kuro|Black Cat|Jango/, [["Jango, the hypnotist", "fighter", 5]]],
+    [/Don Krieg/, [["Gin, the Man-Demon", "fighter", 6], ["Pearl, the iron wall", "fighter", 4]]],
+    [/Arlong|Hatchan|Kuroobi|Chew/, [["Hatchan, the six-sword octopus", "cook", 5], ["Kuroobi, the Fish-Man karate master", "fighter", 5], ["Chew, the water-gun sniper", "sniper", 4]]],
+    [/Wapol/, [["Dalton, the bison guard", "fighter", 5]]],
+    [/Daz Bonez|Crocodile|Baroque|Mr\. 2|Mr\. 3|Mr\. 5|Miss All Sunday/, [["Mr. 2 Bon Clay", "fighter", 6], ["Daz Bonez, the steel body", "swordsman", 6], ["Mr. 3, the wax artist", "shipwright", 4], ["Miss Goldenweek, the painter", "musician", 3], ["Mr. 4 and Lassoo", "sniper", 4], ["Miss Valentine", "fighter", 3]]],
+    [/Enel|Satori|Shura|Ohm|Gedatsu|God's Army/, [["Wiper, the Shandian warrior", "fighter", 6], ["Laki, the Shandian sniper", "sniper", 4], ["Gan Fall, the old sky knight", "swordsman", 5]]],
+    [/Lucci|CP9|Kaku|Jabra|Blueno|Spandam/, [["Kaku, the giraffe swordsman", "swordsman", 6], ["Jabra, the wolf", "fighter", 5], ["Kalifa", "fighter", 5], ["Kumadori, the kabuki fighter", "musician", 4], ["Blueno, master of Air Door", "navigator", 5], ["Fukurou, the silent", "fighter", 4]]],
+    [/Gecko Moria/, [["Perona, the Ghost Princess", "fighter", 5], ["Dr. Hogback", "doctor", 4], ["Absalom of the Graveyard", "fighter", 4], ["Cindry, the plate-breaking maid", "cook", 3]]],
+    [/Hody|New Fish-Man|Vander Decken/, [["Hyouzou, the octopus swordsman", "swordsman", 5], ["Wadatsumi, the giant sea monk", "fighter", 5]]],
+    [/Caesar/, [["Brownbeard, the centaur captain", "navigator", 3]]],
+    [/Franky Family/, [["Zambai of the Franky Family", "shipwright", 4], ["Kiwi and Mozu", "fighter", 3]]],
+    [/Galley-La/, [["Paulie, the rope foreman", "shipwright", 5], ["Peepley Lulu", "shipwright", 4]]],
+    [/Doflamingo|Donquixote|Diamante|Trebol|Pica|Sugar|Vergo/, [["Bellamy the Hyena", "fighter", 5], ["Baby 5, the living arsenal", "sniper", 6], ["Señor Pink", "fighter", 6], ["Buffalo, the flying spinner", "navigator", 4], ["Viola, the clairvoyant princess", "navigator", 5], ["Gladius", "fighter", 5]]],
+    [/Katakuri|Linlin|Cracker|Oven|Smoothie|Charlotte/, [["Charlotte Pudding", "cook", 6], ["Charlotte Chiffon", "cook", 4], ["Pekoms, the turtle Mink", "fighter", 5], ["Charlotte Cracker", "swordsman", 7], ["Charlotte Smoothie", "swordsman", 7], ["Charlotte Katakuri", "fighter", 8]]],
+    [/King the Wildfire|Jack the Drought|Queen the Plague|Kaido|Page One|Ulti|Beasts Pirates|Gifters|SMILE/, [["X Drake", "fighter", 7], ["Yamato", "fighter", 8], ["Ulti", "fighter", 6], ["Page One", "fighter", 6], ["Queen the Plague", "doctor", 7], ["Sasaki, the armored samurai", "swordsman", 5], ["Who's-Who", "fighter", 6]]],
+    [/Orochi|Kyoshiro|Oniwabanshu/, [["Hyogoro the Flower", "fighter", 6], ["Kawamatsu the Kappa", "swordsman", 6], ["Shinobu the kunoichi", "navigator", 5]]],
+    [/Vinsmoke|Germa/, [["Vinsmoke Reiju", "doctor", 6], ["Vinsmoke Ichiji", "fighter", 6], ["Vinsmoke Niji", "fighter", 6], ["Vinsmoke Yonji", "fighter", 5]]],
+    [/Magellan/, [["Hannyabal", "fighter", 4]]],
+    [/Blackbeard|Marshall D\. Teach/, [["Van Augur, the Supersonic", "sniper", 7], ["Laffitte", "navigator", 6], ["Doc Q", "doctor", 6], ["Jesus Burgess", "fighter", 7]]],
+    [/Supernova/, [["Basil Hawkins, the fortune teller", "navigator", 6], ["Scratchmen Apoo", "musician", 6], ["Capone Bege", "fighter", 6], ["Jewelry Bonney", "fighter", 6], ["Urouge, the Mad Monk", "fighter", 6], ["Killer", "swordsman", 7]]],
+    [/Giant Warrior Pirates/, [["Hajrudin, the giant captain", "fighter", 6], ["Gerd, the giant archer", "sniper", 5], ["Oimo and Kashii", "fighter", 5]]],
+    [/Flying Fish Riders/, [["Duval, the Flying Fish Rider", "navigator", 4]]],
+    [/Square Sisters/, [["The Square Sisters", "shipwright", 3]]],
+    [/Higuma/, [["A mountain bandit who switched sides", "fighter", 2]]]
+  ];
+  const takenName = (n) => (run.crew || []).some((m) => m.n === n) || (run.seaQ || []).some((x) => x.who === n || (x.cands || []).some((c) => c.n === n));
   const crewWord = () => { const p = seaPath(); return p === "Marines" ? "squad" : p === "World Government agent" ? "CP unit" : "crew"; };
   // Marines build a squad and government agents build a CP unit, from people who fit those worlds
   const HOOKS = {
     Marines: { swordsman: "was passed over for promotion three times and still trains every dawn", navigator: "charted half the Grand Line for Marine HQ", cook: "runs the base mess hall and wants to see the sea", doctor: "is a Marine medic who's tired of patching up after the fact", shipwright: "keeps the base's warships afloat with spare parts", sniper: "is the best shot on the base, and nobody listens to them", musician: "plays the bugle at every Marine funeral and wants to play something else", fighter: "is a rookie Marine who wants a real assignment" },
     "World Government agent": { swordsman: "is a Cipher Pol blade who failed one mission and was buried in paperwork", navigator: "knows every smuggling route on the island", cook: "has been undercover as a cook for six years", doctor: "is a government surgeon who asks no questions", shipwright: "builds the Government's unmarked ships", sniper: "watches the harbor from a bell tower for the Government", musician: "is an informant who works as a bar musician", fighter: "is a Rokushiki trainee looking for a unit" }
   };
-  const crewHook = (role) => (HOOKS[seaPath()] || CREW_HOOK)[role] || CREW_HOOK[role];
+  const crewHook = (role) => { const h = (HOOKS[seaPath()] || CREW_HOOK)[role] || CREW_HOOK[role]; return Array.isArray(h) ? h[0] : h; };
   const crewActive = () => (run.crew || []).filter((m) => !m.lost);
   const hasCrew = (role) => crewActive().some((m) => m.role === role);
   const crewPower = () => isOP() ? Math.min(12, crewActive().reduce((a, m) => a + (m.pw || 1), 0)) : 0;
@@ -6711,12 +6757,17 @@
   function recruitCands(where) {
     const R = rng(run.seed + where.length * 31 + (run.crew || []).length * 7), used = [run.name].concat((run.crew || []).map((m) => m.n));
     const roles = openRoles().sort((a, b) => hash(run.seed + a + where) - hash(run.seed + b + where)).slice(0, 3);
-    return roles.map((role) => {
+    const out = roles.map((role) => {
       let nm, tries = 0;
       do { nm = CREW_FIRST[Math.floor(R() * CREW_FIRST.length)] + " " + CREW_LAST[Math.floor(R() * CREW_LAST.length)]; } while ((used.includes(nm) || used.some((u) => u.split(" ")[0] === nm.split(" ")[0] || u.split(" ").slice(-1)[0] === nm.split(" ").slice(-1)[0])) && ++tries < 40);
       used.push(nm);
-      return { n: nm, role, from: where, pw: CREW_ROLES[role][3], dream: CREW_DREAMS[Math.floor(R() * CREW_DREAMS.length)] };
+      const H = HOOKS[seaPath()] ? [HOOKS[seaPath()][role]] : CREW_HOOK[role];
+      return { n: nm, role, from: where, pw: CREW_ROLES[role][3], dream: CREW_DREAMS[Math.floor(R() * CREW_DREAMS.length)], hook: H[Math.floor(R() * H.length)] };
     });
+    // pirates sometimes meet a named local who'd sail with them
+    const named = /Marines|World Government agent/.test(seaPath()) ? null : (ISLAND_NAMED[where] || []).find(([n, r]) => !takenName(n) && openRoles().includes(r) && !out.some((c) => c.role === r));
+    if (named && R() < 0.7) out.splice(out.length ? out.length - 1 : 0, 1, { n: named[0], role: named[1], from: where, pw: named[2], canon: true, hook: "is known all over " + where });
+    return out;
   }
   function addCrew(m, head, how) {
     run.crew = (run.crew || []).concat(m);
@@ -7487,8 +7538,8 @@
     }
     const won = o !== "loss" && o !== "draw";
     if (isOP() && won && foe && !/Marines|World Government agent/.test(seaPath()) && (run.crew || []).length < 7) {
-      const D = DEFECTORS.find(([re, who]) => re.test(foe[0]) && !(run.crew || []).some((m) => m.n === who) && !(run.seaQ || []).some((x) => x.who === who));
-      if (D && openRoles().includes(D[2])) { const here = run.route && run.route[run.here] ? run.route[run.here].n : "sea"; run.seaQ = (run.seaQ || []).concat({ kind: "defector", who: D[1], role: D[2], pw: D[3], where: here }); }
+      const roles = openRoles(), E = DEFECTORS.find(([re]) => re.test(foe[0])), D = E && E[1].filter(([n, r]) => !takenName(n) && roles.includes(r));
+      if (D && D.length) { const c = D[hash(run.seed + foe[0]) % D.length], here = run.route && run.route[run.here] ? run.route[run.here].n : "sea"; run.seaQ = (run.seaQ || []).concat({ kind: "defector", who: c[0], role: c[1], pw: c[2], where: here }); }
     }
     // in JJK, people who fight with cursed tools leave them behind
     if (isJJ() && won && foe && st.k !== "rival" && (jjTrack() !== "tools" || /curse user|sorcerer|player|Zenin|Kamo|cult|Hei|assassin|hunter|Q |Jogo|Uraume|Naoya|Ogi|Choso|Death Painting|tool/i.test(foe[0])) && Math.random() < (jjTrack() === "tools" ? 0.4 : 0.3)) fx += jjFind("drop", { foe: lowArt(foe[0]) });
