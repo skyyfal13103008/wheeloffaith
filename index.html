@@ -324,6 +324,40 @@
   .story-head-op .row .blurb span { display: block; font-size: 13px; color: #4a4232; margin-top: 4px; }
   .wanted .ph { height: 70px; margin: 4px 0; background: repeating-linear-gradient(45deg, rgba(58,37,16,.08) 0 6px, transparent 6px 12px); border: 1px solid rgba(58,37,16,.5); display: grid; place-items: center; font-size: 34px; }
   #storyHead:empty { display: none; }
+  .sea-panel { margin-top: 10px; border: 1px solid #1d1a14; background: #efe4c6; padding: 6px; }
+  .sea-map { display: block; width: 100%; height: auto; }
+  .sea-map .sea { fill: #cfe0dc; } .sea-map .gl { fill: #bcd4d0; } .sea-map .cb { stroke: #9ab6b2; stroke-dasharray: 2 3; }
+  .sea-map .rl { fill: #8a6a4a; opacity: .75; }
+  .sea-map .blue, .sea-map .zone { font: 700 6px Georgia, serif; letter-spacing: .14em; fill: #5a6e6a; }
+  .sea-map .blue { text-anchor: middle; }
+  .sea-map .route { fill: none; stroke: #8a1c12; stroke-width: 1.4; stroke-dasharray: 3 2; }
+  .sea-map circle.seen { fill: #1d1a14; } .sea-map circle.here { fill: #8a1c12; stroke: #fff6d0; stroke-width: 1; }
+  .sea-map .lbl { font: 700 6.5px Georgia, serif; fill: #1d1a14; paint-order: stroke; stroke: #efe4c6; stroke-width: 2px; }
+  .sea-map .lt { font-size: 11px; fill: #c9902a; }
+  .sea-map .ship text { font-size: 11px; }
+  .sea-info { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; justify-content: space-between; margin-top: 6px; font: 12px Georgia, serif; color: #1d1a14; }
+  .ship-line { display: flex; gap: 8px; align-items: center; }
+  .ship-line .hull { width: 90px; height: 7px; background: rgba(29,26,20,.15); border: 1px solid #1d1a14; }
+  .ship-line .hull i { display: block; height: 100%; background: #2f6a34; }
+  .ship-line.low .hull i { background: #8a1c12; }
+  .pone-line { display: flex; gap: 5px; align-items: center; }
+  .pone-line span { margin-right: 4px; }
+  .pone-line i { width: 11px; height: 13px; background: rgba(29,26,20,.12); border: 1px solid #5a2a1a; }
+  .pone-line i.got { background: #a3262f; box-shadow: 0 0 4px rgba(163,38,47,.6); }
+  .bounty-drop { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; background: rgba(10,6,2,.55); animation: bd-in .25s ease-out; cursor: pointer; }
+  .bounty-drop.bd-out { opacity: 0; transition: opacity .4s; }
+  .bd-poster { width: min(78vw, 300px); padding: 18px 16px 14px; text-align: center; background: linear-gradient(#f6e7bd, #e2c98a); border: 2px solid #7a5a26; box-shadow: 0 20px 60px rgba(0,0,0,.6); color: #3a2510; font-family: "Pirata One", Georgia, serif; animation: bd-slam .45s cubic-bezier(.2,1.6,.4,1); transform: rotate(-2deg); }
+  .bd-w { font-size: clamp(44px, 12vw, 64px); line-height: .9; letter-spacing: .04em; }
+  .bd-d { font: 700 11px Georgia, serif; letter-spacing: .35em; }
+  .bd-ph { height: 110px; margin: 10px 0; display: grid; place-items: center; font-size: 60px; border: 1px solid rgba(58,37,16,.5); background: repeating-linear-gradient(45deg, rgba(58,37,16,.08) 0 6px, transparent 6px 12px); }
+  .bd-n { font-size: 26px; line-height: 1; }
+  .bd-b { margin-top: 6px; font: 900 28px Georgia, serif; }
+  .bd-b.bd-final { animation: bd-flash .6s ease-out 2; color: #8a1c12; }
+  .bd-m { font: 700 9px Georgia, serif; letter-spacing: .4em; margin-top: 6px; }
+  @keyframes bd-in { from { opacity: 0; } }
+  @keyframes bd-slam { from { transform: scale(2.4) rotate(-12deg); opacity: 0; } }
+  @keyframes bd-flash { 50% { transform: scale(1.15); text-shadow: 0 0 18px #ffd27a; } }
+  @media (prefers-reduced-motion: reduce) { .bd-poster, .bounty-drop { animation: none; } }
   .wanted .w5 { font-family: Georgia, serif; font-size: 8px; letter-spacing: .3em; margin-top: 4px; }
   .story.skin-onepiece .chapter { border-top: 1px solid #1d1a14; padding-top: 8px; }
   .story.skin-onepiece .chapter h3 { font-family: Georgia, serif; font-weight: 900; font-size: 19px; line-height: 1.15; color: #1d1a14; letter-spacing: -.01em; }
@@ -5609,6 +5643,17 @@
       o.start(t); o2.start(t); o.stop(t + d + 0.3); o2.stop(t + d + 0.3);
       [0, 1.1, 2.0, 2.7, 3.2].filter((x) => x < d).forEach((x, i) => tone(a, "sine", 95, t + x, 0.45, 0.16 + i * 0.03, 42));
     },
+    // the bounty drop: four war-drum hits that close in, then a crash
+    bountyDrum() {
+      const a = ensureAudio(); if (!a) return;
+      const t = a.currentTime;
+      [0, 0.42, 0.72, 0.92].forEach((x, i) => tone(a, "sine", 110, t + x, 0.4, 0.22 + i * 0.05, 45));
+      const n = a.createBufferSource(), hp = a.createBiquadFilter(), g = a.createGain();
+      n.buffer = noiseBuf(a, 1.4); hp.type = "highpass"; hp.frequency.value = 2500;
+      g.gain.setValueAtTime(0.0001, t + 1.1); g.gain.exponentialRampToValueAtTime(0.18, t + 1.13); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.3);
+      n.connect(hp).connect(g).connect(a.destination); n.start(t + 1.1);
+      tone(a, "sine", 70, t + 1.1, 0.8, 0.3, 35);
+    },
     drumroll(secs) { const a = ensureAudio(); if (!a) return; const t = a.currentTime, n = Math.floor((secs || 3) * 14); for (let i = 0; i < n; i++) { const s = a.createBufferSource(), g = a.createGain(), v = 0.02 + 0.05 * (i / n); s.buffer = noiseBuf(a, 0.05); g.gain.setValueAtTime(v, t + i / 14); g.gain.exponentialRampToValueAtTime(0.0001, t + i / 14 + 0.05); s.connect(g).connect(a.destination); s.start(t + i / 14); } },
     meh() { const a = ensureAudio(); if (!a) return; const t = a.currentTime; tone(a, "triangle", 330, t, 0.25, 0.08); tone(a, "triangle", 311, t + 0.28, 0.4, 0.08); }
   };
@@ -5788,6 +5833,7 @@
       if (run.offer) return state.wheel;
       if (run.bossSurvive) return survivalWheel();
       if (run.rebirth) return rebirthWheel();
+      { const sw = seaNext(); if (sw) return sw; }
       if (run.ruleReady && !run.act) return ruleWheel();
       if (run.chance && !run.act) return listWheel(jTitle("chance"), chanceList().map(lbl));
       if (needsCodename() && !run.act) return listWheel("Hero name", codenameOptions());
@@ -6085,9 +6131,279 @@
     if (add <= 0) return "";
     const before = run.bounty;
     run.bounty += add;
+    if (isOP() && (before === 0 || BOUNTY_TIERS.some((t) => before < t && run.bounty >= t))) {
+      bountyDropFx(before, run.bounty);
+      if (run.phase === "journey") { run.seaQ = (run.seaQ || []).filter((q) => q.kind !== "poster"); run.seaQ.push({ kind: "poster", amount: run.bounty }); }
+    }
     if (before === 0) return `The World Government prints ${run.name}'s first wanted poster: ${berry(run.bounty)}.`;
     if (before < 1e9 && run.bounty >= 1e9) { react("bounty"); sfx.gong(); }
     return `New wanted poster${why ? ` (${why})` : ""}: ${berry(before)} → ${berry(run.bounty)}.`;
+  }
+
+  // ================= One Piece: the sea route, the ship, wanted posters and the Road Poneglyphs =================
+  // islands on a stylized world map (320 x 150): Reverse Mountain at the left, the Red Line in the middle, Laugh Tale at the far right
+  const SEA = {
+    blue: { "East Blue": [70, 128], "North Blue": [70, 22], "West Blue": [252, 22], "South Blue": [252, 128] },
+    homeRe: [[/Zou|Mokomo/, [210, 66]], [/Fish-Man|Mermaid|Ryugu/, [169, 96]], [/Elbaf/, [270, 70]], [/Whole Cake|Totto/, [224, 81]], [/Green Bit|Tontatta/, [190, 76]], [/Skypiea|Weatheria|Birka/, [94, 52]], [/Mary Geoise|Red Line/, [165, 50]], [/Sabaody/, [157, 71]]],
+    homes: { "Alabasta": [80, 80], "Drum Island": [62, 68], "Water 7": [108, 79], "Dressrosa": [196, 69], "Wano Country": [240, 80], "God Valley": [140, 104], "Mary Geoise, the Holy Land": [165, 50], "Birka": [92, 52], "Sabaody slave market": [157, 71] },
+    fixed: {
+      "Loguetown": [50, 110, "The town where Gol D. Roger was born and executed. The last stop before the Grand Line."],
+      "Reverse Mountain": [22, 75, "The currents of all four seas climb a mountain, meet at the top, and crash down into the Grand Line."],
+      "Sabaody Archipelago": [157, 73, "Giant mangroves, floating bubbles, slave auctions. The last stop before the New World."],
+      "Fish-Man Island": [169, 96, "Ten thousand meters under the sea, inside a bubble, at the foot of the Red Line."],
+      "Laugh Tale": [304, 75, "The final island. Only someone who has read all four Road Poneglyphs can find it."]
+    },
+    paradise: [["Whisky Peak", 34, 71, "A town that welcomes every pirate with a party, then robs them in their sleep."], ["Little Garden", 47, 82, "A prehistoric island where two giants have been dueling for a hundred years."], ["Drum Island", 61, 68, "A winter island with no king and the best doctors in the Grand Line."], ["Alabasta", 78, 81, "A desert kingdom that nearly tore itself apart over the rain."], ["Jaya", 92, 72, "A lawless island where everyone laughs at people who believe in sky islands."], ["Skypiea", 96, 52, "An island in the clouds, ten thousand meters up. Getting there takes a Knock Up Stream."], ["Water 7", 109, 79, "The city of shipwrights. If a ship can be saved, it gets saved here."], ["Enies Lobby", 122, 71, "The judicial island, where the sun never sets and nobody walks out."], ["Thriller Bark", 136, 82, "A ghost ship the size of an island, drifting through the Florian Triangle."]],
+    newWorld: [["Punk Hazard", 182, 70, "Half fire, half ice, and a laboratory that should have stayed abandoned."], ["Dressrosa", 196, 80, "A kingdom of love, passion and toys, ruled by a Warlord in a bird cage of strings."], ["Zou", 210, 66, "A whole country on the back of a thousand-year-old elephant. The Minks keep a Road Poneglyph here."], ["Whole Cake Island", 224, 81, "Big Mom's candy kingdom. One of her Road Poneglyphs sits in a vault here."], ["Wano Country", 239, 70, "A closed samurai country behind waterfalls. Kaido's Road Poneglyph is somewhere inside."], ["Egghead", 255, 81, "Vegapunk's island of the future. The World Government doesn't want anyone leaving it alive."], ["Elbaf", 270, 70, "The island of giants, under the branches of the Treasure Tree Adam."]]
+  };
+  const PONE_AT = { "Zou": "Zou", "Whole Cake Island": "Whole Cake Island", "Wano Country": "Wano Country" };
+  const isOP = () => state.theme === "onepiece";
+  const seaPath = () => tv("Affiliation") || "Pirate crew";
+  function buildRoute() {
+    const R = rng(run.seed + 77), home = tv("Birthplace") || "Somewhere at sea";
+    const blue = Object.keys(SEA.blue).find((b) => home.includes(b));
+    const stop = (n, xy, d, extra) => Object.assign({ n, x: xy[0], y: xy[1], d }, extra || {});
+    const fx = (n) => stop(n, SEA.fixed[n], SEA.fixed[n][2]);
+    const stops = [stop(home.replace(/, (East|West|North|South) Blue$/, ""), blue ? SEA.blue[blue] : (SEA.homes[home] || (SEA.homeRe.find(([re]) => re.test(home)) || [0, [44, 100]])[1]), "Where it all starts.", { home: true, sea: !!blue })];
+    if (blue === "East Blue" && !/Loguetown/.test(home)) stops.push(fx("Loguetown"));
+    if (blue) stops.push(fx("Reverse Mountain"));
+    const tail = [fx("Sabaody Archipelago"), fx("Fish-Man Island")];
+    const free = Math.max(2, S().length - 1 - stops.length - tail.length), nP = Math.ceil(free / 2), nN = free - nP;
+    const pick = (list, k, must) => {
+      const out = list.filter((x) => (must || []).includes(x[0]) && x[0] !== stops[0].n).slice(0, k), rest = list.filter((x) => !out.includes(x) && x[0] !== stops[0].n);
+      while (out.length < k && rest.length) out.push(rest.splice(Math.floor(R() * rest.length), 1)[0]);
+      return out.sort((a, b) => list.indexOf(a) - list.indexOf(b)).map((x) => stop(x[0], [x[1], x[2]], x[3]));
+    };
+    stops.push(...pick(SEA.paradise, nP), ...tail, ...pick(SEA.newWorld, nN, ["Zou", "Whole Cake Island", "Wano Country"]));
+    return stops;
+  }
+  const routeStop = (i) => run.route ? run.route[Math.min(i, run.route.length - 1)] : null;
+
+  // --- the ship ---
+  function shipOpts() {
+    const p = seaPath();
+    if (p === "Marines") return [["A battered patrol sloop", 1, 80], ["A standard Marine warship", 2, 100], ["A Vice Admiral's old flagship", 1, 120]];
+    if (p === "World Government agent") return [["A government transport", 1, 90], ["A Cipher Pol fast cutter", 2, 100], ["A ship with no flag at all", 1, 100]];
+    if (p === "Celestial Dragon runaway") return [["A stolen World Noble yacht", 1, 90], ["A fishing boat bought with one jewel", 2, 70], ["A smuggler's sloop", 1, 90]];
+    return [["The Red Gale", 1, 100], ["The Laughing Shark", 1, 100], ["The Salt Crown", 1, 100], ["The Iron Gull", 1, 100], ["The Dawn Chaser", 1, 100], ["A rowboat with big dreams", 1, 60]];
+  }
+  const FIGUREHEADS = ["a roaring lion", "a grinning shark", "a sea serpent", "a crowned skull", "a laughing whale", "a golden sun"];
+  const shipWheel = () => { const O = shipOpts(); return tw(fill(run.shipsLost ? "Which ship carries {first} back to sea?" : "Which ship does {first} set sail on?"), O.map((o) => o[0]), O.map((o) => o[1]), { label: "Ship" }); };
+  function nameShip(k) {
+    const o = shipOpts()[k], fig = FIGUREHEADS[hash(run.seed + "|fig" + (run.shipsLost || 0)) % FIGUREHEADS.length];
+    run.ship = { name: o[0], hp: o[2], max: o[2], fig };
+    return /^The /.test(o[0]) ? `${o[0]}, with ${fig} on the bow` : o[0];
+  }
+  function damageShip(n, why) {
+    if (!isOP() || !run.ship || run.ship.lost || run.stranded || n <= 0) return "";
+    run.ship.hp = Math.max(0, run.ship.hp - n);
+    if (run.ship.hp > 0) return ` The ship takes damage (${why}): hull at ${Math.round(100 * run.ship.hp / run.ship.max)}%.`;
+    return shipLost(why);
+  }
+  function repairShip(n) { if (run.ship && !run.ship.lost) run.ship.hp = Math.min(run.ship.max, run.ship.hp + n); }
+  function shipLost(why) {
+    const name = run.ship.name, keep = (run.items || []).filter((x) => /Poneglyph/.test(x)), lost = (run.items || []).filter((x) => !/Poneglyph/.test(x));
+    run.items = keep;
+    run.ship.lost = true; run.shipsLost = (run.shipsLost || 0) + 1; run.stranded = true; run.injured = true;
+    run.endShift = (run.endShift || 0) - 1;
+    setTimeout(() => { sfx.shatter(); fxShake(2); fxFlash("#3a0008"); react("upset"); }, turbo ? 0 : 300);
+    return ` ${name} goes down (${why}). Everything aboard sinks with it${lost.length ? `: ${lost.map((x) => x.charAt(0).toLowerCase() + x.slice(1)).join(", ")}` : ""}. One fewer good ending on the final wheel, and ${run.given || run.name.split(" ")[0]} is stranded until they find a new ship.`;
+  }
+  function strandOpts() {
+    if (run.bounty == null) return [
+      ["Headquarters assigns a new ship, after a hearing", 2, { pts: -2 }, "A hearing, a reprimand, a new ship. {first} doesn't lose their rank, barely.", "new"],
+      ["Commandeer a merchant ship", 1.5, { gain: { n: "Commandeered a ship", d: "Took a civilian ship. Bad karma.", karma: -1 } }, "{first} commandeers a merchant ship in the name of Justice. The merchants don't see it that way.", "new"],
+      ["Stranded for months", 1, { heal: true, all: 2 }, "Months on a deserted island. {first} trains, heals, and waits.", "skip"]];
+    return [
+      ["Steal a Marine warship", 2, {}, "{first} walks onto a Marine base at night and sails out on a warship. The Marines are furious.", "steal"],
+      ["A shipwright builds a new one", 2, { pts: -3 }, "A shipwright works for ten days straight. The new ship is smaller, and better.", "new"],
+      ["Hitch a ride with another crew", 1.5, { ally: true }, "Another crew owes {first} a favor and gives them a lift, and an old boat.", "new"],
+      ["Stranded for months", 1, { heal: true, all: 2 }, "Months on a deserted island. {first} trains, heals, and builds a raft.", "skip"]];
+  }
+  const strandWheel = () => { const O = strandOpts(); return tw(fill("No ship. How does {first} get back to sea?"), O.map((o) => o[0]), O.map((o) => o[1]), { label: "Stranded", colors: ["#3c8a58", "#c9902a", "#2b7d9c", "#5a2a3a"] }); };
+
+  // --- the four Road Poneglyphs ---
+  const PONES = ["Zou", "Whole Cake Island", "Wano Country", "the hidden fourth"];
+  function givePone(where) {
+    run.pone = run.pone || [];
+    const p = where && !run.pone.includes(where) ? where : PONES.find((x) => !run.pone.includes(x));
+    if (!p) return "";
+    run.pone.push(p);
+    let t = ` Road Poneglyph rubbing ${run.pone.length} of 4 (${p}).`;
+    if (run.bounty != null) t += " " + bountyBump(70, 1.2, "the World Government knows what they're after");
+    if (run.pone.length === 4) {
+      const pirate = /Pirate|Cross Guild/.test(seaPath());
+      applyMore({ good: pirate ? 2 : 1, endGood: pirate ? "Reaches Laugh Tale and finds the One Piece" : "Reaches Laugh Tale and learns the truth of the Void Century" });
+      t += " All four. Laugh Tale is on the map.";
+      setTimeout(() => { sfx.fanfare(); fxFlash("#fff6d0"); react("legend"); }, turbo ? 0 : 400);
+    }
+    return t;
+  }
+
+  // --- wheels that happen at sea: dangerous crossings, Poneglyphs, and the world reacting to a new poster ---
+  function seaQOpts(q) {
+    if (q.kind === "climb") return { title: "Reverse Mountain: does the ship make the climb?", opts: [["A clean climb", 3, { dmg: 0 }, "The current carries the ship straight up the mountain and over the top. The Grand Line opens below."], ["Scraped along the canal walls", 2, { dmg: 25 }, "The ship scrapes the canal walls all the way up. It makes it, in pieces."], ["Slams into the Twin Capes", 1, { dmg: 45 }, "The ship comes down too fast and slams into the Twin Capes lighthouse."]] };
+    if (q.kind === "descent") return { title: "The descent to Fish-Man Island", opts: [["Coated and calm the whole way down", 3, { dmg: 0 }, "The coating holds. Ten thousand meters down, the bubble of Fish-Man Island glows in the dark."], ["A Kraken grabs the hull", 1.5, { dmg: 25 }, "A Kraken wraps the ship halfway down. It lets go eventually."], ["The coating tears near the bottom", 1, { dmg: 45 }, "The coating tears at nine thousand meters. The ship hits the bubble half full of water."]] };
+    if (q.kind === "storm") return { title: "The New World's first storm", opts: [["Rides it out", 2, { dmg: 0 }, "Lightning, snow and a whirlpool in the same hour. The ship rides it out."], ["Loses the mast", 2, { dmg: 25 }, "The mast snaps in the second hour. They limp into the next harbor."], ["Lightning hits the powder room", 1, { dmg: 45 }, "Lightning hits the powder room. Half the deck goes with it."]] };
+    if (q.kind === "pone") {
+      const W = { "Zou": [["The Minks trust {first} and let them copy it", 3, { ok: true }, "The Minks lead {first} up to the stone and stand guard while they make the rubbing."], ["Earn it by defending Zou", 2, { ok: true, all: 3 }, "{first} fights for Zou. The Minks repay them with the rubbing."], ["The Minks turn {first} away", 1.5, { ok: false }, "The Minks won't let a stranger near their Poneglyph."]],
+        "Whole Cake Island": [["Steal the rubbing from Big Mom's vault", 2, { ok: true, nemesis: ["Charlotte Linlin", 93] }, "{first} walks out of Big Mom's vault with a rubbing. Big Mom finds out by dinner."], ["Trade for it at a Tea Party", 1, { ok: true, pts: -3 }, "Big Mom trades a rubbing for a favor. Everyone at the Tea Party knows that's a bad deal."], ["Caught by the Sweet Commanders", 2, { ok: false, inj: true }, "Katakuri is waiting at the vault door."]],
+        "Wano Country": [["Find it under Onigashima", 2, { ok: true }, "Deep under Onigashima, the red stone. {first} makes the rubbing by lantern light."], ["The Kozuki retainers show the way", 2, { ok: true, ally: true }, "Oden's old retainers take {first} to the stone. They've been waiting twenty years for someone to read it."], ["Kaido's men catch them", 1.5, { ok: false, inj: true }, "The Beast Pirates catch {first} at the door."]] }[q.where];
+      return { title: `The Road Poneglyph on ${q.where}`, opts: W };
+    }
+    if (q.kind === "pone4") return { title: "The last Road Poneglyph", opts: [["Track it down with an ally's help", 2, { ok: true }, "An old friend knows where the fourth stone is hidden. {first} gets there first."], ["Win the rubbing from a rival crew", 1.5, { ok: true, inj: true }, "Another crew already has the rubbing. {first} takes it from them, at a price."], ["The trail goes cold", 2, { ok: false }, "Every lead on the fourth stone dies. Maybe next time."]] };
+    // the world reacts to a new wanted poster
+    const big = q.amount >= 1e9, huge = q.amount >= 3e9;
+    const O = [["{first}'s hometown throws a festival", 2, { all: 3, gain: { n: "Hometown hero", d: "The whole island has the poster on the wall. Good karma.", karma: 1 } }, "Back home, somebody pins the poster above the bar and the whole island throws a party."],
+      ["Bounty hunters flood the next island", 2, { inj: true, pts: 2 }, "Every bounty hunter in the area wants that money. {first} fights their way through the docks."],
+      ["A Vice Admiral is assigned to hunt {first}", 1.5, { nemesis: ["A Vice Admiral assigned to hunt you", 72] }, "Marine HQ assigns a Vice Admiral to {first}'s case, full time."],
+      ["Family sees the poster", 1.5, { gain: { n: "Family's pride", d: "Somebody at home is proud. +3 power.", power: 3 } }, "A letter finds {first} three islands later. It just says: \"We saw it.\""]];
+    if (big) O.push(["An Emperor takes notice", 1.5, { gain: { n: "On an Emperor's radar", d: "An Emperor knows their name. +4 against the final enemy.", boss: 4 } }, "Somewhere in the New World, an Emperor reads the paper and laughs."], ["An Admiral is dispatched", 1, { nemesis: ["An Admiral dispatched to stop you", 86] }, "Headquarters dispatches an Admiral. That's a compliment, and a death sentence."]);
+    if (huge) O.push(["The Five Elders say {first}'s name", 1, { all: 5, nemesis: ["A CP0 kill squad", 88] }, "In Pangaea Castle, the Five Elders discuss {first} by name. CP0 is given a file."]);
+    return { title: "The new poster hits the papers. Who reacts?", opts: O };
+  }
+  const seaQWheel = (q) => { const d = seaQOpts(q), v = battleVars(); return tw(fill(d.title, v), d.opts.map((o) => fill(o[0], v)), d.opts.map((o) => o[1]), { label: "At sea" }); };
+  // the next sea wheel waiting to be spun, if any
+  function seaNext() {
+    if (!isOP() || run.phase !== "journey" || run.offer || run.bossSurvive || run.rebirth) return null;
+    if (!run.ship) return shipWheel();
+    if (run.stranded) return strandWheel();
+    if ((run.seaQ || []).length) return seaQWheel(run.seaQ[0]);
+    return null;
+  }
+  // arriving somewhere new at the start of each chapter: a news line, and sometimes a wheel
+  function arrive() {
+    const st = S()[run.step];
+    run.atStep = run.step;
+    if (!run.route) run.route = buildRoute();
+    let stop;
+    if (st.k === "ending") {
+      if ((run.pone || []).length < 4 || run.dead) return;
+      stop = Object.assign({ n: "Laugh Tale" }, { x: SEA.fixed["Laugh Tale"][0], y: SEA.fixed["Laugh Tale"][1], d: SEA.fixed["Laugh Tale"][2] });
+      run.route.push(stop); run.here = run.route.length - 1;
+    } else { run.here = Math.min(run.step, run.route.length - 1); stop = run.route[run.here]; }
+    state.sail = true;
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    const first = run.given || run.name.split(" ")[0];
+    const p = seaPath(), verb = p === "Marines" ? "is posted to" : p === "World Government agent" ? "is quietly reassigned to" : "is sighted at";
+    const news = stop.home ? `📰 The World Economy News Paper has never heard of ${run.name}. ${first} sets out from ${stop.n}.` : stop.n === "Laugh Tale" ? `📰 EXTRA EDITION: ${run.name} has found Laugh Tale.` : `📰 World Economy News: ${run.name} ${verb} ${stop.n}. ${stop.d}`;
+    let fx = "";
+    if (stop.n === "Water 7" && run.ship && run.ship.hp < run.ship.max) { repairShip(999); fx = "The shipwrights of Water 7 repair the ship completely."; }
+    else if (!stop.home && run.ship && tv("Role") === "shipwright" && run.ship.hp < run.ship.max) { repairShip(15); fx = "{first} patches the hull between islands (+15% hull)."; }
+    logAdd(head, news, fill(fx));
+    const q = run.seaQ = run.seaQ || [];
+    if (stop.n === "Reverse Mountain") q.push({ kind: "climb" });
+    if (stop.n === "Fish-Man Island") q.push({ kind: "descent" });
+    if (SEA.newWorld.some((x) => x[0] === stop.n) && !run.nwStorm) { run.nwStorm = true; q.push({ kind: "storm" }); }
+    if (PONE_AT[stop.n] && !(run.pone || []).includes(stop.n)) q.push({ kind: "pone", where: stop.n });
+    if ((run.pone || []).length === 3 && !run.pone4 && run.step >= S().length - 5) { run.pone4 = true; q.push({ kind: "pone4" }); }
+  }
+  // returns true when it used up the click (a wheel was spun, or a wheel was queued for the next click)
+  async function seaStep() {
+    if (!isOP() || run.phase !== "journey") return false;
+    const head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    if (!run.ship) {
+      const k = await spin(shipWheel()), t = nameShip(k);
+      logAdd(head, fill(run.shipsLost ? "{first}'s new ship: {s}." : "Every story at sea needs a ship. {first}'s is {s}.", { s: t }), run.ship.max < 100 ? "A small ship: it can't take as much damage." : run.ship.max > 100 ? "A big ship: it can take a beating." : "");
+      setNarr(run.ship.name, fill("{first} sails on {s}.", { s: t })); sfx.sparkle(); return true;
+    }
+    if (run.stranded) {
+      const O = strandOpts(), k = await spin(strandWheel()), [label, , e, text, how] = O[k];
+      apply(e); run.stranded = false;
+      let fx = describe(e);
+      if (how === "steal") { fx = (fx ? fx + ". " : "") + bountyBump(60, 1.5, "stole a Marine warship"); }
+      if (how === "skip" && S()[run.step].k === "act") { run.step++; run.atStep = -1; }
+      logAdd(head, fill(text), fx ? fx + "." : "", how === "skip");
+      setNarr(fill(label), fill(text));
+      run.ship = null; // the next click names the new ship
+      if (how === "skip") run.ship = { name: "A driftwood raft", hp: 40, max: 40, fig: "nothing at all" };
+      return true;
+    }
+    if ((run.seaQ || []).length) {
+      const q = run.seaQ[0], d = seaQOpts(q), k = await spin(seaQWheel(q)), [label, , e, text] = d.opts[k];
+      run.seaQ.shift();
+      const v = battleVars();
+      let fx = "";
+      if (e.dmg != null) fx = e.dmg ? damageShip(e.dmg, "the crossing").trim() : "No damage.";
+      else if (q.kind === "pone" || q.kind === "pone4") { const e2 = Object.assign({}, e); delete e2.ok; apply(e2); fx = [fxOf(e2), e.ok ? givePone(q.where).trim() : "No rubbing this time."].filter(Boolean).join(". "); }
+      else { apply(e); fx = fxOf(e); }
+      const bad = !!(e.dmg || e.inj || e.ok === false);
+      logAdd(head, fill(text, v), fx, bad);
+      setNarr(fill(label, v), fill(text, v) + (fx ? " " + fx : ""));
+      if (bad) { sfx.thunder(); fxShake(1); } else { sfx.fanfare(); }
+      return true;
+    }
+    if (run.atStep !== run.step && !run.act && !run.foe) {
+      arrive();
+      return (run.seaQ || []).length > 0;
+    }
+    return false;
+  }
+
+  // --- the bounty drop: a drumroll, then the new poster slams onto the screen ---
+  function bountyDropFx(before, after) {
+    if (turbo) return;
+    const name = run.name;
+    sfx.bountyDrum();
+    setTimeout(() => {
+      const o = document.createElement("div"); o.className = "bounty-drop";
+      o.innerHTML = '<div class="bd-poster"><div class="bd-w">WANTED</div><div class="bd-d">DEAD OR ALIVE</div><div class="bd-ph">☠</div><div class="bd-n"></div><div class="bd-b"></div><div class="bd-m">MARINE</div></div>';
+      o.querySelector(".bd-n").textContent = name;
+      const b = o.querySelector(".bd-b"); b.textContent = berry(before);
+      document.body.append(o);
+      fxShake(2); fxFlash("#ffe08a");
+      const t0 = performance.now(), dur = 900;
+      const step = (now) => { const f = Math.min(1, (now - t0) / dur), v = before + (after - before) * (1 - Math.pow(1 - f, 3)); b.textContent = berry(Math.round(v / 1e6) * 1e6); if (f < 1) requestAnimationFrame(step); else { b.textContent = berry(after); b.classList.add("bd-final"); } };
+      requestAnimationFrame(step);
+      const close = () => { o.classList.add("bd-out"); setTimeout(() => o.remove(), 400); };
+      o.addEventListener("click", close); setTimeout(close, 3400);
+    }, 1150);
+  }
+  const BOUNTY_TIERS = [1e8, 3e8, 1e9, 3e9];
+  if (location.hash === "#dev") window.__dev = { bountyDropFx: (a, b) => { const t0 = turbo; bountyDropFx(a, b); return t0; } };
+
+  // --- the map: where the route has taken them so far ---
+  function seaMap() {
+    const R = run.route || [], here = run.here ?? -1;
+    const pts = R.slice(0, here + 1);
+    const W = 320, H = 150, cur = pts[pts.length - 1], prev = pts[pts.length - 2];
+    const anim = state.sail && cur && prev;
+    state.sail = false;
+    // a Grand Line home is marked on the map, but the voyage line starts at the first stop after it
+    const line = pts.filter((p, i) => i > 0 || p.sea).map((p) => `${p.x},${p.y}`).join(" ");
+    const dots = pts.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="${i === pts.length - 1 ? 3.4 : 2.2}" class="${i === pts.length - 1 ? "here" : "seen"}"><title>${p.n}</title></circle>`).join("");
+    const labels = pts.map((p, i) => (i === pts.length - 1 || p.home) ? `<text x="${p.x}" y="${p.y - 6}" text-anchor="middle" class="lbl">${p.n.replace(/&/g, "&amp;")}</text>` : "").join("");
+    const lt = (run.pone || []).length >= 4 ? `<text x="304" y="79" text-anchor="middle" class="lt">★</text><text x="304" y="66" text-anchor="middle" class="lbl">Laugh Tale</text>` : "";
+    const ship = cur ? (anim
+      ? `<g class="ship"><text x="0" y="3" text-anchor="middle">⛵</text><animateMotion dur="1.8s" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1" keyTimes="0;1" path="M${prev.x},${prev.y} L${cur.x},${cur.y}"/></g>`
+      : `<g class="ship" transform="translate(${cur.x},${cur.y})"><text x="0" y="3" text-anchor="middle">⛵</text></g>`) : "";
+    return `<svg class="sea-map" viewBox="0 0 ${W} ${H}" role="img" aria-label="Sea route map">
+      <rect width="${W}" height="${H}" class="sea"/>
+      <rect x="0" y="62" width="${W}" height="26" class="gl"/>
+      <line x1="0" y1="58" x2="${W}" y2="58" class="cb"/><line x1="0" y1="92" x2="${W}" y2="92" class="cb"/>
+      <rect x="160" y="0" width="9" height="${H}" class="rl"/><rect x="14" y="0" width="7" height="${H}" class="rl"/>
+      <text x="70" y="14" class="blue">NORTH BLUE</text><text x="70" y="145" class="blue">EAST BLUE</text><text x="252" y="14" class="blue">WEST BLUE</text><text x="252" y="145" class="blue">SOUTH BLUE</text>
+      <text x="90" y="98" class="zone">PARADISE</text><text x="230" y="98" class="zone">NEW WORLD</text><text x="165" y="147" class="zone" text-anchor="middle">RED LINE</text>
+      ${line.includes(" ") ? `<polyline points="${line}" class="route"/>` : ""}${dots}${labels}${lt}${ship}
+    </svg>`;
+  }
+  function seaPanel() {
+    const d = document.createElement("div"); d.className = "sea-panel";
+    d.innerHTML = seaMap();
+    const info = document.createElement("div"); info.className = "sea-info";
+    const s = run.ship;
+    const shipLine = document.createElement("div"); shipLine.className = "ship-line";
+    if (run.stranded || (s && s.lost && !run.ship)) shipLine.textContent = "⚓ No ship. Stranded.";
+    else if (s) {
+      const pct = Math.round(100 * s.hp / s.max);
+      shipLine.innerHTML = `<span>⚓ <b></b></span><span class="hull"><i style="width:${pct}%"></i></span><span>${pct}%</span>`;
+      shipLine.querySelector("b").textContent = s.name;
+      shipLine.classList.toggle("low", pct <= 35);
+    } else shipLine.textContent = "⚓ No ship yet.";
+    const pone = document.createElement("div"); pone.className = "pone-line";
+    pone.innerHTML = `<span>Road Poneglyphs</span>` + [0, 1, 2, 3].map((i) => `<i class="${i < (run.pone || []).length ? "got" : ""}" title="${(run.pone || [])[i] || "Not found"}"></i>`).join("");
+    info.append(shipLine, pone); d.append(info);
+    return d;
   }
 
   // ================= fate tokens: bend a wheel before you spin it =================
@@ -6611,7 +6927,7 @@
       const intro = { fight: "{first} goes looking for trouble.", hunt: "Something big has been spotted nearby. {first} goes after it.", train: "{first} decides it's time to get stronger.", quest: "{first} takes on a quest.", explore: "{first} sets off into the unknown.", treasure: "{first} goes treasure hunting.", ally: "{first} could use a friend.", enemy: "{first} is about to make an enemy.", learn: "{first} wants a new technique.", followers: "{first} starts gathering people.", war: "War is coming, and {first} walks straight into it.", rest: "{first} takes a break.", retire: "{first} looks at everything they've done and decides it's enough." }[o.k];
       logAdd(actHead(), fill(intro));
       setNarr(o.label, fill(intro));
-      if (o.k === "rest") { apply({ heal: true, pts: 2 }); logAdd(actHead(), fill(pick(ACT_LINES.rest)), "Injuries healed, +2 upgrade points."); sfx.sparkle(); endAct(); return; }
+      if (o.k === "rest") { if (isOP() && run.ship && !run.ship.lost) repairShip(35); apply({ heal: true, pts: 2 }); logAdd(actHead(), fill(pick(ACT_LINES.rest)), "Injuries healed, +2 upgrade points."); sfx.sparkle(); endAct(); return; }
       if (o.k === "retire") { run.retired = true; react("retire"); run.act = null; run.step = S().length - 1; return; }
       a.stage = { fight: "foe", war: "foe", hunt: "beast", train: "train", quest: "quest", explore: "find", treasure: "loot", ally: "ally", enemy: "enemy", learn: "skill", followers: "followers" }[o.k];
       sfx.sparkle();
@@ -6708,11 +7024,13 @@
     if (s === "loot") {
       const L = LST.loot(), txt = lbl(L[k]); apply(L[k][1]); markUsed("loot", L[k][0]); run.items = (run.items || []).concat(txt);
       const t = fill("{first} finds {a}.", { a: lowNoun(txt) });
-      logAdd(head, t, describe(L[k][1]) + "."); setNarr(txt, t); sfx.sparkle(); endAct(); return;
+      const pfx = isOP() && /Road Poneglyph/.test(txt) ? givePone() : "";
+      logAdd(head, t, describe(L[k][1]) + "." + pfx); setNarr(txt, t); sfx.sparkle(); endAct(); return;
     }
     if (s === "twist") {
       const L = LST.twist(), txt = lbl(L[k]); applyTwist(L[k][1]); markUsed("twist", L[k][0]);
-      logAdd(head, txt + ".", describe(L[k][1]) + ".", !!L[k][1].inj); setNarr(txt, describe(L[k][1]) + "."); endAct(); return;
+      const sfx2 = isOP() ? (/Road Poneglyph/.test(txt) ? givePone() : "") + (/Buster Call|Seraphim|storm|Sea King|whirlpool/i.test(txt) ? damageShip(35, lowNoun(txt)) : "") : "";
+      logAdd(head, txt + ".", describe(L[k][1]) + "." + sfx2, !!L[k][1].inj); setNarr(txt, describe(L[k][1]) + "."); endAct(); return;
     }
     if (s === "enemy") {
       const pool = LST.enemy(), f = pool[k]; markUsed("foe", f[0]);
@@ -6747,6 +7065,7 @@
         run.w++; run.points += 1 + d; markUsed("quest", a.quest[0]);
         let fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
         if (run.bounty != null) fx += " " + bountyBump(questPower(d), 0.6 * d, lowNoun(q));
+        if (isOP() && /Road Poneglyph/.test(q)) fx += givePone();
         if (d >= 3) fx += promote() + gainFate("legendary quest");
         if (d >= 4) run.gained = (run.gained || []).concat({ n: cap(q), d: "A legendary deed. +5 power.", power: 5 });
         logAdd(head, fill("{first} pulls it off.", {}), fx); setNarr("Quest complete", fx);
@@ -6794,6 +7113,7 @@
     else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(lines("draw", DRAW)), v); fx = "Draw. +1 upgrade point."; }
     else {
       run.l++; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured (−10 power) until they win or heal, and one fewer good ending on the final wheel."; bad = true;
+      if (isOP() && Math.random() < 0.6) fx += damageShip(Math.round((12 + Math.random() * 16) * Math.min(2, (ctx && ctx.mult) || 1)), "the fight");
       const ad = perks().find((p) => p.adapt);
       if (ad) { run.adaptBonus = (run.adaptBonus || 0) + ad.adapt; fx += ` ${ad.n}: +${ad.adapt} power from now on.`; }
       if (run.step < S().length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
@@ -6929,6 +7249,7 @@
     if (run.offer && run.offer.stage === "fruit") { await fruitSpin(); persist(); render(); return; }
     if (run.bossSurvive) { await bossSurvivalStep(); persist(); render(); return; }
     if (run.rebirth) { await rebirthStep(); persist(); render(); return; }
+    if (isOP() && await seaStep()) { persist(); render(); return; }
     if (run.ruleReady && !run.act) { await ruleStep(); persist(); render(); return; }
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
     if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
@@ -6994,6 +7315,7 @@
       applyTwist(e); markUsed("twist", L[k][0]);
       let bfx = "";
       if (run.bounty != null && /bounty|Five Elders|Buster Call|threat|Emperor|Poneglyph|Void Century/i.test(txt)) bfx = " " + bountyBump(60, 1.5, "the world is watching");
+      if (isOP()) bfx += (/Road Poneglyph/.test(txt) ? givePone() : "") + (/Buster Call|Seraphim|storm|Sea King|whirlpool/i.test(txt) ? damageShip(35, lowNoun(txt)) : "");
       logAdd(head, txt + ".", describe(e) + "." + bfx, !!(e.inj || (e.v && e.v < 0)));
       setNarr(txt, describe(e) + ".");
       run.step++;
@@ -7397,11 +7719,12 @@
       else { title = "Ready for the journey"; sub = `${S().length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = S()[run.step];
-      eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "") + (run.cg != null && st.cg ? ` · ${run.cg} Culling Game points` : "") + (run.fate ? ` · ✦ ${run.fate} fate` : "");
+      eb = `Chapter ${run.step + 1} of ${S().length} · ${chapterName(run.step)}` + (isOP() && run.route && run.here != null && run.route[run.here] ? ` · ${run.route[run.here].n}` : "") + (run.bounty != null ? ` · Bounty ${berry(run.bounty)}` : "") + (run.cg != null && st.cg ? ` · ${run.cg} Culling Game points` : "") + (run.fate ? ` · ✦ ${run.fate} fate` : "");
       if (run.offer && run.offer.stage === "choose") { const o = offerDef(run.offer.id); title = o.title; sub = "Accept or refuse: your call, not the wheel's"; }
       else if (run.offer) { title = offerWheel().title; sub = "You accepted. Now the wheel decides what it costs"; }
       else if (run.bossSurvive) { title = survivalWheel().title; sub = "Losing the final battle can be fatal"; }
       else if (run.rebirth) { title = rebirthWheel().title; sub = "Chimera Ants are born from what the Queen eats"; }
+      else if (seaNext()) { title = seaNext().title; sub = run.stranded ? "Losing a ship costs everything aboard" : !run.ship ? "Every story at sea needs a ship" : "At sea"; }
       else if (run.ruleReady && !run.act) { title = ruleWheel().title; sub = "Kogane is waiting"; }
       else if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
       else if (needsCodename() && !run.act) { title = /villain/i.test(tv("Archetype") || "") ? "The city needs a name for its new villain" : "The city needs a name for its new hero"; sub = /villain/i.test(tv("Archetype") || "") ? "Spin your villain name" : "Spin your hero name"; }
@@ -7442,7 +7765,7 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : run.results.every((x) => x == null) ? "Start" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
-      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.rebirth ? "Spin" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.rebirth ? "Spin" : seaNext() ? "Spin" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     if (state.hold && !busy) label = "Next";
@@ -7698,6 +8021,7 @@
           bb.textContent = `Marine HQ reports on ${nm}`; bs.textContent = `Current rank: ${tv("Rank") || tv("Marine rank") || "Recruit"}.`;
         }
         bl.append(bb, bs); row.append(bl); d.append(row);
+        if (run.route) d.append(seaPanel());
       }
       box.append(d);
     }
