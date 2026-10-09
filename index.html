@@ -348,7 +348,7 @@
   .sea-map .sea { fill: #2f69a8; } .sea-map .gl { fill: #8ec4e6; }
   .sea-map .cb-bg { fill: #b9dcef; } .sea-map .cb-dot { fill: #6f9fc4; }
   .sea-map .rl { fill: #c23a2c; } .sea-map .rl-edge { stroke: #7e1f16; stroke-width: .8; fill: none; }
-  .sea-map .canal { stroke: #8ec4e6; stroke-width: 2.8; stroke-linecap: butt; fill: none; } .sea-map .rl-t { font: 700 4.6px Georgia, serif; letter-spacing: .3em; fill: #ffe9d6; text-anchor: middle; }
+  .sea-map .canal { stroke-width: 3.4; stroke-linecap: butt; fill: none; } .sea-map .rl-t { font: 700 4.6px Georgia, serif; letter-spacing: .3em; fill: #ffe9d6; text-anchor: middle; }
   .sea-map .rm { fill: #7a3a22; stroke: #4a1e10; stroke-width: .6; } .sea-map .rm-snow { fill: #fff; }
   .sea-map .isle { fill: #e6c98e; stroke: #8a6a3a; stroke-width: .6; } .sea-map .isle.bg { opacity: .85; }
   .sea-map .blue { font: 700 6.4px Georgia, serif; letter-spacing: .2em; fill: #e8f2fb; text-anchor: middle; }
@@ -6817,7 +6817,7 @@
     const RL = [146, 174]; // the Red Line's two edges in the middle of the map
     const wraps = (p, q) => p.x >= 275 && q.x < 146;
     // ships from the four Blues reach Reverse Mountain by its canals, which climb the Red Line itself, not the Calm Belt
-    const canal = (lp) => ({ x: lp.x < 160 ? RL[0] + 3 : RL[1] - 3, y: lp.y < 75 ? 40 : 110 });
+    const canal = (lp) => ({ x: lp.x < 160 ? RL[0] : RL[1], y: lp.y < 75 ? 30.5 : 119.5 });
     const segs = [[]];
     pts.forEach((p, i) => {
       if (i === 0 && !p.sea) return;
@@ -6844,14 +6844,14 @@
       : `<g class="ship" transform="translate(${cur.x},${cur.y})"><text x="0" y="3" text-anchor="middle">⛵</text></g>`) : "";
     const rose = `<g class="rose" transform="translate(284,126)"><circle r="9"/><path d="M0,-12 L2.4,0 L0,12 L-2.4,0Z M-12,0 L0,-2.4 L12,0 L0,2.4Z"/><path class="rose-n" d="M0,-12 L2.4,0 L-2.4,0Z"/><text y="-14" text-anchor="middle">N</text></g>`;
     return `<svg class="sea-map" viewBox="0 0 ${W} ${H}" role="img" aria-label="World map with the voyage so far">
-      <defs><pattern id="calm" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" class="cb-bg"/><circle cx="2" cy="2" r=".55" class="cb-dot"/></pattern></defs>
+      <defs><linearGradient id="canalg" gradientUnits="userSpaceOnUse" x1="0" y1="24" x2="0" y2="126"><stop offset="0" stop-color="#2f69a8"/><stop offset=".12" stop-color="#5f9cd0"/><stop offset=".5" stop-color="#9fd0ee"/><stop offset=".88" stop-color="#5f9cd0"/><stop offset="1" stop-color="#2f69a8"/></linearGradient><pattern id="calm" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" class="cb-bg"/><circle cx="2" cy="2" r=".55" class="cb-dot"/></pattern></defs>
       <rect width="${W}" height="${H}" class="sea"/>
       <rect x="0" y="57" width="${W}" height="6" fill="url(#calm)"/><rect x="0" y="87" width="${W}" height="6" fill="url(#calm)"/>
       <rect x="0" y="63" width="${W}" height="24" class="gl"/>
       ${MAP_ISLES.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" class="isle bg"/>`).join("")}
       <rect x="146" y="0" width="28" height="${H}" class="rl"/><rect x="294" y="0" width="16" height="${H}" class="rl"/>
       <path d="M146,0 V${H} M174,0 V${H} M294,0 V${H} M310,0 V${H}" class="rl-edge"/>
-      <path d="M149,40 L171,110 M171,40 L149,110" class="canal"/>
+      <path d="M144,24 L176,126 M176,24 L144,126" class="canal" stroke="url(#canalg)"/>
       <path d="M152,82 L160,66 L168,82Z" class="rm"/><path d="M157,72 L160,66 L163,72Z" class="rm-snow"/>
       <text x="72" y="14" class="blue">NORTH BLUE</text><text x="242" y="14" class="blue">EAST BLUE</text><text x="72" y="144" class="blue">WEST BLUE</text><text x="242" y="144" class="blue">SOUTH BLUE</text>
       <text x="236" y="99.5" class="zone">PARADISE</text><text x="80" y="99.5" class="zone">NEW WORLD</text>
