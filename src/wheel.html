@@ -6537,7 +6537,7 @@
     }
     if (q.kind === "recruit") {
       const w = crewWord();
-      return { title: `Who on ${q.where} wants to join the ${w}?`, opts: q.cands.map((c, i) => [`${c.n}, ${CREW_ROLES[c.role][1].toLowerCase()}`, 2, { join: i }, `On ${q.where}, {first} meets ${c.n}, who ${CREW_HOOK[c.role]}.`]).concat([[`Nobody here fits`, 1.5, {}, `Nobody on ${q.where} is right for the ${w}. {first} keeps sailing.`]]) };
+      return { title: `Who on ${q.where} wants to join the ${w}?`, opts: q.cands.map((c, i) => [`${c.n}, ${CREW_ROLES[c.role][1].toLowerCase()}`, 2, { join: i }, `On ${q.where}, {first} meets ${c.n}, who ${crewHook(c.role)}.`]).concat([[`Nobody here fits`, 1.5, {}, `Nobody on ${q.where} is right for the ${w}. {first} keeps sailing.`]]) };
     }
     if (q.kind === "defector") return { title: `${q.who} saw the fight. Do they join {first}?`, opts: [[`${q.who} joins`, 2, { defect: true }, `After the fight, ${q.who} walks up to {first}: "That crew's finished. Yours isn't."`], [`${q.who} sails alone`, 1.5, {}, `${q.who} nods at {first}, once, and walks off alone.`]] };
     if (q.kind === "pone4") return { title: "The last Road Poneglyph", opts: [["Track it down with an ally's help", 2, { ok: true }, "An old friend knows where the fourth stone is hidden. {first} gets there first."], ["Win the rubbing from a rival crew", 1.5, { ok: true, inj: true }, "Another crew already has the rubbing. {first} takes it from them, at a price."], ["The trail goes cold", 2, { ok: false }, "Every lead on the fourth stone dies. Maybe next time."]] };
@@ -6697,7 +6697,13 @@
   const DEFECTORS = [[/Kuro/, "Jango, the hypnotist", "fighter", 5], [/Don Krieg/, "Gin, the Man-Demon", "fighter", 6], [/Arlong/, "Hatchan, the six-sword octopus", "cook", 5], [/Buggy/, "Cabaji, the acrobat swordsman", "swordsman", 4],
     [/Daz Bonez|Crocodile/, "Mr. 2 Bon Clay", "fighter", 6], [/Rob Lucci/, "Kaku, the giraffe swordsman", "swordsman", 6], [/Gecko Moria/, "Perona, the Ghost Princess", "fighter", 5], [/Enel/, "Wiper, the Shandian warrior", "fighter", 6],
     [/Doflamingo/, "Bellamy the Hyena", "fighter", 5], [/Katakuri|Linlin/, "Charlotte Pudding", "cook", 6], [/King the Wildfire|Jack the Drought|Kaido/, "X Drake", "fighter", 7]];
-  const crewWord = () => { const p = seaPath(); return p === "Marines" ? "unit" : p === "World Government agent" ? "team" : "crew"; };
+  const crewWord = () => { const p = seaPath(); return p === "Marines" ? "squad" : p === "World Government agent" ? "CP unit" : "crew"; };
+  // Marines build a squad and government agents build a CP unit, from people who fit those worlds
+  const HOOKS = {
+    Marines: { swordsman: "was passed over for promotion three times and still trains every dawn", navigator: "charted half the Grand Line for Marine HQ", cook: "runs the base mess hall and wants to see the sea", doctor: "is a Marine medic who's tired of patching up after the fact", shipwright: "keeps the base's warships afloat with spare parts", sniper: "is the best shot on the base, and nobody listens to them", musician: "plays the bugle at every Marine funeral and wants to play something else", fighter: "is a rookie Marine who wants a real assignment" },
+    "World Government agent": { swordsman: "is a Cipher Pol blade who failed one mission and was buried in paperwork", navigator: "knows every smuggling route on the island", cook: "has been undercover as a cook for six years", doctor: "is a government surgeon who asks no questions", shipwright: "builds the Government's unmarked ships", sniper: "watches the harbor from a bell tower for the Government", musician: "is an informant who works as a bar musician", fighter: "is a Rokushiki trainee looking for a unit" }
+  };
+  const crewHook = (role) => (HOOKS[seaPath()] || CREW_HOOK)[role] || CREW_HOOK[role];
   const crewActive = () => (run.crew || []).filter((m) => !m.lost);
   const hasCrew = (role) => crewActive().some((m) => m.role === role);
   const crewPower = () => isOP() ? Math.min(12, crewActive().reduce((a, m) => a + (m.pw || 1), 0)) : 0;
@@ -6729,7 +6735,7 @@
   function crewRow() {
     const d = document.createElement("div"); d.className = "crew-row";
     const w = crewWord(), A = run.crew || [];
-    const h = document.createElement("div"); h.className = "crew-h"; h.textContent = `${w === "crew" ? "Crew" : w === "unit" ? "Unit" : "Team"} · ${crewActive().length + 1} of 8`;
+    const h = document.createElement("div"); h.className = "crew-h"; h.textContent = `${w === "crew" ? "Crew" : w === "squad" ? "Squad" : "CP Unit"} · ${crewActive().length + 1} of 8`;
     const list = document.createElement("div"); list.className = "crew-list";
     const slot = (name, icon, label, tip, cls) => {
       const c = document.createElement("div"); c.className = "cm " + (cls || ""); c.dataset.tip = tip; c.tabIndex = 0;
