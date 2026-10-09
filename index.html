@@ -322,13 +322,27 @@
   .story-head-op .row .blurb { flex: 1; min-width: 0; font-family: Georgia, serif; color: #1d1a14; }
   .story-head-op .row .blurb b { display: block; font-size: 20px; font-weight: 900; line-height: 1.1; }
   .story-head-op .row .blurb span { display: block; font-size: 13px; color: #4a4232; margin-top: 4px; }
-  .wanted .ph { height: 70px; margin: 4px 0; background: repeating-linear-gradient(45deg, rgba(58,37,16,.08) 0 6px, transparent 6px 12px); border: 1px solid rgba(58,37,16,.5); display: grid; place-items: center; font-size: 34px; }
+  .wanted .ph, .bd-ph { font-family: "Pirata One", Georgia, serif; letter-spacing: .06em; color: #3a2510; text-shadow: 1px 1px 0 rgba(255,240,200,.6); }
+  .wanted .ph { height: 70px; margin: 4px 0; background: repeating-linear-gradient(45deg, rgba(58,37,16,.08) 0 6px, transparent 6px 12px); border: 1px solid rgba(58,37,16,.5); display: grid; place-items: center; font-size: 40px; }
   #storyHead:empty { display: none; }
   .tool-rack { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 10px; padding: 8px 10px; border: 1px dashed rgba(120,20,30,.5); background: rgba(0,0,0,.04); }
   .tool-rack .tr-h { width: 100%; font: 700 11px "Special Elite", monospace; letter-spacing: .14em; text-transform: uppercase; color: #8a1c22; }
   .tool-rack .tr-t { font: 12px "Special Elite", monospace; padding: 3px 7px; border: 1px solid currentColor; color: #3a3530; background: rgba(255,255,255,.4); }
   .tool-rack .tr-t i { font-style: normal; font-size: 10px; margin-left: 6px; opacity: .75; }
   .tool-rack .g-grade-2, .tool-rack .g-grade-1 { color: #2a4a8a; } .tool-rack .g-special-grade { color: #8a1c22; font-weight: 700; }
+  .crew-row { margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(29,26,20,.25); }
+  .crew-h { font: 700 10px Georgia, serif; letter-spacing: .2em; text-transform: uppercase; color: #5a5040; margin-bottom: 6px; }
+  .crew-list { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
+  .cm { display: flex; flex-direction: column; align-items: center; min-width: 0; outline: none; }
+  .cm-b { position: relative; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font: 700 14px "Pirata One", Georgia, serif; color: #f3e3b6; background: radial-gradient(circle at 35% 30%, #5a4632, #2a1f14); border: 2px solid #8a6a2c; box-shadow: 0 2px 4px rgba(0,0,0,.3); }
+  .cm.me .cm-b { background: radial-gradient(circle at 35% 30%, #a3262f, #4a0e12); border-color: #e2c98a; }
+  .cm.canon .cm-b { border-color: #e8b030; box-shadow: 0 0 0 2px rgba(232,176,48,.35), 0 2px 4px rgba(0,0,0,.3); }
+  .cm.lost .cm-b { filter: grayscale(1); opacity: .45; }
+  .cm-i { position: absolute; right: -5px; bottom: -4px; width: 17px; height: 17px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; background: #efe4c6; border: 1px solid #8a6a2c; }
+  .cm-n { margin-top: 4px; max-width: 100%; font: 11px Georgia, serif; color: #1d1a14; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cm.empty .cm-b { background: transparent; border: 1.5px dashed rgba(29,26,20,.3); box-shadow: none; }
+  .cm:focus-visible .cm-b { outline: 2px solid #8a1c12; outline-offset: 2px; }
+  @media (max-width: 520px) { .crew-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   .sea-panel { margin-top: 10px; border: 1px solid #1d1a14; background: #efe4c6; padding: 6px; }
   .sea-map { display: block; width: 100%; height: auto; }
   .sea-map .sea { fill: #cfe0dc; } .sea-map .gl { fill: #bcd4d0; } .sea-map .cb { stroke: #9ab6b2; stroke-dasharray: 2 3; }
@@ -354,7 +368,7 @@
   .bd-poster { width: min(78vw, 300px); padding: 18px 16px 14px; text-align: center; background: linear-gradient(#f6e7bd, #e2c98a); border: 2px solid #7a5a26; box-shadow: 0 20px 60px rgba(0,0,0,.6); color: #3a2510; font-family: "Pirata One", Georgia, serif; animation: bd-slam .45s cubic-bezier(.2,1.6,.4,1); transform: rotate(-2deg); }
   .bd-w { font-size: clamp(44px, 12vw, 64px); line-height: .9; letter-spacing: .04em; }
   .bd-d { font: 700 11px Georgia, serif; letter-spacing: .35em; }
-  .bd-ph { height: 110px; margin: 10px 0; display: grid; place-items: center; font-size: 60px; border: 1px solid rgba(58,37,16,.5); background: repeating-linear-gradient(45deg, rgba(58,37,16,.08) 0 6px, transparent 6px 12px); }
+  .bd-ph { height: 110px; margin: 10px 0; display: grid; place-items: center; font-size: 72px; border: 1px solid rgba(58,37,16,.5); background: repeating-linear-gradient(45deg, rgba(58,37,16,.08) 0 6px, transparent 6px 12px); }
   .bd-n { font-size: 26px; line-height: 1; }
   .bd-b { margin-top: 6px; font: 900 28px Georgia, serif; }
   .bd-b.bd-final { animation: bd-flash .6s ease-out 2; color: #8a1c12; }
@@ -4863,6 +4877,7 @@
     fa.sagas.fellowship.drop = (fa.sagas.fellowship.drop || []).concat("The Dark Lord");
   })();
 
+  THEMES.onepiece.wheelMax = { Birthplace: 6 }; THEMES.hxh.wheelMax = { Origin: 6 }; THEMES.hero.wheelMax = { Origin: 6, Power: 8 }; THEMES.blackclover.wheelMax = { Origin: 6 };
   // ---------- Superhero: a public face can't be unmasked ----------
   (() => {
     const he = THEMES.hero, wk = (he.cats.find((c) => c[0] === "Weakness") || [])[1] || [];
@@ -5236,25 +5251,73 @@
     ["A coffin-shaped box that swallows curses", "Special Grade", { power: 6, boss: 3 }, "Small curses go in. Nothing comes out."],
     ["A rope woven from a dead sorcerer's hair", "Special Grade", { boss: 5, save: { chance: 0.4, uses: 1, text: "The rope tightens around the technique that should have finished it, and it unravels." } }, "It ties up techniques the way normal rope ties up people."]
   ];
+  // melee fighters and technique fighters get collections of their own, just as strong
+  const JJ_MELEE = [
+    ["Cursed energy in every punch", "Grade 4", { stat: [3, 4] }, "Even a jab carries cursed energy now."],
+    ["Footwork from a hundred spars", "Grade 4", { stat: [4, 4] }, "Nobody lands a clean hit on them anymore."],
+    ["Delayed-impact strikes", "Grade 3", { power: 2 }, "The cursed energy lands a beat after the fist does."],
+    ["Reading cursed energy flow", "Grade 3", { stat: [5, 4], power: 1 }, "They see the punch coming in the opponent's cursed energy."],
+    ["A body that takes a Grade 1 hit", "Grade 2", { stat: [3, 6], power: 2 }, "Reinforcement so tight that a Grade 1 curse bounces off."],
+    ["Divergent timing", "Grade 2", { stat: [4, 6], power: 2 }, "Two impacts from one strike, and nobody can time the second."],
+    ["Fists that crack barriers", "Grade 1", { power: 4, stat: [3, 6] }, "Punches that break through barriers and Simple Domains."],
+    ["Instinct that dodges a killing blow", "Grade 1", { save: { chance: 0.5, uses: 1, text: "Their body moves before they do. The killing blow hits air." } }, "Once, the body dodges what the mind never saw."],
+    ["Black Flash on instinct", "Special Grade", { boss: 8 }, "The distortion of cursed energy, landed on purpose. Made for the biggest fights."],
+    ["The zone after a Black Flash", "Special Grade", { power: 6, boss: 3 }, "After a Black Flash, everything feels easy for a while."],
+    ["A body that remembers every fight", "Special Grade", { boss: 5, save: { chance: 0.4, uses: 1, text: "Every fight they've survived comes back at once. They get up." } }, "Every fight they've survived is stored in the muscles."]
+  ];
+  const JJ_TECH = [
+    ["A cleaner activation", "Grade 4", { stat: [1, 4] }, "The technique comes out faster, with less waste."],
+    ["Cursed energy efficiency", "Grade 4", { stat: [0, 4] }, "They can fight longer before running dry."],
+    ["A first extension technique", "Grade 3", { power: 2 }, "The technique does something new."],
+    ["A condition bound to the technique", "Grade 3", { stat: [5, 4], power: 1 }, "A small binding vow, a real boost."],
+    ["A second extension technique", "Grade 2", { stat: [1, 6], power: 2 }, "Two extensions: the enemy has to guess which is coming."],
+    ["Reverse Cursed Technique basics", "Grade 2", { stat: [0, 6], power: 2 }, "Positive energy: they can start to heal their own wounds."],
+    ["Maximum Technique", "Grade 1", { power: 4, stat: [1, 6] }, "The technique at full output, all at once."],
+    ["A Simple Domain counter", "Grade 1", { save: { chance: 0.5, uses: 1, text: "A Simple Domain snaps open around them. The sure-hit attack misses." } }, "Once, a Simple Domain stops a sure-hit."],
+    ["Technique reversal", "Special Grade", { boss: 8 }, "The technique run backwards, with positive energy. Made for the biggest fights."],
+    ["Domain Amplification", "Special Grade", { power: 6, boss: 3 }, "Their own domain wrapped around their body, cancelling techniques on touch."],
+    ["Reverse Cursed Technique, mastered", "Special Grade", { boss: 5, save: { chance: 0.4, uses: 1, text: "Positive energy floods the wound. They stand back up, healed." } }, "They can heal what should have killed them."]
+  ];
+  const JJ_TRACKS = {
+    tools: { items: JJ_TOOLS, title: "{first} opens a sealed box. Which cursed tool is inside?", label: "Cursed tool", rack: "Cursed tool inventory", btn: "Open the box", got: "Inside the box: {t}.", kind: "cursed tool", g: (x) => x,
+      three: ["Arsenal", "Three cursed tools, each for a different fight. +4 power.", { power: 4 }], five: ["Walking armory", "Five cursed tools. Nothing catches them unprepared. +6 against the final enemy.", { boss: 6 }],
+      armory: "After the mission, Jujutsu High's armory issues {first} a sealed box.", rival: " The rival's cursed tool is {first}'s now: a sealed box.", drop: " {foe} leaves a sealed box behind.", quest: " A sealed box comes with the reward." },
+    melee: { items: JJ_MELEE, title: "Something clicks in {first}'s fists. What is it?", label: "Breakthrough", rack: "Black Flash record", btn: "Spin the breakthrough", got: "{first}'s body learns something: {t}.", kind: "breakthrough", g: (x) => ({ "Grade 4": "Fundamental", "Grade 3": "Technique", "Grade 2": "Advanced", "Grade 1": "Master", "Special Grade": "Black Flash" })[x] || x,
+      three: ["Fighting rhythm", "Three breakthroughs in the body. +4 power.", { power: 4 }], five: ["Fists of the strongest", "Five breakthroughs. The body fights on its own now. +6 against the final enemy.", { boss: 6 }],
+      armory: "After the mission, {first} spars with the upperclassmen until something clicks.", rival: " Fighting {rival} taught {first}'s fists something new.", drop: " Beating {foe} teaches {first}'s body something.", quest: " The fight on the quest teaches {first}'s body something." },
+    technique: { items: JJ_TECH, title: "{first}'s technique grows. What's new?", label: "Breakthrough", rack: "Technique notes", btn: "Spin the breakthrough", got: "{first}'s technique grows: {t}.", kind: "breakthrough", g: (x) => ({ "Grade 4": "Basic", "Grade 3": "Applied", "Grade 2": "Extension", "Grade 1": "Maximum", "Special Grade": "Pinnacle" })[x] || x,
+      three: ["Extension mastery", "Three breakthroughs in the technique. +4 power.", { power: 4 }], five: ["Maximum output", "Five breakthroughs. The technique is fully theirs. +6 against the final enemy.", { boss: 6 }],
+      armory: "The mission shakes something loose in {first}'s technique.", rival: " {first} borrows an idea from {rival}'s technique.", drop: " Beating {foe} shows {first} something new about their technique.", quest: " The quest pushes {first}'s technique further." }
+  };
+  // which collection fits this sorcerer: tool fighters get tools; fist fighters and technique users get breakthroughs
+  function jjTrack() {
+    const st = tv("Fighting style") || "", tech = tv("Cursed technique") || "";
+    if (/Heavenly Restriction/.test(tech) || /tool|Spear|chain|gunner|Kendo|Shadow Style|iaido|sword/i.test(st)) return "tools";
+    if (/Fist|Grappler|brawler|Body enhancement/i.test(st)) return "melee";
+    return "technique";
+  }
+  const JT = () => JJ_TRACKS[run.track || jjTrack()];
   const GRADE_W = { "Grade 4": 4, "Grade 3": 3, "Grade 2": 2, "Grade 1": 1, "Special Grade": 0.4 };
   const isJJ = () => state.theme === "jjk";
-  const toolOpts = () => { const own = (run.tools || []).map((t) => String(t.n).toLowerCase()); const L = JJ_TOOLS.filter((t) => !own.includes(t[0].toLowerCase())); return L.length ? L.slice().sort((a, b) => hash(run.seed + a[0] + (run.tools || []).length) - hash(run.seed + b[0] + (run.tools || []).length)).slice(0, 6) : []; };
-  const toolWheel = () => { const O = toolOpts(); return tw(fill("{first} opens a sealed box. Which cursed tool is inside?"), O.map((t) => `${t[0]} (${t[1]})`), O.map((t) => GRADE_W[t[1]] || 1), { label: "Cursed tool" }); };
+  const toolOpts = () => { const own = (run.tools || []).map((t) => String(t.n).toLowerCase()); const L = JT().items.filter((t) => !own.includes(t[0].toLowerCase())); return L.length ? L.slice().sort((a, b) => hash(run.seed + a[0] + (run.tools || []).length) - hash(run.seed + b[0] + (run.tools || []).length)).slice(0, 6) : []; };
+  const toolWheel = () => { const O = toolOpts(), J = JT(); return tw(fill(J.title), O.map((t) => `${t[0]} (${J.g(t[1])})`), O.map((t) => GRADE_W[t[1]] || 1), { label: J.label }); };
   const toolNext = () => isJJ() && run.phase === "journey" && !run.offer && (run.toolQ || 0) > 0 && toolOpts().length ? toolWheel() : null;
+  // queue one more find, with the line that fits this sorcerer's collection
+  function jjFind(key, vars) { if (!isJJ() || !toolOpts().length) return ""; run.toolQ = (run.toolQ || 0) + 1; return fill(JT()[key], vars || {}); }
   async function toolStep() {
-    const O = toolOpts(), k = await spin(toolWheel()), t = O[k], head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    const O = toolOpts(), J = JT(), k = await spin(toolWheel()), t = O[k], head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
     run.toolQ = Math.max(0, (run.toolQ || 0) - 1);
-    run.tools = (run.tools || []).concat({ n: t[0], g: t[1] });
-    const eff = Object.assign({ n: t[0], d: `${t[1]} cursed tool. ${t[3]}` }, t[2]);
-    run.gained = (run.gained || []).concat(eff);
-    let fx = `New cursed tool: ${t[0]} (${t[1]}). ${t[3]}`;
+    run.tools = (run.tools || []).concat({ n: t[0], g: J.g(t[1]) });
+    run.gained = (run.gained || []).concat(Object.assign({ n: t[0], d: `${J.g(t[1])} ${J.kind}. ${t[3]}` }, t[2]));
+    let fx = `New ${J.kind}: ${t[0]} (${J.g(t[1])}). ${t[3]}`;
     const n = run.tools.length;
-    if (n === 3) { run.gained.push({ n: "Arsenal", d: "Three cursed tools, each for a different fight. +4 power.", power: 4 }); fx += " Three tools: Arsenal, +4 power."; }
-    if (n === 5) { run.gained.push({ n: "Walking armory", d: "Five cursed tools. Nothing catches them unprepared. +6 against the final enemy.", boss: 6 }); fx += " Five tools: Walking armory, +6 against the final enemy."; }
-    logAdd(head, fill("Inside the box: {t}.", { t: lowNoun(t[0]) }), fx);
+    if (n === 3) { run.gained.push(Object.assign({ n: J.three[0], d: J.three[1] }, J.three[2])); fx += ` Three: ${J.three[0]}. ${J.three[1]}`; }
+    if (n === 5) { run.gained.push(Object.assign({ n: J.five[0], d: J.five[1] }, J.five[2])); fx += ` Five: ${J.five[0]}. ${J.five[1]}`; }
+    logAdd(head, fill(J.got, { t: lowNoun(t[0]) }), fx);
     setNarr(t[0], fx);
     if (t[1] === "Special Grade") { sfx.heavenly(); fxFlash("#fff6d0"); react("rare", { v: t[0] }); } else sfx.sparkle();
   }
+
   const SEG_COLORS = ["#5b3fa8", "#c2416b", "#2b7d9c", "#c9822a", "#3c8a58", "#8b3fa1", "#b0502f", "#2f5cb0"];
   const STORE = "wheel-of-faith.v2", RUNSTORE = "wheel-of-faith.run.v2";
   const TAU = Math.PI * 2, POINTER = -Math.PI / 2;
@@ -5362,7 +5425,9 @@
   const isComplete = () => !nextSlot();
   function slotWheel(s) {
     if (s.k === "cat") {
-      const e = effCat(s.i), isTier = e.base.toLowerCase() === String(T().vis.tier).toLowerCase();
+      const e0 = effCat(s.i), mx = (T().wheelMax || {})[e0.base], isTier = e0.base.toLowerCase() === String(T().vis.tier).toLowerCase();
+      let e = e0;
+      if (mx && !isTier && e0.opts.length > mx) { const keep = e0.opts.map((o, j) => j).sort((a, b) => hash(run.seed + "|" + e0.base + e0.opts[a]) - hash(run.seed + "|" + e0.base + e0.opts[b])).slice(0, mx).sort((a, b) => a - b); e = Object.assign({}, e0, { opts: keep.map((j) => e0.opts[j]), weights: keep.map((j) => e0.weights[j]) }); }
       const cut = isTier && T().tierStart ? T().tierStart : e.opts.length;
       return { title: titleFor(e.name, null, null) === e.name ? titleFor(e.base, null, null) : titleFor(e.name, null, null), label: e.name, opts: e.opts.slice(0, cut), weights: e.opts.slice(0, cut).map((o, j) => e.weights[j] * (RARE[o] || 1) * (isTier ? tierWeight(j, e.opts.length) : 1)) };
     }
@@ -5635,7 +5700,7 @@
     return { n: name, b, tier, spec };
   }
   const allyPower = () => { const A = run.allyData || []; if (!A.length) return 0; const best = Math.max(...A.map((a) => a.b)); return best + Math.min(4, A.length - 1); };
-  const playerPower = () => overall() + allyPower() + (run.ally ? 6 : 0) - (run.injured ? 10 : 0) + perkPower(bossFight()) + (run.adaptBonus || 0);
+  const playerPower = () => overall() + allyPower() + crewPower() + (run.ally ? 6 : 0) - (run.injured ? 10 : 0) + perkPower(bossFight()) + (run.adaptBonus || 0);
   const winChance = () => run.foe ? clamp(0.5 + (playerPower() - run.foe[1]) / 45, 0.06, 0.92) : 0.5;
 
   function look() {
@@ -6260,7 +6325,8 @@
   }
   function startJourney() {
     adaptHidden();
-    if (isJJ() && tv("Cursed tool") && !/^no |fists|bare hands|none/i.test(tv("Cursed tool"))) run.tools = [{ n: tv("Cursed tool"), g: "Starting tool" }];
+    if (isJJ()) run.track = jjTrack();
+    if (isJJ() && run.track === "tools" && tv("Cursed tool") && !/^no |fists|bare hands|none/i.test(tv("Cursed tool"))) run.tools = [{ n: tv("Cursed tool"), g: "Starting tool" }];
     run.phase = "journey"; run.step = 0;
     const P = path(), tpl = P.prologue || T().prologue;
     const told = (n) => tpl.toLowerCase().includes("{" + n.toLowerCase());
@@ -6430,8 +6496,9 @@
     run.items = keep;
     run.ship.lost = true; run.shipsLost = (run.shipsLost || 0) + 1; run.stranded = true; run.injured = true;
     run.endShift = (run.endShift || 0) - 1;
+    const sc = scatterCrew(0.3, "the shipwreck");
     setTimeout(() => { sfx.shatter(); fxShake(2); fxFlash("#3a0008"); react("upset"); }, turbo ? 0 : 300);
-    return ` ${name} goes down (${why}). Everything aboard sinks with it${lost.length ? `: ${lost.map((x) => x.charAt(0).toLowerCase() + x.slice(1)).join(", ")}` : ""}. One fewer good ending on the final wheel, and ${run.given || run.name.split(" ")[0]} is stranded until they find a new ship.`;
+    return ` ${name} goes down (${why}). Everything aboard sinks with it${lost.length ? `: ${lost.map((x) => x.charAt(0).toLowerCase() + x.slice(1)).join(", ")}` : ""}. One fewer good ending on the final wheel, and ${run.given || run.name.split(" ")[0]} is stranded until they find a new ship.${sc}`;
   }
   function strandOpts() {
     if (run.bounty == null) return [
@@ -6475,6 +6542,11 @@
         "Wano Country": [["Find it under Onigashima", 2, { ok: true }, "Deep under Onigashima, the red stone. {first} makes the rubbing by lantern light."], ["The Kozuki retainers show the way", 2, { ok: true, ally: true }, "Oden's old retainers take {first} to the stone. They've been waiting twenty years for someone to read it."], ["Kaido's men catch them", 1.5, { ok: false, inj: true }, "The Beast Pirates catch {first} at the door."]] }[q.where];
       return { title: `The Road Poneglyph on ${q.where}`, opts: W };
     }
+    if (q.kind === "recruit") {
+      const w = crewWord();
+      return { title: `Who on ${q.where} wants to join the ${w}?`, opts: q.cands.map((c, i) => [`${c.n}, ${CREW_ROLES[c.role][1].toLowerCase()}`, 2, { join: i }, `On ${q.where}, {first} meets ${c.n}, who ${CREW_HOOK[c.role]}.`]).concat([[`Nobody here fits`, 1.5, {}, `Nobody on ${q.where} is right for the ${w}. {first} keeps sailing.`]]) };
+    }
+    if (q.kind === "defector") return { title: `${q.who} saw the fight. Do they join {first}?`, opts: [[`${q.who} joins`, 2, { defect: true }, `After the fight, ${q.who} walks up to {first}: "That crew's finished. Yours isn't."`], [`${q.who} sails alone`, 1.5, {}, `${q.who} nods at {first}, once, and walks off alone.`]] };
     if (q.kind === "pone4") return { title: "The last Road Poneglyph", opts: [["Track it down with an ally's help", 2, { ok: true }, "An old friend knows where the fourth stone is hidden. {first} gets there first."], ["Win the rubbing from a rival crew", 1.5, { ok: true, inj: true }, "Another crew already has the rubbing. {first} takes it from them, at a price."], ["The trail goes cold", 2, { ok: false }, "Every lead on the fourth stone dies. Maybe next time."]] };
     // the world reacts to a new wanted poster
     const big = q.amount >= 1e9, huge = q.amount >= 3e9;
@@ -6513,13 +6585,17 @@
     const news = stop.home ? `📰 The World Economy News Paper has never heard of ${run.name}. ${first} sets out from ${stop.n}.` : stop.n === "Laugh Tale" ? `📰 EXTRA EDITION: ${run.name} has found Laugh Tale.` : `📰 World Economy News: ${run.name} ${verb} ${stop.n}. ${stop.d}`;
     let fx = "";
     if (stop.n === "Water 7" && run.ship && run.ship.hp < run.ship.max) { repairShip(999); fx = "The shipwrights of Water 7 repair the ship completely."; }
-    else if (!stop.home && run.ship && tv("Role") === "shipwright" && run.ship.hp < run.ship.max) { repairShip(15); fx = "{first} patches the hull between islands (+15% hull)."; }
+    else if (!stop.home && run.ship && (tv("Role") === "shipwright" || hasCrew("shipwright")) && run.ship.hp < run.ship.max) { repairShip(15); fx = "The hull gets patched between islands (+15% hull)."; }
+    if (!stop.home && run.injured && hasCrew("doctor")) { run.injured = false; fx += " The doctor treats everyone's injuries."; }
+    (run.crew || []).filter((m) => m.lost).forEach((m) => { if (Math.random() < 0.35) { m.lost = false; fx += ` ${m.n} finds their way back to the ${crewWord()} on ${stop.n}.`; } });
     logAdd(head, news, fill(fx));
     const q = run.seaQ = run.seaQ || [];
     if (stop.n === "Reverse Mountain") q.push({ kind: "climb" });
     if (stop.n === "Fish-Man Island") q.push({ kind: "descent" });
     if (SEA.newWorld.some((x) => x[0] === stop.n) && !run.nwStorm) { run.nwStorm = true; q.push({ kind: "storm" }); }
     if (PONE_AT[stop.n] && !(run.pone || []).includes(stop.n)) q.push({ kind: "pone", where: stop.n });
+    // someone new is worth meeting every couple of islands, not at every port
+    if (!stop.home && stop.n !== "Laugh Tale" && (run.crew || []).length < 7 && openRoles().length && run.step - (run.lastRecruit ?? -9) >= 2 && Math.random() < 0.55) { run.lastRecruit = run.step; q.push({ kind: "recruit", where: stop.n, cands: recruitCands(stop.n) }); }
     if ((run.pone || []).length === 3 && !run.pone4 && run.step >= S().length - 5) { run.pone4 = true; q.push({ kind: "pone4" }); }
   }
   // returns true when it used up the click (a wheel was spun, or a wheel was queued for the next click)
@@ -6548,10 +6624,14 @@
       run.seaQ.shift();
       const v = battleVars();
       let fx = "";
-      if (e.dmg != null) fx = e.dmg ? damageShip(e.dmg, "the crossing").trim() : "No damage.";
+      if (e.join != null) fx = addCrew(q.cands[e.join], head);
+      else if (e.defect) fx = addCrew({ n: q.who, role: q.role, pw: q.pw, canon: true, from: q.where }, head);
+      else if (q.kind === "recruit" || q.kind === "defector") fx = "";
+      else if (e.dmg != null) { const nav = hasCrew("navigator") && e.dmg ? 15 : 0, dmg = Math.max(0, e.dmg - nav); fx = (dmg ? damageShip(dmg, "the crossing").trim() : "No damage.") + (nav ? " The navigator finds a safer line." : ""); }
       else if (q.kind === "pone" || q.kind === "pone4") { const e2 = Object.assign({}, e); delete e2.ok; apply(e2); fx = [fxOf(e2), e.ok ? givePone(q.where).trim() : "No rubbing this time."].filter(Boolean).join(". "); }
       else { apply(e); fx = fxOf(e); }
       const bad = !!(e.dmg || e.inj || e.ok === false);
+      if (e.join == null && !e.defect && (q.kind === "recruit" || q.kind === "defector")) { logAdd(head, fill(text, v)); setNarr(fill(label, v), fill(text, v)); sfx.meh(); return true; }
       logAdd(head, fill(text, v), fx, bad);
       setNarr(fill(label, v), fill(text, v) + (fx ? " " + fx : ""));
       if (bad) { sfx.thunder(); fxShake(1); } else { sfx.fanfare(); }
@@ -6571,8 +6651,8 @@
     sfx.bountyDrum();
     setTimeout(() => {
       const o = document.createElement("div"); o.className = "bounty-drop";
-      o.innerHTML = '<div class="bd-poster"><div class="bd-w">WANTED</div><div class="bd-d">DEAD OR ALIVE</div><div class="bd-ph">☠</div><div class="bd-n"></div><div class="bd-b"></div><div class="bd-m">MARINE</div></div>';
-      o.querySelector(".bd-n").textContent = name;
+      o.innerHTML = '<div class="bd-poster"><div class="bd-w">WANTED</div><div class="bd-d">DEAD OR ALIVE</div><div class="bd-ph"></div><div class="bd-n"></div><div class="bd-b"></div><div class="bd-m">MARINE</div></div>';
+      o.querySelector(".bd-n").textContent = name; o.querySelector(".bd-ph").textContent = initials(name);
       const b = o.querySelector(".bd-b"); b.textContent = berry(before);
       document.body.append(o);
       fxShake(2); fxFlash("#ffe08a");
@@ -6611,6 +6691,67 @@
       ${line.includes(" ") ? `<polyline points="${line}" class="route"/>` : ""}${dots}${labels}${lt}${ship}
     </svg>`;
   }
+  // --- the crew: people picked up along the route, and named fighters who switch sides after their crew loses ---
+  const CREW_ROLES = {
+    swordsman: ["⚔", "Swordsman", "+3 power.", 3], navigator: ["🧭", "Navigator", "Dangerous crossings do less damage.", 1], cook: ["🍳", "Cook", "Rest days restore more.", 1],
+    doctor: ["✚", "Doctor", "Treats injuries when the ship reaches a new island.", 1], shipwright: ["🔧", "Shipwright", "Repairs the hull at every island.", 1],
+    sniper: ["🎯", "Sniper", "+2 power.", 2], musician: ["🎻", "Musician", "+2 power after every defeat.", 1], fighter: ["👊", "Fighter", "+3 power.", 3]
+  };
+  const CREW_FIRST = ["Brine", "Hollis", "Okra", "Tamsin", "Pike", "Wren", "Bosk", "Marigold", "Fennec", "Ash", "Juniper", "Mako", "Sorrel", "Tully"];
+  const CREW_LAST = ["Kettle", "Saltwood", "Barnacle", "Reed", "Copper", "Gull", "Finch", "Rook", "Harrow", "Pell"];
+  const CREW_HOOK = { swordsman: "lost a duel on the docks and wants a rematch with the whole world", navigator: "can read the Grand Line's weather like a book", cook: "has been fired from every kitchen in town", doctor: "is a doctor nobody else would hire", shipwright: "builds boats in a shed behind the harbor", sniper: "has never missed the same target twice", musician: "plays for anyone who'll listen, for free", fighter: "picked a fight with {first} and lost" };
+  const CREW_DREAMS = ["to taste every fish in the four seas", "to play a song every island knows", "to clear their family's name", "to find the island where their parents vanished", "to build a ship that never sinks", "to write the history the Government erased", "to be the strongest fighter in the New World", "to open a clinic on every island"];
+  const DEFECTORS = [[/Kuro/, "Jango, the hypnotist", "fighter", 5], [/Don Krieg/, "Gin, the Man-Demon", "fighter", 6], [/Arlong/, "Hatchan, the six-sword octopus", "cook", 5], [/Buggy/, "Cabaji, the acrobat swordsman", "swordsman", 4],
+    [/Daz Bonez|Crocodile/, "Mr. 2 Bon Clay", "fighter", 6], [/Rob Lucci/, "Kaku, the giraffe swordsman", "swordsman", 6], [/Gecko Moria/, "Perona, the Ghost Princess", "fighter", 5], [/Enel/, "Wiper, the Shandian warrior", "fighter", 6],
+    [/Doflamingo/, "Bellamy the Hyena", "fighter", 5], [/Katakuri|Linlin/, "Charlotte Pudding", "cook", 6], [/King the Wildfire|Jack the Drought|Kaido/, "X Drake", "fighter", 7]];
+  const crewWord = () => { const p = seaPath(); return p === "Marines" ? "unit" : p === "World Government agent" ? "team" : "crew"; };
+  const crewActive = () => (run.crew || []).filter((m) => !m.lost);
+  const hasCrew = (role) => crewActive().some((m) => m.role === role);
+  const crewPower = () => isOP() ? Math.min(12, crewActive().reduce((a, m) => a + (m.pw || 1), 0)) : 0;
+  function openRoles() { const own = (tv("Role") || "").toLowerCase(), taken = (run.crew || []).map((m) => m.role); return Object.keys(CREW_ROLES).filter((r) => r !== own && !taken.includes(r)); }
+  function recruitCands(where) {
+    const R = rng(run.seed + where.length * 31 + (run.crew || []).length * 7), used = [run.name].concat((run.crew || []).map((m) => m.n));
+    const roles = openRoles().sort((a, b) => hash(run.seed + a + where) - hash(run.seed + b + where)).slice(0, 3);
+    return roles.map((role) => {
+      let nm, tries = 0;
+      do { nm = CREW_FIRST[Math.floor(R() * CREW_FIRST.length)] + " " + CREW_LAST[Math.floor(R() * CREW_LAST.length)]; } while ((used.includes(nm) || used.some((u) => u.split(" ")[0] === nm.split(" ")[0] || u.split(" ").slice(-1)[0] === nm.split(" ").slice(-1)[0])) && ++tries < 40);
+      used.push(nm);
+      return { n: nm, role, from: where, pw: CREW_ROLES[role][3], dream: CREW_DREAMS[Math.floor(R() * CREW_DREAMS.length)] };
+    });
+  }
+  function addCrew(m, head, how) {
+    run.crew = (run.crew || []).concat(m);
+    const ri = CREW_ROLES[m.role], w = crewWord();
+    let fx = `${m.n} joins the ${w} as ${/^[aeiou]/i.test(ri[1]) ? "an" : "a"} ${ri[1].toLowerCase()}. ${ri[2]}`;
+    if (crewActive().length === 7 && !run.fullCrew) { run.fullCrew = true; run.endShift = (run.endShift || 0) + 1; fx += ` A full ${w} of seven: one more good ending on the final wheel.`; }
+    sfx.fanfare(); react("ally", { v: m.n });
+    return fx;
+  }
+  function scatterCrew(chance, why) {
+    const hit = crewActive().filter(() => Math.random() < chance);
+    hit.forEach((m) => { m.lost = true; });
+    return hit.length ? ` ${hit.map((m) => m.n).join(" and ")} ${hit.length > 1 ? "are" : "is"} scattered (${why}).` : "";
+  }
+  const initials = (n) => String(n || "?").split(/\s+/).filter((w) => /^[A-Za-z]/.test(w) && !/^D\.?$/.test(w)).slice(0, 2).map((w) => w[0].toUpperCase()).join("") || "?";
+  function crewRow() {
+    const d = document.createElement("div"); d.className = "crew-row";
+    const w = crewWord(), A = run.crew || [];
+    const h = document.createElement("div"); h.className = "crew-h"; h.textContent = `${w === "crew" ? "Crew" : w === "unit" ? "Unit" : "Team"} · ${crewActive().length + 1} of 8`;
+    const list = document.createElement("div"); list.className = "crew-list";
+    const slot = (name, icon, label, tip, cls) => {
+      const c = document.createElement("div"); c.className = "cm " + (cls || ""); c.dataset.tip = tip; c.tabIndex = 0;
+      const b = document.createElement("div"); b.className = "cm-b"; b.textContent = initials(name);
+      const i = document.createElement("span"); i.className = "cm-i"; i.textContent = icon; b.append(i);
+      const n = document.createElement("div"); n.className = "cm-n"; n.textContent = label;
+      c.append(b, n); list.append(c);
+    };
+    const own = (tv("Role") || "captain").toLowerCase();
+    slot(run.name, own === "captain" ? "★" : (CREW_ROLES[own] || ["★"])[0], run.given || run.name.split(" ")[0], `${run.name}: ${own}.`, "me");
+    A.forEach((m) => { const r = CREW_ROLES[m.role]; slot(m.n, r[0], m.n.split(/[ ,]/)[0], `${m.n}: ${r[1].toLowerCase()}${m.canon ? ", switched sides after their crew lost" : ""}. Joined at ${m.from}. ${r[2]}${m.dream ? ` Dream: ${m.dream}.` : ""}${m.lost ? " Scattered: somewhere out at sea." : ""}`, (m.canon ? "canon " : "") + (m.lost ? "lost" : "")); });
+    for (let k = A.length; k < 7; k++) { const e = document.createElement("div"); e.className = "cm empty"; e.innerHTML = '<div class="cm-b"></div>'; list.append(e); }
+    d.append(h, list);
+    return d;
+  }
   function seaPanel() {
     const d = document.createElement("div"); d.className = "sea-panel";
     d.innerHTML = seaMap();
@@ -6626,7 +6767,7 @@
     } else shipLine.textContent = "⚓ No ship yet.";
     const pone = document.createElement("div"); pone.className = "pone-line";
     pone.innerHTML = `<span>Road Poneglyphs</span>` + [0, 1, 2, 3].map((i) => `<i class="${i < (run.pone || []).length ? "got" : ""}" title="${(run.pone || [])[i] || "Not found"}"></i>`).join("");
-    info.append(shipLine, pone); d.append(info);
+    info.append(shipLine, pone); d.append(info, crewRow());
     return d;
   }
 
@@ -7151,7 +7292,7 @@
       const intro = { fight: "{first} goes looking for trouble.", hunt: "Something big has been spotted nearby. {first} goes after it.", train: "{first} decides it's time to get stronger.", quest: "{first} takes on a quest.", explore: "{first} sets off into the unknown.", treasure: "{first} goes treasure hunting.", ally: "{first} could use a friend.", enemy: "{first} is about to make an enemy.", learn: "{first} wants a new technique.", followers: "{first} starts gathering people.", war: "War is coming, and {first} walks straight into it.", rest: "{first} takes a break.", retire: "{first} looks at everything they've done and decides it's enough." }[o.k];
       logAdd(actHead(), fill(intro));
       setNarr(o.label, fill(intro));
-      if (o.k === "rest") { if (isOP() && run.ship && !run.ship.lost) repairShip(35); apply({ heal: true, pts: 2 }); logAdd(actHead(), fill(pick(ACT_LINES.rest)), "Injuries healed, +2 upgrade points."); sfx.sparkle(); endAct(); return; }
+      if (o.k === "rest") { if (isOP() && run.ship && !run.ship.lost) repairShip(35); if (isOP() && hasCrew("cook")) apply({ all: 2 }); apply({ heal: true, pts: 2 }); logAdd(actHead(), fill(pick(ACT_LINES.rest)), "Injuries healed, +2 upgrade points."); sfx.sparkle(); endAct(); return; }
       if (o.k === "retire") { run.retired = true; react("retire"); run.act = null; run.step = S().length - 1; return; }
       a.stage = { fight: "foe", war: "foe", hunt: "beast", train: "train", quest: "quest", explore: "find", treasure: "loot", ally: "ally", enemy: "enemy", learn: "skill", followers: "followers" }[o.k];
       sfx.sparkle();
@@ -7249,7 +7390,7 @@
       const L = LST.loot(), txt = lbl(L[k]); apply(L[k][1]); markUsed("loot", L[k][0]); run.items = (run.items || []).concat(txt);
       const t = fill("{first} finds {a}.", { a: lowNoun(txt) });
       const pfx = isOP() && /Road Poneglyph/.test(txt) ? givePone() : "";
-      if (isJJ()) run.toolQ = (run.toolQ || 0) + 1;
+      if (isJJ() && jjTrack() === "tools") jjFind("quest");
       logAdd(head, t, describe(L[k][1]) + "." + pfx); setNarr(txt, t); sfx.sparkle(); endAct(); return;
     }
     if (s === "twist") {
@@ -7291,7 +7432,7 @@
         let fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
         if (run.bounty != null) fx += " " + bountyBump(questPower(d), 0.6 * d, lowNoun(q));
         if (isOP() && /Road Poneglyph/.test(q)) fx += givePone();
-        if (isJJ() && d >= 2 && Math.random() < 0.5) { run.toolQ = (run.toolQ || 0) + 1; fx += " A sealed box comes with the reward."; }
+        if (isJJ() && d >= 2 && Math.random() < 0.5) fx += jjFind("quest");
         if (d >= 3) fx += promote() + gainFate("legendary quest");
         if (d >= 4) run.gained = (run.gained || []).concat({ n: cap(q), d: "A legendary deed. +5 power.", power: 5 });
         logAdd(head, fill("{first} pulls it off.", {}), fx); setNarr("Quest complete", fx);
@@ -7339,14 +7480,19 @@
     else if (o === "draw") { run.d++; run.points += 1; run.injured = false; t = fill(pick(lines("draw", DRAW)), v); fx = "Draw. +1 upgrade point."; }
     else {
       run.l++; run.injured = true; t = fill(pick(lines("loss", LOSS)), v); fx = "Defeat. Injured (−10 power) until they win or heal, and one fewer good ending on the final wheel."; bad = true;
+      if (isOP() && hasCrew("musician")) { run.adaptBonus = (run.adaptBonus || 0) + 2; fx += " The musician plays the crew back on their feet: +2 power from now on."; }
       if (isOP() && Math.random() < 0.6) fx += damageShip(Math.round((12 + Math.random() * 16) * Math.min(2, (ctx && ctx.mult) || 1)), "the fight");
       const ad = perks().find((p) => p.adapt);
       if (ad) { run.adaptBonus = (run.adaptBonus || 0) + ad.adapt; fx += ` ${ad.n}: +${ad.adapt} power from now on.`; }
       if (run.step < S().length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
     }
     const won = o !== "loss" && o !== "draw";
+    if (isOP() && won && foe && !/Marines|World Government agent/.test(seaPath()) && (run.crew || []).length < 7) {
+      const D = DEFECTORS.find(([re, who]) => re.test(foe[0]) && !(run.crew || []).some((m) => m.n === who) && !(run.seaQ || []).some((x) => x.who === who));
+      if (D && openRoles().includes(D[2])) { const here = run.route && run.route[run.here] ? run.route[run.here].n : "sea"; run.seaQ = (run.seaQ || []).concat({ kind: "defector", who: D[1], role: D[2], pw: D[3], where: here }); }
+    }
     // in JJK, people who fight with cursed tools leave them behind
-    if (isJJ() && won && foe && /curse user|sorcerer|player|Zenin|Kamo|cult|Hei|assassin|hunter|Q |Jogo|Uraume|Naoya|Ogi|Choso|Death Painting|tool/i.test(foe[0]) && Math.random() < 0.4 && toolOpts().length) { run.toolQ = (run.toolQ || 0) + 1; fx += ` ${cap(lowArt(foe[0]))} leaves a sealed box behind.`; }
+    if (isJJ() && won && foe && st.k !== "rival" && (jjTrack() !== "tools" || /curse user|sorcerer|player|Zenin|Kamo|cult|Hei|assassin|hunter|Q |Jogo|Uraume|Naoya|Ogi|Choso|Death Painting|tool/i.test(foe[0])) && Math.random() < (jjTrack() === "tools" ? 0.4 : 0.3)) fx += jjFind("drop", { foe: lowArt(foe[0]) });
     const upset = won && odds < 0.42;
     if (upset) {
       const up = odds < 0.25 ? 6 : 4;
@@ -7356,7 +7502,7 @@
     if (st.pool === "boss" && won) { run.bossWin = true; fx += promote(); }
     if (st.k === "rival" && won) {
       run.rivalWins = (run.rivalWins || 0) + 1;
-      if (isJJ() && toolOpts().length) { run.toolQ = (run.toolQ || 0) + 1; fx += fill(" The rival's cursed tool is {first}'s now: a sealed box."); }
+      if (isJJ()) fx += jjFind("rival", battleVars());
       if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel." + promote(); }
     }
     // Culling Game: beating a player takes their points; 100 points lets you add a rule
@@ -7523,7 +7669,7 @@
       const ev = evDef(st.ev), w = eventWheel(st.ev), k = await spin(w);
       const o = evOpts(st.ev)[k], e = o[2] || {};
       run.flags = Object.assign(run.flags || {}, { [st.ev]: true });
-      if (isJJ() && /^first/.test(st.ev)) { run.toolQ = (run.toolQ || 0) + 1; logAdd(head, fill("After the mission, Jujutsu High's armory issues {first} a sealed box.")); }
+      if (isJJ() && /^first/.test(st.ev)) { const l = jjFind("armory"); if (l) logAdd(head, l); }
       if (ev.intro) logAdd(head, fill(ev.intro, eventVars()));
       // family and origin threads add their own beat to shared story events
       Object.entries(T().eventFlavor || {}).forEach(([v, m]) => { if (m[st.ev] && activeValues().includes(v)) logAdd(head, fill(m[st.ev], eventVars())); });
@@ -7546,6 +7692,7 @@
       applyTwist(e); markUsed("twist", L[k][0]);
       let bfx = "";
       if (run.bounty != null && /bounty|Five Elders|Buster Call|threat|Emperor|Poneglyph|Void Century/i.test(txt)) bfx = " " + bountyBump(60, 1.5, "the world is watching");
+      if (isOP() && /scatter/i.test(txt)) bfx += scatterCrew(0.5, "scattered across the world");
       if (isOP()) bfx += (/Road Poneglyph/.test(txt) ? givePone() : "") + (/Buster Call|Seraphim|storm|Sea King|whirlpool/i.test(txt) ? damageShip(35, lowNoun(txt)) : "");
       logAdd(head, txt + ".", describe(e) + "." + bfx, !!(e.inj || (e.v && e.v < 0)));
       setNarr(txt, describe(e) + ".");
@@ -7599,6 +7746,8 @@
       + (run.epithet ? ` History remembers them as ${run.name}, ${run.epithet}.` : "");
     const after = [];
     const gone = new Set(run.gone || []), A = [...new Set(run.allies || [])].filter((n) => !gone.has(nameKey(n))).map((n, i) => i ? lowArt(n) : n);
+    const CA = isOP() ? crewActive() : [];
+    if (CA.length) { after.push(`${CA.length > 1 ? CA.slice(0, -1).map((m) => m.n.split(",")[0]).join(", ") + " and " + CA[CA.length - 1].n.split(",")[0] : CA[0].n.split(",")[0]} sailed with them to the end.`); const dm = CA.find((m) => m.dream); if (dm && !run.dead) after.push(`${dm.n.split(",")[0]} got to chase their dream, ${dm.dream}.`); }
     if (A.length > 1) after.push(`${A.slice(0, -1).join(", ")} and ${A[A.length - 1]} stayed by their side to the very end.`);
     else if (A.length === 1) after.push(`${A[0]} stayed by their side to the very end.`);
     else if (run.companion && !gone.has(nameKey(run.companion))) after.push(fill("{a} stayed by their side to the very end.", { a: run.companion }));
@@ -7955,7 +8104,7 @@
       else if (run.offer) { title = offerWheel().title; sub = "You accepted. Now the wheel decides what it costs"; }
       else if (run.bossSurvive) { title = survivalWheel().title; sub = "Losing the final battle can be fatal"; }
       else if (run.rebirth) { title = rebirthWheel().title; sub = "Chimera Ants are born from what the Queen eats"; }
-      else if (toolNext()) { title = toolNext().title; sub = "Every tool in the collection fights for you"; }
+      else if (toolNext()) { title = toolNext().title; sub = run.track === "tools" ? "Every tool in the collection fights for you" : "Every breakthrough stays with them"; }
       else if (seaNext()) { title = seaNext().title; sub = run.stranded ? "Losing a ship costs everything aboard" : !run.ship ? "Every story at sea needs a ship" : "At sea"; }
       else if (run.ruleReady && !run.act) { title = ruleWheel().title; sub = "Kogane is waiting"; }
       else if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
@@ -7997,7 +8146,7 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : run.results.every((x) => x == null) ? "Start" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
-      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.rebirth ? "Spin" : seaNext() ? "Spin" : toolNext() ? "Open the box" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.rebirth ? "Spin" : seaNext() ? "Spin" : toolNext() ? JT().btn : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     if (state.hold && !busy) label = "Next";
@@ -8236,7 +8385,7 @@
       lic.append(b, s1, s2); d.append(lic); box.append(d);
     } else if (state.theme === "jjk" && (run.tools || []).length) {
       const d = document.createElement("div"); d.className = "tool-rack";
-      const h = document.createElement("div"); h.className = "tr-h"; h.textContent = `Cursed tool inventory · ${run.tools.length}`;
+      const h = document.createElement("div"); h.className = "tr-h"; h.textContent = `${JT().rack} · ${run.tools.length}`;
       d.append(h);
       run.tools.forEach((t) => { const c = document.createElement("span"); c.className = "tr-t g-" + String(t.g).replace(/\s+/g, "-").toLowerCase(); c.textContent = cap(t.n); const g = document.createElement("i"); g.textContent = t.g; c.append(g); d.append(c); });
       box.append(d);
@@ -8251,7 +8400,7 @@
         const bl = document.createElement("div"); bl.className = "blurb"; const bb = document.createElement("b"), bs = document.createElement("span");
         if (run.bounty != null) {
           const w = document.createElement("div"); w.className = "wanted";
-          [["w1", "WANTED"], ["w2", "DEAD OR ALIVE"], ["ph", "☠"], ["w3", nm], ["w4", berry(run.bounty)], ["w5", "MARINE"]].forEach(([c, t]) => { const e = document.createElement("div"); e.className = c; e.textContent = t; w.append(e); });
+          [["w1", "WANTED"], ["w2", "DEAD OR ALIVE"], ["ph", initials(nm)], ["w3", nm], ["w4", berry(run.bounty)], ["w5", "MARINE"]].forEach(([c, t]) => { const e = document.createElement("div"); e.className = c; e.textContent = t; w.append(e); });
           row.append(w);
           bb.textContent = run.bounty ? `${nm.split(" ")[0]}'s bounty stands at ${berry(run.bounty)}` : `${nm.split(" ")[0]} isn't on any poster yet`;
           bs.textContent = run.bountyStart != null && run.bounty > run.bountyStart ? `Up from ${berry(run.bountyStart)} when this paper started following them.` : "The Marines are watching.";
