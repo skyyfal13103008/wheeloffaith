@@ -4808,9 +4808,8 @@
     longLived.forEach((r) => th.adapt.push({ when: [rc, r], cat: "Age", opts: AGE_LONG }));
     cosmic.forEach((r) => th.adapt.push({ when: [rc, r], cat: "Age", opts: AGE_COSMIC }));
     th.follow = th.follow || {};
-    th.follow.Age = Object.fromEntries(Object.entries(AGE_EXACT).map(([b, l]) => [b, ["Exact age", l]]));
     th.perks = Object.assign({}, AGE_PERKS, HEIGHT_PERKS, th.perks || {});
-    th.titles = Object.assign({ Age: "How old is {first}?", "Exact age": "Exactly how old?", Height: "How tall is {first}?", Weakness: "What's {first}'s weakness?", Father: "Who is {first}'s father?", Mother: "Who is {first}'s mother?" }, th.titles || {});
+    th.titles = Object.assign({ Age: "How old are you?", Height: "How tall are you?", Weakness: "What's your weakness?", Father: "Who's your father?", Mother: "Who's your mother?" }, th.titles || {});
     th.say = Object.assign({ Age: "Age: {v|lower}.", Height: "{v} tall.", Weakness: "Weakness: {v|lower}." }, th.say || {});
   });
   Object.assign(RARE, WEAK_RARE, { "Centuries old": 0.6, "Over a thousand years old": 0.45, "Ancient (older than recorded history)": 0.3, "Older than the world": 0.2, "Older than the universe": 0.1, "Kid (10-14)": 0.8, "Elder (71+)": 0.6, "60 ft": 0.5, "Nobody knows": 0.5 });
@@ -6204,7 +6203,7 @@
     const g = clamp(Math.round(2 + run.w * 0.6 - run.l * 0.6 + (run.bossWin ? 2 : 0) + (run.rivalBeaten ? 1 : 0) + karma() + (run.endShift || 0)), 1, 7);
     let gi = 0, bi = 0;
     const segs = spread(g, 8).map((isG) => isG ? { good: true, t: fill(P.endings.good[gi++ % P.endings.good.length]) } : { good: false, t: fill(P.endings.bad[bi++ % P.endings.bad.length]) });
-    return { title: "Ending", segs, opts: segs.map((s) => s.t), colors: segs.map((s, i) => s.good ? (i % 2 ? "#c9902a" : "#3c8a58") : (i % 2 ? "#5a2a3a" : "#3b2a4a")) };
+    return { title: endTitle(), label: "Ending", segs, opts: segs.map((s) => s.t), colors: segs.map((s, i) => s.good ? (i % 2 ? "#c9902a" : "#3c8a58") : (i % 2 ? "#5a2a3a" : "#3b2a4a")) };
   }
   function evolveOptions() {
     const ev = T().evolve, val = tv(ev.cat);
@@ -6213,6 +6212,8 @@
     if (!out.length) out.push("Haki mastery", "A fighting style all their own", "Pure willpower");
     return out;
   }
+  // the ending wheel keeps the same title before, during and after the spin
+  const endTitle = () => run.dead ? "The end of the road" : run.retired ? "Retirement" : "How does your story end?";
   function upcomingWheel() {
     if (run.phase === "create") {
       const s = nextSlot();
@@ -6236,7 +6237,7 @@
       if (st.k === "rival") return run.foe ? battleWheel() : state.wheel;
       if (st.k === "twist") return listWheel(jTitle("twist"), LST.twist().map(lbl));
       if (st.k === "evolve") return listWheel(jTitle("evolve"), evolveOptions());
-      if (st.k === "ending") return run.dead ? listWheel("Ending", [`Killed by ${lowArt(run.dead)}`]) : endingWheel();
+      if (st.k === "ending") return run.dead ? listWheel(endTitle(), [`Killed by ${lowArt(run.dead)}`]) : endingWheel();
     }
     return state.wheel;
   }
@@ -7625,7 +7626,7 @@
   // the wheel for the current stage of the current action
   function actWheel() {
     const a = run.act, P = path(), st = S()[run.step];
-    if (!a) { const o = actOptions(); return tw(fill((T().jt || {}).act ? pick1((T().jt || {}).act) : "What does {first} do now?"), o.map((x) => x.label), o.map((x) => x.w), { label: "What do you do now?" }); }
+    if (!a) { const o = actOptions(); return tw(fill((T().jt || {}).act ? pick1((T().jt || {}).act) : "What do you do now?"), o.map((x) => x.label), o.map((x) => x.w), { label: "What do you do now?" }); }
     const s = a.stage;
     if (s === "foe") { const pool = a.kind === "war" ? LST.war() : LST.foe(st.pool === "side" ? "side" : st.pool); return tw(a.kind === "war" ? fill("Who is the war against?") : jTitle("foe"), pool.map((f) => f[0]), null, { label: "Which enemy?" }); }
     if (s === "form") return tw(fill("How strong is {foe} today?", { foe: lowArt(a.foe[0]) }), FOE_FORM.map((x) => x[0]), FOE_FORM.map((x) => x[2]), { label: "How strong is your enemy?" });
@@ -8527,7 +8528,7 @@
       const s = nextSlot();
       const all = slots(), done = all.filter((x) => slotVal(x) != null).length;
       eb = "Create your character";
-      if (s) { const w = slotWheel(s); title = s.k === "sub" ? `${s.j ? "Deeper: " : "Bonus wheel: "}${w.title}` : w.title; sub = s.k === "tal" ? (minTier() ? `${statNames()[s.i]} talent · their blood starts them at tier ${minTier() + 1} of 10 · ${done} of ${all.length} spun` : `${statNames()[s.i]} talent · 10 tiers from useless to legendary · ${done} of ${all.length} spun`) : `${done} of ${all.length} spun`; }
+      if (s) { const w = slotWheel(s); title = w.title; sub = s.k === "tal" ? (minTier() ? `${statNames()[s.i]} talent · their blood starts them at tier ${minTier() + 1} of 10 · ${done} of ${all.length} spun` : `${statNames()[s.i]} talent · 10 tiers from useless to legendary · ${done} of ${all.length} spun`) : `${done} of ${all.length} spun`; }
       else { title = "Ready for the journey"; sub = `${S().length} chapters ahead`; }
     } else if (run.phase === "journey") {
       const st = S()[run.step];
@@ -8554,7 +8555,7 @@
       else if (st.k === "event") { title = eventWheel(st.ev).title; sub = fill(evDef(st.ev).sub || "", eventVars()); }
       else if (st.k === "twist") title = jTitle("twist");
       else if (st.k === "evolve") title = jTitle("evolve");
-      else if (st.k === "ending") { title = run.dead ? "The end of the road" : run.retired ? "Retirement" : "Spin your ending"; sub = karma() ? `Every win puts more good endings on the wheel · karma ${karma() > 0 ? "+" : ""}${karma()}` : "Every win puts more good endings on the wheel"; }
+      else if (st.k === "ending") { title = endTitle(); sub = karma() ? `Every win puts more good endings on the wheel · karma ${karma() > 0 ? "+" : ""}${karma()}` : "Every win puts more good endings on the wheel"; }
     } else {
       eb = "The end"; title = run.ending || ""; sub = `${run.w}W ${run.l}L${run.d ? ` ${run.d}D` : ""}`;
     }
