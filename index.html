@@ -5570,6 +5570,12 @@
     "Egghead": "Vegapunk's island of the future",
     "Elbaf": "land of the giants",
     "Laugh Tale": "Roger's final island",
+    "Cacao Island": "Big Mom's chocolate town",
+    "Onigashima": "Kaido's skull fortress",
+    "Sphinx": "Whitebeard's homeland",
+    "Hachinosu": "Blackbeard's Pirate Island",
+    "New Marineford": "the Marines' New World headquarters",
+    "Lodestar Island": "the last island on any Log Pose",
     "God Valley": "the island erased from history",
     "Mary Geoise": "home of the Celestial Dragons",
     "Birka": "Enel's birthplace",
@@ -5600,11 +5606,35 @@
   // The story is built in layers: the series' base journey, then an arc for every landed pick that has one
   // (birthplace, race, family, bloodline...), then the alignment path. Higher layers come first in every list.
   const LIST_KEYS = { training: [5, 9], twists: [5, 9], allies: [5, 9], loot: [5, 9], chances: [5, 9] };
+  // New World natives: sits under their home island's own arc, over the East Blue and Paradise story everyone else gets
+  const NW_ARC = {
+    pri: 1.8, tag: "Born in the New World: no East Blue, no Paradise, no gentle start. The Emperors rule these seas, and {first} has never known anything else.",
+    chapters: ["Home waters", "Training arc", "Emperor territory", "Power evolution", "Twist of fate", "The Emperors' war", "Final battle", "Epilogue"],
+    scenes: {
+      early: ["There's no East Blue for {first}. The first island past home flies an Emperor's flag, and the harbor guards shoot before they ask.", "New World weather: a blizzard at noon, a heat wave by dusk, and lightning that hits the same ship twice. {first} learns to read it or sinks.", "Three needles on {first}'s Log Pose, each pointing at a different island. In the New World, any of them could be a trap."],
+      train: ["In the New World you train or you die. {first} picks training."],
+      side: ["A small island under an Emperor's protection stops paying tribute, and the Emperor's fleet is already on its way. {first} can't sail past it."],
+      rival1: ["A rookie who survived Paradise just crossed the Red Line, and {rival} is already talking like they own the New World. {first} was born here."],
+      recruit: ["The New World chews up crews and spits out survivors. {first} meets one."],
+      mid: ["Emperor territory. Every island is somebody's property, and the flags change after every war.", "A Den Den Mushi crackles with an Emperor's voice: whoever holds the next island holds the shipping lanes, and {first} is in the way.", "G-5's Marines and an Emperor's fleet drop anchor in the same harbor. {first} is caught in between."],
+      late: ["The Emperors' war has started. Every island picks a side, or gets picked."]
+    },
+    foes: {
+      early: [["Beasts Pirates Pleasures", 20], ["Big Mom's chess soldiers", 18], ["Donquixote Family hitmen", 22], ["The Yeti Cool Brothers of Punk Hazard", 26], ["A G-5 Marine squad", 24], ["Hachinosu deserters", 20]],
+      mid: [["Charlotte Cracker", 54], ["Trebol", 50], ["Who's-Who", 52], ["Caesar Clown", 50], ["Vice Admiral Smoker", 48], ["Basil Hawkins", 48], ["Jesus Burgess", 52]],
+      late: [["Admiral Fujitora", 78]]
+    },
+    quests: [["Hold an island against an Emperor's raid", 3], ["Find a Road Poneglyph's guardian", 2], ["Survive a night on Hachinosu", 3], ["Steal a Vivre Card from an Emperor's commander", 3], ["Smuggle refugees out of a fallen territory", 2], ["Cross a sea where the weather has gone mad", 2]],
+    // East Blue and Paradise villains belong to someone else's story
+    drop: ["Axe-Hand Morgan", "Buggy the Clown", "Kuro of a Hundred Plans", "Don Krieg", "Arlong", "Captain Nezumi's Marines", "Alvida", "Mr. 1, Daz Bonez", "Crocodile", "Enel", "Rob Lucci", "Gecko Moria", "Hody Jones", "Magellan",
+      "East Blue pirate captain", "Clown pirate", "Buggy's crew deserters", "A Baroque Works agent", "Slave traders at Sabaody", "Sabaody rookie"]
+  };
   function arcLayers() {
     const th = T(), A = th.arcs || {}, out = [];
     const seenArc = new Set();
     activeValues().concat(run.evTag ? [run.evTag] : []).forEach((v, i) => { const a = A[v]; if (a && !seenArc.has(a)) { seenArc.add(a); out.push(Object.assign({ _o: i }, a)); } });
     out.sort((a, b) => (b.pri || 1) - (a.pri || 1) || b._o - a._o);
+    if (state.theme === "onepiece" && nwNative()) { out.push(NW_ARC); out.sort((a, b) => (b.pri || 1) - (a.pri || 1)); }
     const p = th.paths && th.paths[tv(th.pathCat) || ""];
     if (p) out.unshift(Object.assign({ pri: 9 }, p));
     // a storyline picked during the journey (a Fantasy saga) sits on top of everything
@@ -6399,7 +6429,7 @@
     fill(P.prologue || T().prologue).split(/(?<=\.)\s+(?=[A-Z{])/).reduce((acc, s, i) => { if (i % 2 === 0) acc.push(s); else acc[acc.length - 1] += " " + s; return acc; }, []).forEach((para) => logAdd("Prologue", para));
     logAdd("Prologue", "", "", false, { facts });
     if (run.epithet) logAdd("Prologue", `One day they'll be called ${run.epithet}.`);
-    if (P.tag) logAdd("Prologue", P.tag, "", false, { tag: true });
+    if (P.tag) logAdd("Prologue", fill(P.tag), "", false, { tag: true });
     if (run.underdog) logAdd("Prologue", fill("Nobody expects anything from {first}. That's the one advantage they have."), "Underdog: training gains doubled, +3 power after every defeat, and upsets pay out big.");
     if (run.bounty != null) logAdd("Prologue", run.bounty ? fill("The Marines already have a file on {first}.") : fill("Nobody has heard of {first} yet. That's about to change."), `Starting bounty: ${berry(run.bounty)}.`);
     setNarr("The journey begins", fill(P.prologue || T().prologue));
@@ -6490,27 +6520,41 @@
   // Paradise runs right from Reverse Mountain to the Red Line at Sabaody; the New World starts again at the left edge and ends at Laugh Tale, just short of the middle
   const SEA = {
     blue: { "North Blue": [72, 30], "East Blue": [242, 30], "West Blue": [72, 122], "South Blue": [242, 122] },
-    homeRe: [[/Zou|Mokomo/, [44, 68]], [/Fish-Man|Mermaid|Ryugu/, [292, 84]], [/Elbaf/, [107, 70]], [/Whole Cake|Totto/, [59, 81]], [/Green Bit|Tontatta/, [24, 84]], [/Skypiea|Weatheria|Birka/, [218, 64]], [/Mary Geoise|Red Line/, [305, 58]], [/Sabaody/, [289, 71]]],
-    homes: { "Alabasta": [204, 80], "Drum Island": [195, 70], "Water 7": [232, 80], "Dressrosa": [29, 80], "Wano Country": [75, 71], "God Valley": [112, 112], "Mary Geoise, the Holy Land": [305, 58], "Birka": [218, 64], "Sabaody slave market": [289, 71] },
+    homeRe: [[/Zou|Mokomo/, [42, 67]], [/Fish-Man|Mermaid|Ryugu/, [292, 84]], [/Elbaf/, [120, 81]], [/Whole Cake|Totto/, [60, 74]], [/Green Bit|Tontatta/, [20, 84]], [/Skypiea|Weatheria|Birka/, [218, 64]], [/Mary Geoise|Red Line/, [305, 58]], [/Sabaody/, [289, 71]]],
+    homes: { "Alabasta": [204, 80], "Drum Island": [195, 70], "Water 7": [232, 80], "Dressrosa": [30, 75], "Wano Country": [72, 68], "God Valley": [112, 112], "Mary Geoise, the Holy Land": [305, 58], "Birka": [218, 64], "Sabaody slave market": [289, 71] },
     fixed: {
       "Loguetown": [196, 44, "The town where Gol D. Roger was born and executed. The last stop before the Grand Line."],
       "Reverse Mountain": [160, 75, "The currents of all four seas climb a mountain, meet at the top, and crash down into the Grand Line."],
       "Sabaody Archipelago": [289, 71, "Giant mangroves, floating bubbles, slave auctions. The last stop before the New World."],
       "Fish-Man Island": [292, 84, "Ten thousand meters under the sea, inside a bubble, at the foot of the Red Line."],
-      "Laugh Tale": [134, 75, "The final island. Only someone who has read all four Road Poneglyphs can find it."]
+      "Laugh Tale": [141, 75, "The final island. Only someone who has read all four Road Poneglyphs can find it."]
     },
     paradise: [["Whisky Peak", 175, 72, "A town that welcomes every pirate with a party, then robs them in their sleep."], ["Little Garden", 185, 81, "A prehistoric island where two giants have been dueling for a hundred years."], ["Drum Island", 195, 70, "A winter island with no king and the best doctors in the Grand Line."], ["Alabasta", 204, 80, "A desert kingdom that nearly tore itself apart over the rain."], ["Jaya", 216, 77, "A lawless island where everyone laughs at people who believe in sky islands."], ["Skypiea", 218, 64, "An island in the clouds, ten thousand meters up. Getting there takes a Knock Up Stream."], ["Water 7", 232, 80, "The city of shipwrights. If a ship can be saved, it gets saved here."], ["Enies Lobby", 246, 71, "The judicial island, where the sun never sets and nobody walks out."], ["Thriller Bark", 262, 81, "A ghost ship the size of an island, drifting through the Florian Triangle."]],
-    newWorld: [["Punk Hazard", 14, 72, "Half fire, half ice, and a laboratory that should have stayed abandoned."], ["Dressrosa", 29, 80, "A kingdom of love, passion and toys, ruled by a Warlord in a bird cage of strings."], ["Zou", 44, 68, "A whole country on the back of a thousand-year-old elephant. The Minks keep a Road Poneglyph here."], ["Whole Cake Island", 59, 81, "Big Mom's candy kingdom. One of her Road Poneglyphs sits in a vault here."], ["Wano Country", 75, 71, "A closed samurai country behind waterfalls. Kaido's Road Poneglyph is somewhere inside."], ["Egghead", 91, 80, "Vegapunk's island of the future. The World Government doesn't want anyone leaving it alive."], ["Elbaf", 107, 70, "The island of giants, under the branches of the Treasure Tree Adam."]]
+    newWorld: [["Punk Hazard", 12, 71, "Half fire, half ice, and a laboratory that should have stayed abandoned."], ["Green Bit", 20, 84, "A forest island next to Dressrosa, full of fighting fish and tiny Tontatta warriors."], ["Dressrosa", 30, 75, "A kingdom of love, passion and toys, ruled by a Warlord in a bird cage of strings."], ["New Marineford", 38, 85, "The Marines' headquarters, moved into the New World after the Paramount War."], ["Zou", 42, 67, "A whole country on the back of a thousand-year-old elephant. The Minks keep a Road Poneglyph here."], ["Cacao Island", 51, 84, "Totto Land's chocolate island, where the Charlotte family's ships come and go."], ["Whole Cake Island", 60, 74, "Big Mom's candy kingdom. One of her Road Poneglyphs sits in a vault here."], ["Wano Country", 72, 68, "A closed samurai country behind waterfalls. Kaido's Road Poneglyph is somewhere inside."], ["Onigashima", 80, 81, "Kaido's skull-shaped fortress island off the coast of Wano."], ["Sphinx", 92, 70, "Whitebeard's home island, still guarded by the people he protected."], ["Hachinosu", 102, 83, "Pirate Island. Rocks D. Xebec ran it once; now it's Blackbeard's nest."], ["Egghead", 111, 72, "Vegapunk's island of the future. The World Government doesn't want anyone leaving it alive."], ["Elbaf", 120, 81, "The island of giants, under the branches of the Treasure Tree Adam."], ["Lodestar Island", 130, 69, "The last island a Log Pose can find. Past it, only the Road Poneglyphs point the way."]]
   };
   const PONE_AT = { "Zou": "Zou", "Whole Cake Island": "Whole Cake Island", "Wano Country": "Wano Country" };
   const isOP = () => state.theme === "onepiece";
   const seaPath = () => tv("Affiliation") || "Pirate crew";
+  // born in the New World: no Reverse Mountain, no Paradise, no Sabaody. The voyage starts at the deep end
+  const NW_HOME = /^(Dressrosa|Wano Country|Zou|Mokomo Dukedom|Whole Cake Island|Totto Land|Elbaf|Green Bit|Tontatta Kingdom)/;
+  const nwNative = () => state.theme === "onepiece" && NW_HOME.test(tv("Birthplace") || "");
   function buildRoute() {
     const R = rng(run.seed + 77), home = tv("Birthplace") || "Somewhere at sea";
     const blue = Object.keys(SEA.blue).find((b) => home.includes(b));
     const stop = (n, xy, d, extra) => Object.assign({ n, x: xy[0], y: xy[1], d }, extra || {});
     const fx = (n) => stop(n, SEA.fixed[n], SEA.fixed[n][2]);
-    const stops = [stop(home.replace(/, (East|West|North|South) Blue$/, ""), homeXY(home), "Where it all starts.", { home: true, sea: !!blue })];
+    const nw = nwNative(), stops = [stop(home.replace(/, (East|West|North|South) Blue$/, ""), homeXY(home), "Where it all starts.", { home: true, sea: !!blue || nw })];
+    if (nw) {
+      // the Log Pose has three needles out here: sail out toward the near edge of the New World first, then all the way across toward Laugh Tale
+      const hx = stops[0].x, k = Math.max(2, S().length - 1 - stops.length), must = ["Zou", "Whole Cake Island", "Wano Country"];
+      const pool = SEA.newWorld.filter((x) => !stops[0].n.includes(x[0]) && !x[0].includes(stops[0].n.split(",")[0]));
+      const chosen = pool.filter((x) => must.includes(x[0])), rest = pool.filter((x) => !chosen.includes(x));
+      while (chosen.length < k && rest.length) chosen.push(rest.splice(Math.floor(R() * rest.length), 1)[0]);
+      const west = chosen.filter((x) => x[1] < hx).sort((a, b) => b[1] - a[1]), east = chosen.filter((x) => x[1] >= hx).sort((a, b) => a[1] - b[1]);
+      const out = (west.length <= east.length ? west.concat(east) : east.slice().reverse().concat(west.slice().reverse())).sort((a, b) => (a[0] === "Lodestar Island") - (b[0] === "Lodestar Island"));
+      stops.push(...out.map((x) => stop(x[0], [x[1], x[2]], x[3])));
+      return stops;
+    }
     if (blue === "East Blue" && !/Loguetown/.test(home)) stops.push(fx("Loguetown"));
     if (blue) stops.push(fx("Reverse Mountain"));
     const tail = [fx("Sabaody Archipelago"), fx("Fish-Man Island")];
@@ -6601,7 +6645,7 @@
   function seaQOpts(q) {
     if (q.kind === "climb") return { title: "Reverse Mountain: does the ship make the climb?", opts: [["A clean climb", 3, { dmg: 0 }, "The current carries the ship straight up the mountain and over the top. The Grand Line opens below."], ["Scraped along the canal walls", 2, { dmg: 25 }, "The ship scrapes the canal walls all the way up. It makes it, in pieces."], ["Slams into the Twin Capes", 1, { dmg: 45 }, "The ship comes down too fast and slams into the Twin Capes lighthouse."]] };
     if (q.kind === "descent") return { title: "The descent to Fish-Man Island", opts: [["Coated and calm the whole way down", 3, { dmg: 0 }, "The coating holds. Ten thousand meters down, the bubble of Fish-Man Island glows in the dark."], ["A Kraken grabs the hull", 1.5, { dmg: 25 }, "A Kraken wraps the ship halfway down. It lets go eventually."], ["The coating tears near the bottom", 1, { dmg: 45 }, "The coating tears at nine thousand meters. The ship hits the bubble half full of water."]] };
-    if (q.kind === "storm") return { title: "The New World's first storm", opts: [["Rides it out", 2, { dmg: 0 }, "Lightning, snow and a whirlpool in the same hour. The ship rides it out."], ["Loses the mast", 2, { dmg: 25 }, "The mast snaps in the second hour. They limp into the next harbor."], ["Lightning hits the powder room", 1, { dmg: 45 }, "Lightning hits the powder room. Half the deck goes with it."]] };
+    if (q.kind === "storm") return { title: nwNative() ? "A New World storm, worse than any back home" : "The New World's first storm", opts: [["Rides it out", 2, { dmg: 0 }, "Lightning, snow and a whirlpool in the same hour. The ship rides it out."], ["Loses the mast", 2, { dmg: 25 }, "The mast snaps in the second hour. They limp into the next harbor."], ["Lightning hits the powder room", 1, { dmg: 45 }, "Lightning hits the powder room. Half the deck goes with it."]] };
     if (q.kind === "pone") {
       const W = { "Zou": [["The Minks trust {first} and let them copy it", 3, { ok: true }, "The Minks lead {first} up to the stone and stand guard while they make the rubbing."], ["Earn it by defending Zou", 2, { ok: true, all: 3 }, "{first} fights for Zou. The Minks repay them with the rubbing."], ["The Minks turn {first} away", 1.5, { ok: false }, "The Minks won't let a stranger near their Poneglyph."]],
         "Whole Cake Island": [["Steal the rubbing from Big Mom's vault", 2, { ok: true, nemesis: ["Charlotte Linlin", 93] }, "{first} walks out of Big Mom's vault with a rubbing. Big Mom finds out by dinner."], ["Trade for it at a Tea Party", 1, { ok: true, pts: -3 }, "Big Mom trades a rubbing for a favor. Everyone at the Tea Party knows that's a bad deal."], ["Caught by the Sweet Commanders", 2, { ok: false, inj: true }, "Katakuri is waiting at the vault door."]],
@@ -6614,6 +6658,24 @@
       return { title, opts: q.cands.map((c, i) => [`${c.n}, ${CREW_ROLES[c.role][1].toLowerCase()}`, 2, { join: i }, c.desc || `On ${q.where}, {first} meets ${c.n}, who ${c.hook || crewHook(c.role)}.`]).concat([[`Nobody here fits`, 1.5, {}, `Nobody on ${q.where} is right for the ${w}. {first} keeps sailing.`]]) };
     }
     if (q.kind === "defector") return { title: `${q.who} saw the fight. Do they join {first}?`, opts: [[`${q.who} joins`, 2, { defect: true }, q.why ? `${q.why} ${q.who} finds {first} after the fight and asks to come along.` : `After the fight, ${q.who} walks up to {first}: "That crew's finished. Yours isn't."`], [`${q.who} sails alone`, 1.5, {}, `${q.who} nods at {first}, once, and walks off alone.`]] };
+    if (q.kind === "tribute") {
+      const law = /Marines|World Government agent/.test(seaPath());
+      return { title: `An Emperor's collectors are waiting on the ${q.where} docks`, opts: law ? [
+        ["Arrest the collectors", 2, { all: 3, nemesis: ["An Emperor's tax collectors", 60] }, "{first} puts the collectors in irons on the dock and the island cheers. Somewhere, an Emperor's commander writes down a new name."],
+        ["Look the other way", 1.5, { pts: 2, gain: { n: "Looked away", d: "HQ said this island wasn't worth a war. Bad karma.", karma: -1 } }, "HQ's orders are clear: this island isn't worth a war with an Emperor. {first} follows them, and hates it."],
+        ["Run their blockade at night", 1.5, { dmg: 20 }, "{first} runs dark past the Emperor's picket ships. Not every cannonball misses."],
+        ["The collector is someone {first} grew up with", 1, { ally: true }, "The collector is a face from home. They let {first} through, and slip them a warning about what's waiting further out."]] : [
+        ["Pay the tribute", 2, { pts: -2 }, "Everybody in the New World pays someone. Half of {first}'s money goes into an Emperor's chest, and nobody gets hurt."],
+        ["Throw the collectors off the dock", 2, { all: 3, nemesis: ["An Emperor's tax collectors", 60] }, "{first} throws the collectors into the harbor. The whole island goes quiet. Somewhere, an Emperor's commander writes down a new name."],
+        ["Slip out of the harbor at night", 1.5, { dmg: 20 }, "{first} runs dark through the minefield the Emperor laid across the harbor mouth. Not everything misses the hull."],
+        ["The collector is a childhood friend", 1, { ally: true }, "The collector grew up three doors down from {first}. They wave the ship through, and then quit and come along."]] };
+    }
+    if (q.kind === "flag") return { title: `Every island in the New World flies a flag. Whose is over ${q.where}?`, opts: [
+      ["Big Mom's skull and candles", 1.5, { pts: 2, nemesis: ["Charlotte Linlin", 93] }, "Totto Land's flag. The island pays in sweets for Big Mom's protection, and someone tells her {first} ate the last of the cake."],
+      ["Kaido's horned skull", 1.5, { inj: true, all: 3 }, "Beasts Pirates territory. {first} gets into a brawl with Gifters on the first night and walks out of it stronger, and bleeding."],
+      ["The Red Hair Pirates' flag", 1.5, { heal: true, all: 2 }, "Shanks's territory. Nobody starts trouble here, and {first} gets the first full night of sleep in months."],
+      ["Blackbeard's flag", 1, { inj: true, gain: { n: "Marked by Blackbeard", d: "Blackbeard's men know their face. +3 against the final enemy.", boss: 3 } }, "Blackbeard took this island last month. His men see {first} once and remember the face."],
+      ["No flag at all", 2, { all: 2, gain: { n: "Free island's friend", d: "An island no Emperor owns remembers who helped it. Good karma.", karma: 1 } }, "No flag means no Emperor, which in the New World means nobody to stop the next one from taking it. {first} helps the locals dig in."]] };
     if (q.kind === "pone4") return { title: "The last Road Poneglyph", opts: [["Track it down with an ally's help", 2, { ok: true }, "An old friend knows where the fourth stone is hidden. {first} gets there first."], ["Win the rubbing from a rival crew", 1.5, { ok: true, inj: true }, "Another crew already has the rubbing. {first} takes it from them, at a price."], ["The trail goes cold", 2, { ok: false }, "Every lead on the fourth stone dies. Maybe next time."]] };
     // the world reacts to a new wanted poster
     const big = q.amount >= 1e9, huge = q.amount >= 3e9;
@@ -6659,8 +6721,14 @@
     const q = run.seaQ = run.seaQ || [];
     if (stop.n === "Reverse Mountain") q.push({ kind: "climb" });
     if (stop.n === "Fish-Man Island") q.push({ kind: "descent" });
-    if (SEA.newWorld.some((x) => x[0] === stop.n) && !run.nwStorm) { run.nwStorm = true; q.push({ kind: "storm" }); }
-    if (PONE_AT[stop.n] && !(run.pone || []).includes(stop.n)) q.push({ kind: "pone", where: stop.n });
+    if (SEA.newWorld.some((x) => x[0] === stop.n) && !run.nwStorm && (!nwNative() || run.here >= 3)) { run.nwStorm = true; q.push({ kind: "storm" }); }
+    if (nwNative() && !stop.home && stop.n !== "Laugh Tale") {
+      if (!run.nwTribute) { run.nwTribute = true; q.push({ kind: "tribute", where: stop.n }); }
+      else if (!run.nwFlag && run.step >= Math.floor(S().length / 2) - 1) { run.nwFlag = true; q.push({ kind: "flag", where: stop.n }); }
+    }
+    // a home like "Mokomo Dukedom, Zou" still has Zou's stone
+    const poneAt = PONE_AT[stop.n] || (stop.home ? Object.keys(PONE_AT).find((k) => stop.n.includes(k)) : null);
+    if (poneAt && !(run.pone || []).includes(poneAt)) q.push({ kind: "pone", where: poneAt });
     // someone new is worth meeting every couple of islands, not at every port
     if (!stop.home && stop.n !== "Laugh Tale" && (run.crew || []).length < crewCap() && openRoles().length && run.step - (run.lastRecruit ?? -9) >= 2 && Math.random() < 0.55) { run.lastRecruit = run.step; q.push({ kind: "recruit", where: stop.n, cands: recruitCands(stop.n) }); }
     if ((run.pone || []).length === 3 && !run.pone4 && run.step >= S().length - 5) { run.pone4 = true; q.push({ kind: "pone4" }); }
@@ -6763,7 +6831,7 @@
       return `<text x="${p.x + dx}" y="${ny}" text-anchor="${anc}" class="lbl">${esc(p.n)}</text>` + (t ? `<text x="${p.x + dx}" y="${ty}" text-anchor="${anc}" class="lbl tag">${esc(t)}</text>` : "");
     };
     const labels = pts.map((p, i) => (i === pts.length - 1 || p.home) ? lbl(p, p.y >= 75 && p.y < 90 ? 10 : -6, i === pts.length - 1) : "").join("");
-    const lt = (run.pone || []).length >= 4 && !(cur && cur.n === "Laugh Tale") ? `<text x="134" y="79" text-anchor="middle" class="lt">★</text>${lbl({ x: 134, y: 75, n: "Laugh Tale" }, -7, true)}` : "";
+    const lt = (run.pone || []).length >= 4 && !(cur && cur.n === "Laugh Tale") ? `<text x="141" y="79" text-anchor="middle" class="lt">★</text>${lbl({ x: 141, y: 75, n: "Laugh Tale" }, -7, true)}` : "";
     const path = anim ? (wraps(prev, cur) ? `M${prev.x},${prev.y} L${W},${(prev.y + cur.y) / 2} M0,${(prev.y + cur.y) / 2} L${cur.x},${cur.y}` : `M${prev.x},${prev.y} L${cur.x},${cur.y}`) : "";
     const ship = cur ? (anim
       ? `<g class="ship"><text x="0" y="3" text-anchor="middle">⛵</text><animateMotion dur="1.8s" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1" keyTimes="0;1" path="${path}"/></g>`
@@ -7467,7 +7535,9 @@
     const s = a.stage;
     if (s === "foe") { const pool = a.kind === "war" ? LST.war() : LST.foe(st.pool === "side" ? "side" : st.pool); return tw(a.kind === "war" ? fill("Who is the war against?") : jTitle("foe"), pool.map((f) => f[0]), null, { label: "Which enemy?" }); }
     if (s === "form") return tw(fill("How strong is {foe} today?", { foe: lowArt(a.foe[0]) }), FOE_FORM.map((x) => x[0]), FOE_FORM.map((x) => x[2]), { label: "How strong is your enemy?" });
-    if (s === "beast") { const m = T().monsters || MONSTERS_DEFAULT; return tw(fill((T().jt || {}).beast ? pick1(T().jt.beast) : "Which monster?"), m, null, { label: "Which monster?" }); }
+    if (s === "beast") { let m = T().monsters || MONSTERS_DEFAULT;
+      // New World natives meet New World monsters, not Paradise ones
+      if (nwNative()) m = m.filter((x) => !/Sandora|Lapahn|Little Garden|Neptunian/.test(x)).concat("A man-made dragon from Punk Hazard", "Smiley, Caesar's living poison gas"); return tw(fill((T().jt || {}).beast ? pick1(T().jt.beast) : "Which monster?"), m, null, { label: "Which monster?" }); }
     if (s === "count") return tw("How many?", HOW_MANY.map((x) => x[0]), HOW_MANY.map((x) => x[2]), { label: "How many?" });
     if (s === "scale") return tw(fill("How strong is it?"), HOW_STRONG.map((x) => fill(x[0])), HOW_STRONG.map((x) => x[2]), { label: "How strong is your enemy?" });
     if (s === "size") return tw("How big is this war?", WAR_SIZE.map((x) => x[0]), WAR_SIZE.map((x) => x[2]), { label: "How big is the war?" });
