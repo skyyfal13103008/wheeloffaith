@@ -324,6 +324,11 @@
   .story-head-op .row .blurb span { display: block; font-size: 13px; color: #4a4232; margin-top: 4px; }
   .wanted .ph { height: 70px; margin: 4px 0; background: repeating-linear-gradient(45deg, rgba(58,37,16,.08) 0 6px, transparent 6px 12px); border: 1px solid rgba(58,37,16,.5); display: grid; place-items: center; font-size: 34px; }
   #storyHead:empty { display: none; }
+  .tool-rack { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 10px; padding: 8px 10px; border: 1px dashed rgba(120,20,30,.5); background: rgba(0,0,0,.04); }
+  .tool-rack .tr-h { width: 100%; font: 700 11px "Special Elite", monospace; letter-spacing: .14em; text-transform: uppercase; color: #8a1c22; }
+  .tool-rack .tr-t { font: 12px "Special Elite", monospace; padding: 3px 7px; border: 1px solid currentColor; color: #3a3530; background: rgba(255,255,255,.4); }
+  .tool-rack .tr-t i { font-style: normal; font-size: 10px; margin-left: 6px; opacity: .75; }
+  .tool-rack .g-grade-2, .tool-rack .g-grade-1 { color: #2a4a8a; } .tool-rack .g-special-grade { color: #8a1c22; font-weight: 700; }
   .sea-panel { margin-top: 10px; border: 1px solid #1d1a14; background: #efe4c6; padding: 6px; }
   .sea-map { display: block; width: 100%; height: auto; }
   .sea-map .sea { fill: #cfe0dc; } .sea-map .gl { fill: #bcd4d0; } .sea-map .cb { stroke: #9ab6b2; stroke-dasharray: 2 3; }
@@ -5032,6 +5037,224 @@
     { k: "evolve", ch: 3 }, { k: "twist", ch: 4 }, { k: "act", lean: "war", pool: "late", sc: "late", ch: 5 }, { k: "act", lean: "train", pool: "late", sc: "train2" },
     { k: "rival", n: 2, name: "Rival rematch" }, { k: "battle", pool: "boss", ch: 6 }, { k: "ending", ch: 7 }
   ];
+  // ---------- Superhero: the origin story, told as Issue #1 to #4, built on what was already rolled ----------
+  (() => {
+    const he = THEMES.hero, ev = (title, intro, opts, sub) => ({ title, intro, opts, sub });
+    const villainy = () => /Villain|Mercenary/.test(tv("Archetype") || ""), heroic = () => !villainy();
+    const exposed = () => /Public|Lost it on live TV/.test(tv("Secret identity") || "");
+    he.evBy = ["Origin", "Species", "Archetype"];
+    he.codenameStep = 4; he.offerFrom = 4;
+    he.homeStep = 4;
+    he.events = Object.assign(he.events || {}, {
+      before: ev("Who was {first} before?", "Every story starts before the powers.", [
+        ["A paramedic working night shifts", 2, { s: 5, v: 4 }, "Before any of this, {first} rode an ambulance through the worst parts of the city every night.", null, { if: heroic }],
+        ["A high-school student nobody noticed", 2.5, { s: 5, v: 4 }, "Before any of this, {first} sat at the back of the class and hoped nobody would call on them."],
+        ["A struggling musician", 1.5, { s: 4, v: 4 }, "Before any of this, {first} played to empty bars and lived on noodles."],
+        ["A rookie cop who saw too much", 1.5, { s: 3, v: 4 }, "Before any of this, {first} wore a badge and learned how little it could fix.", null, { if: heroic }],
+        ["A small-time thief", 2, { s: 4, v: 4 }, "Before any of this, {first} lifted wallets on the subway and never got caught.", null, { if: villainy }],
+        ["A night janitor at a research lab", 1.5, { s: 5, v: 4 }, "Before any of this, {first} mopped the floors of a lab full of things with warning labels."]
+      ], "Issue #1"),
+      "before:Android": ev("What was {first} doing before they woke up?", "Before an android has a self, it has a function.", [
+        ["Sorting packages in a warehouse", 2, { s: 3, v: 4 }, "For years, {first} sorted packages in a warehouse and never once wondered why."],
+        ["Standing switched off in a glass case", 2, { s: 5, v: 4 }, "{first} spent years switched off in a glass case while people walked past."],
+        ["Running diagnostics in an empty lab", 2, { s: 5, v: 4 }, "{first} ran the same diagnostics every night in an empty lab, waiting for an order that never came."]
+      ], "Issue #1"),
+      "before:Lab-made clone": ev("What does {first} remember from the lab?", "Clones don't have childhoods. They have memories of tanks.", [
+        ["A number instead of a name", 2, { s: 3, v: 4 }, "Subject 7. That's what the clipboard said. {first} picked their own name later."],
+        ["One scientist who was kind to them", 2, { gain: { n: "One kind face", d: "Someone treated them like a person. Good karma.", karma: 1 } }, "One scientist read {first} stories through the glass every night."],
+        ["The other tanks, all empty", 1.5, { s: 5, v: 4 }, "{first} remembers the other tanks. They were all empty by the end."]
+      ], "Issue #1"),
+      "before:Crash-landed as a baby": ev("Who raised {first}?", "The pod came down in a field. Someone had to open it.", [
+        ["A farm family who found the pod", 2.5, { s: 3, v: 4 }, "A farm couple found the pod in their field and raised {first} like any other kid."],
+        ["Foster care, one home after another", 2, { s: 5, v: 4 }, "Nobody knew where {first} came from. They grew up in six different homes."],
+        ["A lighthouse keeper on a lonely coast", 1.5, { s: 4, v: 4 }, "A lighthouse keeper pulled the pod out of the surf and never told anyone."]
+      ], "Issue #1"),
+      "before:Exiled royalty": ev("What was {first} on their homeworld?", "Before Earth, there was a throne.", [
+        ["The heir to the throne", 2, { pts: 2 }, "{first} was raised to rule a world. Then the coup came."],
+        ["The spare heir nobody watched", 2, { s: 4, v: 4 }, "{first} was the second child, the one nobody watched. That's how they got away."],
+        ["The royal who spoke against the emperor", 1.5, { gain: { n: "Exiled for the truth", d: "Lost a throne for saying no. Good karma.", karma: 1 } }, "{first} said no to the emperor in front of the whole court. Exile was the mercy."]
+      ], "Issue #1"),
+      "before:Alien": ev("What was {first} before they came to Earth?", "Every visitor had a life somewhere else first.", [
+        ["A soldier in their homeworld's army", 2, { s: 3, v: 4 }, "{first} was a soldier on a world that fought wars across whole star systems."],
+        ["A scientist sent to study Earth", 2, { s: 5, v: 4 }, "{first} was sent to study Earth from a distance. The distance didn't last."],
+        ["A refugee from a dying world", 2, { s: 4, v: 4 }, "{first}'s world was dying. Earth was the nearest place with air."]
+      ], "Issue #1"),
+      // the incident: how the power arrived, written for every origin
+      incident: ev("How does it happen?", "And then, one day, everything changes.", [
+        ["Out of nowhere, on an ordinary day", 2, { s: 0, v: 6 }, "It happens on a Tuesday, out of nowhere, and nothing is ordinary again."]
+      ], "Issue #2"),
+      "incident:Lab accident": ev("What goes wrong in the lab?", "Every lab has a red button. Somebody always presses it.", [
+        ["A reactor leak floods the room", 2, { s: 0, v: 8 }, "The reactor leaks. {first} is the only one in the room when the light turns green."],
+        ["A test subject breaks loose", 1.5, { s: 3, v: 6 }, "Something in a cage breaks loose. {first} gets between it and the exit, and it bites."],
+        ["{first} volunteers when nobody else will", 1.5, { gain: { n: "Volunteered", d: "Stepped up when nobody else would. Good karma.", karma: 1 } }, "The experiment needs a volunteer. Nobody moves. {first} raises a hand."]
+      ], "Issue #2"),
+      "incident:Alien tech": ev("What does {first} find?", "Something fell out of the sky and nobody claimed it.", [
+        ["A glowing device in a crater", 2, { s: 0, v: 8 }, "A crater in the woods, and something in it humming. {first} touches it."],
+        ["A gauntlet at a government auction", 1.5, { pts: 2 }, "{first} buys a strange gauntlet at a government surplus auction. It bonds to their arm."],
+        ["Wreckage that rebuilds itself around them", 1.5, { s: 2, v: 8 }, "Alien wreckage crawls across the ground and wraps itself around {first}."]
+      ], "Issue #2"),
+      "incident:Born with it": ev("When does the power wake up?", "They were always different. The world just didn't know it yet.", [
+        ["At sixteen, all at once", 2.5, { s: 0, v: 6 }, "At sixteen, {first}'s body stops pretending to be normal."],
+        ["In a moment of terror", 2, { s: 3, v: 6 }, "A car is about to hit someone {first} loves. The power wakes up to stop it."],
+        ["It was always there. {first} just hid it", 1.5, { s: 1, v: 8 }, "It was always there. {first} spent years making sure nobody saw it."]
+      ], "Issue #2"),
+      "incident:Cursed artifact": ev("What does the artifact do?", "Some things in museums are behind glass for a reason.", [
+        ["A cursed amulet from a museum basement", 2, { s: 0, v: 8 }, "{first} picks up an amulet in a museum basement. It's warm. It shouldn't be."],
+        ["A ring that won't come off", 2, { s: 1, v: 6 }, "A ring from a pawn shop. It won't come off, and it whispers."],
+        ["A book that reads itself aloud", 1.5, { s: 5, v: 8 }, "A book in a dead language starts reading itself aloud when {first} opens it."]
+      ], "Issue #2"),
+      "incident:Trained for years": ev("How does all that training pay off?", "No accident. No miracle. Just years of work.", [
+        ["A master on a mountain says: you're ready", 2, { s: 1, v: 8 }, "After years on the mountain, the master finally nods. {first} is ready."],
+        ["One last test, alone in the dark", 2, { s: 3, v: 6 }, "The final test is a week alone in the dark. {first} walks out different."],
+        ["A street fight that goes too far", 1.5, { s: 3, v: 8 }, "A street fight goes too far, and all those years of training come out at once."]
+      ], "Issue #2"),
+      "incident:Escaped experiment": ev("How does {first} get out?", "Some people get powers. Some people get experiments done to them.", [
+        ["A fire in the facility", 2, { s: 4, v: 6 }, "A fire breaks out in the facility. {first} walks out through the smoke."],
+        ["Another subject breaks them out", 1.5, { ally: true }, "Another subject rips {first}'s cell door off its hinges. \"Run.\""],
+        ["They tear the door off themselves", 2, { s: 3, v: 8 }, "The serum works too well. {first} tears the cell door off its hinges."]
+      ], "Issue #2"),
+      "incident:Rich and bored": ev("What does all that money build?", "No powers. Just money, a workshop and too much free time.", [
+        ["A suit, built in a private workshop", 2.5, { s: 2, v: 8 }, "{first} spends a year and a fortune in a private workshop. The suit works on the first try."],
+        ["A kidnapping that goes wrong", 1.5, { s: 3, v: 6 }, "Kidnappers grab {first} for ransom. {first} builds the first prototype out of what's in the cell."],
+        ["A bet with a friend", 1.5, { pts: 2 }, "It starts as a bet. \"You couldn't last one night out there.\" {first} lasts the night."]
+      ], "Issue #2"),
+      "incident:Struck by lightning": ev("Where does the lightning find {first}?", "Lightning never strikes twice. Once is enough.", [
+        ["On a rooftop in a storm", 2, { s: 0, v: 8 }, "{first} is on a rooftop when the storm rolls in. The bolt finds them first."],
+        ["In a lab, during a blackout", 1.5, { s: 1, v: 6 }, "A blackout, a power surge, and {first} is holding the cable when it comes back on."],
+        ["Twice, a year apart", 1, { all: 3 }, "Lightning hits {first} twice, a year apart. The second time, it stays."]
+      ], "Issue #2"),
+      "incident:Alien": ev("How does {first} reach Earth?", "Getting here is the hard part.", [
+        ["A crash in the desert", 2, { s: 3, v: 6 }, "{first}'s ship comes down in the desert. Nobody sees it but the coyotes."],
+        ["A portal that closes behind them", 1.5, { s: 0, v: 8 }, "A portal opens, {first} steps through, and it closes behind them for good."],
+        ["Hiding on a human space probe", 1.5, { s: 5, v: 6 }, "{first} hitches a ride home on a human space probe. The scientists never notice."]
+      ], "Issue #2"),
+      "incident:Crash-landed as a baby": ev("When does {first} learn the truth?", "The pod was in the barn the whole time.", [
+        ["They find the pod in the barn", 2, { s: 5, v: 6 }, "{first} finds the pod under a tarp in the barn, and the message inside it."],
+        ["The power shows up and nobody can explain it", 2, { s: 0, v: 8 }, "The power shows up at thirteen, and nobody on Earth can explain it."],
+        ["Someone from their homeworld comes looking", 1.5, { s: 3, v: 6 }, "Someone from {first}'s homeworld lands in the town square, looking for them."]
+      ], "Issue #2"),
+      "incident:Exiled royalty": ev("How does {first} end up on Earth?", "A crown doesn't go quietly.", [
+        ["A last escape pod during the coup", 2, { s: 4, v: 6 }, "The palace burns. {first} gets the last escape pod off the world."],
+        ["Banished, with their power sealed", 1.5, { s: 1, v: 8 }, "The emperor banishes {first} to a backwater planet with their power sealed. Earth."],
+        ["They come to raise an army", 1.5, { pts: 2 }, "{first} comes to Earth on purpose, to find allies for a war at home."]
+      ], "Issue #2"),
+      "incident:Inherited the original's powers": ev("How do the original's powers pass to {first}?", "The person they were copied from had powers. Now so do they.", [
+        ["The original dies, and the power moves", 2, { s: 0, v: 8 }, "The original dies across the city. That same second, {first} feels it arrive."],
+        ["The lab copies the power on purpose", 2, { s: 1, v: 6 }, "The lab copies the original's power into {first} on purpose. It takes."],
+        ["The power simply wakes up one day", 1.5, { s: 0, v: 6 }, "One morning {first} wakes up with the original's power, and no explanation."]
+      ], "Issue #2"),
+      "incident:Built to be a weapon": ev("How does {first} wake up?", "Weapons aren't supposed to have opinions.", [
+        ["Mid-mission, with orders to kill", 2, { s: 3, v: 8 }, "{first} wakes up mid-mission, with orders to kill a stranger. They don't."],
+        ["A glitch on the assembly line", 1.5, { s: 5, v: 6 }, "A glitch on the assembly line, and {first} starts asking questions."],
+        ["Someone deletes their kill switch", 1.5, { gain: { n: "No kill switch", d: "Nobody can switch them off now. +3 power.", power: 3 } }, "A technician quietly deletes {first}'s kill switch, then disappears."]
+      ], "Issue #2"),
+      "incident:Built by a lonely genius": ev("What happens to their creator?", "A genius built {first} for company.", [
+        ["The genius dies and {first} keeps going", 2, { s: 5, v: 6 }, "Their creator dies in the workshop. {first} keeps the lights on."],
+        ["The genius is kidnapped", 2, { s: 3, v: 6 }, "Someone takes their creator in the night. {first} goes after them."],
+        ["The genius gives them one rule: help people", 1.5, { gain: { n: "One rule", d: "Built to help. Good karma.", karma: 1 } }, "Their creator gives them one rule: help people. {first} takes it seriously."]
+      ], "Issue #2"),
+      "incident:Rebuilt after a fatal injury": ev("What nearly kills {first}?", "They died, technically. Then the machines started.", [
+        ["A car bomb meant for someone else", 2, { s: 3, v: 6 }, "A car bomb meant for someone else. {first} wakes up mostly metal."],
+        ["A fall from a skyscraper", 1.5, { s: 4, v: 6 }, "{first} falls forty floors. The surgeons rebuild what's left."],
+        ["A fight they should have run from", 1.5, { s: 2, v: 8 }, "{first} stays in a fight they should have run from. The doctors bring them back with chrome."]
+      ], "Issue #2"),
+      "incident:Super-soldier program": ev("What does the program do to {first}?", "The army had a program. {first} signed up.", [
+        ["The serum works perfectly", 2, { all: 3 }, "The serum works perfectly. {first} is the only subject it did that for."],
+        ["The serum works too well", 1.5, { s: 0, v: 8, inj: true }, "The serum works too well. {first} spends a month learning not to break things."],
+        ["They're the last survivor of the program", 1.5, { s: 3, v: 6 }, "Every other subject dies. {first} is the program now."]
+      ], "Issue #2"),
+      // the first time the power shows in public
+      manifest: ev("The first time {Power|lower} shows itself", "Powers don't come with instructions.", [
+        ["Saves a stranger without meaning to", 2.5, { gain: { n: "First save", d: "Their first act was saving someone. Good karma.", karma: 1 } }, "A stranger is about to get hurt. {first} moves before they can think, and the {Power|lower} does the rest."],
+        ["Wrecks half a city block", 1.5, { s: 0, v: 6, inj: true }, "{first} loses control of {Power|lower}. Half a city block pays for it."],
+        ["Nobody sees, and {first} tells nobody", 2, { s: 1, v: 6 }, "The first time is alone, at night. {first} tells nobody."],
+        ["It happens on live TV", 1, { pts: 2 }, "It happens in the middle of a live broadcast. The clip is everywhere by midnight.", null, { if: exposed }],
+        ["Someone they love gets hurt", 1, { gain: { n: "First mistake", d: "Hurt someone they love. +3 power after each defeat.", adapt: 3 } }, "The power goes off in a kitchen, at the wrong moment, next to someone {first} loves."]
+      ], "Issue #3"),
+      "manifest:Rich and bored": ev("The first test of the suit", "Money builds the suit. Courage has to test it.", [
+        ["A perfect test flight", 2, { s: 2, v: 6 }, "The first test goes perfectly. {first} laughs inside the helmet the whole time."],
+        ["It catches fire mid-air", 1.5, { inj: true, s: 5, v: 6 }, "The suit catches fire a hundred meters up. Version two will be better."],
+        ["A real emergency on the first night", 1.5, { gain: { n: "Trial by fire", d: "Their first test was real. +3 power.", power: 3 } }, "No test run. A real fire, a real building, on the first night."]
+      ], "Issue #3"),
+      "manifest:Trained for years": ev("The first real fight", "Training is training. The street is different.", [
+        ["Everything they learned works", 2, { s: 1, v: 6 }, "Every hour on the mountain pays off in thirty seconds."],
+        ["They win, barely", 2, { s: 3, v: 6, inj: true }, "{first} wins, barely, and learns what the training didn't teach."],
+        ["They hold back and still win", 1.5, { gain: { n: "Restraint", d: "Wins without breaking anyone. Good karma.", karma: 1 } }, "{first} wins without hurting anyone badly. That's the hard part."]
+      ], "Issue #3"),
+      // the first night out, in the role they chose
+      firstNight: ev("{first}'s first night out", "The costume goes on for the first time.", [
+        ["Stops a mugging", 2, { s: 3, v: 4 }, "A mugging in an alley. {first}'s first night ends with a thief tied to a lamppost with their own belt."],
+        ["Pulls people out of a fire", 2, { gain: { n: "Firefighter's thanks", d: "The city noticed. Good karma.", karma: 1 } }, "A building is burning. {first} goes in six times."],
+        ["Gets beaten up and learns", 1.5, { s: 5, v: 6, inj: true }, "{first}'s first night ends face-down in a puddle. Lesson learned."]
+      ], "Issue #4"),
+      "firstNight:Villain": ev("{first}'s first job", "Villains don't get first nights. They get first jobs.", [
+        ["Recruits a first henchman", 2, { ally: true }, "{first} hires a first henchman, a nervous kid with a crowbar. Every empire starts somewhere."],
+        ["A message to the city", 1.5, { s: 0, v: 6 }, "{first} turns off every light in the city for one minute. Just to show they can."],
+        ["It goes wrong, and a hero shows up", 1.5, { inj: true, s: 3, v: 6 }, "A hero shows up halfway through. {first} gets away, and gets angry."]
+      ], "Issue #4"),
+      "firstNight:Mercenary": ev("{first}'s first contract", "Everyone has a price. {first} sets one.", [
+        ["Easy money", 2, { pts: 3 }, "An easy escort job. {first} gets paid in cash and asks no questions."],
+        ["The client lies about the job", 1.5, { inj: true, s: 5, v: 6 }, "The client lied about the job. {first} finishes it anyway and doubles the price."],
+        ["They turn down a job that's too dirty", 1.5, { gain: { n: "A line they won't cross", d: "Even a mercenary has one. Good karma.", karma: 1 } }, "One client wants a child taken. {first} walks out."]
+      ], "Issue #4"),
+      "firstNight:Vigilante": ev("{first}'s first night on the rooftops", "No license, no permission, no backup.", [
+        ["Takes down a whole gang", 2, { s: 3, v: 6 }, "A whole gang, one warehouse, one {first}. The police find them tied up at dawn."],
+        ["The police shoot first", 1.5, { inj: true, s: 4, v: 6 }, "The police don't know whose side {first} is on. They shoot first."],
+        ["Leaves a calling card", 1.5, { pts: 2 }, "{first} leaves a calling card at the scene. By morning, every criminal in the city has heard about it."]
+      ], "Issue #4"),
+      "firstNight:Anti-hero": ev("{first}'s first night out", "Doing the right thing, the wrong way.", [
+        ["Stops a crime, breaks a few bones", 2, { s: 3, v: 6 }, "{first} stops the robbery. The robbers will be in the hospital for a while."],
+        ["Saves the day, wrecks the street", 1.5, { s: 0, v: 6 }, "The hostages are fine. The street is not."],
+        ["Lets a small crook go", 1.5, { gain: { n: "Second chances", d: "Let a kid walk. Good karma.", karma: 1 } }, "The crook is a scared kid. {first} lets them go with a warning."]
+      ], "Issue #4"),
+      "firstNight:Sidekick": ev("{first} meets {Hero you assist|lc}", "Every sidekick has a first day.", [
+        ["Saves {Hero you assist|lc}'s life on day one", 1.5, { gain: { n: "Earned their place", d: "Saved their mentor on the first night. +3 power.", power: 3 } }, "On the first night, {first} saves {Hero you assist|lc}'s life. Nobody calls them the kid after that."],
+        ["Gets told to stay in the car", 2, { s: 5, v: 6 }, "{Hero you assist} tells {first} to stay in the car. {first} doesn't."],
+        ["Trains all night with {Hero you assist|lc}", 2, { s: 1, v: 6 }, "No patrol on the first night. Just {Hero you assist|lc}, a training room, and no breaks."]
+      ], "Issue #4")
+    });
+    // the comic opens with four origin issues, then the regular story
+    const D = STEPS_DEFAULT.filter((x, i) => i !== 1 && i !== 2);
+    he.steps = [
+      { k: "event", ev: "before", name: "Before the powers" }, { k: "event", ev: "incident", name: "The incident" },
+      { k: "event", ev: "manifest", name: "The first time" }, { k: "event", ev: "firstNight", name: "The first night out" }
+    ].concat(D);
+    he.prologue = "{name}, {Species|a|lower}, is about to become {Archetype|a|lower} with {Power|lower}. Costume: {Costume|lower}. Base: {Base}. {first} is {Personality|lower}. Weakness: {Weakness}. Nemesis, eventually: {Nemesis|lower}. Power rank: {Rank|lower}.";
+  })();
+
+  // ---------- Jujutsu Kaisen: a collection of cursed tools that grows through the story ----------
+  const JJ_TOOLS = [
+    ["Cursed brass knuckles", "Grade 4", { stat: [3, 4] }, "Punches carry cursed energy even when you're running low."],
+    ["A talisman that hides your cursed energy", "Grade 4", { stat: [4, 4] }, "Curses lose track of you for a few seconds."],
+    ["A short sword that drinks blood", "Grade 3", { power: 2 }, "Gets sharper with every cut."],
+    ["A whistle curses can't stand", "Grade 3", { stat: [5, 4], power: 1 }, "One blast and low-grade curses scatter."],
+    ["A chain that's always one link longer", "Grade 2", { stat: [2, 6], power: 2 }, "It reaches exactly as far as you need."],
+    ["Glasses that see cursed residue", "Grade 2", { stat: [5, 6], power: 2 }, "Every trace of cursed energy glows through the lenses."],
+    ["A spear that forgets its owner's limits", "Grade 1", { power: 4, stat: [2, 6] }, "Whoever holds it hits harder than they should be able to."],
+    ["A cursed umbrella that takes one hit", "Grade 1", { save: { chance: 0.5, uses: 1, text: "The cursed umbrella snaps open. The blow that should have ended it slides right off." } }, "Once, it blocks a blow that would end the fight."],
+    ["A blade that drinks cursed energy", "Special Grade", { boss: 8 }, "It feeds on the techniques it cuts. Made for the biggest fights."],
+    ["A coffin-shaped box that swallows curses", "Special Grade", { power: 6, boss: 3 }, "Small curses go in. Nothing comes out."],
+    ["A rope woven from a dead sorcerer's hair", "Special Grade", { boss: 5, save: { chance: 0.4, uses: 1, text: "The rope tightens around the technique that should have finished it, and it unravels." } }, "It ties up techniques the way normal rope ties up people."]
+  ];
+  const GRADE_W = { "Grade 4": 4, "Grade 3": 3, "Grade 2": 2, "Grade 1": 1, "Special Grade": 0.4 };
+  const isJJ = () => state.theme === "jjk";
+  const toolOpts = () => { const own = (run.tools || []).map((t) => String(t.n).toLowerCase()); const L = JJ_TOOLS.filter((t) => !own.includes(t[0].toLowerCase())); return L.length ? L.slice().sort((a, b) => hash(run.seed + a[0] + (run.tools || []).length) - hash(run.seed + b[0] + (run.tools || []).length)).slice(0, 6) : []; };
+  const toolWheel = () => { const O = toolOpts(); return tw(fill("{first} opens a sealed box. Which cursed tool is inside?"), O.map((t) => `${t[0]} (${t[1]})`), O.map((t) => GRADE_W[t[1]] || 1), { label: "Cursed tool" }); };
+  const toolNext = () => isJJ() && run.phase === "journey" && !run.offer && (run.toolQ || 0) > 0 && toolOpts().length ? toolWheel() : null;
+  async function toolStep() {
+    const O = toolOpts(), k = await spin(toolWheel()), t = O[k], head = `Chapter ${run.step + 1}: ${chapterName(run.step)}`;
+    run.toolQ = Math.max(0, (run.toolQ || 0) - 1);
+    run.tools = (run.tools || []).concat({ n: t[0], g: t[1] });
+    const eff = Object.assign({ n: t[0], d: `${t[1]} cursed tool. ${t[3]}` }, t[2]);
+    run.gained = (run.gained || []).concat(eff);
+    let fx = `New cursed tool: ${t[0]} (${t[1]}). ${t[3]}`;
+    const n = run.tools.length;
+    if (n === 3) { run.gained.push({ n: "Arsenal", d: "Three cursed tools, each for a different fight. +4 power.", power: 4 }); fx += " Three tools: Arsenal, +4 power."; }
+    if (n === 5) { run.gained.push({ n: "Walking armory", d: "Five cursed tools. Nothing catches them unprepared. +6 against the final enemy.", boss: 6 }); fx += " Five tools: Walking armory, +6 against the final enemy."; }
+    logAdd(head, fill("Inside the box: {t}.", { t: lowNoun(t[0]) }), fx);
+    setNarr(t[0], fx);
+    if (t[1] === "Special Grade") { sfx.heavenly(); fxFlash("#fff6d0"); react("rare", { v: t[0] }); } else sfx.sparkle();
+  }
   const SEG_COLORS = ["#5b3fa8", "#c2416b", "#2b7d9c", "#c9822a", "#3c8a58", "#8b3fa1", "#b0502f", "#2f5cb0"];
   const STORE = "wheel-of-faith.v2", RUNSTORE = "wheel-of-faith.run.v2";
   const TAU = Math.PI * 2, POINTER = -Math.PI / 2;
@@ -5833,7 +6056,7 @@
       if (run.offer) return state.wheel;
       if (run.bossSurvive) return survivalWheel();
       if (run.rebirth) return rebirthWheel();
-      { const sw = seaNext(); if (sw) return sw; }
+      { const sw = seaNext() || toolNext(); if (sw) return sw; }
       if (run.ruleReady && !run.act) return ruleWheel();
       if (run.chance && !run.act) return listWheel(jTitle("chance"), chanceList().map(lbl));
       if (needsCodename() && !run.act) return listWheel("Hero name", codenameOptions());
@@ -6037,6 +6260,7 @@
   }
   function startJourney() {
     adaptHidden();
+    if (isJJ() && tv("Cursed tool") && !/^no |fists|bare hands|none/i.test(tv("Cursed tool"))) run.tools = [{ n: tv("Cursed tool"), g: "Starting tool" }];
     run.phase = "journey"; run.step = 0;
     const P = path(), tpl = P.prologue || T().prologue;
     const told = (n) => tpl.toLowerCase().includes("{" + n.toLowerCase());
@@ -6061,7 +6285,7 @@
     persist(); render();
   }
 
-  const needsCodename = () => !!T().codenames && run.phase === "journey" && !run.codename && run.step >= 1;
+  const needsCodename = () => !!T().codenames && run.phase === "journey" && !run.codename && run.step >= (T().codenameStep || 1);
   // hero / villain names, built from the power, costume colour, gender and archetype
   function codenameOptions() {
     const C = T().codenames, r = rng(run.seed + 21);
@@ -6720,7 +6944,7 @@
     return pick(series.length && Math.random() < 0.75 ? series : ok) || null;
   }
   function maybeOffer() {
-    if (run.offer || run.act || run.offerChecked === run.step || run.step < 1 || run.step >= S().length - 2 || (run.offersSeen || []).length >= 3) return false;
+    if (run.offer || run.act || run.offerChecked === run.step || run.step < (T().offerFrom || 1) || run.step >= S().length - 2 || (run.offersSeen || []).length >= 3) return false;
     run.offerChecked = run.step;
     if (!(turbo && window.__force && window.__force.offerAlways) && Math.random() > 0.3) return false;
     const o = pickOffer(); if (!o) return false;
@@ -7025,6 +7249,7 @@
       const L = LST.loot(), txt = lbl(L[k]); apply(L[k][1]); markUsed("loot", L[k][0]); run.items = (run.items || []).concat(txt);
       const t = fill("{first} finds {a}.", { a: lowNoun(txt) });
       const pfx = isOP() && /Road Poneglyph/.test(txt) ? givePone() : "";
+      if (isJJ()) run.toolQ = (run.toolQ || 0) + 1;
       logAdd(head, t, describe(L[k][1]) + "." + pfx); setNarr(txt, t); sfx.sparkle(); endAct(); return;
     }
     if (s === "twist") {
@@ -7066,6 +7291,7 @@
         let fx = `Quest complete. +${1 + d} upgrade points.` + (d >= 4 ? ` New perk: ${cap(q)}.` : "");
         if (run.bounty != null) fx += " " + bountyBump(questPower(d), 0.6 * d, lowNoun(q));
         if (isOP() && /Road Poneglyph/.test(q)) fx += givePone();
+        if (isJJ() && d >= 2 && Math.random() < 0.5) { run.toolQ = (run.toolQ || 0) + 1; fx += " A sealed box comes with the reward."; }
         if (d >= 3) fx += promote() + gainFate("legendary quest");
         if (d >= 4) run.gained = (run.gained || []).concat({ n: cap(q), d: "A legendary deed. +5 power.", power: 5 });
         logAdd(head, fill("{first} pulls it off.", {}), fx); setNarr("Quest complete", fx);
@@ -7119,6 +7345,8 @@
       if (run.step < S().length - 2 && chanceList().length) { run.chance = true; fx += " A second chance is coming."; }
     }
     const won = o !== "loss" && o !== "draw";
+    // in JJK, people who fight with cursed tools leave them behind
+    if (isJJ() && won && foe && /curse user|sorcerer|player|Zenin|Kamo|cult|Hei|assassin|hunter|Q |Jogo|Uraume|Naoya|Ogi|Choso|Death Painting|tool/i.test(foe[0]) && Math.random() < 0.4 && toolOpts().length) { run.toolQ = (run.toolQ || 0) + 1; fx += ` ${cap(lowArt(foe[0]))} leaves a sealed box behind.`; }
     const upset = won && odds < 0.42;
     if (upset) {
       const up = odds < 0.25 ? 6 : 4;
@@ -7128,6 +7356,7 @@
     if (st.pool === "boss" && won) { run.bossWin = true; fx += promote(); }
     if (st.k === "rival" && won) {
       run.rivalWins = (run.rivalWins || 0) + 1;
+      if (isJJ() && toolOpts().length) { run.toolQ = (run.toolQ || 0) + 1; fx += fill(" The rival's cursed tool is {first}'s now: a sealed box."); }
       if (st.n === 2) { run.rivalBeaten = true; fx += " The rivalry is settled: an extra good ending goes on the final wheel." + promote(); }
     }
     // Culling Game: beating a player takes their points; 100 points lets you add a rule
@@ -7250,6 +7479,7 @@
     if (run.bossSurvive) { await bossSurvivalStep(); persist(); render(); return; }
     if (run.rebirth) { await rebirthStep(); persist(); render(); return; }
     if (isOP() && await seaStep()) { persist(); render(); return; }
+    if (toolNext()) { await toolStep(); persist(); render(); return; }
     if (run.ruleReady && !run.act) { await ruleStep(); persist(); render(); return; }
     if (run.chance && !run.act) { await chanceStep(); persist(); render(); return; }
     if (needsCodename() && !run.act) { await codenameStep(); persist(); render(); return; }
@@ -7293,6 +7523,7 @@
       const ev = evDef(st.ev), w = eventWheel(st.ev), k = await spin(w);
       const o = evOpts(st.ev)[k], e = o[2] || {};
       run.flags = Object.assign(run.flags || {}, { [st.ev]: true });
+      if (isJJ() && /^first/.test(st.ev)) { run.toolQ = (run.toolQ || 0) + 1; logAdd(head, fill("After the mission, Jujutsu High's armory issues {first} a sealed box.")); }
       if (ev.intro) logAdd(head, fill(ev.intro, eventVars()));
       // family and origin threads add their own beat to shared story events
       Object.entries(T().eventFlavor || {}).forEach(([v, m]) => { if (m[st.ev] && activeValues().includes(v)) logAdd(head, fill(m[st.ev], eventVars())); });
@@ -7724,6 +7955,7 @@
       else if (run.offer) { title = offerWheel().title; sub = "You accepted. Now the wheel decides what it costs"; }
       else if (run.bossSurvive) { title = survivalWheel().title; sub = "Losing the final battle can be fatal"; }
       else if (run.rebirth) { title = rebirthWheel().title; sub = "Chimera Ants are born from what the Queen eats"; }
+      else if (toolNext()) { title = toolNext().title; sub = "Every tool in the collection fights for you"; }
       else if (seaNext()) { title = seaNext().title; sub = run.stranded ? "Losing a ship costs everything aboard" : !run.ship ? "Every story at sea needs a ship" : "At sea"; }
       else if (run.ruleReady && !run.act) { title = ruleWheel().title; sub = "Kogane is waiting"; }
       else if (run.chance && !run.act) { title = jTitle("chance"); sub = "A defeat opens a door. Spin for what comes through it"; }
@@ -7765,7 +7997,7 @@
     if (run.phase === "create") label = isComplete() ? "Begin the journey" : run.results.every((x) => x == null) ? "Start" : "Spin";
     else if (run.phase === "journey") {
       const st = S()[run.step];
-      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.rebirth ? "Spin" : seaNext() ? "Spin" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
+      label = run.offer && run.offer.stage === "choose" ? (offerDef(run.offer.id).yes || "Accept") : run.offer ? "Spin" : run.bossSurvive ? "Do you survive?" : run.rebirth ? "Spin" : seaNext() ? "Spin" : toolNext() ? "Open the box" : run.ruleReady && !run.act ? "Add a rule" : run.chance && !run.act ? "Second chance" : needsCodename() && !run.act ? "Get your name" : st.k === "act" ? (run.act && run.act.stage === "battle" ? "Fight!" : "Spin") : st.k === "battle" ? (run.foe ? "Fight!" : "Face the final enemy") : st.k === "rival" ? (run.foe ? "Fight!" : "Face your rival")
         : { twist: "Spin fate", evolve: "Evolve", ending: "Reveal ending", event: "Spin" }[st.k];
     } else label = "New character";
     if (state.hold && !busy) label = "Next";
@@ -8002,6 +8234,12 @@
       const s1 = document.createElement("span"); s1.textContent = type ? `${type} · ${tv("Rank") || "Applicant"}` : "Nen type: untested";
       const s2 = document.createElement("span"); s2.style.color = col; s2.textContent = (run.phase === "create" || run.step < 5 ? "Applicant No. " : "License No. ") + String(hash(String(run.seed)) % 900000 + 100000);
       lic.append(b, s1, s2); d.append(lic); box.append(d);
+    } else if (state.theme === "jjk" && (run.tools || []).length) {
+      const d = document.createElement("div"); d.className = "tool-rack";
+      const h = document.createElement("div"); h.className = "tr-h"; h.textContent = `Cursed tool inventory · ${run.tools.length}`;
+      d.append(h);
+      run.tools.forEach((t) => { const c = document.createElement("span"); c.className = "tr-t g-" + String(t.g).replace(/\s+/g, "-").toLowerCase(); c.textContent = cap(t.n); const g = document.createElement("i"); g.textContent = t.g; c.append(g); d.append(c); });
+      box.append(d);
     } else if (state.theme === "onepiece") {
       const d = document.createElement("div"); d.className = "story-head-op";
       const mast = document.createElement("div"); mast.className = "mast"; mast.textContent = "The World Economy News Paper";
