@@ -340,7 +340,8 @@
   .sea-map { display: block; width: 100%; height: auto; }
   .sea-map .sea { fill: #2f69a8; } .sea-map .gl { fill: #8ec4e6; }
   .sea-map .cb-bg { fill: #b9dcef; } .sea-map .cb-dot { fill: #6f9fc4; }
-  .sea-map .rl { fill: #c23a2c; } .sea-map .rl-t { font: 700 4.6px Georgia, serif; letter-spacing: .3em; fill: #ffe9d6; text-anchor: middle; }
+  .sea-map .rl { fill: #c23a2c; } .sea-map .rl-edge { stroke: #7e1f16; stroke-width: .8; fill: none; }
+  .sea-map .canal { stroke: #8ec4e6; stroke-width: 2.8; stroke-linecap: butt; fill: none; } .sea-map .rl-t { font: 700 4.6px Georgia, serif; letter-spacing: .3em; fill: #ffe9d6; text-anchor: middle; }
   .sea-map .rm { fill: #7a3a22; stroke: #4a1e10; stroke-width: .6; } .sea-map .rm-snow { fill: #fff; }
   .sea-map .isle { fill: #e6c98e; stroke: #8a6a3a; stroke-width: .6; } .sea-map .isle.bg { opacity: .85; }
   .sea-map .blue { font: 700 6.4px Georgia, serif; letter-spacing: .2em; fill: #e8f2fb; text-anchor: middle; }
@@ -6513,16 +6514,16 @@
   // Paradise runs right from Reverse Mountain to the Red Line at Sabaody; the New World starts again at the left edge and ends at Laugh Tale, just short of the middle
   const SEA = {
     blue: { "North Blue": [72, 30], "East Blue": [242, 30], "West Blue": [72, 122], "South Blue": [242, 122] },
-    homeRe: [[/Zou|Mokomo/, [42, 67]], [/Fish-Man|Mermaid|Ryugu/, [292, 84]], [/Elbaf/, [120, 81]], [/Whole Cake|Totto/, [60, 74]], [/Green Bit|Tontatta/, [20, 84]], [/Skypiea|Weatheria|Birka/, [218, 64]], [/Mary Geoise|Red Line/, [305, 58]], [/Sabaody/, [289, 71]]],
-    homes: { "Alabasta": [204, 80], "Drum Island": [195, 70], "Water 7": [232, 80], "Dressrosa": [30, 75], "Wano Country": [72, 68], "God Valley": [112, 112], "Mary Geoise, the Holy Land": [305, 58], "Birka": [218, 64], "Sabaody slave market": [289, 71] },
+    homeRe: [[/Zou|Mokomo/, [42, 67]], [/Fish-Man|Mermaid|Ryugu/, [288, 85]], [/Elbaf/, [120, 81]], [/Whole Cake|Totto/, [60, 74]], [/Green Bit|Tontatta/, [20, 84]], [/Skypiea|Weatheria|Birka/, [223, 64]], [/Mary Geoise|Red Line/, [304, 58]], [/Sabaody/, [285, 71]]],
+    homes: { "Alabasta": [210, 80], "Drum Island": [200, 70], "Water 7": [236, 80], "Dressrosa": [30, 75], "Wano Country": [72, 68], "God Valley": [112, 112], "Mary Geoise, the Holy Land": [304, 58], "Birka": [223, 64], "Sabaody slave market": [285, 71] },
     fixed: {
       "Loguetown": [196, 44, "The town where Gol D. Roger was born and executed. The last stop before the Grand Line."],
       "Reverse Mountain": [160, 75, "The currents of all four seas climb a mountain, meet at the top, and crash down into the Grand Line."],
-      "Sabaody Archipelago": [289, 71, "Giant mangroves, floating bubbles, slave auctions. The last stop before the New World."],
-      "Fish-Man Island": [292, 84, "Ten thousand meters under the sea, inside a bubble, at the foot of the Red Line."],
-      "Laugh Tale": [141, 75, "The final island. Only someone who has read all four Road Poneglyphs can find it."]
+      "Sabaody Archipelago": [285, 71, "Giant mangroves, floating bubbles, slave auctions. The last stop before the New World."],
+      "Fish-Man Island": [288, 85, "Ten thousand meters under the sea, inside a bubble, at the foot of the Red Line."],
+      "Laugh Tale": [139, 75, "The final island. Only someone who has read all four Road Poneglyphs can find it."]
     },
-    paradise: [["Whisky Peak", 175, 72, "A town that welcomes every pirate with a party, then robs them in their sleep."], ["Little Garden", 185, 81, "A prehistoric island where two giants have been dueling for a hundred years."], ["Drum Island", 195, 70, "A winter island with no king and the best doctors in the Grand Line."], ["Alabasta", 204, 80, "A desert kingdom that nearly tore itself apart over the rain."], ["Jaya", 216, 77, "A lawless island where everyone laughs at people who believe in sky islands."], ["Skypiea", 218, 64, "An island in the clouds, ten thousand meters up. Getting there takes a Knock Up Stream."], ["Water 7", 232, 80, "The city of shipwrights. If a ship can be saved, it gets saved here."], ["Enies Lobby", 246, 71, "The judicial island, where the sun never sets and nobody walks out."], ["Thriller Bark", 262, 81, "A ghost ship the size of an island, drifting through the Florian Triangle."]],
+    paradise: [["Whisky Peak", 181, 73, "A town that welcomes every pirate with a party, then robs them in their sleep."], ["Little Garden", 191, 82, "A prehistoric island where two giants have been dueling for a hundred years."], ["Drum Island", 200, 70, "A winter island with no king and the best doctors in the Grand Line."], ["Alabasta", 210, 80, "A desert kingdom that nearly tore itself apart over the rain."], ["Jaya", 221, 77, "A lawless island where everyone laughs at people who believe in sky islands."], ["Skypiea", 223, 64, "An island in the clouds, ten thousand meters up. Getting there takes a Knock Up Stream."], ["Water 7", 236, 80, "The city of shipwrights. If a ship can be saved, it gets saved here."], ["Enies Lobby", 249, 71, "The judicial island, where the sun never sets and nobody walks out."], ["Thriller Bark", 264, 81, "A ghost ship the size of an island, drifting through the Florian Triangle."]],
     newWorld: [["Punk Hazard", 12, 71, "Half fire, half ice, and a laboratory that should have stayed abandoned."], ["Green Bit", 20, 84, "A forest island next to Dressrosa, full of fighting fish and tiny Tontatta warriors."], ["Dressrosa", 30, 75, "A kingdom of love, passion and toys, ruled by a Warlord in a bird cage of strings."], ["New Marineford", 38, 85, "The Marines' headquarters, moved into the New World after the Paramount War."], ["Zou", 42, 67, "A whole country on the back of a thousand-year-old elephant. The Minks keep a Road Poneglyph here."], ["Cacao Island", 51, 84, "Totto Land's chocolate island, where the Charlotte family's ships come and go."], ["Whole Cake Island", 60, 74, "Big Mom's candy kingdom. One of her Road Poneglyphs sits in a vault here."], ["Wano Country", 72, 68, "A closed samurai country behind waterfalls. Kaido's Road Poneglyph is somewhere inside."], ["Onigashima", 80, 81, "Kaido's skull-shaped fortress island off the coast of Wano."], ["Sphinx", 92, 70, "Whitebeard's home island, still guarded by the people he protected."], ["Hachinosu", 102, 83, "Pirate Island. Rocks D. Xebec ran it once; now it's Blackbeard's nest."], ["Egghead", 111, 72, "Vegapunk's island of the future. The World Government doesn't want anyone leaving it alive."], ["Elbaf", 120, 81, "The island of giants, under the branches of the Treasure Tree Adam."], ["Lodestar Island", 130, 69, "The last island a Log Pose can find. Past it, only the Road Poneglyphs point the way."]]
   };
   const PONE_AT = { "Zou": "Zou", "Whole Cake Island": "Whole Cake Island", "Wano Country": "Wano Country" };
@@ -6806,12 +6807,16 @@
     state.sail = false;
     const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
     // the voyage line: a Grand Line home is marked but not joined; leaving Fish-Man Island wraps off the right edge and back in from the left
-    const wraps = (p, q) => p.x >= 280 && q.x < 158;
+    const RL = [146, 174]; // the Red Line's two edges in the middle of the map
+    const wraps = (p, q) => p.x >= 275 && q.x < 146;
+    // ships from the four Blues reach Reverse Mountain by its canals, which climb the Red Line itself, not the Calm Belt
+    const canal = (lp) => ({ x: lp.x < 160 ? RL[0] + 3 : RL[1] - 3, y: lp.y < 75 ? 40 : 110 });
     const segs = [[]];
     pts.forEach((p, i) => {
       if (i === 0 && !p.sea) return;
       const last = segs[segs.length - 1], lp = last[last.length - 1];
       if (lp && wraps(lp, p)) { const ym = (lp.y + p.y) / 2; last.push({ x: W - 3, y: ym }); segs.push([{ x: 3, y: ym }]); }
+      if (lp && p.n === "Reverse Mountain") last.push(canal(lp));
       segs[segs.length - 1].push(p);
     });
     const line = segs.filter((s) => s.length > 1).map((s) => `<polyline points="${s.map((p) => `${p.x},${p.y}`).join(" ")}" class="route"/>`).join("");
@@ -6824,8 +6829,9 @@
       return `<text x="${p.x + dx}" y="${ny}" text-anchor="${anc}" class="lbl">${esc(p.n)}</text>` + (t ? `<text x="${p.x + dx}" y="${ty}" text-anchor="${anc}" class="lbl tag">${esc(t)}</text>` : "");
     };
     const labels = pts.map((p, i) => (i === pts.length - 1 || p.home) ? lbl(p, p.y >= 75 && p.y < 90 ? 10 : -6, i === pts.length - 1) : "").join("");
-    const lt = (run.pone || []).length >= 4 && !(cur && cur.n === "Laugh Tale") ? `<text x="141" y="79" text-anchor="middle" class="lt">★</text>${lbl({ x: 141, y: 75, n: "Laugh Tale" }, -7, true)}` : "";
-    const path = anim ? (wraps(prev, cur) ? `M${prev.x},${prev.y} L${W},${(prev.y + cur.y) / 2} M0,${(prev.y + cur.y) / 2} L${cur.x},${cur.y}` : `M${prev.x},${prev.y} L${cur.x},${cur.y}`) : "";
+    const lt = (run.pone || []).length >= 4 && !(cur && cur.n === "Laugh Tale") ? `<text x="139" y="79" text-anchor="middle" class="lt">★</text>${lbl({ x: 139, y: 75, n: "Laugh Tale" }, -7, true)}` : "";
+    const path = !anim ? "" : wraps(prev, cur) ? `M${prev.x},${prev.y} L${W},${(prev.y + cur.y) / 2} M0,${(prev.y + cur.y) / 2} L${cur.x},${cur.y}`
+      : cur.n === "Reverse Mountain" ? `M${prev.x},${prev.y} L${canal(prev).x},${canal(prev).y} L${cur.x},${cur.y}` : `M${prev.x},${prev.y} L${cur.x},${cur.y}`;
     const ship = cur ? (anim
       ? `<g class="ship"><text x="0" y="3" text-anchor="middle">⛵</text><animateMotion dur="1.8s" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1" keyTimes="0;1" path="${path}"/></g>`
       : `<g class="ship" transform="translate(${cur.x},${cur.y})"><text x="0" y="3" text-anchor="middle">⛵</text></g>`) : "";
@@ -6836,12 +6842,14 @@
       <rect x="0" y="57" width="${W}" height="6" fill="url(#calm)"/><rect x="0" y="87" width="${W}" height="6" fill="url(#calm)"/>
       <rect x="0" y="63" width="${W}" height="24" class="gl"/>
       ${MAP_ISLES.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" class="isle bg"/>`).join("")}
-      <rect x="156" y="0" width="8" height="${H}" class="rl"/><rect x="301" y="0" width="8" height="${H}" class="rl"/>
-      <path d="M154,79 L160,68 L166,79Z" class="rm"/><path d="M158,71.6 L160,68 L162,71.6Z" class="rm-snow"/>
+      <rect x="146" y="0" width="28" height="${H}" class="rl"/><rect x="294" y="0" width="16" height="${H}" class="rl"/>
+      <path d="M146,0 V${H} M174,0 V${H} M294,0 V${H} M310,0 V${H}" class="rl-edge"/>
+      <path d="M149,40 L171,110 M171,40 L149,110" class="canal"/>
+      <path d="M152,82 L160,66 L168,82Z" class="rm"/><path d="M157,72 L160,66 L163,72Z" class="rm-snow"/>
       <text x="72" y="14" class="blue">NORTH BLUE</text><text x="242" y="14" class="blue">EAST BLUE</text><text x="72" y="144" class="blue">WEST BLUE</text><text x="242" y="144" class="blue">SOUTH BLUE</text>
       <text x="236" y="99.5" class="zone">PARADISE</text><text x="80" y="99.5" class="zone">NEW WORLD</text>
       <text x="236" y="54" class="zone">GRAND LINE</text><text x="80" y="54" class="zone">GRAND LINE</text>
-      <text transform="translate(162.6,30) rotate(90)" class="rl-t">RED LINE</text><text transform="translate(306.6,30) rotate(90)" class="rl-t">RED LINE</text>
+      <text transform="translate(162,24) rotate(90)" class="rl-t">RED LINE</text><text transform="translate(162,127) rotate(90)" class="rl-t">RED LINE</text><text transform="translate(303.6,30) rotate(90)" class="rl-t">RED LINE</text>
       ${rose}${land}${line}${dots}${labels}${lt}${ship}
       <rect x="1" y="1" width="${W - 2}" height="${H - 2}" class="frame"/><rect x="4" y="4" width="${W - 8}" height="${H - 8}" class="frame-in"/>
     </svg>`;
